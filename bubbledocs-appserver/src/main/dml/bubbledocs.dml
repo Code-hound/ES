@@ -1,0 +1,123 @@
+class BubbleManager {
+}
+
+class User {
+	char username;
+	char name;
+	char password;
+}
+
+class Spreadsheet {
+	double id;
+	char name;
+	double date;
+	int numberLines;
+	int numberColumns;
+}
+
+class Access{
+	boolean owner;
+	boolean reader;
+	boolean writer;
+	boolean root; //can addUser and rmvUser
+}
+
+class Interval {	
+}
+
+class Cell {
+	int cellLine;
+	int cellColumn; //ou address?
+	Content content;
+	boolean protected;
+}
+
+class Content {
+}
+
+class Literal extends Content {
+	int number;
+}
+
+class Reference extends Content {
+}
+
+class Function extends Content {
+	Literal output;
+}
+
+class BinaryFunction extends Function {
+	Literal input1;
+	Literal input2;
+}
+
+class IntervalFunction extends Function {
+	Interval intervalInput;
+}
+
+relation ManagerUsers {
+	BubbleManager playsRole manager {
+		multiplicity 1;
+	}
+	User playsRole users {
+		multiplicity 1..*;
+	}
+}
+
+relation ManagerSpreadsheets {
+	BubbleManager playsRole manager {
+		multiplicity 1;
+	}
+	Spreadsheet playsRole sheets {
+		multiplicity 0..*;
+	}
+}
+
+relation AccessSpreadsheet {
+	Access playsRole access {
+		multiplicity 1..*;
+	}
+	Spreadsheet playsRole sheet {
+		multiplicity 1;
+	}
+}
+
+relation UsersSheets {
+	User playsRole users {
+		multiplicity 1..*;
+	}
+	Spreadsheet playsRole sheets {
+		multiplicity 0..*;
+	}
+}
+
+relation SheetCells {
+	Sheet playsRole sheet;
+	Cell playsRole cells {
+		multiplicity 1..*;
+	}
+}
+
+relation CellContent {
+	Cell playsRole cell;
+	Content playsRole content {
+		multiplicity 0..1;
+	}
+}
+
+relation ReferenceCell {
+	Reference playsRole reference{
+		multiplicity 0..*;
+	}
+	Cell playsRole cell{
+		multiplicity 1;
+	}
+}
+
+relation IntervalReference {
+	Interval playsRole interval{
+		multiplicity 1;
+	}
+	Reference playsRole references{
+		multiplicity 2;
+	}	
