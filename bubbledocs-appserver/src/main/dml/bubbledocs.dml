@@ -1,5 +1,4 @@
-class BubbleManager {
-}
+class BubbleManager;
 
 class User {
 	char username;
@@ -22,8 +21,7 @@ class Access{
 	boolean root; //can addUser and rmvUser
 }
 
-class Interval {	
-}
+class Interval;
 
 class Cell {
 	int cellLine;
@@ -32,15 +30,13 @@ class Cell {
 	boolean protected;
 }
 
-class Content {
-}
+class Content;
 
 class Literal extends Content {
 	int number;
 }
 
-class Reference extends Content {
-}
+class Reference extends Content;
 
 class Function extends Content {
 	Literal output;
