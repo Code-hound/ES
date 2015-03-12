@@ -1,78 +1,95 @@
-class BubbleManager;
+package pt.tecnico.bubbledocs;
+
+class BubbleDocs;
 
 class User {
-	char username;
-	char name;
-	char password;
+	String _username;
+	String _name;
+	String _password;
 }
 
 class Spreadsheet {
-	double id;
-	char name;
-	double date;
-	int numberLines;
-	int numberColumns;
+	Double _id;
+	
+	LocalDate _date;
+	int _numberRows;
+	int _numberColumns;
 }
 
 class Access{
-	boolean owner;
-	boolean reader;
-	boolean writer;
-	boolean root; //can addUser and rmvUser
+	//Use ENUM to describe access level as ROOT, OWNER, R, W, WR;
 }
 
-class Interval;
 
 class Cell {
-	int cellLine;
-	int cellColumn; //ou address?
-	Content content;
-	boolean protected;
+	int _cellRow;
+	int _cellColumn;
+	boolean _protected;
 }
 
 class Content;
 
 class Literal extends Content {
-	int number;
+	int _number;
 }
 
 class Reference extends Content;
 
-class Function extends Content {
-	Literal output;
+class Function extends Content;
+
+class BinaryFunction extends Function;
+
+class ADD extends BinaryFunction;
+
+class SUB extends BinaryFunction;
+
+class MUL extends BinaryFunction;
+
+class DIV extends BinaryFunction;
+
+class RangeFunction extends Function;
+
+class AVG extends RangeFunction;
+
+class PRD extends RangeFunction;
+
+//Relation Specification
+
+relation DomainRootHasBubbleDocsApplication{
+	.pt.ist.fenixframework.DomainRoot playsRole root {
+		multiplicity 0..1;
+		}
+		BubbleDocs playsRole bubbleDocs {
+			multiplicity 0..1;
+		}
 }
 
-class BinaryFunction extends Function {
-	Literal input1;
-	Literal input2;
+relation UserContainsAccess{
+	//Lists the permission that a user has to access a certain document
+	User playsRole user;
+	Access playsRole docAccess{
+		multiplicity 0..*;
+	}
+	
 }
 
-class IntervalFunction extends Function {
-	Interval intervalInput;
-}
-
-relation ManagerUsers {
-	BubbleManager playsRole manager {
+relation SpreadSheetContainsCreator{
+	SpreadSheet playsRole spreadSheet;
+	User		playsRole creator {
 		multiplicity 1;
 	}
-	User playsRole users {
-		multiplicity 1..*;
-	}
 }
 
-relation ManagerSpreadsheets {
-	BubbleManager playsRole manager {
-		multiplicity 1;
-	}
-	Spreadsheet playsRole sheets {
+relation BubbleDocsContainsSpreadSheet{
+	BubbleDocs playsRole bubbleDocs;
+	SpreadSheet playsRole docs {
 		multiplicity 0..*;
 	}
 }
 
-relation AccessSpreadsheet {
-	Access playsRole access {
-		multiplicity 1..*;
-	}
+relation AccessContainsSpreadSheet {
+	Access playsRole access;
+	
 	Spreadsheet playsRole sheet {
 		multiplicity 1;
 	}
@@ -87,33 +104,37 @@ relation UsersSheets {
 	}
 }
 
-relation SheetCells {
-	Sheet playsRole sheet;
+relation SpreadSheetHasCells {
+	SpreadSheet playsRole document;
 	Cell playsRole cells {
 		multiplicity 1..*;
 	}
 }
 
-relation CellContent {
+relation CellHasContent {
 	Cell playsRole cell;
 	Content playsRole content {
 		multiplicity 0..1;
 	}
 }
 
-relation ReferenceCell {
-	Reference playsRole reference{
-		multiplicity 0..*;
-	}
+relation ReferenceContainsCell {
+	Reference playsRole reference;
 	Cell playsRole cell{
 		multiplicity 1;
 	}
 }
 
-relation IntervalReference {
-	Interval playsRole interval{
-		multiplicity 1;
-	}
+relation RangedFunctionHasReference {
+	RangedFunction playsRole function;
 	Reference playsRole references{
 		multiplicity 2;
-	}	
+	}
+}
+
+relation BinaryFunctionHasContent{
+	BinaryFunction playsRole function;
+	Content playsRole args{
+		multiplicity 2;
+	}
+}	
