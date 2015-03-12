@@ -8,7 +8,7 @@ class User {
 	String _password;
 }
 
-class Spreadsheet {
+class SpreadSheet {
 	Double _id;
 	
 	LocalDate _date;
@@ -47,11 +47,11 @@ class MUL extends BinaryFunction;
 
 class DIV extends BinaryFunction;
 
-class RangeFunction extends Function;
+class RangedFunction extends Function;
 
-class AVG extends RangeFunction;
+class AVG extends RangedFunction;
 
-class PRD extends RangeFunction;
+class PRD extends RangedFunction;
 
 //Relation Specification
 
@@ -90,7 +90,7 @@ relation BubbleDocsContainsSpreadSheet{
 relation AccessContainsSpreadSheet {
 	Access playsRole access;
 	
-	Spreadsheet playsRole sheet {
+	SpreadSheet playsRole sheet {
 		multiplicity 1;
 	}
 }
@@ -99,7 +99,7 @@ relation UsersSheets {
 	User playsRole users {
 		multiplicity 1..*;
 	}
-	Spreadsheet playsRole sheets {
+	SpreadSheet playsRole sheets {
 		multiplicity 0..*;
 	}
 }
