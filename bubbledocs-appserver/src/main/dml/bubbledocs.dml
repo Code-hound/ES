@@ -88,21 +88,21 @@ relation AccessContainsSpreadSheet {
 	}
 }
 
-relation UserHasSheets {
+relation UserContainsSheets {
 	User playsRole user;
 	SpreadSheet playsRole docs {
 		multiplicity 0..*;
 	}
 }
 
-relation SpreadSheetHasCells {
+relation SpreadSheetContainsCells {
 	SpreadSheet playsRole document;
 	Cell playsRole cells {
 		multiplicity 1..*;
 	}
 }
 
-relation CellHasContent {
+relation CellContainsContent {
 	Cell playsRole cell;
 	Content playsRole content {
 		multiplicity 0..1;
@@ -116,7 +116,7 @@ relation ReferenceContainsCell {
 	}
 }
 
-relation FunctionHasContent {
+relation FunctionContainsContent {
 	RangedFunction playsRole function;
 	Content playsRole args{
 		multiplicity 2;
