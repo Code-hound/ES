@@ -80,10 +80,10 @@ relation BubbleDocsContainsSpreadSheet{
 	}
 }
 
-relation AccessContainsSpreadSheet {
+relation AccessContainsUser {
 	Access playsRole access;
 	
-	SpreadSheet playsRole sheet {
+	User playsRole user {
 		multiplicity 1;
 	}
 }
