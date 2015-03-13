@@ -117,7 +117,7 @@ relation ReferenceContainsCell {
 }
 
 relation FunctionContainsContent {
-	RangedFunction playsRole function;
+	Function playsRole function;
 	Content playsRole args{
 		multiplicity 2;
 	}
