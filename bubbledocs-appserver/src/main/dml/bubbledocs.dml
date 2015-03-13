@@ -1,4 +1,4 @@
-package pt.tecnico.bubbledocs;
+package pt.tecnico.bubbledocs.domain;
 
 class BubbleDocs;
 
@@ -64,20 +64,13 @@ relation DomainRootHasBubbleDocsApplication{
 		}
 }
 
-relation UserContainsAccess{
+relation SpreadSheetContainsAccess{
 	//Lists the permission that a user has to access a certain document
-	User playsRole user;
+	SpreadSheet playsRole document;
 	Access playsRole docAccess{
-		multiplicity 0..*;
+		multiplicity 2..*;
 	}
 	
-}
-
-relation SpreadSheetContainsCreator{
-	SpreadSheet playsRole spreadSheet;
-	User		playsRole creator {
-		multiplicity 1;
-	}
 }
 
 relation BubbleDocsContainsSpreadSheet{
@@ -95,11 +88,9 @@ relation AccessContainsSpreadSheet {
 	}
 }
 
-relation UsersSheets {
-	User playsRole users {
-		multiplicity 1..*;
-	}
-	SpreadSheet playsRole sheets {
+relation UserHasSheets {
+	User playsRole user;
+	SpreadSheet playsRole docs {
 		multiplicity 0..*;
 	}
 }
@@ -125,16 +116,10 @@ relation ReferenceContainsCell {
 	}
 }
 
-relation RangedFunctionHasReference {
+relation FunctionHasContent {
 	RangedFunction playsRole function;
-	Reference playsRole references{
+	Content playsRole args{
 		multiplicity 2;
 	}
 }
 
-relation BinaryFunctionHasContent{
-	BinaryFunction playsRole function;
-	Content playsRole args{
-		multiplicity 2;
-	}
-}	
