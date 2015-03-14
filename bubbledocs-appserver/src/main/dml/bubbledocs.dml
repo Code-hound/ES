@@ -18,7 +18,7 @@ class User {
 
 class SpreadSheet {
 	Double _id;
-	
+	String _spreadSheetName;
 	LocalDate _date;
 	int _numberRows;
 	int _numberColumns;
