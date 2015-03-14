@@ -88,6 +88,13 @@ relation BubbleDocsContainsSpreadSheet{
 		multiplicity 0..*;
 	}
 }
+relation BubbleDocsContainsUser{
+	BubbleDocs playsRole bubbleDocs;
+	User playsRole users{
+		multiplicity 1..*;
+	}
+
+}
 
 relation AccessContainsUser {
 	Access playsRole access;

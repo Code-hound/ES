@@ -1,5 +1,8 @@
 package pt.tecnico.bubbledocs.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User extends User_Base {
     
 	public User(String userName,String name, String password) {
@@ -39,6 +42,13 @@ public class User extends User_Base {
     	removeDocument(spreadSheetId);
     }
     
-    
+    public List<SpreadSheet> getDocumentsByName(String spreadSheetName){
+    	List<SpreadSheet> docList = new ArrayList<SpreadSheet>();
+    	for(SpreadSheet s :getDocsSet()){
+    		if(s.get_spreadSheetName().equalsIgnoreCase(spreadSheetName))
+    			docList.add(s);
+    	}
+    	return docList;
+    }
     
 }
