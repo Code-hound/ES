@@ -75,7 +75,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>pt.ulisboa.tecnico.bubbledocs.SetupDomain</mainClass>
+                    <mainClass>pt.ulisboa.tecnico.bubbledocs</mainClass>
                     <killAfter>-1</killAfter>
                 </configuration>
             </plugin>
