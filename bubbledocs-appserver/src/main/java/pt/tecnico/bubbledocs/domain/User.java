@@ -2,6 +2,7 @@ package pt.tecnico.bubbledocs.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.joda.time.LocalDate;
 
 public class User extends User_Base {
     
@@ -14,7 +15,7 @@ public class User extends User_Base {
     
     private SpreadSheet getDocumentById(int id){
     	for(SpreadSheet document : getDocsSet()){
-    		if(document.get_id().equals(id)){
+    		if(document.get_id()==id){
     			return document;
     		}
     		
@@ -50,5 +51,36 @@ public class User extends User_Base {
     	}
     	return docList;
     }
+    
+    public User createUser(String userName,String name, String password){
+    	//if(!get_username().equals("root"))
+    		//throws InvalidAccessException
+    	return new User(userName, name, password);	
+    }
+
+    public String toString(){
+    	return "UserName: "+get_username() +" Name: "+get_name()+" Password: "+ get_password();
+    }
+
+    public List<SpreadSheet> getSpreadsSheetByName(String Name){
+    	List<SpreadSheet> spreadSheetList = new ArrayList<SpreadSheet>();
+    	for(SpreadSheet s : getDocsSet()){
+    		if(s.get_spreadSheetName().equals(Name))
+    			spreadSheetList.add(s);
+    	}
+    	return spreadSheetList;
+    }
+    
+    public SpreadSheet getSpreadSheetByNameAndDate(String Name, LocalDate docDate){
+    	List<SpreadSheet> sameNameDocs = getSpreadsSheetByName(Name);
+    	
+    	for(SpreadSheet s : sameNameDocs){
+    		LocalDate spreadSheetDate=s.get_date();
+    		if(spreadSheetDate.equals(docDate))
+    			return s;
+    	}
+    	return null;
+    }
+    
     
 }
