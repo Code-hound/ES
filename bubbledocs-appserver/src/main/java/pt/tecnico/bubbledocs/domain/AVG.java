@@ -1,5 +1,7 @@
 package pt.tecnico.bubbledocs.domain;
 
+import org.jdom2.Element;
+
 public class AVG extends AVG_Base {
     
     public AVG(Reference r1, Reference r2) {
@@ -17,5 +19,13 @@ public class AVG extends AVG_Base {
     	String s= "AVG";
     	return s + super.toString();
     	
+    }
+    
+    public Element exportToXML() {
+    	Element element = new Element("AVG");
+    	for(Content c: getArgsSet()){
+    		element.addContent(c.exportToXML());
+    	}
+    	return element;
     }
 }

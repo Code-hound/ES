@@ -8,7 +8,9 @@ enum Permission {
 
 }
 */
-class BubbleDocs;
+class BubbleDocs{
+	int _entityId;
+}
 
 class User {
 	String _username;
@@ -111,10 +113,10 @@ relation AccessContainsUser {
 	}
 }
 
-relation UserContainsSheets {
-	User playsRole user;
-	SpreadSheet playsRole docs {
-		multiplicity 0..*;
+relation SpreadSheetContainsUser{
+	SpreadSheet playsRole document;
+	User playsRole user{
+		multiplicity 1;
 	}
 }
 

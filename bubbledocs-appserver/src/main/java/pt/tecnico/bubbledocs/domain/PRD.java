@@ -1,5 +1,7 @@
 package pt.tecnico.bubbledocs.domain;
 
+import org.jdom2.Element;
+
 public class PRD extends PRD_Base {
     
     public PRD(Reference r1, Reference r2) {
@@ -18,5 +20,13 @@ public class PRD extends PRD_Base {
     	
     	return s+super.toString();
     	
+    }
+    
+    public Element exportToXML() {
+    	Element element = new Element("PRD");
+    	for(Content c: getArgsSet()){
+    		element.addContent(c.exportToXML());
+    	}
+    	return element;
     }
 }

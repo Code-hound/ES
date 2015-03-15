@@ -1,5 +1,7 @@
 package pt.tecnico.bubbledocs.domain;
 
+import org.jdom2.Element;
+
 public class DIV extends DIV_Base {
     
     public DIV(Content c1,Content c2) {
@@ -25,5 +27,13 @@ public class DIV extends DIV_Base {
     	String s= "DIV";
     	return s+super.toString();
     	
+    }
+    
+    public Element exportToXML() {
+    	Element element = new Element("DIV");
+    	for(Content c: getArgsSet()){
+    		element.addContent(c.exportToXML());
+    	}
+    	return element;
     }
 }

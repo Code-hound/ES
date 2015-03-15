@@ -1,5 +1,7 @@
 package pt.tecnico.bubbledocs.domain;
 
+import org.jdom2.Element;
+
 public class Literal extends Literal_Base {
     
     public Literal(int literal) {
@@ -14,5 +16,11 @@ public class Literal extends Literal_Base {
     public String toString(){
     	String s="";
     	return s+ getContentValue();
+    }
+    
+    public Element exportToXML() {
+    	Element element = new Element("Literal");
+    	element.setAttribute("number",""+get_number());
+    	return element;
     }
 }

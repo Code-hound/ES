@@ -1,5 +1,7 @@
 package pt.tecnico.bubbledocs.domain;
 
+import org.jdom2.Element;
+
 public class Reference extends Reference_Base {
     
     public Reference(Cell c) {
@@ -22,4 +24,19 @@ public class Reference extends Reference_Base {
     	s+=c.get_cellColumn();
     	return s;
     }
+    
+    public Element exportToXML() {
+    	Element element = new Element("Reference");
+    	element.addContent(getCell().exportToXML());
+    	return element;
+    }
+    /*
+    public void importFromXML(Element contactElement) {
+    	setA(contactElement.getAttribute("Reference").getValue());
+    	try {
+    	    setPhoneNumber(contactElement.getAttribute("phoneNumber").getIntValue());
+    	} catch (DataConversionException e) { 
+    	    throw new ImportDocumentException();
+    	}
+        }*/
 }

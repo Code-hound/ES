@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.jdom2.Element;
+
 
 public class SpreadSheet extends SpreadSheet_Base {
     
@@ -78,6 +80,9 @@ public class SpreadSheet extends SpreadSheet_Base {
     public String getCellDescription(int row, int column){
     	String description="";
     	for(Cell cell : getCellsSet()){
+    		if(!description.equals("")){
+    			description+="\n";
+    		}
     		if(cell.get_cellRow() == row && cell.get_cellColumn()== column){
     			//try{
     			description+=row+";"+column;
@@ -88,6 +93,18 @@ public class SpreadSheet extends SpreadSheet_Base {
     	return description;
     }
 
-    
+    public Element exportToXML(){
+    	Element element = new Element("spreadsheet");
+    	
+    	element.setAttribute("id",""+get_id());
+    	element.setAttribute("name",get_spreadSheetName());
+    	element.setAttribute("date",get_date().toString());
+    	element.setAttribute("rows", String.valueOf(get_numberRows()));
+    	element.setAttribute("columns",String.valueOf(get_numberColumns()));
+    	
+    	element.addContent(getUser().exportToXML());
+
+    	return element;
+    }
     
 }

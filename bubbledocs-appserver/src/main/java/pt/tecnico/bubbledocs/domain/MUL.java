@@ -1,5 +1,7 @@
 package pt.tecnico.bubbledocs.domain;
 
+import org.jdom2.Element;
+
 public class MUL extends MUL_Base {
     
     public MUL(Content c1, Content c2) {
@@ -18,5 +20,13 @@ public class MUL extends MUL_Base {
     	String s= "MUL";
     	return s + super.toString();
     	
+    }
+    
+    public Element exportToXML() {
+    	Element element = new Element("MUL");
+    	for(Content c: getArgsSet()){
+    		element.addContent(c.exportToXML());
+    	}
+    	return element;
     }
 }

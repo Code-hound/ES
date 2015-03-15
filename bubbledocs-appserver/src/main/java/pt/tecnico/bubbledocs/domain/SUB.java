@@ -1,5 +1,7 @@
 package pt.tecnico.bubbledocs.domain;
 
+import org.jdom2.Element;
+
 public class SUB extends SUB_Base {
     
     public SUB(Content arg1, Content arg2){
@@ -25,5 +27,14 @@ public class SUB extends SUB_Base {
 
     	return s+super.toString();
     	
+    }
+    
+    @Override
+    public Element exportToXML() {
+    	Element element = new Element("SUB");
+    	for(Content c: getArgsSet()){
+    		element.addContent(c.exportToXML());
+    	}
+    	return element;
     }
 }
