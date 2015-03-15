@@ -14,16 +14,9 @@ public class PRD extends PRD_Base {
     }
     
     public String toString(){
-    	String s= "PRD(";
-    	Content contents[]=new Content[2];
+    	String s= "PRD";
     	
-    	getArgsSet().toArray(contents);
-    	s+=contents[0].toString();
-    	s+=",";
-    	s+=contents[1].toString();
-    	s+=")";
-    	
-    	return s;
+    	return s+super.toString();
     	
     }
 }

@@ -15,16 +15,8 @@ public class MUL extends MUL_Base {
     }
     
     public String toString(){
-    	String s= "MUL(";
-    	Content contents[]=new Content[2];
-    	
-    	getArgsSet().toArray(contents);
-    	s+=contents[0].toString();
-    	s+=",";
-    	s+=contents[1].toString();
-    	s+=")";
-    	
-    	return s;
+    	String s= "MUL";
+    	return s + super.toString();
     	
     }
 }

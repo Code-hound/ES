@@ -10,4 +10,17 @@ public abstract class RangedFunction extends RangedFunction_Base {
     	super();
 	    init(arg1,arg2);
     }
+    
+    public String toString(){
+    	String s="(";
+    	Content contents[]=new Content[2];
+    	
+    	getArgsSet().toArray(contents);
+    	s+=contents[0].toString();
+    	s+=";";
+    	s+=contents[1].toString();
+    	s+=")";
+    	
+    	return s;
+    }
 }

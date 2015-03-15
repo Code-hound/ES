@@ -15,16 +15,8 @@ public class ADD extends ADD_Base {
     	return value;
     }
     public String toString(){
-    	String s= "ADD(";
-    	Content contents[]=new Content[2];
-    	
-    	getArgsSet().toArray(contents);
-    	s+=contents[0].toString();
-    	s+=",";
-    	s+=contents[1].toString();
-    	s+=")";
-    	
-    	return s;
+    	String s= "ADD";
+    	return s + super.toString();
     	
     }
 }

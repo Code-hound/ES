@@ -22,16 +22,8 @@ public class DIV extends DIV_Base {
     }
     
     public String toString(){
-    	String s= "DIV(";
-    	Content contents[]=new Content[2];
-    	
-    	getArgsSet().toArray(contents);
-    	s+=contents[0].toString();
-    	s+=",";
-    	s+=contents[1].toString();
-    	s+=")";
-    	
-    	return s;
+    	String s= "DIV";
+    	return s+super.toString();
     	
     }
 }

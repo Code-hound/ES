@@ -21,16 +21,9 @@ public class SUB extends SUB_Base {
     
     
     public String toString(){
-    	String s= "SUB(";
-    	Content contents[]=new Content[2];
-    	
-    	getArgsSet().toArray(contents);
-    	s+=contents[0].toString();
-    	s+=",";
-    	s+=contents[1].toString();
-    	s+=")";
-    	
-    	return s;
+    	String s= "SUB";
+
+    	return s+super.toString();
     	
     }
 }
