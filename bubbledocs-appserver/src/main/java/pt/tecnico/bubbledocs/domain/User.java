@@ -34,11 +34,11 @@ public class User extends User_Base {
     }
     
     public void removeDocument(int spreadSheetId) { //will throw exception if it already exists
-    	SpreadSheet toRemove = getDocumentById(spreadSheetId);
-    	
-    	/*if(toRemove == null)
-    	 * throw new SpreadSheetDoesNotExist(spreadSheetId);
-    	 */
+    	/*SpreadSheet toRemove = getDocumentById(spreadSheetId);
+    	*
+    	*if(toRemove == null)
+    	*  throw new SpreadSheetDoesNotExist(spreadSheetId);
+    	*/
     	removeDocument(spreadSheetId);
     }
     

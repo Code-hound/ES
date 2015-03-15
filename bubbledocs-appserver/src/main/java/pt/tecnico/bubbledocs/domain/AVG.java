@@ -6,4 +6,9 @@ public class AVG extends AVG_Base {
         super();
     }
     
+    public int getContentValue(){
+    	int value=0;
+    	//FIX ME
+    	return value;
+    }
 }

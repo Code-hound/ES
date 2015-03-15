@@ -1,9 +1,11 @@
 package pt.tecnico.bubbledocs.domain;
 
-public class Content extends Content_Base {
+public abstract class Content extends Content_Base {
     
     public Content() {
         super();
     }
+    
+    public abstract int getContentValue();
     
 }

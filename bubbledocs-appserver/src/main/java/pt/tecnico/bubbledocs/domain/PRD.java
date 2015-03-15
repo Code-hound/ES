@@ -6,4 +6,10 @@ public class PRD extends PRD_Base {
         super();
     }
     
+    public int getContentValue(){
+    	int value=0;
+    	//FIX ME
+    	return value;
+    }
+    
 }

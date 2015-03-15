@@ -6,4 +6,11 @@ public class ADD extends ADD_Base {
         super();
     }
     
+    public int getContentValue(){
+    	int value=0;
+    	for(Content c : getArgsSet()){
+    		value+=c.getContentValue();
+    	}
+    	return value;
+    }
 }

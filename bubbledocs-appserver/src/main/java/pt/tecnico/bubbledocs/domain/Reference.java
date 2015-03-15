@@ -6,4 +6,9 @@ public class Reference extends Reference_Base {
         super();
     }
     
+    public int getContentValue(){
+    	Cell c = getCell();
+    	Content cont= c.getContent();
+    	return cont.getContentValue();
+    }
 }
