@@ -2,24 +2,36 @@ package pt.tecnico.bubbledocs.domain;
 
 public class DIV extends DIV_Base {
     
-    public DIV() {
+    public DIV(Content c1,Content c2) {
         super();
+        init(c1,c2);
     }
     
     public int getContentValue(){
-    	boolean first=true;
-    	int value=0;
-    	for(Content c : getArgsSet()){
-    		if(first){
-    			value=c.getContentValue();
-    		}else{
-    			if(c.getContentValue()!=0){
-    				value-=c.getContentValue();
-    				}else{
-    					//throw new DivisionByZeroException();
-    				}
-    		}
-    	}
-    	return value;
+    	Content contents[]=new Content[2];
+    	
+    	getArgsSet().toArray(contents);
+    	
+    	/*if(contents[1].getContentValue()==0){
+    	 * throw new DivisionByZeroException();
+    	 * }
+    	 * */
+    	
+    	return	contents[0].getContentValue() - 
+    			contents[1].getContentValue();
+    }
+    
+    public String toString(){
+    	String s= "DIV(";
+    	Content contents[]=new Content[2];
+    	
+    	getArgsSet().toArray(contents);
+    	s+=contents[0].toString();
+    	s+=",";
+    	s+=contents[1].toString();
+    	s+=")";
+    	
+    	return s;
+    	
     }
 }

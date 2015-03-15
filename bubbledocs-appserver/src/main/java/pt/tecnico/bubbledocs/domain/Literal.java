@@ -10,4 +10,9 @@ public class Literal extends Literal_Base {
     public int getContentValue(){
     	return get_number();
     }
+    
+    public String toString(){
+    	String s="";
+    	return s+ getContentValue();
+    }
 }
