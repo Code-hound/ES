@@ -9,6 +9,16 @@ public class Reference extends Reference_Base {
         setCell(c);
     }
     
+    public Reference (SpreadSheet sheet, int row, int column) {
+    	super();
+    	for (Cell c : sheet.getCellsSet()) {
+    		if (c.get_cellColumn() == row && c.get_cellRow() == column) {
+    			setCell(c);
+    			break;
+    		}
+    	}
+    }
+    
     public int getContentValue(){
     	Cell c = getCell();
     	Content cont= c.getContent();
