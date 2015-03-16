@@ -9,9 +9,9 @@ import org.jdom2.Element;
 
 public class SpreadSheet extends SpreadSheet_Base {
     
-    public SpreadSheet(User user, int id, String name, LocalDate date, int rows, int columns) {
+    public SpreadSheet(User owner, int id, String name, LocalDate date, int rows, int columns) {
     	super();
-        setUser(user);
+        setOwner(owner);
         set_id(id);
         set_spreadSheetName(name);
         set_date(date);
@@ -102,7 +102,7 @@ public class SpreadSheet extends SpreadSheet_Base {
     	element.setAttribute("rows", String.valueOf(get_numberRows()));
     	element.setAttribute("columns",String.valueOf(get_numberColumns()));
     	
-    	element.addContent(getUser().exportToXML());
+    	element.addContent(getOwner().exportToXML());
 
     	return element;
     }
