@@ -57,7 +57,7 @@ public class SpreadSheet extends SpreadSheet_Base {
     	return users;
     }
 
-    public void addContent(int row, int column, Content c){
+    public void addContent(Content c, int row, int column){
     	for(Cell cell : getCellsSet()){
     		if(cell.get_cellRow() == row && cell.get_cellColumn()== column){
     			//try{

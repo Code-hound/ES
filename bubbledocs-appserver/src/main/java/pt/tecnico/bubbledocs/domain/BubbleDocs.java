@@ -46,15 +46,25 @@ public class BubbleDocs extends BubbleDocs_Base {
     	return getUserByUserName(UserName) != null;
     }
 
-    public boolean hasSpreadSheet(){
-    	return !getDocsSet().isEmpty();
-    }
-
+    /* Deprecated function
+     * User initialization should be handled by the User class, not by the database adder
     public void addUser(User currentUser, String newUserName, String newName, String newPassword){
     	//try{
     	User newUser = currentUser.createUser(newUserName, newName, newPassword);
     	addUsers(newUser);
     	//catch(InvalidAccessException){}
+    }
+    */
+    public void addUser(User user) {
+    	//try
+    	if (!hasUserByUserName(user.get_username())) {
+    		addUsers(user);
+    	}
+    	//catch
+    }
+    
+    public boolean hasSpreadSheet(){
+    	return !getDocsSet().isEmpty();
     }
 
     public void removeUser(User currentUser, String userNameToRemove){
