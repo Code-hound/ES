@@ -117,6 +117,16 @@ public class BubbleDocs extends BubbleDocs_Base {
     	}
     	return null;
     }
+    
+    public void rmvUserSheet(String username, String sheetName) {
+        for (SpreadSheet s : getSpreadSheetByName(sheetName)) {
+            for (User u : s.getAccessUsers()) {
+            	if (u.get_username().equals(username)) {
+            		removeDocs(s);
+            	}
+            }
+        }
+    }
 
     public String listUsers(){
     	if(hasUsers()){
