@@ -4,9 +4,8 @@ import pt.ist.fenixframework.Config;
 import pt.ist.fenixframework.FenixFramework;
 
 import java.util.List;
-import java.util.StringTokenizer;
-import java.util.Hashtable<K,V>;
 import java.util.ArrayList;
+import static java.lang.System.out;
 
 
 public class BubbleApplication {
@@ -18,15 +17,30 @@ public class BubbleApplication {
 		BubbleDocs bd = BubbleDocs.getInstance();
 		
 		//Write all registered users info
-		List<String, User> user_info_list = bd.viewUsers();
+		List<User> user_info_list = new ArrayList<User>(bd.getUsersSet());
+
+		System.out.println("Users Info:");
+		for (User u: user_info_list)
+			System.out.println(u);
+		System.out.println();
+		
 
 
 		//Write pf and ra spreadsheet names
-		List<String> spreadsheet_name_list = new ArrayList<String>;
+		List<SpreadSheet> spreadsheet_name_pf = bd.getSpreadSheetByName("pf");
+		List<SpreadSheet> spreadsheet_name_ra = bd.getSpreadSheetByName("ra");
+		
+		System.out.println("pf Spreadsheet Names:");
+		for (SpreadSheet s: spreadsheet_name_pf)
+			System.out.println(s.get_spreadSheetName());
+		System.out.println();
+		
+		System.out.println("ra Spreadsheet Names:");
+		for (SpreadSheet s: spreadsheet_name_ra)
+			System.out.println(s.get_spreadSheetName());
+		System.out.println();
 
-		List<String> pf = bd.viewUser("pf").viewSheets();
-		List<String> ra = bd.viewUser("ra").viewSheets();
-		spreadsheet_name_list.addAll(pf).addAll(ra);
+		
 		
 	}
 	
