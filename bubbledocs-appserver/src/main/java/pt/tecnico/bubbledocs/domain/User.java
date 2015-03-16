@@ -27,7 +27,7 @@ public class User extends User_Base {
     public boolean hasDocument(int documentId){
     	return getDocumentById(documentId) != null;
     }	 
-    */
+    
     public void addDocument(User userName, SpreadSheet spreadSheetToBeAdded) { //will throw exception if it already exists
     	
     	
@@ -44,12 +44,14 @@ public class User extends User_Base {
     	// nao foi possivel adicionar sheet, existe uma com nome igual
     }
     
+    
     public void removeDocument(int spreadSheetId) { //will throw exception if it already exists
     	/*SpreadSheet toRemove = getDocumentById(spreadSheetId);
     	*
     	*if(toRemove == null)
     	*  throw new SpreadSheetDoesNotExist(spreadSheetId);
     	*/
+	/*
     	removeDocument(spreadSheetId);
     }
     
@@ -61,11 +63,24 @@ public class User extends User_Base {
     	}
     	return docList;
     }
+    */
     
     public User createUser(String userName,String name, String password){
     	//if(!get_username().equals("root"))
     		//throws InvalidAccessException
     	return new User(userName, name, password);	
+    }
+    
+    public void removeUser(User user) {
+    	if (this.get_username().equals("root")) {
+    		getBubbleDocs().removeUser(this, user);
+    	}
+    }
+    
+    public void removeSpreadsheet(SpreadSheet sheet) {
+    	if (this.get_username().equals("root")) {
+    		getBubbleDocs().removeSpreadSheetById(Integer.toString(sheet.get_id()));
+    	}
     }
 
     public String toString(){

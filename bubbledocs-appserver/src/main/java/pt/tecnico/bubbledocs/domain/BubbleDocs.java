@@ -55,6 +55,7 @@ public class BubbleDocs extends BubbleDocs_Base {
     	//catch(InvalidAccessException){}
     }
     */
+    
     public void addUser(User user) {
     	//try
     	if (!hasUserByUserName(user.get_username())) {
@@ -67,10 +68,9 @@ public class BubbleDocs extends BubbleDocs_Base {
     	return !getDocsSet().isEmpty();
     }
 
-    public void removeUser(User currentUser, String userNameToRemove){
-    	String currentUserType=currentUser.get_username();
-    	if(hasUserByUserName(userNameToRemove)&&currentUserType.equals("root")){
-    		removeUsers(getUserByUserName(userNameToRemove));
+    public void removeUser(User currentUser, User userToRemove){
+    	if(hasUserByUserName(userToRemove.get_username()) && currentUser.get_username().equals("root")){
+    		removeUsers(userToRemove);
     	}
     	
     }
