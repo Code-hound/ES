@@ -3,14 +3,31 @@ package pt.tecnico.bubbledocs.domain;
 import pt.ist.fenixframework.Config;
 import pt.ist.fenixframework.FenixFramework;
 
+import java.util.List;
+import java.util.StringTokenizer;
+import java.util.Hashtable<K,V>;
+import java.util.ArrayList;
+
+
 public class BubbleApplication {
 	private static int sheetId = 1;
 
 	public static void main(String[] args) {
 		populateDomain();
 		
-		/* ..... */
-	
+		BubbleDocs bd = BubbleDocs.getInstance();
+		
+		//Write all registered users info
+		List<String, User> user_info_list = bd.viewUsers();
+
+
+		//Write pf and ra spreadsheet names
+		List<String> spreadsheet_name_list = new ArrayList<String>;
+
+		List<String> pf = bd.viewUser("pf").viewSheets();
+		List<String> ra = bd.viewUser("ra").viewSheets();
+		spreadsheet_name_list.addAll(pf).addAll(ra);
+		
 	}
 	
 	@Atomic
