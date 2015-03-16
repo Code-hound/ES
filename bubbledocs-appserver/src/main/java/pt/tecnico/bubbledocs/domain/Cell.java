@@ -4,8 +4,6 @@ import org.jdom2.Element;
 import org.jdom2.DataConversionException;
 
 public class Cell extends Cell_Base {
-    
-	public Cell(){}
 	
     public Cell(int row, int column) {
         super();
