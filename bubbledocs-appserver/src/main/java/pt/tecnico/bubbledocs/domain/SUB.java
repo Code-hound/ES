@@ -4,12 +4,12 @@ import org.jdom2.Element;
 
 public class SUB extends SUB_Base {
     
-    public SUB(Content arg1, Content arg2){
+    public SUB(Content c1, Content c2){
         super();
     	/*if((arg1 instanceof Function)||(arg2 instanceof Function)){
     	throw new InvalidArgumentException("Function");
     	}*/
-    init(arg1,arg2);
+    init(c1,c2);
     }
     
     public int getContentValue(){
