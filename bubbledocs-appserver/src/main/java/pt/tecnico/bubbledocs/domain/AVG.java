@@ -31,7 +31,14 @@ public class AVG extends AVG_Base {
 
 	@Override
 	public void importFromXML(Element contentElement) {
-		// TODO Auto-generated method stub
+		Element arg1 = contentElement.getChild("arg1");
+		Element arg2 = contentElement.getChild("arg2");
+    	Reference r1 = new Reference();
+    	Reference r2 = new Reference();
+    	r1.importFromXML(arg1);
+    	r2.importFromXML(arg2);
+    	setReference(r1);
+    	setReference(r2);
 		
 	}
 }
