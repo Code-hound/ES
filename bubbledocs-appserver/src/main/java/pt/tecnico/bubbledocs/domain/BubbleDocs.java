@@ -64,10 +64,20 @@ public class BubbleDocs extends BubbleDocs_Base {
     	}
     	
     }
+    
+    public SpreadSheet getSpreadSheetById (String id) {
+    	int idInteger = Integer.parseInt(id);
+    	for (SpreadSheet s : getDocsSet()) {
+    		if (s.get_id() == idInteger) {
+    			return s;
+    		}
+    	}
+    	return null;
+    }
 
     public List<SpreadSheet> getSpreadSheetByName(String sheetName){
     	List<SpreadSheet> list=new ArrayList<SpreadSheet>();
-    	for(SpreadSheet s: getDocsSet()){
+    	for(SpreadSheet s : getDocsSet()){
     		String s_name=s.get_spreadSheetName();
     		if(s_name.equals(sheetName)){
     			list.add(s);
@@ -108,14 +118,16 @@ public class BubbleDocs extends BubbleDocs_Base {
     	return null;
     }
     
-    public void rmvUserSheet(String username, String sheetName) {
+    public void removeSpreadSheetByOwner(String owner, String sheetName) {
         for (SpreadSheet s : getSpreadSheetByName(sheetName)) {
-            for (User u : s.getAccessUsers()) {
-            	if (u.get_username().equals(username)) {
-            		removeDocs(s);
-            	}
+            if (s.getOwner().get_username().equals(owner)) {
+            	removeDocs(s);
             }
         }
+    }
+    
+    public void removeSpreadSheetById(String id) {
+    	removeDocs(getSpreadSheetById(id));
     }
 
     public String listUsers(){
