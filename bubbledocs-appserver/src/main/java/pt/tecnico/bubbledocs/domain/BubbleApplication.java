@@ -61,7 +61,7 @@ public class BubbleApplication {
 		//Remove spreadsheet from pf from persistent state
 		try {
 		
-			List<SpreadSheet> notas_es = bd.getUserByUserName("pf").getDocumentsByName("Notas ES");
+			List<SpreadSheet> notas_es = bd.getSpreadSheetByName("Notas ES");
 			File file = new File("/tmp/pf_Notas_ES.txt");
 			FileWriter fw = new FileWriter(file.getAbsoluteFile());
 			BufferedWriter bw = new BufferedWriter(fw);
