@@ -1,5 +1,6 @@
 package pt.tecnico.bubbledocs.domain;
 
+import org.jdom2.DataConversionException;
 import org.jdom2.Element;
 
 public class Literal extends Literal_Base {
@@ -22,5 +23,13 @@ public class Literal extends Literal_Base {
     	Element element = new Element("Literal");
     	element.setAttribute("number",""+get_number());
     	return element;
+    }
+    
+    public void importFromXML(Element literalElement){
+    	try {
+			set_number(literalElement.getAttribute("number").getIntValue());
+		} catch (DataConversionException e) {
+		//	throw new ImportDocumentException();
+		}
     }
 }

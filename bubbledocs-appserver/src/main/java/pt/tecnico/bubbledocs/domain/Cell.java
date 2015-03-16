@@ -5,6 +5,8 @@ import org.jdom2.DataConversionException;
 
 public class Cell extends Cell_Base {
     
+	public Cell(){}
+	
     public Cell(int row, int column) {
         super();
         set_cellRow(row);
@@ -33,8 +35,9 @@ public class Cell extends Cell_Base {
     	element.setAttribute("row", ""+get_cellRow());
     	element.setAttribute("column",""+get_cellColumn());
     	element.setAttribute("protected",String.valueOf(get_protected()));
-    	
-    	element.addContent(getContent().exportToXML());
+    	Element contentElement = new Element("content");
+    	element.addContent(contentElement);
+    	contentElement.addContent(getContent().exportToXML());
 
     	return element;
     }
@@ -44,7 +47,8 @@ public class Cell extends Cell_Base {
     	set_cellRow(cellElement.getAttribute("row").getIntValue());
     	set_cellColumn(cellElement.getAttribute("column").getIntValue());
 
-    	//Element content = cellElement.getChild(cname)
+    	Element content = cellElement.getChild("content");
+    	
     	
     	set_protected(cellElement.getAttribute("protected").getBooleanValue());
     	} catch (DataConversionException e) { 

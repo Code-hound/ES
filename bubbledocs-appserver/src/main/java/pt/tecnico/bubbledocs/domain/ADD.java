@@ -29,4 +29,10 @@ public class ADD extends ADD_Base {
     	}
     	return element;
     }
+
+	@Override
+	public void importFromXML(Element contentElement) {
+		// TODO Auto-generated method stub
+		
+	}
 }

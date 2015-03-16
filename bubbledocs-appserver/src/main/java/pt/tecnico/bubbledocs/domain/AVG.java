@@ -28,4 +28,10 @@ public class AVG extends AVG_Base {
     	}
     	return element;
     }
+
+	@Override
+	public void importFromXML(Element contentElement) {
+		// TODO Auto-generated method stub
+		
+	}
 }
