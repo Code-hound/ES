@@ -6,6 +6,7 @@ import pt.ist.fenixframework.FenixFramework;
 import java.util.List;
 import java.util.ArrayList;
 import static java.lang.System.out;
+import org.jdom2.output.XMLOutputter;
 
 
 public class BubbleApplication {
@@ -27,20 +28,28 @@ public class BubbleApplication {
 
 
 		//Write pf and ra spreadsheet names
-		List<SpreadSheet> spreadsheet_name_pf = bd.getSpreadSheetByName("pf");
-		List<SpreadSheet> spreadsheet_name_ra = bd.getSpreadSheetByName("ra");
+		List<SpreadSheet> spreadsheet_list_pf = bd.getSpreadSheetByName("pf");
+		List<SpreadSheet> spreadsheet_list_ra = bd.getSpreadSheetByName("ra");
 		
 		System.out.println("pf Spreadsheet Names:");
-		for (SpreadSheet s: spreadsheet_name_pf)
+		for (SpreadSheet s: spreadsheet_list_pf)
 			System.out.println(s.get_spreadSheetName());
 		System.out.println();
 		
 		System.out.println("ra Spreadsheet Names:");
-		for (SpreadSheet s: spreadsheet_name_ra)
+		for (SpreadSheet s: spreadsheet_list_ra)
 			System.out.println(s.get_spreadSheetName());
 		System.out.println();
 
 		
+		
+		//Write pf spreadsheet xml
+		XMLOutputter xml = new XMLOutputter();
+		
+		System.out.println("pf Spreadsheet XML:");
+		for (SpreadSheet s: spreadsheet_list_pf)
+			System.out.println(xml.outputString(s.exportToXML()));
+		System.out.println();
 		
 	}
 	
