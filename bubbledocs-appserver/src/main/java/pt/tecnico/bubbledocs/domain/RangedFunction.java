@@ -6,9 +6,9 @@ public abstract class RangedFunction extends RangedFunction_Base {
         super();
     }
     
-    public RangedFunction(Reference arg1, Reference arg2){
+    public RangedFunction(Reference r1, Reference r2){
     	super();
-	    init(arg1,arg2);
+	    init(r1,r2);
     }
     
     public String toString(){
