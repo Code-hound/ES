@@ -21,11 +21,11 @@ public class BubbleApplication {
 		User user2 = new User("ra","Step Rabbit","cor");
 		bd.addUser(user2);
 		
-		Spreadsheet sheet1 = new Sheet("Notas ES",300,20);
+		Spreadsheet sheet1 = new SpreadSheet("Notas ES",300,20);
 		user1.addSheet(sheet1);
 		Content content1 = new Literal(5);
 		sheet1.addContent(content1,3,4);
-		Content content2 = new Reference(5,6)
+		Content content2 = new Reference(5,6);
 		sheet1.addContent(content2,1,1);
 		Content content3 = new ADD(new Literal(2),new Reference(3,4)); //FIXME-SYNTAX
 		sheet1.addContent(content3,5,6);
