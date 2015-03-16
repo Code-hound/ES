@@ -1,3 +1,13 @@
+// Alterei alguns Name para SheetName para ser mais facil ler e nao se confundir com o Name do User.
+
+// Nos prox 2 metodos, o output é quase igual, mas no enunciado num dos pontos pedem a folha (só o nome) 
+//      e noutro pedem o nome e o ID.
+// String getSheetNameByUsername(String username) 
+// String getSheetNameIdByUsername(String username)
+
+// No prox, o enunciado diz pra remover a folha "Notas ES" do user "pf"
+// void rmvUserSheet(String username, String sheetName) 
+
 package pt.tecnico.bubbledocs.domain;
 
 import java.util.ArrayList;
@@ -65,32 +75,32 @@ public class BubbleDocs extends BubbleDocs_Base {
     	
     }
 
-    public List<SpreadSheet> getSpreadSheetByName(String name){
+    public List<SpreadSheet> getSpreadSheetByName(String sheetName){
     	List<SpreadSheet> list=new ArrayList<SpreadSheet>();
     	for(SpreadSheet s: getDocsSet()){
     		String s_name=s.get_spreadSheetName();
-    		if(s_name.equals(name)){
+    		if(s_name.equals(sheetName)){
     			list.add(s);
     		}
     	}
     	return list;
     }
     
-    public SpreadSheet getSpreadSheetByNameAndDate(String name,LocalDate date){
+    public SpreadSheet getSpreadSheetByNameAndDate(String sheetName,LocalDate date){
     	for(SpreadSheet s:getDocsSet()){
-    		if(s.get_spreadSheetName().equals(name)&&s.get_date().equals(date))
+    		if(s.get_spreadSheetName().equals(sheetName)&&s.get_date().equals(date))
     			return s;
     	}
     	return null;
     }
     
-    public void createSpreadSheet(User user,String name,int rows,int columns){
-    	SpreadSheet newSpreadSheet = new SpreadSheet(user, get_entityId(), name, new LocalDate(), rows, columns);
+    public void createSpreadSheet(User user,String sheetName,int rows,int columns){
+    	SpreadSheet newSpreadSheet = new SpreadSheet(user, get_entityId(), sheetName, new LocalDate(), rows, columns);
     	User root=getUserByUserName("root");
     	newSpreadSheet.addDocAccess(new Access(root,0));
     	newSpreadSheet.addDocAccess(new Access(user, 1));
     	
-    	set_entityId(get_entityId()+1);
+    	set_entityId(get_entityId()+1); //Unique and sequential ID
     }
 
     public String listSpreadSheetNameAndId(){
@@ -120,9 +130,9 @@ public class BubbleDocs extends BubbleDocs_Base {
     	return null;
     }
 
-    public Element exportSpreadSheetToXML(String name, LocalDate date){
+    public Element exportSpreadSheetToXML(String sheetName, LocalDate date){
     	//try{
-    	return getSpreadSheetByNameAndDate(name, date).exportToXML();
+    	return getSpreadSheetByNameAndDate(sheetName, date).exportToXML();
     	//}catch(Exception e){throw new NonExistingSpreadSheetException(name, date);}
     }
 
