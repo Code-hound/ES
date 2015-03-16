@@ -115,7 +115,7 @@ relation AccessContainsUser {
 
 relation SpreadSheetContainsUser{
 	SpreadSheet playsRole document;
-	User playsRole user{
+	User playsRole owner{
 		multiplicity 1;
 	}
 }
