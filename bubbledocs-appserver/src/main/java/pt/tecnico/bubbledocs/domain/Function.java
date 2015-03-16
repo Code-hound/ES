@@ -1,5 +1,7 @@
 package pt.tecnico.bubbledocs.domain;
 
+import org.jdom2.Element;
+
 public abstract class Function extends Function_Base {
     
     public Function() {
@@ -10,4 +12,5 @@ public abstract class Function extends Function_Base {
     	addArgs(arg1);
     	addArgs(arg2);
     }
+    
 }
