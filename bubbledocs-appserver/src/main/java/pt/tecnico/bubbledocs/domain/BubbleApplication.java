@@ -5,9 +5,15 @@ import pt.ist.fenixframework.FenixFramework;
 
 import java.util.List;
 import java.util.ArrayList;
+
 import static java.lang.System.out;
+
 import org.jdom2.output.XMLOutputter;
 
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
 
 public class BubbleApplication {
 	private static int sheetId = 1;
@@ -50,6 +56,30 @@ public class BubbleApplication {
 		for (SpreadSheet s: spreadsheet_list_pf)
 			System.out.println(xml.outputString(s.exportToXML()));
 		System.out.println();
+		
+		
+		//Remove spreadsheet from pf from persistent state
+		try {
+		
+			List<SpreadSheet> notas_es = bd.getUserByUserName("pf").getDocumentsByName("Notas ES");
+			File file = new File("/tmp/pf_Notas_ES.txt");
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+	
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+	
+			for (SpreadSheet s: notas_es)
+				bw.write(xml.outputString(s.exportToXML()));
+			bw.close();
+		
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		bd.removeSpreadSheetByOwner("pf", "Notas ES");
+
 		
 	}
 	
