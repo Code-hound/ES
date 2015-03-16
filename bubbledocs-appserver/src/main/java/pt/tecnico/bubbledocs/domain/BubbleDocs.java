@@ -1,13 +1,3 @@
-// Alterei alguns Name para SheetName para ser mais facil ler e nao se confundir com o Name do User.
-
-// Nos prox 2 metodos, o output é quase igual, mas no enunciado num dos pontos pedem a folha (só o nome) 
-//      e noutro pedem o nome e o ID.
-// String getSheetNameByUsername(String username) 
-// String getSheetNameIdByUsername(String username)
-
-// No prox, o enunciado diz pra remover a folha "Notas ES" do user "pf"
-// void rmvUserSheet(String username, String sheetName) 
-
 package pt.tecnico.bubbledocs.domain;
 
 import java.util.ArrayList;
