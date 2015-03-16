@@ -13,7 +13,7 @@ public class User extends User_Base {
         set_name(name);
         set_password(password);
     }
-    
+    /*
     private SpreadSheet getDocumentById(int id){
     	for(SpreadSheet document : getDocsSet()){
     		if(document.get_id().equals(id)){
@@ -27,20 +27,20 @@ public class User extends User_Base {
     public boolean hasDocument(int documentId){
     	return getDocumentById(documentId) != null;
     }	 
- 
+    */
     public void addDocument(User userName, SpreadSheet spreadSheetToBeAdded) { //will throw exception if it already exists
     	
     	
-    	if(hasDocument(spreadSheetToBeAdded.get_id()))
-    		throw new IdAlreadyExistsException(spreadSheetToBeAdded.getId());
+    	//if(hasDocument(spreadSheetToBeAdded.get_id()))
+    	//	throw new IdAlreadyExistsException(spreadSheetToBeAdded.getId());
     	
     
-    	/*if (userName.viewSheets() != 0) //supondo que caso nao haja sheets do utilizador responde 0
+    	if (userName.viewSheets() != 0) //supondo que caso nao haja sheets do utilizador responde 0
     	{
     		if (super.viewSheetfromUser(userName, spreadSheetToBeAdded) != 0)
     			super.addDocs(spreadSheetToBeAdded);
     	}
-    	*/
+    	
     	// nao foi possivel adicionar sheet, existe uma com nome igual
     }
     
