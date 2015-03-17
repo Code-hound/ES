@@ -22,10 +22,11 @@ public class BubbleApplication {
 	private static int sheetId = 1;
 
 	public static void main(String[] args) {
-		populateDomain();
-		
+		System.out.println("Entrei");
 		BubbleDocs bd = BubbleDocs.getInstance();
-		
+		System.out.println("Criei base de dados");
+		populateDomain(bd);
+		System.out.println("Populei");
 		//Write all registered users info
 		List<User> user_info_list = new ArrayList<User>(bd.getUsersSet());
 
@@ -87,8 +88,7 @@ public class BubbleApplication {
 	}
 	
 	@Atomic
-	static void populateDomain() {
-		BubbleDocs bd = BubbleDocs.getInstance();
+	static void populateDomain(BubbleDocs bd) {
 		
 		User user1 = new User("pf","Paul Door","sub");
 		bd.addUser(user1);

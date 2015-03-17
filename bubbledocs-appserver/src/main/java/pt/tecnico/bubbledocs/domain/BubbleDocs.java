@@ -7,8 +7,6 @@ import org.jdom2.Content;
 import org.jdom2.Content.CType;
 import org.jdom2.DataConversionException;
 import org.jdom2.Element;
-
-
 import org.joda.time.LocalDate;
 
 import pt.ist.fenixframework.FenixFramework;
@@ -21,7 +19,9 @@ public class BubbleDocs extends BubbleDocs_Base {
     }
     
     public static BubbleDocs getInstance(){
+    	System.out.println("Pre-contacto");
     	BubbleDocs bubble = FenixFramework.getDomainRoot().getBubbleDocs();
+    	System.out.println("Contactei fenix framework");
     	if(bubble==null)
     		bubble=new BubbleDocs();
     	

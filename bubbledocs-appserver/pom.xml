@@ -75,7 +75,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>pt.ulisboa.tecnico.bubbledocs</mainClass>
+                    <mainClass>pt.tecnico.bubbledocs.BubbleApplication</mainClass>
                     <killAfter>-1</killAfter>
                 </configuration>
             </plugin>
