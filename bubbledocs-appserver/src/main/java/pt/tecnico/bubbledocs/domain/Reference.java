@@ -44,9 +44,11 @@ public class Reference extends Reference_Base {
     }
     
     public void importFromXML(Element contentElement) {
+    	/*
     	Element cell = contentElement.getChild("cell");
     	Cell c= new Cell();
     	c.importFromXML(cell);
     	setCell(c);
+    	*/
     }
 }

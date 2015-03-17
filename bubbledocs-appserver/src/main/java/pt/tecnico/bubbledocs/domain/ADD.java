@@ -32,6 +32,7 @@ public class ADD extends ADD_Base {
 
 	@Override
 	public void importFromXML(Element contentElement) {
+		/*
 		Element arg1 = contentElement.getChild("arg1");
 		Element arg2 = contentElement.getChild("arg2");
     	Content c1 = new Content();
@@ -40,6 +41,6 @@ public class ADD extends ADD_Base {
     	c2.importFromXML(arg2);
     	setContent(c1);
     	setContent(c2);
-		
+		*/
 	}
 }

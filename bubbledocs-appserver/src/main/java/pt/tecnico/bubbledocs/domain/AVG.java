@@ -31,6 +31,7 @@ public class AVG extends AVG_Base {
 
 	@Override
 	public void importFromXML(Element contentElement) {
+		/*
 		Element arg1 = contentElement.getChild("arg1");
 		Element arg2 = contentElement.getChild("arg2");
     	Reference r1 = new Reference();
@@ -39,6 +40,6 @@ public class AVG extends AVG_Base {
     	r2.importFromXML(arg2);
     	setReference(r1);
     	setReference(r2);
-		
+		*/
 	}
 }

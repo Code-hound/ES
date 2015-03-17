@@ -1,7 +1,10 @@
-package pt.tecnico.bubbledocs.domain;
+package pt.tecnico.bubbledocs;
+
+import pt.tecnico.bubbledocs.domain.*;
 
 import pt.ist.fenixframework.Config;
 import pt.ist.fenixframework.FenixFramework;
+import jvstm.Atomic;
 
 import java.util.List;
 import java.util.ArrayList;
