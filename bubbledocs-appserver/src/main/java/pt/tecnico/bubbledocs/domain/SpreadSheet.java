@@ -21,14 +21,6 @@ public class SpreadSheet extends SpreadSheet_Base {
 				addCells(new Cell(row, column));
 			}
 		}
-		//
-		// if(getCellsSet().isEmpty())
-		// getCellsSet().add(new Cell(1,1));
-		// for(int i=2; i == rows; i++){
-		// for(int j =2; j == columns;j++){
-		// getCellsSet().add(new Cell(i,j));
-		// }
-		// }
 
 	}
 
@@ -106,32 +98,11 @@ public class SpreadSheet extends SpreadSheet_Base {
 
 	public Element exportToXML() {
 		Element element = new Element("spreadsheet");
-		// System.out.println("EEEEEElement");
-		// System.out.println(element);
-		// System.out.println("Elementttttttttttttt");
 		element.setAttribute("id", "" + get_id());
-		System.out.println(get_id());
-		System.out.println("nome abaixo");
 		element.setAttribute("name", get_spreadSheetName());
-		System.out.println(get_spreadSheetName());
-		System.out.println("getDAata abaixo");
-		// System.out.println(get_date().toString());
-		System.out.println("getDAta acima e data abaixo");
 		element.setAttribute("date", get_date().toString());
-		System.out.println("data acima");
-		// System.out.println(get_date().toString());
-		System.out.println("rows abaixo");
 		element.setAttribute("rows", String.valueOf(get_numberRows()));
-		System.out.println("rowsssss");
-		System.out.println(String.valueOf(get_numberRows()));
-		System.out.println("columnsssssss");
 		element.setAttribute("columns", String.valueOf(get_numberColumns()));
-		System.out.println(String.valueOf(get_numberColumns()));
-		System.out.println("enddddddddddddddddd");
-
-		System.out.println(element.addContent(getOwner().exportToXML()));
-		System.out.println("finalissimoooo");
-		System.out.println(element);
 		return element;
 	}
 
