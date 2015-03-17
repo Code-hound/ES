@@ -103,7 +103,7 @@ public class BubbleDocs extends BubbleDocs_Base {
     }
     
     public void createSpreadSheet(User user,String sheetName,int rows,int columns){
-    	SpreadSheet newSpreadSheet = new SpreadSheet(user, get_entityId(), sheetName, new LocalDate(), rows, columns);
+    	SpreadSheet newSpreadSheet = new SpreadSheet(user, get_entityId(), sheetName, rows, columns);
     	User root=getUserByUserName("root");
     	newSpreadSheet.addDocAccess(new Access(root,0));
     	newSpreadSheet.addDocAccess(new Access(user, 1));

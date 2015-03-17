@@ -78,7 +78,7 @@ relation SpreadSheetContainsAccess{
 	//Lists the permission that a user has to access a certain document
 	SpreadSheet playsRole document;
 	Access playsRole docAccess{
-		multiplicity 1..*;
+		multiplicity 0..*;
 	}
 	
 }
