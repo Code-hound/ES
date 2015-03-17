@@ -49,7 +49,6 @@
                         <goals>
                             <goal>ff-generate-domain</goal>
                             <goal>ff-process-atomic-annotations</goal>
-
                             <goal>ff-test-process-atomic-annotations</goal>
                         </goals>
                     </execution>

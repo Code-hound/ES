@@ -33,7 +33,7 @@ public class BubbleDocs extends BubbleDocs_Base {
     public User getUserByUserName(String username){
     	if(hasUsers()){
 	    	for(User u : getUsersSet()){
-	    		if(u.get_username().equals("username"))
+	    		if(u.get_username().equals(username))
 	    			return u;
 	    	}
     	}

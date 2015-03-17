@@ -23,101 +23,38 @@ public class BubbleApplication {
 	private static int sheetId = 1;
 
 	public static void main(String[] args) {
-		doIt();
+		populateDomain();
+		writeUsers();
+		writeUserSheets();
+		writePfSheet();
+		removePfSheet();
 	}
 	
-	@Atomic
-	public static void doIt() {
-		System.out.println("Welcome to the BubbleDocs application!");
+	//@Atomic
+	//public static void doIt() {
+		//System.out.println("Welcome to the BubbleDocs application!");
 
-//		TransactionManager tm = FenixFramework.getTransactionManager();
-//	    boolean committed = false;
-//
-//	   	try {
-		    //tm.begin();
-		    BubbleDocs bd = populateDomain();
-	
-			//Write all registered users info
-			List<User> user_info_list = new ArrayList<User>(bd.getUsersSet());
-	
-			System.out.println("Users Info:");
-			for (User u: user_info_list){
-				System.out.println(u);
-			}
-			System.out.println();
+////		TransactionManager tm = FenixFramework.getTransactionManager();
+////	    boolean committed = false;
+////
+////	   	try {
+		    ////tm.begin();
 			
-	
-	
-			//Write pf and ra spreadsheet names
-			List<SpreadSheet> spreadsheet_list_pf = bd.getSpreadSheetByName("pf");
-			List<SpreadSheet> spreadsheet_list_ra = bd.getSpreadSheetByName("ra");
-			
-			System.out.println("pf Spreadsheet Names:");
-			for (SpreadSheet s: spreadsheet_list_pf){
-				System.out.println(s.get_spreadSheetName());
-			}
-			System.out.println();
-			
-			System.out.println("ra Spreadsheet Names:");
-			for (SpreadSheet s: spreadsheet_list_ra){
-				System.out.println(s.get_spreadSheetName());
-			}
-			System.out.println();
-	
-			
-			
-			//Write pf spreadsheet xml
-			XMLOutputter xml = new XMLOutputter();
-			
-			System.out.println("pf Spreadsheet XML:");
-			for (SpreadSheet s: spreadsheet_list_pf){
-				System.out.println(xml.outputString(s.exportToXML()));
-				}
-			System.out.println();
-			
-			
-			//Remove spreadsheet from pf from persistent state
-			try {
 
-				List<SpreadSheet> notas_es = bd.getSpreadSheetByName("Notas ES");
-				File file = new File("/afs/.ist.utl.pt/users/0/4/ist172904/pf_Notas_ES.xml");
-				
-				if (!file.exists()) {
-
-					file.createNewFile();
-
-				}
-				
-				FileWriter fw = new FileWriter(file.getAbsolutePath());
-				BufferedWriter bw = new BufferedWriter(fw);
-
-				for (SpreadSheet s: notas_es) {
-					bw.write(xml.outputString(s.exportToXML()));
-				}
-				bw.flush();
-				bw.close();
-
-			
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			bd.removeSpreadSheetByOwner("pf", "Notas ES");
-
-//		    tm.commit();
-//		    committed = true;
-//		}catch (SystemException| NotSupportedException | RollbackException| HeuristicMixedException | HeuristicRollbackException ex) {
-//		    System.err.println("Error in execution of transaction: " + ex);
-//		} finally {
-//		    if (!committed) 
-//			try {
-//			    tm.rollback();
-//			} catch (SystemException ex) {
-//			    System.err.println("Error in roll back of transaction: " + ex);
-//			}
-//    	}
-//		
-	}
+////		    tm.commit();
+////		    committed = true;
+////		}catch (SystemException| NotSupportedException | RollbackException| HeuristicMixedException | HeuristicRollbackException ex) {
+////		    System.err.println("Error in execution of transaction: " + ex);
+////		} finally {
+////		    if (!committed) 
+////			try {
+////			    tm.rollback();
+////			} catch (SystemException ex) {
+////			    System.err.println("Error in roll back of transaction: " + ex);
+////			}
+////    	}*/
+////		
+	//}
     
     @Atomic
     static BubbleDocs populateDomain() {
@@ -143,31 +80,65 @@ public class BubbleApplication {
 		bd.addSpreadSheet(sheet1);
     	
 		return bd;
-    /*	
-	PhoneBook pb = PhoneBook.getInstance();
-
-	Person person = new Person("Manel");
- 	pb.addPerson(person);
-	person.addContact(new Contact("SOS", 112));
-	Contact c = new Contact("IST", 214315112);
-	c.setPerson(person);
-
-	person = new Person("Teste");
- 	pb.addPerson(person);
-	person.addContact(new Contact("LOL", 111));
-	c = new Contact("ESCSPUTL", 214315166);
-	c.setPerson(person);
-	
-
-	try {
-	    c = new Contact("IST", 214315112);
-	    c.setPerson(person);
-	    System.out.println("Error! Business rule violated!");
-	} catch (pt.tecnico.phonebook.exception.NameAlreadyExistsException nae) {
-	    System.out.println("Could not add two equals contacts to the same person");
-	}
-	*/
-    
     }
+    
+    @Atomic
+	static void writeUsers(){
+		BubbleDocs bd = BubbleDocs.getInstance();
 
+		List<User> user_info_list = new ArrayList<User>(bd.getUsersSet());
+
+		System.out.println("Users Info:" + bd.getUsersSet().size());
+		for (User u: bd.getUsersSet()){
+			System.out.println(u);}
+		System.out.println();
+	}
+
+	@Atomic
+	static void writeUserSheets(){
+		BubbleDocs bd = BubbleDocs.getInstance();
+		
+		List<SpreadSheet> spreadsheet_list_pf = bd.getSpreadSheetByName("pf");
+		List<SpreadSheet> spreadsheet_list_ra = bd.getSpreadSheetByName("ra");
+		
+		System.out.println("pf Spreadsheet Names:");
+		for (SpreadSheet s: spreadsheet_list_pf)
+			System.out.println(s.get_spreadSheetName());
+		System.out.println();
+		
+		System.out.println("ra Spreadsheet Names:");
+		for (SpreadSheet s: spreadsheet_list_ra)
+			System.out.println(s.get_spreadSheetName());
+		System.out.println();
+	}
+	
+	@Atomic
+	static void writePfSheet(){
+		//Write pf spreadsheet xml
+		BubbleDocs bd = BubbleDocs.getInstance();
+		XMLOutputter xml = new XMLOutputter();
+		
+		List<SpreadSheet> spreadsheet_list_pf = bd.getSpreadSheetByName("pf");
+				
+		System.out.println("pf Spreadsheet XML:");
+		for (SpreadSheet s : spreadsheet_list_pf){
+			System.out.println(xml.outputString(s.exportToXML()));
+		}
+		System.out.println();
+	}
+	
+	@Atomic
+	static void removePfSheet(){
+		BubbleDocs bd = BubbleDocs.getInstance();
+		XMLOutputter xml = new XMLOutputter();
+		
+		List<SpreadSheet> notas_es = bd.getSpreadSheetByName("Notas ES");
+
+		for (SpreadSheet s : notas_es) {
+			System.out.println(xml.outputString(s.exportToXML()));
+		}
+
+	
+		bd.removeSpreadSheetByOwner("pf", "Notas ES");		
+	}
 }
