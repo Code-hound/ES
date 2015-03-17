@@ -37,9 +37,9 @@ public class Reference extends Reference_Base {
     
     public Element exportToXML() {
     	Element element = new Element("Reference");
-    	Element cellElement= new Element("cell");
-    	element.addContent(cellElement);
-    	cellElement.addContent(getCell().exportToXML());
+    	element.setAttribute("row", "" + getCell().get_cellRow());
+    	element.setAttribute("column", "" + getCell().get_cellColumn());
+
     	return element;
     }
     

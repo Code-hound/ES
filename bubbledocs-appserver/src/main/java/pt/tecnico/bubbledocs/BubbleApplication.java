@@ -80,7 +80,7 @@ public class BubbleApplication {
 			try {
 
 				List<SpreadSheet> notas_es = bd.getSpreadSheetByName("Notas ES");
-				File file = new File("C:\\Users\\JPZef\\Desktop\\esproj\\pf_Notas_ES.xml");
+				File file = new File("/afs/.ist.utl.pt/users/0/4/ist172904/pf_Notas_ES.xml");
 				
 				if (!file.exists()) {
 
