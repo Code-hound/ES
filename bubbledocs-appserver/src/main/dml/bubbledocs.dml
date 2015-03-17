@@ -136,7 +136,7 @@ relation CellContainsContent {
 
 relation ReferenceContainsCell {
 	Reference playsRole reference;
-	Cell playsRole cell{
+	Cell playsRole cell_reference{
 		multiplicity 1;
 	}
 }
