@@ -74,30 +74,30 @@ public class BubbleApplication {
 			
 			//Remove spreadsheet from pf from persistent state
 			try {
-				System.out.println("entrei no try");
+				//System.out.println("entrei no try");
 				List<SpreadSheet> notas_es = bd.getSpreadSheetByName("Notas ES");
 				File file = new File("C:\\Users\\JPZef\\Desktop\\esproj\\pf_Notas_ES.xml");
 				
 				if (!file.exists()) {
-					System.out.println("cria novo ficheiro");
+					//System.out.println("cria novo ficheiro");
 					file.createNewFile();
-					System.out.println("novo ficheiro criado");
+					//System.out.println("novo ficheiro criado");
 				}
 				
 				FileWriter fw = new FileWriter(file.getAbsolutePath());
 				BufferedWriter bw = new BufferedWriter(fw);
-				System.out.println("passou o buffer writter");
+				//System.out.println("passou o buffer writter");
 				for (SpreadSheet s: notas_es) {
-					System.out.println("dentro do for");
+					//System.out.println("dentro do for");
 					bw.write(xml.outputString(s.exportToXML()));
 				}
-				System.out.println("depois do for");
+				//System.out.println("depois do for");
 				bw.flush();
 				bw.close();
-				System.out.println("depois do bw.close");
+				//System.out.println("depois do bw.close");
 			
 			} catch (IOException e) {
-				System.out.println("entrei no catch");
+				//System.out.println("entrei no catch");
 				e.printStackTrace();
 			}
 			
