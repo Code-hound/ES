@@ -103,6 +103,9 @@ public class SpreadSheet extends SpreadSheet_Base {
 		element.setAttribute("date", get_date().toString());
 		element.setAttribute("rows", String.valueOf(get_numberRows()));
 		element.setAttribute("columns", String.valueOf(get_numberColumns()));
+		for(Cell cell : this.getCellsSet())
+			element.addContent(cell.exportToXML());
+		
 		return element;
 	}
 

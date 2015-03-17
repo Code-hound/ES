@@ -33,9 +33,7 @@ public class Cell extends Cell_Base {
     	element.setAttribute("row", ""+get_cellRow());
     	element.setAttribute("column",""+get_cellColumn());
     	element.setAttribute("protected",String.valueOf(get_protected()));
-    	Element contentElement = new Element("content");
-    	element.addContent(contentElement);
-    	contentElement.addContent(getContent().exportToXML());
+    	element.addContent(getContent().exportToXML());
 
     	return element;
     }
