@@ -41,8 +41,9 @@ public class BubbleApplication {
 			List<User> user_info_list = new ArrayList<User>(bd.getUsersSet());
 	
 			System.out.println("Users Info:");
-			for (User u: user_info_list)
+			for (User u: user_info_list){
 				System.out.println(u);
+			}
 			System.out.println();
 			
 	
@@ -52,13 +53,15 @@ public class BubbleApplication {
 			List<SpreadSheet> spreadsheet_list_ra = bd.getSpreadSheetByName("ra");
 			
 			System.out.println("pf Spreadsheet Names:");
-			for (SpreadSheet s: spreadsheet_list_pf)
+			for (SpreadSheet s: spreadsheet_list_pf){
 				System.out.println(s.get_spreadSheetName());
+			}
 			System.out.println();
 			
 			System.out.println("ra Spreadsheet Names:");
-			for (SpreadSheet s: spreadsheet_list_ra)
+			for (SpreadSheet s: spreadsheet_list_ra){
 				System.out.println(s.get_spreadSheetName());
+			}
 			System.out.println();
 	
 			
@@ -67,37 +70,35 @@ public class BubbleApplication {
 			XMLOutputter xml = new XMLOutputter();
 			
 			System.out.println("pf Spreadsheet XML:");
-			for (SpreadSheet s: spreadsheet_list_pf)
+			for (SpreadSheet s: spreadsheet_list_pf){
 				System.out.println(xml.outputString(s.exportToXML()));
+				}
 			System.out.println();
 			
 			
 			//Remove spreadsheet from pf from persistent state
 			try {
-				//System.out.println("entrei no try");
+
 				List<SpreadSheet> notas_es = bd.getSpreadSheetByName("Notas ES");
 				File file = new File("C:\\Users\\JPZef\\Desktop\\esproj\\pf_Notas_ES.xml");
 				
 				if (!file.exists()) {
-					//System.out.println("cria novo ficheiro");
+
 					file.createNewFile();
-					//System.out.println("novo ficheiro criado");
+
 				}
 				
 				FileWriter fw = new FileWriter(file.getAbsolutePath());
 				BufferedWriter bw = new BufferedWriter(fw);
-				//System.out.println("passou o buffer writter");
+
 				for (SpreadSheet s: notas_es) {
-					//System.out.println("dentro do for");
 					bw.write(xml.outputString(s.exportToXML()));
 				}
-				//System.out.println("depois do for");
 				bw.flush();
 				bw.close();
-				//System.out.println("depois do bw.close");
+
 			
 			} catch (IOException e) {
-				//System.out.println("entrei no catch");
 				e.printStackTrace();
 			}
 			
