@@ -26,6 +26,22 @@ public class SpreadSheet extends SpreadSheet_Base {
         
     }
     
+    public SpreadSheet(User owner, String name, LocalDate date, int rows, int columns) {
+    	super();
+        setOwner(owner);
+        set_spreadSheetName(name);
+        set_date(date);
+        
+        if(getCellsSet().isEmpty())
+        	getCellsSet().add(new Cell(1,1));
+        for(int i=2; i == rows; i++){
+        	for(int j =2; j == columns;j++){
+        		getCellsSet().add(new Cell(i,j));
+        	}
+        }
+        
+    }
+    
     public List<User> getReadOnlyUser(){
     	List<User> users = new ArrayList<User>();
     	for(Access a : getDocAccessSet()){

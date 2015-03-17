@@ -19,9 +19,7 @@ public class BubbleDocs extends BubbleDocs_Base {
     }
     
     public static BubbleDocs getInstance(){
-    	System.out.println("Pre-contacto");
     	BubbleDocs bubble = FenixFramework.getDomainRoot().getBubbleDocs();
-    	System.out.println("Contactei fenix framework");
     	if(bubble==null)
     		bubble=new BubbleDocs();
     	
@@ -109,6 +107,17 @@ public class BubbleDocs extends BubbleDocs_Base {
     	User root=getUserByUserName("root");
     	newSpreadSheet.addDocAccess(new Access(root,0));
     	newSpreadSheet.addDocAccess(new Access(user, 1));
+    	addDocs(newSpreadSheet);
+    	
+    	set_entityId(get_entityId()+1); //Unique and sequential ID
+    }
+    
+    public void addSpreadSheet(SpreadSheet spreadsheet){
+    	spreadsheet.set_id(get_entityId());
+    	User root=getUserByUserName("root");
+    	spreadsheet.addDocAccess(new Access(root,0));
+    	spreadsheet.addDocAccess(new Access(spreadsheet.getOwner(), 1));
+    	addDocs(spreadsheet);
     	
     	set_entityId(get_entityId()+1); //Unique and sequential ID
     }

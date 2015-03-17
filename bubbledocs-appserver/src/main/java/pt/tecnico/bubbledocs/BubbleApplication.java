@@ -33,8 +33,7 @@ public class BubbleApplication {
 
 	   	try {
 		    tm.begin();
-		    BubbleDocs bd = BubbleDocs.getInstance();
-		    setupIfNeed(bd);
+		    BubbleDocs bd = populateDomain();
 	
 			//Write all registered users info
 			List<User> user_info_list = new ArrayList<User>(bd.getUsersSet());
@@ -75,13 +74,14 @@ public class BubbleApplication {
 			try {
 			
 				List<SpreadSheet> notas_es = bd.getSpreadSheetByName("Notas ES");
-				File file = new File("/tmp/pf_Notas_ES.txt");
-				FileWriter fw = new FileWriter(file.getAbsoluteFile());
-				BufferedWriter bw = new BufferedWriter(fw);
-		
+				File file = new File("C:\\Users\\JPZef\\Desktop\\esproj\\pf_Notas_ES.txt");
+				
 				if (!file.exists()) {
 					file.createNewFile();
 				}
+				
+				FileWriter fw = new FileWriter(file.getAbsoluteFile());
+				BufferedWriter bw = new BufferedWriter(fw);
 		
 				for (SpreadSheet s: notas_es)
 					bw.write(xml.outputString(s.exportToXML()));
@@ -107,14 +107,9 @@ public class BubbleApplication {
     	}
 		
 	}
-	
-    private static void setupIfNeed(BubbleDocs bd) {
-	if (!bd.hasSpreadSheet())
-	    populateDomain();
-    }
     
     @Atomic
-    static void populateDomain() {
+    static BubbleDocs populateDomain() {
     	
 		BubbleDocs bd = BubbleDocs.getInstance();
 
@@ -123,8 +118,9 @@ public class BubbleApplication {
 		User user2 = new User("ra","Step Rabbit","cor");
 		bd.addUser(user2);
 		
-		SpreadSheet sheet1 = new SpreadSheet(user1, sheetId, "Notas ES",null, 300,20);
-		//user1.addSheet(sheet1);
+		SpreadSheet sheet1 = new SpreadSheet(user1, "Notas ES",null, 300,20);
+
+		//FIXME
 		Content content1 = new Literal(5);
 		sheet1.addContent(content1,3,4);
 		Content content2 = new Reference(sheet1,5,6);
@@ -132,8 +128,11 @@ public class BubbleApplication {
 		Content content3 = new ADD(new Literal(2),new Reference(sheet1,3,4));
 		sheet1.addContent(content3,5,6);
 		Content content4 = new DIV(new Reference(sheet1,1,1),new Reference(sheet1,3,4));
-		sheet1.addContent(content4,2,2);    	
+		sheet1.addContent(content4,2,2);
+		
+		bd.addSpreadSheet(sheet1);
     	
+		return bd;
     /*	
 	PhoneBook pb = PhoneBook.getInstance();
 
