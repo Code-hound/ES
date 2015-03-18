@@ -12,6 +12,8 @@ hs_err_pid*
 target/
 target/*
 
+*_base.java
+
 .settings/
 .settings/*
 
