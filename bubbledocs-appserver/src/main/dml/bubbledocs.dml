@@ -10,6 +10,7 @@ enum Permission {
 */
 class BubbleDocs{
 	int _entityId;
+	int _nextSpreadSheetId;
 }
 
 class User {

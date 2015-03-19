@@ -1,9 +1,12 @@
 package pt.tecnico.bubbledocs.service;
 
+import pt.tecnico.bubbledocs.domain.User;
 
 public class CreateSpreadSheet extends BubbleDocsService {
 	
-	private int sheetId;  // id of the new sheet
+	//private int sheetId;  // id of the new sheet
+	//UNNECESSARY, SHEET ID IS HANDLED BY BUBBLEDOCS AT THE DOMAIN LEVEL
+	
 	private int numRows;
 	private int numColumns;
 	private String spreadsheetName;
@@ -14,11 +17,14 @@ public class CreateSpreadSheet extends BubbleDocsService {
 		this.numRows = rows;
 		this.numColumns = columns;
 		this.spreadsheetName = name;
-		this.userToken = userToken;
+		this.username = userToken;
 	}
 	
 	@Override
-    protected void dispatch(){
-	// add code here
-    }
+    protected void dispatch() {
+		User user = getUser(username);
+		if (user != null) {
+			getBubbleDocs().createSpreadSheet(user, spreadsheetName, numRows, numColumns);
+		}
+	}
 }

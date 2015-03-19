@@ -9,9 +9,10 @@ import org.jdom2.Element;
 public class SpreadSheet extends SpreadSheet_Base {
 
 	public SpreadSheet(User owner, int id, String name, int rows, int columns) {
-		setBubbleDocs(BubbleDocs.getInstance());
+		//setBubbleDocs(BubbleDocs.getInstance());
 		setOwner(owner);
 		set_id(id);
+			//BubbleDocs.getInstance().
 		set_spreadSheetName(name);
 		set_date(new LocalDate());
 		set_numberRows(rows);
@@ -21,7 +22,6 @@ public class SpreadSheet extends SpreadSheet_Base {
 				addCells(new Cell(row, column));
 			}
 		}
-
 	}
 
 	public SpreadSheet(User owner, String name, int rows,

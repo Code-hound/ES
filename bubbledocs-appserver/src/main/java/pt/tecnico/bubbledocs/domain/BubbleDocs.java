@@ -20,8 +20,10 @@ public class BubbleDocs extends BubbleDocs_Base {
     
     public static BubbleDocs getInstance(){
     	BubbleDocs bubble = FenixFramework.getDomainRoot().getBubbleDocs();
-    	if(bubble==null)
+    	if(bubble==null) {
     		bubble=new BubbleDocs();
+    		//bubble.
+    	}
     	
     	return bubble;
     }
@@ -103,23 +105,27 @@ public class BubbleDocs extends BubbleDocs_Base {
     }
     
     public void createSpreadSheet(User user,String sheetName,int rows,int columns){
-    	SpreadSheet newSpreadSheet = new SpreadSheet(user, get_entityId(), sheetName, rows, columns);
+    	SpreadSheet newSpreadSheet = new SpreadSheet(user, get_nextSpreadSheetId(), sheetName, rows, columns);
     	User root=getUserByUserName("root");
-    	newSpreadSheet.addDocAccess(new Access(root,0));
-    	newSpreadSheet.addDocAccess(new Access(user, 1));
-    	addDocs(newSpreadSheet);
-    	
-    	set_entityId(get_entityId()+1); //Unique and sequential ID
+    	if (newSpreadSheet != null) {
+    		newSpreadSheet.addDocAccess(new Access(root,0));
+    		newSpreadSheet.addDocAccess(new Access(user, 1));
+    		addDocs(newSpreadSheet);
+    		
+    		set_nextSpreadSheetId(get_nextSpreadSheetId() + 1);
+    		//set_entityId(get_entityId()+1); //Unique and sequential ID
+    	}
     }
     
     public void addSpreadSheet(SpreadSheet spreadsheet){
-    	spreadsheet.set_id(get_entityId());
+    	spreadsheet.set_id(get_nextSpreadSheetId());
     	User root=getUserByUserName("root");
     	spreadsheet.addDocAccess(new Access(root,0));
     	spreadsheet.addDocAccess(new Access(spreadsheet.getOwner(), 1));
     	addDocs(spreadsheet);
     	
-    	set_entityId(get_entityId()+1); //Unique and sequential ID
+    	set_nextSpreadSheetId(get_nextSpreadSheetId() + 1);
+    	//set_entityId(get_entityId()+1); //Unique and sequential ID
     }
 
     public String listSpreadSheetNameAndId(){
