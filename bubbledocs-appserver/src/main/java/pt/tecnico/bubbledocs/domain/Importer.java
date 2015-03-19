@@ -1,5 +1,8 @@
 package pt.tecnico.bubbledocs.domain;
 
+import org.jdom2.Element;
+import org.jdom2.DataConversionException;
+
 public class Importer {
 
   private User importToUser(Element element){
@@ -10,9 +13,10 @@ public class Importer {
       element.setAttribute("password", user.get_password());
       
       return element;*/
+      return null;
   }
 
-  private Spreadsheet importToSpreadsheet(Element element) {
+  private SpreadSheet importToSpreadsheet(Element element) {
       /*Element element = new Element("spreadsheet");
 
       element.setAttribute("id",      String.valueOf(get_id()));
@@ -25,28 +29,35 @@ public class Importer {
 	      element.addContent(exportToXML(cell));
 
       return element;*/
+      return null;
   }
 
     private Cell importToCell(Element element) {
+    /*
     	try {
-    	set_cellRow(cellElement.getAttribute("row").getIntValue());
-    	set_cellColumn(cellElement.getAttribute("column").getIntValue());
+    	set_cellRow(element.getAttribute("row").getIntValue());
+    	set_cellColumn(element.getAttribute("column").getIntValue());
 
-    	Element content = cellElement.getChild("content");
+    	Element content = element.getChild("content");
     	
     	
-    	set_protected(cellElement.getAttribute("protected").getBooleanValue());
+    	set_protected(element.getAttribute("protected").getBooleanValue());
     	} catch (DataConversionException e) { 
     		//throw new ImportDocumentException();
 	}
+*/
+      return null;
     }
   
     private Literal importToLiteral(Element element){
+    /*
     	try {
-			set_number(literalElement.getAttribute("number").getIntValue());
+			set_number(element.getAttribute("number").getIntValue());
 		} catch (DataConversionException e) {
 		//	throw new ImportDocumentException();
 		}
+*/
+      return null;
     }
   
     private Function importToFunction(Element element) {
@@ -60,7 +71,7 @@ public class Importer {
     	setContent(c1);
     	setContent(c2);
     	*/
-		
+      return null;
     }
   
     private Reference importToReference(Element element) {
@@ -72,17 +83,20 @@ public class Importer {
     	c.importFromXML(cell);
     	setCell(c);
     	*/
+      return null;
     }
     
     public Object importFromXML(Element e) {
-        switch (element.getTagName()) {
+        String classname = e.getName();
+
+        switch (classname) {
           case "user"       : return importToUser       (e);
 	  case "spreadsheet": return importToSpreadsheet(e);
 	  case "cell"       : return importToCell       (e);
 	  case "Literal"    : return importToLiteral    (e);
 	  case "Reference"  : return importToReference  (e);
 	  case "Function"   : return importToFunction   (e);
-	  case default      : return null;
+	  default           : return null;
 	}
     }
 }

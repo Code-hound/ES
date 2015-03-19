@@ -1,5 +1,8 @@
 package pt.tecnico.bubbledocs.domain;
 
+import org.jdom2.Element;
+import org.jdom2.DataConversionException;
+
 public class Exporter {
 
   public Element exportToXML(User user){
@@ -12,16 +15,16 @@ public class Exporter {
       return element;
   }
 
-  public Element exportToXML(Spreadsheet spreadsheet) {
+  public Element exportToXML(SpreadSheet spreadsheet) {
       Element element = new Element("spreadsheet");
 
-      element.setAttribute("id",      String.valueOf(get_id()));
-      element.setAttribute("name",    get_spreadSheetName());
-      element.setAttribute("date",    get_date().toString());
-      element.setAttribute("rows",    String.valueOf(get_numberRows()   ));
-      element.setAttribute("columns", String.valueOf(get_numberColumns()));
+      element.setAttribute("id",      String.valueOf(spreadsheet.get_id()));
+      element.setAttribute("name",    spreadsheet.get_spreadSheetName());
+      element.setAttribute("date",    spreadsheet.get_date().toString());
+      element.setAttribute("rows",    String.valueOf(spreadsheet.get_numberRows()   ));
+      element.setAttribute("columns", String.valueOf(spreadsheet.get_numberColumns()));
 
-      for(Cell cell : this.getCellsSet())
+      for(Cell cell : spreadsheet.getCellsSet())
 	      element.addContent(exportToXML(cell));
 
       return element;
@@ -29,7 +32,7 @@ public class Exporter {
 
   public Element exportToXML(Cell cell){
       Element element = new Element("cell");
-      Element content = exportToXML(cell.getContent())
+      Element content = exportToXML(cell.getContent());
 
       element.setAttribute("row"      , String.valueOf(cell.get_cellRow()   ));
       element.setAttribute("column"   , String.valueOf(cell.get_cellColumn()));
@@ -39,10 +42,20 @@ public class Exporter {
       return element;
   }
   
+  public Element exportToXML(Content content) {
+      if (content instanceof Literal)
+	      return exportToXML((Literal) content);
+      if (content instanceof Function)
+	      return exportToXML((Function) content);
+      if (content instanceof Reference)
+	      return exportToXML((Reference) content);
+      return null;
+  }
+  
   public Element exportToXML(Literal literal) {
       Element element = new Element("Literal");
 
-      element.setAttribute("number", String.valueOf(get_number()));
+      element.setAttribute("number", String.valueOf(literal.get_number()));
 
       return element;
   }
@@ -51,7 +64,7 @@ public class Exporter {
       String classname = function.getClass().getName();
       Element element = new Element(classname);
 
-      for(Content c: getArgsSet()){
+      for(Content c: function.getArgsSet()){
 	      element.addContent(c.exportToXML());
       }
 
@@ -61,8 +74,8 @@ public class Exporter {
   public Element exportToXML(Reference reference) {
       Element element = new Element("Reference");
 
-      element.setAttribute("row",    String.valueOf(reference.getCell().get_cellRow()   );
-      element.setAttribute("column", String.valueOf(reference.getCell().get_cellColumn());
+      element.setAttribute("row",    String.valueOf(reference.getCell().get_cellRow()   ));
+      element.setAttribute("column", String.valueOf(reference.getCell().get_cellColumn()));
 
       return element;
   }

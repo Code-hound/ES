@@ -1,63 +1,24 @@
 package pt.tecnico.bubbledocs;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.jdom2.output.XMLOutputter;
 
 import pt.ist.fenixframework.Atomic;
-import pt.tecnico.bubbledocs.domain.ADD;
-import pt.tecnico.bubbledocs.domain.BubbleDocs;
-import pt.tecnico.bubbledocs.domain.Content;
-import pt.tecnico.bubbledocs.domain.DIV;
-import pt.tecnico.bubbledocs.domain.Literal;
-import pt.tecnico.bubbledocs.domain.Reference;
-import pt.tecnico.bubbledocs.domain.SpreadSheet;
-import pt.tecnico.bubbledocs.domain.User;
+import pt.tecnico.bubbledocs.domain.*;
 
 public class BubbleApplication {
-	private static int sheetId = 1;
-
 	public static void main(String[] args) {
 		populateDomain();
-		writeUsers();
-		writeUserSheets();
-		writePfSheet();
-		removePfSheet();
+		//writeUsers();
+		//writeUserSheets();
+		//writePfSheet();
+		//removePfSheet();
 	}
-	
-	//@Atomic
-	//public static void doIt() {
-		//System.out.println("Welcome to the BubbleDocs application!");
-
-////		TransactionManager tm = FenixFramework.getTransactionManager();
-////	    boolean committed = false;
-////
-////	   	try {
-		    ////tm.begin();
-			
-
-////		    tm.commit();
-////		    committed = true;
-////		}catch (SystemException| NotSupportedException | RollbackException| HeuristicMixedException | HeuristicRollbackException ex) {
-////		    System.err.println("Error in execution of transaction: " + ex);
-////		} finally {
-////		    if (!committed) 
-////			try {
-////			    tm.rollback();
-////			} catch (SystemException ex) {
-////			    System.err.println("Error in roll back of transaction: " + ex);
-////			}
-////    	}*/
-////		
-	//}
     
-    @Atomic
-    static BubbleDocs populateDomain() {
+	@Atomic
+	static void populateDomain() {
     	
 		BubbleDocs bd = BubbleDocs.getInstance();
 
@@ -65,7 +26,7 @@ public class BubbleApplication {
 		bd.addUser(user1);
 		User user2 = new User("ra","Step Rabbit","cor");
 		bd.addUser(user2);
-		
+
 		SpreadSheet sheet1 = new SpreadSheet(user1, "Notas ES", 300,20);
 
 		Content content1 = new Literal(5);
@@ -79,12 +40,12 @@ public class BubbleApplication {
 		System.out.println(sheet1);
 		bd.addSpreadSheet(sheet1);
     	
-		return bd;
-    }
+		//return bd;
+	//}
     
-    @Atomic
-	static void writeUsers(){
-		BubbleDocs bd = BubbleDocs.getInstance();
+	//@Atomic
+	//static void writeUsers(){
+		//BubbleDocs bd = BubbleDocs.getInstance();
 
 		List<User> user_info_list = new ArrayList<User>(bd.getUsersSet());
 
@@ -92,11 +53,11 @@ public class BubbleApplication {
 		for (User u: bd.getUsersSet()){
 			System.out.println(u);}
 		System.out.println();
-	}
+	//}
 
-	@Atomic
-	static void writeUserSheets(){
-		BubbleDocs bd = BubbleDocs.getInstance();
+	//@Atomic
+	//static void writeUserSheets(){
+		//BubbleDocs bd = BubbleDocs.getInstance();
 		
 		List<SpreadSheet> spreadsheet_list_pf = bd.getSpreadSheetByName("pf");
 		List<SpreadSheet> spreadsheet_list_ra = bd.getSpreadSheetByName("ra");
@@ -110,30 +71,31 @@ public class BubbleApplication {
 		for (SpreadSheet s: spreadsheet_list_ra)
 			System.out.println(s.get_spreadSheetName());
 		System.out.println();
-	}
+	//}
 	
-	@Atomic
-	static void writePfSheet(){
+	//@Atomic
+	//static void writePfSheet(){
 		//Write pf spreadsheet xml
-		BubbleDocs bd = BubbleDocs.getInstance();
+		//BubbleDocs bd = BubbleDocs.getInstance();
 		XMLOutputter xml = new XMLOutputter();
 		
-		List<SpreadSheet> spreadsheet_list_pf = bd.getSpreadSheetByName("pf");
+		//List<SpreadSheet> spreadsheet_list_pf = bd.getSpreadSheetByName("pf");
 				
 		System.out.println("pf Spreadsheet XML:");
 		for (SpreadSheet s : spreadsheet_list_pf){
 			System.out.println(xml.outputString(s.exportToXML()));
 		}
 		System.out.println();
-	}
+	//}
 	
-	@Atomic
-	static void removePfSheet(){
-		BubbleDocs bd = BubbleDocs.getInstance();
-		XMLOutputter xml = new XMLOutputter();
+	//@Atomic
+	//static void removePfSheet(){
+		//BubbleDocs bd = BubbleDocs.getInstance();
+		//XMLOutputter xml = new XMLOutputter();
 		
 		List<SpreadSheet> notas_es = bd.getSpreadSheetByName("Notas ES");
 
+		System.out.println("pf Spreadsheet XML:");
 		for (SpreadSheet s : notas_es) {
 			System.out.println(xml.outputString(s.exportToXML()));
 		}
