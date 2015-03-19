@@ -8,6 +8,7 @@ public class Session extends Session_Base {
         super();
     }
     
+    /*
     public User checkUserLoggedIn(String userToken) throws UserNotLoggedInException{ //add LastAccess @ Session
     	UserLoggedIn uli = getUserLoggedInByToken(userToken);
     	
@@ -24,14 +25,18 @@ public class Session extends Session_Base {
     		uli.setLastAccess(currentAccess);
     	return uli.getUser();
     }
+    */
     
     public void logout(String userToken){
+    	/*
     	UserLoggedIn userLoggedIn = getUserLoggedInSet().stream();
 	    	.filter(uli.getUserToken().equals(userToken))
 	    	.findFirst().orElse(null);
 	    	
 	    if(userLoggedIn != null)
 	    	userLoggedIn.delete();
+	    	
+	    	*/
     }
     
 }
