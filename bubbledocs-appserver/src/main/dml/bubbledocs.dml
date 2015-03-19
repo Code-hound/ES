@@ -18,6 +18,11 @@ class User {
 	String _password;
 }
 
+class Session {
+	String userToken;
+	LocalTime LastAccess;
+}
+
 class SpreadSheet {
 	int _id;
 	String _spreadSheetName;
@@ -96,6 +101,15 @@ relation BubbleDocsContainsUser{
 	}
 
 }
+
+relation BubbleDocsContainsSession {
+	BubbleDocs playsRole bubbleDocs;
+	
+	Session playsRole sessions {
+		multiplicity 1..*;
+	}
+}
+
 /*
 relation SpreadSheetContainsUser{
 	SpreadSheet playsRole spreadSheet;
