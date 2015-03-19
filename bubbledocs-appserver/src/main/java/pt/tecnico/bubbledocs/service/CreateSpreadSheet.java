@@ -1,5 +1,6 @@
 package pt.tecnico.bubbledocs.service;
 
+
 public class CreateSpreadSheet extends BubbleDocsService {
 	
 	private int sheetId;  // id of the new sheet
@@ -14,7 +15,7 @@ public class CreateSpreadSheet extends BubbleDocsService {
     }
 
     @Override
-    protected void dispatch() throws BubbleDocsException {
+    protected void dispatch(){
 	// add code here
     }
 	
@@ -28,7 +29,7 @@ public class CreateSpreadSheet extends BubbleDocsService {
 	private String spreadsheetName;
 	private String username;
 	
-	public CreateSpreadSheetService (int numlines, int numRows, String spreadsheetName, String username) {
+	public CreateSpreadSheet (int numlines, int numRows, String spreadsheetName, String username) {
 		this.numLines = numLines;
 		this.numRows = numRows;
 		this.spreadsheetName = spreadsheetName;

@@ -15,5 +15,5 @@ public abstract class BubbleDocsService {
 		return BubbleDocs.getInstance();
 	}
 	
-	public abstract void dispatch() throws BubbleDocsException;
+	protected abstract void dispatch() throws BubbleDocsException;
 }
