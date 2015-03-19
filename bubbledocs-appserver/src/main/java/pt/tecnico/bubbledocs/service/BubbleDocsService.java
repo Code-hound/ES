@@ -3,7 +3,7 @@ package pt.tecnico.bubbledocs.service;
 import pt.tecnico.bubbledocs.domain.*;
 import pt.ist.fenixframework.Atomic;
 
-public abstract class BubbleDocsService {
+public abstract class BubbleDocsService throws BubbleDocsException {
 	
 	@Atomic
 	public final void execute () {
@@ -14,6 +14,6 @@ public abstract class BubbleDocsService {
 		return BubbleDocs.getInstance();
 	}
 	
-	public abstract void dispatch ();
+	public abstract void dispatch () throws BubbleDocsException;
 }
  
