@@ -1,6 +1,8 @@
 package pt.tecnico.bubbledocs.service;
 
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
+import pt.tecnico.bubbledocs.domain.User;
+import pt.tecnico.bubbledocs.domain.SpreadSheet;
 import pt.ist.fenixframework.Atomic;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 
@@ -13,6 +15,22 @@ public abstract class BubbleDocsService {
 	
 	public static BubbleDocs getBubbleDocs() {
 		return BubbleDocs.getInstance();
+	}
+	
+	public static User getUser (String username) {
+		User user = getBubbleDocs().getUserByUserName (username);
+		if (user == null) {
+			throw new BubbleDocsException();
+		}
+		return user;
+	}
+	
+	public static SpreadSheet getSpreadSheet (String sheetId) {
+		SpreadSheet sheet = getBubbleDocs().getSpreadSheetById(sheetId);
+		if (sheet == null) {
+			throw new BubbleDocsException();
+		}
+		return sheet;
 	}
 	
 	protected abstract void dispatch() throws BubbleDocsException;
