@@ -1,11 +1,10 @@
 package pt.tecnico.bubbledocs.domain;
 
 import org.jdom2.Element;
-import org.jdom2.DataConversionException;
 
 public class Importer {
 
-  private User importToUser(Element element){
+	public static void visit (User user, Element element){
       /*Element element = new Element("user");
 
       element.setAttribute("username", user.get_username());
@@ -13,10 +12,9 @@ public class Importer {
       element.setAttribute("password", user.get_password());
       
       return element;*/
-      return null;
   }
 
-  private SpreadSheet importToSpreadsheet(Element element) {
+	public static void visit (SpreadSheet spreadsheet, Element element) {
       /*Element element = new Element("spreadsheet");
 
       element.setAttribute("id",      String.valueOf(get_id()));
@@ -29,10 +27,9 @@ public class Importer {
 	      element.addContent(exportToXML(cell));
 
       return element;*/
-      return null;
   }
 
-    private Cell importToCell(Element element) {
+  public static void visit (Cell cell, Element element) {
     /*
     	try {
     	set_cellRow(element.getAttribute("row").getIntValue());
@@ -46,10 +43,9 @@ public class Importer {
     		//throw new ImportDocumentException();
 	}
 */
-      return null;
     }
   
-    private Literal importToLiteral(Element element){
+    public static void visit (Literal literal, Element element){
     /*
     	try {
 			set_number(element.getAttribute("number").getIntValue());
@@ -57,10 +53,9 @@ public class Importer {
 		//	throw new ImportDocumentException();
 		}
 */
-      return null;
     }
   
-    private Function importToFunction(Element element) {
+    public static void visit (Function function, Element element) {
     	/*
 		Element arg1 = contentElement.getChild("arg1");
 		Element arg2 = contentElement.getChild("arg2");
@@ -71,10 +66,9 @@ public class Importer {
     	setContent(c1);
     	setContent(c2);
     	*/
-      return null;
     }
   
-    private Reference importToReference(Element element) {
+    public static void visit (Reference reference, Element element) {
     	/*
     	Reference reference = new Reference();
     	
@@ -83,20 +77,12 @@ public class Importer {
     	c.importFromXML(cell);
     	setCell(c);
     	*/
-      return null;
     }
-    
-    public Object importFromXML(Element e) {
-        String classname = e.getName();
 
-        switch (classname) {
-          case "user"       : return importToUser       (e);
-	  case "spreadsheet": return importToSpreadsheet(e);
-	  case "cell"       : return importToCell       (e);
-	  case "Literal"    : return importToLiteral    (e);
-	  case "Reference"  : return importToReference  (e);
-	  case "Function"   : return importToFunction   (e);
-	  default           : return null;
-	}
-    }
+    public static void visit (ADD function, Element element) {}
+    public static void visit (SUB function, Element element) {}
+    public static void visit (MUL function, Element element) {}
+    public static void visit (DIV function, Element element) {}
+    public static void visit (AVG function, Element element) {}
+    public static void visit (PRD function, Element element) {}
 }

@@ -2,8 +2,6 @@
 package pt.tecnico.bubbledocs.domain;
 
 import org.jdom2.Element;
-import java.util.ArrayList;
-import java.util.List;
 
 public class User extends User_Base {
     
@@ -83,17 +81,7 @@ public class User extends User_Base {
     	}
     }
 
-    public String toString(){
-    	return "UserName: "+get_username() +" Name: "+get_name()+" Password: "+ get_password();
-    }
-   
-    public Element exportToXML(){
-    	Element element = new Element("user");
-    	element.setAttribute("username",get_username());
-    	element.setAttribute("name",get_name());
-    	element.setAttribute("password",get_password());
-    	
-    	return element;
-    }
-    
+	public void    importFromXML    (Element element) { Importer.visit (this, element)        ; }
+	public Element exportToXML      ()                { return Exporter.visit (this)          ; }
+    public String  toString         ()                { return Printer.visit  (this)          ; }
 }

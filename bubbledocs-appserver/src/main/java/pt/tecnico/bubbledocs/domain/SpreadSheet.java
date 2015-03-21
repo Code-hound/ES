@@ -3,8 +3,10 @@ package pt.tecnico.bubbledocs.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.LocalDate;
+
 import org.jdom2.Element;
+
+import org.joda.time.LocalDate;
 
 public class SpreadSheet extends SpreadSheet_Base {
 
@@ -95,18 +97,7 @@ public class SpreadSheet extends SpreadSheet_Base {
 		}
 		return description;
 	}
-
-	public Element exportToXML() {
-		Element element = new Element("spreadsheet");
-		element.setAttribute("id", "" + get_id());
-		element.setAttribute("name", get_spreadSheetName());
-		element.setAttribute("date", get_date().toString());
-		element.setAttribute("rows", String.valueOf(get_numberRows()));
-		element.setAttribute("columns", String.valueOf(get_numberColumns()));
-		for(Cell cell : this.getCellsSet())
-			element.addContent(cell.exportToXML());
-		
-		return element;
-	}
-
+	
+	public void    importFromXML    (Element element) { Importer.visit (this, element)        ; }
+	public Element exportToXML      ()                { return Exporter.visit (this)          ; }
 }

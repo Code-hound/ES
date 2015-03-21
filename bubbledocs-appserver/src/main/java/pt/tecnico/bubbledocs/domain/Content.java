@@ -7,11 +7,9 @@ public abstract class Content extends Content_Base {
     public Content() {
         super();
     }
-    
-    public abstract int getContentValue();
-    
-    public abstract Element exportToXML();
-    
-    public abstract void importFromXML(Element contentElement);
-    
+
+	public abstract int     getContentValue  ()                ;
+	public abstract void    importFromXML    (Element element) ;
+	public abstract Element exportToXML      ()                ;
+    public abstract String  toString         ()                ;  
 }

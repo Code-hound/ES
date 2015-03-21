@@ -8,25 +8,9 @@ public class MUL extends MUL_Base {
         super();
         init(c1, c2);
     }
-    public int getContentValue(){
-    	int value=1;
-    	for(Content c : getArgsSet()){
-    		value*=c.getContentValue();
-    	}
-    	return value;
-    }
-    
-    public String toString(){
-    	String s= "MUL";
-    	return s + super.toString();
-    	
-    }
-    
-    public Element exportToXML() {
-    	Element element = new Element("MUL");
-    	for(Content c: getArgsSet()){
-    		element.addContent(c.exportToXML());
-    	}
-    	return element;
-    }
+
+    public int     getContentValue  ()                { return Getter.visit   (this)          ; }
+	public void    importFromXML    (Element element) { Importer.visit (this, element)        ; }
+	public Element exportToXML      ()                { return Exporter.visit (this)          ; }
+    public String  toString         ()                { return Printer.visit  (this)          ; }
 }

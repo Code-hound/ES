@@ -19,36 +19,8 @@ public class Reference extends Reference_Base {
     	}
     }
     
-    public int getContentValue(){
-    	Cell c = getCell();
-    	Content cont= c.getContent();
-    	return cont.getContentValue();
-    }
-    
-    public String toString(){
-    	String s="";
-    	Cell c = getCell();
-    	
-    	s+=c.get_cellRow();
-    	s+=";";
-    	s+=c.get_cellColumn();
-    	return s;
-    }
-    
-    public Element exportToXML() {
-    	Element element = new Element("Reference");
-    	element.setAttribute("row", "" + getCell().get_cellRow());
-    	element.setAttribute("column", "" + getCell().get_cellColumn());
-
-    	return element;
-    }
-    
-    public void importFromXML(Element contentElement) {
-    	/*
-    	Element cell = contentElement.getChild("cell");
-    	Cell c= new Cell();
-    	c.importFromXML(cell);
-    	setCell(c);
-    	*/
-    }
+    public int     getContentValue  ()                { return Getter.visit   (this)          ; }
+	public void    importFromXML    (Element element) { Importer.visit (this, element)        ; }
+	public Element exportToXML      ()                { return Exporter.visit (this)          ; }
+    public String  toString         ()                { return Printer.visit  (this)          ; }
 }

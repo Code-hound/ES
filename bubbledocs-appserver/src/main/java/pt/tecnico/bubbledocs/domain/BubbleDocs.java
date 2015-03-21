@@ -3,9 +3,6 @@ package pt.tecnico.bubbledocs.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jdom2.Content;
-import org.jdom2.Content.CType;
-import org.jdom2.DataConversionException;
 import org.jdom2.Element;
 import org.joda.time.LocalDate;
 
@@ -169,7 +166,7 @@ public class BubbleDocs extends BubbleDocs_Base {
 
     public Element exportSpreadSheetToXML(String sheetName, LocalDate date){
     	//try{
-    	return getSpreadSheetByNameAndDate(sheetName, date).exportToXML();
+    	return Exporter.visit(getSpreadSheetByNameAndDate(sheetName, date));
     	//}catch(Exception e){throw new NonExistingSpreadSheetException(name, date);}
     }
 

@@ -12,29 +12,8 @@ public class SUB extends SUB_Base {
     init(c1,c2);
     }
     
-    public int getContentValue(){
-    	Content contents[]=new Content[2];
-    	
-    	getArgsSet().toArray(contents);
-    	
-    	return	contents[0].getContentValue() - 
-    			contents[1].getContentValue();
-    }
-    
-    
-    public String toString(){
-    	String s= "SUB";
-
-    	return s+super.toString();
-    	
-    }
-    
-    @Override
-    public Element exportToXML() {
-    	Element element = new Element("SUB");
-    	for(Content c: getArgsSet()){
-    		element.addContent(c.exportToXML());
-    	}
-    	return element;
-    }
+    public int     getContentValue  ()                { return Getter.visit   (this)          ; }
+	public void    importFromXML    (Element element) { Importer.visit (this, element)        ; }
+	public Element exportToXML      ()                { return Exporter.visit (this)          ; }
+    public String  toString         ()                { return Printer.visit  (this)          ; }
 }

@@ -9,23 +9,8 @@ public class AVG extends AVG_Base {
         init(r1,r2);
     }
     
-    public int getContentValue(){
-    	int value=0;
-    	//FIX ME
-    	return value;
-    }
-    
-    public String toString(){
-    	String s= "AVG";
-    	return s + super.toString();
-    	
-    }
-    
-    public Element exportToXML() {
-    	Element element = new Element("AVG");
-    	for(Content c: getArgsSet()){
-    		element.addContent(c.exportToXML());
-    	}
-    	return element;
-    }
+    public int     getContentValue  ()                { return Getter.visit   (this)          ; }
+	public void    importFromXML    (Element element) { Importer.visit (this, element)        ; }
+	public Element exportToXML      ()                { return Exporter.visit (this)          ; }
+    public String  toString         ()                { return Printer.visit  (this)          ; }
 }

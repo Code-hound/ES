@@ -9,24 +9,8 @@ public class ADD extends ADD_Base {
         init(c1,c2);
     }
     
-    public int getContentValue(){
-    	int value=0;
-    	for(Content c : getArgsSet()){
-    		value+=c.getContentValue();
-    	}
-    	return value;
-    }
-    public String toString(){
-    	String s= "ADD";
-    	return s + super.toString();
-    	
-    }
-    
-    public Element exportToXML() {
-    	Element element = new Element("ADD");
-    	for(Content c: getArgsSet()){
-    		element.addContent(c.exportToXML());
-    	}
-    	return element;
-    }
+    public int     getContentValue  ()                { return Getter.visit   (this)          ; }
+	public void    importFromXML    (Element element) { Importer.visit (this, element)        ; }
+	public Element exportToXML      ()                { return Exporter.visit (this)          ; }
+    public String  toString         ()                { return Printer.visit  (this)          ; }
 }

@@ -1,6 +1,5 @@
 package pt.tecnico.bubbledocs;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jdom2.output.XMLOutputter;
@@ -47,7 +46,7 @@ public class BubbleApplication {
 	//static void writeUsers(){
 		//BubbleDocs bd = BubbleDocs.getInstance();
 
-		List<User> user_info_list = new ArrayList<User>(bd.getUsersSet());
+		//List<User> user_info_list = new ArrayList<User>(bd.getUsersSet());
 
 		System.out.println("Users Info:" + bd.getUsersSet().size());
 		for (User u: bd.getUsersSet()){
@@ -83,7 +82,7 @@ public class BubbleApplication {
 				
 		System.out.println("pf Spreadsheet XML:");
 		for (SpreadSheet s : spreadsheet_list_pf){
-			System.out.println(xml.outputString(s.exportToXML()));
+			System.out.println(xml.outputString(Exporter.exportToXML(s)));
 		}
 		System.out.println();
 	//}
@@ -97,7 +96,7 @@ public class BubbleApplication {
 
 		System.out.println("pf Spreadsheet XML:");
 		for (SpreadSheet s : notas_es) {
-			System.out.println(xml.outputString(s.exportToXML()));
+			System.out.println(xml.outputString(Exporter.exportToXML(s)));
 		}
 
 	

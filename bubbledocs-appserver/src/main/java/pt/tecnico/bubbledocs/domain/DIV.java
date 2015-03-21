@@ -9,31 +9,8 @@ public class DIV extends DIV_Base {
         init(c1,c2);
     }
     
-    public int getContentValue(){
-    	Content contents[]=new Content[2];
-    	
-    	getArgsSet().toArray(contents);
-    	
-    	/*if(contents[1].getContentValue()==0){
-    	 * throw new DivisionByZeroException();
-    	 * }
-    	 * */
-    	
-    	return	contents[0].getContentValue() - 
-    			contents[1].getContentValue();
-    }
-    
-    public String toString(){
-    	String s= "DIV";
-    	return s+super.toString();
-    	
-    }
-    
-    public Element exportToXML() {
-    	Element element = new Element("DIV");
-    	for(Content c: getArgsSet()){
-    		element.addContent(c.exportToXML());
-    	}
-    	return element;
-    }
+    public int     getContentValue  ()                { return Getter.visit   (this)          ; }
+	public void    importFromXML    (Element element) { Importer.visit (this, element)        ; }
+	public Element exportToXML      ()                { return Exporter.visit (this)          ; }
+    public String  toString         ()                { return Printer.visit  (this)          ; }
 }
