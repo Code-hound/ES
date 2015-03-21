@@ -9,8 +9,7 @@ enum Permission {
 }
 */
 class BubbleDocs{
-	int _entityId;
-	int _nextSpreadSheetId;
+	int _nextDocumentId;
 }
 
 class User {

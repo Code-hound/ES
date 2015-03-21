@@ -105,26 +105,26 @@ public class BubbleDocs extends BubbleDocs_Base {
     }
     
     public void createSpreadSheet(User user,String sheetName,int rows,int columns){
-    	SpreadSheet newSpreadSheet = new SpreadSheet(user, get_nextSpreadSheetId(), sheetName, rows, columns);
+    	SpreadSheet newSpreadSheet = new SpreadSheet(user, get_nextDocumentId(), sheetName, rows, columns);
     	User root=getUserByUserName("root");
     	if (newSpreadSheet != null) {
     		newSpreadSheet.addDocAccess(new Access(root,0));
     		newSpreadSheet.addDocAccess(new Access(user, 1));
     		addDocs(newSpreadSheet);
     		
-    		set_nextSpreadSheetId(get_nextSpreadSheetId() + 1);
+    		set_nextDocumentId(get_nextDocumentId() + 1);
     		//set_entityId(get_entityId()+1); //Unique and sequential ID
     	}
     }
     
     public void addSpreadSheet(SpreadSheet spreadsheet){
-    	spreadsheet.set_id(get_nextSpreadSheetId());
+    	spreadsheet.set_id(get_nextDocumentId());
     	User root=getUserByUserName("root");
     	spreadsheet.addDocAccess(new Access(root,0));
     	spreadsheet.addDocAccess(new Access(spreadsheet.getOwner(), 1));
     	addDocs(spreadsheet);
     	
-    	set_nextSpreadSheetId(get_nextSpreadSheetId() + 1);
+    	set_nextDocumentId(get_nextDocumentId() + 1);
     	//set_entityId(get_entityId()+1); //Unique and sequential ID
     }
 
