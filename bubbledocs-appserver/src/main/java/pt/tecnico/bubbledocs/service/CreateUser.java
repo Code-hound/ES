@@ -1,6 +1,9 @@
 package pt.tecnico.bubbledocs.service;
 
-// add needed import declarations
+// the needed import declarations
+
+import pt.tecnico.bubbledocs.domain.User;
+import pt.tecnico.bubbledocs.exception.UserDoesNotExistException;
 
 public class CreateUser extends BubbleDocsService {
 
