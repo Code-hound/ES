@@ -4,6 +4,7 @@ package pt.tecnico.bubbledocs.service;
 
 import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.exception.UserDoesNotExistException;
+import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 
 public class CreateUser extends BubbleDocsService {
 	
@@ -16,7 +17,7 @@ public class CreateUser extends BubbleDocsService {
             String password, String name) {
     	// add code here
     	this.userToken = userToken;
-    	this.newUsername = newUserName;
+    	this.newUsername = newUsername;
     	this.password = password;
     	this.name = name;
     }
@@ -24,6 +25,6 @@ public class CreateUser extends BubbleDocsService {
     @Override
     protected void dispatch() throws BubbleDocsException {
     	// add code here
-    	getBubbleDocs().addUser(new User(newUserName, name, password));
+    	getBubbleDocs().addUser(new User(newUsername, name, password));
     }
 }

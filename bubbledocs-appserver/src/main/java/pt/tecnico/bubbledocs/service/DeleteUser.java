@@ -4,6 +4,7 @@ package pt.tecnico.bubbledocs.service;
 
 import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.exception.UserDoesNotExistException;
+import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 
 public class DeleteUser extends BubbleDocsService {
 	
@@ -13,21 +14,23 @@ public class DeleteUser extends BubbleDocsService {
     public DeleteUser(String userToken, String toDeleteUsername) {
     	// add code here
     	this.userToken = userToken;
-    	this.toDeleteUserName = toDeleteUserName;
+    	this.toDeleteUsername = toDeleteUsername;
     }
 
     @Override
     protected void dispatch() throws BubbleDocsException {
     	// add code here
-    	User u = getUser(userToken);
-    	User tdun = user.getUser(toDeleteUserName);
+    	//User u = get_username(userToken); 			<--TODO
+    	//User tdun = u.get_username(toDeleteUsername); <--TODO
     	
+    	/*
     	if(tdun == null)
     	{
     		throw new UserDoesNotExistException(this.toDeleteUsername);
     	}
+    	*/
     	
-    	tdun.delete();
+    	//tdun.delete(); TODO
     }
 
 }
