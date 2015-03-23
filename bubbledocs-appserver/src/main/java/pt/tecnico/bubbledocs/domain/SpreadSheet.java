@@ -68,6 +68,7 @@ public class SpreadSheet extends SpreadSheet_Base {
 				// try{
 				cell.setContent(c);
 				// }catch(ProtectedCellException e)
+				break;
 			}
 		}
 	}
@@ -78,6 +79,7 @@ public class SpreadSheet extends SpreadSheet_Base {
 				// try{
 				cell.setContent(null);
 				// }catch(ProtectedCellException e)
+				break;
 			}
 		}
 	}
@@ -100,4 +102,5 @@ public class SpreadSheet extends SpreadSheet_Base {
 	
 	public void    importFromXML    (Element element) { Importer.visit (this, element)        ; }
 	public Element exportToXML      ()                { return Exporter.visit (this)          ; }
+    public String  toString         ()                { return Printer.visit  (this)          ; }
 }
