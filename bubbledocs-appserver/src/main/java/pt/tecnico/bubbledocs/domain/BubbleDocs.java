@@ -12,6 +12,7 @@ public class BubbleDocs extends BubbleDocs_Base {
     
     private BubbleDocs() {
         super();
+        set_nextDocumentId(0);
         addUsers(new User("root", "root", "rootroot"));
     }
     
