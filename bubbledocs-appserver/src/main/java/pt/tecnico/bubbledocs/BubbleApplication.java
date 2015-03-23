@@ -20,6 +20,7 @@ public class BubbleApplication {
 	static void populateDomain() {
     	
 		BubbleDocs bd = BubbleDocs.getInstance();
+		XMLOutputter xml = new XMLOutputter();
 
 		User user1 = new User("pf","Paul Door","sub");
 		bd.addUser(user1);
@@ -27,6 +28,8 @@ public class BubbleApplication {
 		bd.addUser(user2);
 
 		SpreadSheet sheet1 = new SpreadSheet(user1, "Notas ES", 300,20);
+
+		System.out.println(sheet1);
 
 		Content content1 = new Literal(5);
 		sheet1.addContent(content1,3,4);
@@ -36,7 +39,10 @@ public class BubbleApplication {
 		sheet1.addContent(content3,5,6);
 		Content content4 = new DIV(new Reference(sheet1,1,1),new Reference(sheet1,3,4));
 		sheet1.addContent(content4,2,2);
-		System.out.println(sheet1);
+
+		System.out.println(sheet1);		
+		System.out.println(xml.outputString(sheet1.exportToXML()));
+
 		bd.addSpreadSheet(sheet1);
     	
 		//return bd;
@@ -76,13 +82,13 @@ public class BubbleApplication {
 	//static void writePfSheet(){
 		//Write pf spreadsheet xml
 		//BubbleDocs bd = BubbleDocs.getInstance();
-		XMLOutputter xml = new XMLOutputter();
+		
 		
 		//List<SpreadSheet> spreadsheet_list_pf = bd.getSpreadSheetByName("pf");
 				
 		System.out.println("pf Spreadsheet XML:");
 		for (SpreadSheet s : spreadsheet_list_pf){
-			System.out.println(xml.outputString(Exporter.exportToXML(s)));
+			System.out.println(xml.outputString(s.exportToXML()));
 		}
 		System.out.println();
 	//}
@@ -96,9 +102,8 @@ public class BubbleApplication {
 
 		System.out.println("pf Spreadsheet XML:");
 		for (SpreadSheet s : notas_es) {
-			System.out.println(xml.outputString(Exporter.exportToXML(s)));
+			System.out.println(xml.outputString(s.exportToXML()));
 		}
-
 	
 		bd.removeSpreadSheetByOwner("pf", "Notas ES");		
 	}
