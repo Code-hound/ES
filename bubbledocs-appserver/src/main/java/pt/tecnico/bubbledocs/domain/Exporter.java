@@ -1,82 +1,111 @@
 package pt.tecnico.bubbledocs.domain;
 
 import org.jdom2.Element;
+import org.jdom2.output.XMLOutputter;
 
 public class Exporter {
 
-	public static Element visit(User user){
-      Element element = new Element("user");
-
-      element.setAttribute("username", user.get_username());
-      element.setAttribute("name"    , user.get_name()    );
-      element.setAttribute("password", user.get_password());
-      
-      return element;
-  }
-
-  public static Element visit(SpreadSheet spreadsheet) {
-      Element element = new Element("spreadsheet");
-
-      System.out.println("locate");
-
-      element.setAttribute("id",      String.valueOf(spreadsheet.get_id()));
-      element.setAttribute("name",    spreadsheet.get_spreadSheetName());
-      element.setAttribute("date",    spreadsheet.get_date().toString());
-      element.setAttribute("rows",    String.valueOf(spreadsheet.get_numberRows()   ));
-      element.setAttribute("columns", String.valueOf(spreadsheet.get_numberColumns()));
-
-      for(Cell cell : spreadsheet.getCellsSet())
-	      element.addContent(cell.exportToXML());
-
-      return element;
-  }
-
-  public static Element visit(Cell cell){
-      Element element = new Element("cell");
-      Element content = cell.getContent().exportToXML();
-
-      element.setAttribute("row"      , String.valueOf(cell.get_cellRow()   ));
-      element.setAttribute("column"   , String.valueOf(cell.get_cellColumn()));
-      element.setAttribute("protected", String.valueOf(cell.get_protected() ));
-      element.addContent(content);
-
-      return element;
-  }
-  
-  public static Element visit(Content content) {
-      if (content instanceof Literal)
-	      return visit((Literal) content);
-      if (content instanceof Function)
-	      return visit((Function) content);
-      if (content instanceof Reference)
-	      return visit((Reference) content);
-      return null;
-  }
-  
-  public static Element visit(Literal literal) {
-      Element element = new Element("Literal");
-
-      element.setAttribute("number", String.valueOf(literal.get_number()));
-
-      return element;
-  }
-  
-  public static Element visit(Function function) {
-      String classname = function.getClass().getName();
+	public static Element visit(User type){
+      String classname = type.getClass().getName();
       Element element = new Element(classname);
 
-      for(Content c: function.getArgsSet()){
-	      element.addContent(c.exportToXML());
-      }
+      element.setAttribute("username", type.get_username());
+      element.setAttribute("name"    , type.get_name()    );
+      element.setAttribute("password", type.get_password());
+
+      XMLOutputter xml = new XMLOutputter();
+      System.out.println("USER");
+      System.out.println(xml.outputString(element) + "\n");
+
+      return element;
+  }
+
+  public static Element visit(SpreadSheet type) {
+      String classname = type.getClass().getName();
+      Element element = new Element(classname);
+
+      element.setAttribute("id",      String.valueOf(type.get_id()));
+      element.setAttribute("name",    type.get_spreadSheetName());
+      element.setAttribute("date",    type.get_date().toString());
+      element.setAttribute("rows",    String.valueOf(type.get_numberRows()   ));
+      element.setAttribute("columns", String.valueOf(type.get_numberColumns()));
+
+      XMLOutputter xml = new XMLOutputter();
+      System.out.println("SPREADSHEET 1");
+      System.out.println(xml.outputString(element) + "\n");
+
+      for(Cell c : type.getCellsSet())
+	      if(c.getContent() != null)
+	           element.addContent(c.exportToXML());
+
+      System.out.println("SPREADSHEET 2");
+      System.out.println(xml.outputString(element) + "\n");
+
+      return element;
+  }
+
+  public static Element visit(Cell type){
+      String classname = type.getClass().getName();
+      Element element = new Element(classname);
+
+      element.setAttribute("row"      , String.valueOf(type.get_cellRow()   ));
+      element.setAttribute("column"   , String.valueOf(type.get_cellColumn()));
+      element.setAttribute("protected", String.valueOf(type.get_protected() ));
+
+      XMLOutputter xml = new XMLOutputter();
+      System.out.println("CELL 1");
+      System.out.println(xml.outputString(element) + "\n");
+
+      Element c = type.getContent().exportToXML();
+      element.addContent(c);
+
+      System.out.println("CELL 2");
+      System.out.println(xml.outputString(element) + "\n");
 
       return element;
   }
   
-  public static Element visit(Reference reference) {
-      Element element = new Element("Reference");
+  public static Element visit(Function type) {
+      String classname = type.getClass().getName();
+      Element element = new Element(classname);
 
-      element.setAttribute("row",    String.valueOf(reference.getCell().get_cellRow()   ));
-      element.setAttribute("column", String.valueOf(reference.getCell().get_cellColumn()));
+      XMLOutputter xml = new XMLOutputter();
+      System.out.println("FUNCTION 1");
+      System.out.println(xml.outputString(element) + "\n");
+
+      for(Content c: type.getArgsSet())
+		  if(c != null)
+	          element.addContent(c.exportToXML());
+
+      System.out.println("FUNCTION 2");
+      System.out.println(xml.outputString(element) + "\n");
+
+      return element;
+  }
+
+  public static Element visit(Literal type) {
+      String classname = type.getClass().getName();
+      Element element = new Element(classname);
+
+      element.setAttribute("number", String.valueOf(type.get_number()));
+
+      XMLOutputter xml = new XMLOutputter();
+      System.out.println("LITERAL");
+      System.out.println(xml.outputString(element) + "\n");
+
+      return element;
+  }
+
+  public static Element visit(Reference type) {
+      String classname = type.getClass().getName();
+      Element element = new Element(classname);
+
+      element.setAttribute("row",    String.valueOf(type.getCell().get_cellRow()   ));
+      element.setAttribute("column", String.valueOf(type.getCell().get_cellColumn()));
+
+      XMLOutputter xml = new XMLOutputter();
+      System.out.println("REFERENCE");
+      System.out.println(xml.outputString(element) + "\n");
 
       return element;
   }

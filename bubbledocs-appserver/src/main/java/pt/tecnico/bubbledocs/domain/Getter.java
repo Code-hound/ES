@@ -1,4 +1,6 @@
- package pt.tecnico.bubbledocs.domain;
+package pt.tecnico.bubbledocs.domain;
+
+import java.util.*;
 
 public class Getter{
 	public static int visit (Cell cell) {
@@ -18,42 +20,33 @@ public class Getter{
 		return cont.getContentValue();
 	}
 
-	public static int visit (ADD function) {
-		int value=0;
-		for(Content c : function.getArgsSet()){
-			value+=c.getContentValue();
+	private static int apply (String op, Iterator<Content> contents) {
+		int a = contents.next().getContentValue();
+		contents.remove();
+
+		if (!contents.hasNext())
+			return a;
+
+		int b = apply(op, contents);
+		switch(op) {
+			case "+" : return a+b;
+			case "-" : return a-b;
+			case "*" : return a*b;
+			case "/" : if (b == 0)
+                          return 0;
+			           return a/b;
+			default:   return 0;
 		}
-		return value;
 	}
 
-	public static int visit (SUB function) {
-		Content contents[]=new Content[2];
-
-		function.getArgsSet().toArray(contents);
-
-		return	contents[0].getContentValue() - contents[1].getContentValue();
-	}
-
-	public static int visit (MUL function) {
-		int value=1;
-		for(Content c : function.getArgsSet()){
-			value*=c.getContentValue();
-		}
-		return value;
+	private static int visit (BinaryFunction function, String op) {
+		return	apply(op, function.getArgsSet().iterator());
 	} 
 
-	public static int visit (DIV function) {
-		Content contents[]=new Content[2];
-
-		function.getArgsSet().toArray(contents);
-
-		/*if(contents[1].getContentValue()==0){
-		* throw new DivisionByZeroException();
-		* }
-		* */
-
-		return	contents[0].getContentValue() - contents[1].getContentValue();
-	}
+	public static int visit (ADD function) { return	visit(function, "+"); }
+	public static int visit (SUB function) { return	visit(function, "-"); }
+	public static int visit (MUL function) { return	visit(function, "*"); }
+	public static int visit (DIV function) { return	visit(function, "/"); }
 
 	public static int visit (AVG function) {
 		int value=0;
