@@ -112,17 +112,10 @@ relation BubbleDocsContainsSession {
 	}
 }
 
-/*
-relation SpreadSheetContainsUser{
-	SpreadSheet playsRole spreadSheet;
-	User playsRole creator{
-		multiplicity 1;
-	}
-}*/
-
-
 relation AccessContainsUser {
-	Access playsRole access;
+	Access playsRole access {
+		multiplicity 0..*;
+	}
 	
 	User playsRole user {
 		multiplicity 1;
@@ -151,8 +144,10 @@ relation CellContainsContent {
 }
 
 relation ReferenceContainsCell {
-	Reference playsRole reference;
-	Cell playsRole cell_reference{
+	Reference playsRole reference {
+		multiplicity 0..*;
+	}
+	Cell playsRole cell_reference {
 		multiplicity 1;
 	}
 }
@@ -173,7 +168,7 @@ relation RangedFunctionContainsContent {
 
 relation RangedFunctionContainsSpreadSheet {
 	RangedFunction playsRole function;
-	SpreadSheet playsRole spreadSheet{
+	SpreadSheet playsRole spreadSheet {
 		multiplicity 1;
 	}
 }
