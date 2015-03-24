@@ -2,9 +2,9 @@ package pt.tecnico.bubbledocs.domain;
 
 import org.jdom2.Element;
 
-public abstract class Content extends Content_Base {
+public abstract class FunctionArguments extends FunctionArguments_Base {
 	
-    public Content() {
+    public FunctionArguments() {
         super();
     }
 

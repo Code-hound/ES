@@ -4,13 +4,15 @@ import org.jdom2.Element;
 
 public class ADD extends ADD_Base {
     
-    public ADD(Content c1,Content c2) {
+    public ADD (FunctionArguments arg1, FunctionArguments arg2) {
         super();
-        init(c1,c2);
+    	addArgs(arg1);
+    	addArgs(arg2);
     }
-    
-    public int     getContentValue  ()                { return Getter.visit   (this)          ; }
-	public void    importFromXML    (Element element) { Importer.visit (this, element)        ; }
-	public Element exportToXML      ()                { return Exporter.visit (this)          ; }
-    public String  toString         ()                { return Printer.visit  (this)          ; }
+
+	public void    importFromXML    (Element element) { Importer.visit (this, element) ; }
+	public Element exportToXML      ()                { return Exporter.visit (this)   ; }
+    public String  toString         ()                { return Printer.visit  (this)   ; }
+
+    public int     getContentValue  ()                { return Getter.visit   (this)   ; }
 }

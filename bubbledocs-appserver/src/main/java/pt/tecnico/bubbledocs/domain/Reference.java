@@ -19,8 +19,9 @@ public class Reference extends Reference_Base {
     	}
     }
     
-    public int     getContentValue  ()                { return Getter.visit   (this)          ; }
 	public void    importFromXML    (Element element) { Importer.visit (this, element)        ; }
 	public Element exportToXML      ()                { return Exporter.visit (this)          ; }
     public String  toString         ()                { return Printer.visit  (this)          ; }
+
+    public int     getContentValue  ()                { return Getter.visit   (this)          ; }
 }

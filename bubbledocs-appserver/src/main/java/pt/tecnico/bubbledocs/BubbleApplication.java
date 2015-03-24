@@ -64,8 +64,8 @@ public class BubbleApplication {
 	//static void writeUserSheets(){
 		//BubbleDocs bd = BubbleDocs.getInstance();
 		
-		List<SpreadSheet> spreadsheet_list_pf = bd.getSpreadSheetByName("pf");
-		List<SpreadSheet> spreadsheet_list_ra = bd.getSpreadSheetByName("ra");
+		List<SpreadSheet> spreadsheet_list_pf = bd.getSpreadSheetByOwner("pf");
+		List<SpreadSheet> spreadsheet_list_ra = bd.getSpreadSheetByOwner("ra");
 		
 		System.out.println("pf Spreadsheet Names:");
 		for (SpreadSheet s: spreadsheet_list_pf)
@@ -104,7 +104,10 @@ public class BubbleApplication {
 		for (SpreadSheet s : notas_es) {
 			System.out.println(xml.outputString(s.exportToXML()));
 		}
+		System.out.println();
 	
-		bd.removeSpreadSheetByOwner("pf", "Notas ES");		
+		bd.removeSpreadSheetByOwner("pf", "Notas ES");
+		
+		System.exit(0);	
 	}
 }

@@ -44,11 +44,13 @@ class Cell {
 
 class Content;
 
-class Literal extends Content {
+class FunctionArguments extends Content;
+
+class Literal extends FunctionArguments {
 	int _number;
 }
 
-class Reference extends Content;
+class Reference extends FunctionArguments;
 
 class Function extends Content;
 
@@ -155,10 +157,23 @@ relation ReferenceContainsCell {
 	}
 }
 
-relation FunctionContainsContent {
-	Function playsRole function;
-	Content playsRole args{
+relation BinaryFunctionContainsContent {
+	BinaryFunction playsRole binaryFunction;
+	FunctionArguments playsRole args{
 		multiplicity 2;
 	}
 }
 
+relation RangedFunctionContainsContent {
+	RangedFunction playsRole rangedFunction;
+	Reference playsRole args{
+		multiplicity 2;
+	}
+}
+
+relation RangedFunctionContainsSpreadSheet {
+	RangedFunction playsRole function;
+	SpreadSheet playsRole spreadSheet{
+		multiplicity 1;
+	}
+}

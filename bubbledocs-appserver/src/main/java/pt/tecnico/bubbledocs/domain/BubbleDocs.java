@@ -93,6 +93,17 @@ public class BubbleDocs extends BubbleDocs_Base {
     	}
     	return list;
     }
+
+    public List<SpreadSheet> getSpreadSheetByOwner(String userName){
+    	List<SpreadSheet> list=new ArrayList<SpreadSheet>();
+    	for(SpreadSheet s : getDocsSet()){
+    		String s_name=s.getOwner().get_username();
+    		if(s_name.equals(userName)){
+    			list.add(s);
+    		}
+    	}
+    	return list;
+    }
     
     public SpreadSheet getSpreadSheetByNameAndDate(String sheetName,LocalDate date){
     	for(SpreadSheet s:getDocsSet()){
