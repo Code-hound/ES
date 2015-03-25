@@ -116,15 +116,7 @@ relation AccessContainsUser {
 	Access playsRole access {
 		multiplicity 0..*;
 	}
-	
 	User playsRole user {
-		multiplicity 1;
-	}
-}
-
-relation SpreadSheetContainsUser{
-	SpreadSheet playsRole document;
-	User playsRole owner{
 		multiplicity 1;
 	}
 }
@@ -147,7 +139,7 @@ relation ReferenceContainsCell {
 	Reference playsRole reference {
 		multiplicity 0..*;
 	}
-	Cell playsRole cell_reference {
+	Cell playsRole cell {
 		multiplicity 1;
 	}
 }
@@ -160,14 +152,18 @@ relation BinaryFunctionContainsFunctionArgument {
 }
 
 relation RangedFunctionContainsReference {
-	RangedFunction playsRole rangedFunction;
+	RangedFunction playsRole rangedFunction{
+		multiplicity 0..*
+	}
 	Reference playsRole args{
 		multiplicity 2;
 	}
 }
 
 relation RangedFunctionContainsSpreadSheet {
-	RangedFunction playsRole function;
+	RangedFunction playsRole function{
+		multiplicity 0..*;
+	}
 	SpreadSheet playsRole spreadSheet {
 		multiplicity 1;
 	}
