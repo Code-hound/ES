@@ -6,6 +6,16 @@ import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.exception.UserDoesNotExistException;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 
+/*
+ * CREATE USER
+ * 
+ * Cria o utilizador passando-lhe como argumento um
+ * Token como seu "nome".
+ * 
+ * @author: Francisco Maria Calisto
+ * 
+ */
+
 public class CreateUser extends BubbleDocsService {
 	
 	private String userToken;

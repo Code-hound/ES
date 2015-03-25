@@ -7,6 +7,16 @@ import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.exception.UserDoesNotExistException;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 
+/*
+ * DELETE USER
+ * 
+ * Esta classe permite ao user se caso este for
+ * o "root" pode entao apagar o user.
+ * 
+ * @author: Francisco Maria Calisto
+ * 
+ */
+
 public class DeleteUser extends BubbleDocsService {
 
 	private String userToken;
