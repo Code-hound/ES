@@ -13,7 +13,6 @@ public class DeleteUser extends BubbleDocsService {
 	private String toDeleteUsername;
 
 	public DeleteUser(String userToken, String toDeleteUsername) {
-		// add code here
 		this.userToken = userToken;
 		this.toDeleteUsername = toDeleteUsername;
 	}

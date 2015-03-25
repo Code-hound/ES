@@ -15,7 +15,6 @@ public class CreateUser extends BubbleDocsService {
 
     public CreateUser(String userToken, String newUsername,
             String password, String name) {
-    	// add code here
     	this.userToken = userToken;
     	this.newUsername = newUsername;
     	this.password = password;
@@ -24,7 +23,6 @@ public class CreateUser extends BubbleDocsService {
 
     @Override
     protected void dispatch() throws BubbleDocsException {
-    	// add code here
     	getBubbleDocs().addUser(new User(newUsername, name, password));
     }
 }
