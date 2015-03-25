@@ -152,14 +152,14 @@ relation ReferenceContainsCell {
 	}
 }
 
-relation BinaryFunctionContainsContent {
+relation BinaryFunctionContainsFunctionArgument {
 	BinaryFunction playsRole binaryFunction;
 	FunctionArguments playsRole args{
 		multiplicity 2;
 	}
 }
 
-relation RangedFunctionContainsContent {
+relation RangedFunctionContainsReference {
 	RangedFunction playsRole rangedFunction;
 	Reference playsRole args{
 		multiplicity 2;
