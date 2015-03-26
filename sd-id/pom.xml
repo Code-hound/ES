@@ -22,7 +22,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <mainclass>example.ws.impl.HelloMain</mainclass>
 
-     <ws.name>SD_</ws.name> <!--MESMO NOME DO IMPLEMENTATON.JAVA -->
+     <ws.name>SDID</ws.name> <!--MESMO NOME DO IMPLEMENTATON.JAVA -->
     <ws.url>http://localhost:8080/SD_ID/endpoint</ws.url>
   </properties>
   

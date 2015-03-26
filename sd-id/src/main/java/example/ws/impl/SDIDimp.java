@@ -7,7 +7,7 @@ import pt.ulisboa.tecnico.sdis.id.ws.*; // classes generated from WSDL
 @WebService(
     endpointInterface="example.ws.Hello", 
     wsdlLocation="Hello.wsdl",
-    name="Hello",//MESMO NOME D POM.XML
+    name="SDID",//MESMO NOME D POM.XML
     portName="HelloImplPort",
     targetNamespace="http://ws.example/",
     serviceName="HelloImplService"
