@@ -8,7 +8,7 @@ public abstract class Content extends Content_Base {
         super();
     }
 
-	public abstract void    importFromXML    (Element element) ;
+	public abstract void    importFromXML    (Element element, SpreadSheet sheet) ;
 	public abstract Element exportToXML      ()                ;
     public abstract String  toString         ()                ;
 

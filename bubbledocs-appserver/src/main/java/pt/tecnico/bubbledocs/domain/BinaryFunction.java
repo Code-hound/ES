@@ -8,7 +8,7 @@ public abstract class BinaryFunction extends BinaryFunction_Base {
         super();
     }
 
-	public abstract void    importFromXML    (Element element) ;
+	public abstract void    importFromXML    (Element element, SpreadSheet sheet) ;
 	public abstract Element exportToXML      ()                ;
     public abstract String  toString         ()                ;
 

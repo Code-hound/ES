@@ -4,8 +4,13 @@ package pt.tecnico.bubbledocs.domain;
 import org.jdom2.Element;
 
 public class User extends User_Base {
-    
-	public User(String userName,String name, String password) {
+
+	public User (Element element) {
+		super();
+		importFromXML(element);
+	}
+
+	public User (String userName, String name, String password) {
         super();
         set_username(userName);
         set_name(name);
@@ -81,7 +86,7 @@ public class User extends User_Base {
     	}
     }
 
-	public void    importFromXML    (Element element) { Importer.visit (this, element)        ; }
-	public Element exportToXML      ()                { return Exporter.visit (this)          ; }
-    public String  toString         ()                { return Printer.visit  (this)          ; }
+	public void    importFromXML    (Element element) { Importer.visit (this, element) ; }
+	public Element exportToXML      ()                { return Exporter.visit (this)   ; }
+    public String  toString         ()                { return Printer.visit  (this)   ; }
 }

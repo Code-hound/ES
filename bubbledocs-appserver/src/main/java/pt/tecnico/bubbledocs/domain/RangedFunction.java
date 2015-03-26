@@ -9,7 +9,7 @@ public abstract class RangedFunction extends RangedFunction_Base {
     	super();
     }
 
-	public abstract void    importFromXML    (Element element) ;
+	public abstract void    importFromXML    (Element element, SpreadSheet sheet) ;
 	public abstract Element exportToXML      ()                ;
     public abstract String  toString         ()                ;
 

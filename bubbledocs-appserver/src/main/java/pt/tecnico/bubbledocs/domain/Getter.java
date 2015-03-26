@@ -1,6 +1,7 @@
 package pt.tecnico.bubbledocs.domain;
 
 import java.util.Set;
+import pt.tecnico.bubbledocs.exception.DividedByZeroException;
 
 public class Getter{
 	public static int visit (Cell cell) {
@@ -25,10 +26,11 @@ public class Getter{
 			case "+" : return i + next;
 			case "-" : return i - next;
 			case "*" : return i * next;
-			case "/" : if (next == 0)
-						  return -9999; //Meter erro
-					   return i / next;
-			default:   return -9999; //Meter erro
+			case "/" : if (next == 0) 
+				           throw new DividedByZeroException ();
+			           else
+				           return i / next;
+			default:   return 0;
 		}
 	}
 

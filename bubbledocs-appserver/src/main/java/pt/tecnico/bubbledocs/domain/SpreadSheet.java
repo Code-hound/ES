@@ -10,7 +10,13 @@ import org.joda.time.LocalDate;
 
 public class SpreadSheet extends SpreadSheet_Base {
 
-	public SpreadSheet(User owner, int id, String name, int rows, int columns) {
+	public SpreadSheet (Element element) {
+		super();
+		importFromXML(element);
+	}
+
+	public SpreadSheet (User owner, int id, String name, int rows, int columns) {
+		super();
 		//setBubbleDocs(BubbleDocs.getInstance());
 		setOwner(owner);
 		set_id(id);
@@ -100,7 +106,7 @@ public class SpreadSheet extends SpreadSheet_Base {
 		return description;
 	}
 	
-	public void    importFromXML    (Element element) { Importer.visit (this, element)        ; }
-	public Element exportToXML      ()                { return Exporter.visit (this)          ; }
-    public String  toString         ()                { return Printer.visit  (this)          ; }
+	public void    importFromXML    (Element element) { Importer.visit (this, element) ; }
+	public Element exportToXML      ()                { return Exporter.visit (this)   ; }
+    public String  toString         ()                { return Printer.visit  (this)   ; }
 }

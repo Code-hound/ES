@@ -1,6 +1,7 @@
 package pt.tecnico.bubbledocs.domain;
 
 import java.util.Set;
+import java.lang.NullPointerException;
 
 public class Printer{
 	 public static String visit (User user) {
@@ -20,10 +21,11 @@ public class Printer{
 			User owner = spreadsheet.getOwner();
 
 		 	s += "<SPR\n";
-			if (owner != null)
+			try {
 				s += owner.toString();
-			else
+			} catch (NullPointerException e) {
 				s += " User : NULL";
+			}
 		 	s += " ID   : " + spreadsheet.get_id()   + "\n";
 		 	s += " Name : " + spreadsheet.get_spreadSheetName();
 		 	s += " Date : " + spreadsheet.get_date() + "\n";
@@ -41,10 +43,11 @@ public class Printer{
 
 		 	s += " <CEL\n";		 	
 		 	s += "  Loc  : " + cell.get_cellRow() + ";" + cell.get_cellColumn() + "\n";
-		    if(cell.getContent() != null)
+		    try {
 	    	    s += "  Cont : " + cell.getContent() + "\n";
-	    	else
+	    	} catch (NullPointerException e) {
 				s += "NULL\n";
+			}
 			s += " \\CEL>\n";
 
 		    return s;
@@ -62,10 +65,11 @@ public class Printer{
 		    String s = "";
 	    	Cell cell = reference.getCell_reference();
 
-			if (cell != null)
+			try {
 				s += " REF (" + cell.get_cellRow() + ";" + cell.get_cellColumn() + ")";
-			else
+			} catch (NullPointerException e) {
 				s += " REF (NULL)";
+			}
 	    	
 	    	return s;
 	 }
@@ -76,10 +80,11 @@ public class Printer{
 			int i = 0;
 
 		    for (FunctionArguments content : function.getArgs()) {
-				if (content != null)
+				try {
 					c[i] = content.toString();
-				else
+				} catch (NullPointerException e) {
 					c[i] = "NULL";
+				}
 				i++;
 			}
 	    	s += " " + op + " (";
@@ -102,10 +107,11 @@ public class Printer{
 			int i = 0;
 
 		    for (Reference content : function.getArgs()) {
-				if (content != null)
+				try {
 					c[i] = content.toString();
-				else
+				} catch (NullPointerException e) {
 					c[i] = "NULL";
+				}
 				i++;
 			}
 	    	s += " " + op + "  : (";
