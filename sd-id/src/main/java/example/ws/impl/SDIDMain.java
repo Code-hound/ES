@@ -2,13 +2,13 @@ package example.ws.impl;
 
 import javax.xml.ws.Endpoint;
 
-public class HelloMain {
+public class SDIDMain {
 
     public static void main(String[] args) {
         // Check arguments
         if (args.length < 1) {
             System.err.println("Argument(s) missing!");
-            System.err.printf("Usage: java %s url%n", HelloMain.class.getName());
+            System.err.printf("Usage: java %s url%n", SDIDMain.class.getName());
             return;
         }
 

@@ -5,12 +5,25 @@ import javax.jws.*;
 import pt.ulisboa.tecnico.sdis.id.ws.*; // classes generated from WSDL
 
 @WebService(
-    endpointInterface="example.ws.Hello", 
-    wsdlLocation="Hello.wsdl",
-    name="SDID",//MESMO NOME D POM.XML
-    portName="HelloImplPort",
-    targetNamespace="http://ws.example/",
-    serviceName="HelloImplService"
+    endpointInterface="pt.ulisboa.tecnico.sdis.id.ws.SDId", 
+    wsdlLocation="SD-ID.1_1.wsdl",
+    name="SdId",//MESMO NOME D POM.XML done
+    portName="SDIdImplPort",
+    targetNamespace="urn:pt:ulisboa:tecnico:sdis:id:ws",
+    serviceName="SDId"
+    
+    /*  
+  xmlns:tns="urn:pt:ulisboa:tecnico:sdis:id:ws"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:soaphttp="http://schemas.xmlsoap.org/soap/http"
+  xmlns:wsamd="http://www.w3.org/2007/05/addressing/metadata">
+
+     * procurar onde meter isto 
+     * 
+     * 
+     * */
 )
 public class SDIDimp implements SDId {
 

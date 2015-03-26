@@ -20,9 +20,9 @@
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <mainclass>example.ws.impl.HelloMain</mainclass>
+    <mainclass>example.ws.impl.SDIDMain</mainclass>
 
-     <ws.name>SDID</ws.name> <!--MESMO NOME DO IMPLEMENTATON.JAVA -->
+     <ws.name>SdId</ws.name> <!--MESMO NOME DO IMPLEMENTATON.JAVA done-->
     <ws.url>http://localhost:8080/SD_ID/endpoint</ws.url>
   </properties>
   
