@@ -178,7 +178,7 @@ public class BubbleDocs extends BubbleDocs_Base {
 
     public Element exportSpreadSheetToXML(String sheetName, LocalDate date){
     	//try{
-    	return Exporter.visit(getSpreadSheetByNameAndDate(sheetName, date));
+    	return Exporter.use(getSpreadSheetByNameAndDate(sheetName, date));
     	//}catch(Exception e){throw new NonExistingSpreadSheetException(name, date);}
     }
 

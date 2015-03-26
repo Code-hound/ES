@@ -106,7 +106,7 @@ public class SpreadSheet extends SpreadSheet_Base {
 		return description;
 	}
 	
-	public void    importFromXML    (Element element) { Importer.visit (this, element) ; }
-	public Element exportToXML      ()                { return Exporter.visit (this)   ; }
-    public String  toString         ()                { return Printer.visit  (this)   ; }
+	public void    importFromXML    (Element element) { Importer.use (this, element) ; }
+	public Element exportToXML      ()                { return Exporter.use (this)   ; }
+    public String  toString         ()                { return Printer.use  (this)   ; }
 }

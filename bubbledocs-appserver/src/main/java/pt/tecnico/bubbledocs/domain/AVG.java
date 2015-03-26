@@ -16,9 +16,9 @@ public class AVG extends AVG_Base {
     	setSpreadSheet(arg3);
     }
     
-	public void    importFromXML    (Element element, SpreadSheet sheet) { Importer.visit (this, element, sheet) ; }
-	public Element exportToXML      ()                { return Exporter.visit (this)   ; }
-    public String  toString         ()                { return Printer.visit  (this)   ; }
+	public void    importFromXML    (Element element, SpreadSheet sheet) { Importer.use (this, element, sheet) ; }
+	public Element exportToXML      ()                { return Exporter.use (this)   ; }
+    public String  toString         ()                { return Printer.use  (this)   ; }
 
-    public int     getContentValue  ()                { return Getter.visit   (this)   ; }
+    public int     getContentValue  ()                { return Getter.use   (this)   ; }
 }

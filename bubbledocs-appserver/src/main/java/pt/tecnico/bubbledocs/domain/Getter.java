@@ -4,18 +4,18 @@ import java.util.Set;
 import pt.tecnico.bubbledocs.exception.DividedByZeroException;
 
 public class Getter{
-	public static int visit (Cell cell) {
+	public static int use (Cell cell) {
 		//try{
 		Content c = cell.getContent();
 		return 	c.getContentValue();
 		//}catch(InvalidValueException){}
 	}
 
-	public static int visit (Literal literal) {
+	public static int use (Literal literal) {
 		return literal.get_number();
 	}
 
-	public static int visit (Reference reference) {
+	public static int use (Reference reference) {
 		Cell cell = reference.getCell();
 		Content c = cell.getContent();
 		return c.getContentValue();
@@ -34,7 +34,7 @@ public class Getter{
 		}
 	}
 
-	private static int visit (BinaryFunction function, String op) {
+	private static int use (BinaryFunction function, String op) {
 		int i = 0, next;
 
 		for (FunctionArguments content : function.getArgs())
@@ -44,12 +44,12 @@ public class Getter{
 		return	i;
 	} 
 
-	public static int visit (ADD function) { return	visit(function, "+"); }
-	public static int visit (SUB function) { return	visit(function, "-"); }
-	public static int visit (MUL function) { return	visit(function, "*"); }
-	public static int visit (DIV function) { return	visit(function, "/"); }
+	public static int use (ADD function) { return	use(function, "+"); }
+	public static int use (SUB function) { return	use(function, "-"); }
+	public static int use (MUL function) { return	use(function, "*"); }
+	public static int use (DIV function) { return	use(function, "/"); }
 
-	private static int visit (Set<Reference> contents, String op) {
+	private static int use (Set<Reference> contents, String op) {
 		int i = 0, next;
 
 		for (Reference content : contents)
@@ -59,12 +59,12 @@ public class Getter{
 		return	i;
 	} 
 
-	public static int visit (AVG function) {
+	public static int use (AVG function) {
 		Set<Reference> contents = function.getExpanded();
 
-		return visit(contents, "+") / contents.size();
+		return use(contents, "+") / contents.size();
 	}
-	public static int visit (PRD function) {
-		return visit(function.getExpanded(), "*");
+	public static int use (PRD function) {
+		return use(function.getExpanded(), "*");
 	}
 }

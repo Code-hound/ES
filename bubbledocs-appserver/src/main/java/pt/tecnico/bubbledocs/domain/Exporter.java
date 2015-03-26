@@ -6,7 +6,7 @@ import java.lang.NullPointerException;
 
 public class Exporter {
 
-	public static Element visit(User type){
+	public static Element use(User type){
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
 
@@ -17,7 +17,7 @@ public class Exporter {
 		return element;
 	}
 
-	public static Element visit(SpreadSheet type) {
+	public static Element use(SpreadSheet type) {
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
 
@@ -40,7 +40,7 @@ public class Exporter {
 		return element;
 	}
 
-	public static Element visit(Cell type){
+	public static Element use(Cell type){
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
 
@@ -53,7 +53,7 @@ public class Exporter {
 		return element;
 	}
 
-	public static Element visit(Literal type) {
+	public static Element use(Literal type) {
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
 
@@ -62,12 +62,12 @@ public class Exporter {
 		return element;
 	}
 
-	public static Element visit(Reference type) {
+	public static Element use(Reference type) {
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
 
 		try {
-			element.addContent(type.getCell_reference().exportToXML());
+			element.addContent(type.getCell().exportToXML());
 		} catch (NullPointerException e) {
 			System.out.println("Reference throws new ExportDocumentException();");
 		}
@@ -75,7 +75,7 @@ public class Exporter {
 		return element;
 	}
 	
-	public static Element visit(BinaryFunction type) {
+	public static Element use(BinaryFunction type) {
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
 
@@ -90,7 +90,7 @@ public class Exporter {
 		return element;
 	}
 
-	public static Element visit(RangedFunction type) {
+	public static Element use(RangedFunction type) {
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
 

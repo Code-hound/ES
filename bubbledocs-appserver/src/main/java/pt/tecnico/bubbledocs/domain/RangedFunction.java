@@ -33,11 +33,11 @@ public abstract class RangedFunction extends RangedFunction_Base {
 		}
 		for (Cell c : getSpreadSheet().getCells()) {
 			if (state == IGNORE) {
-				if (c == r[0].getCell_reference())
+				if (c == r[0].getCell())
 					state = COPY;
 			}
 			if (state == COPY) {
-				if (c == r[1].getCell_reference())
+				if (c == r[1].getCell())
 					break;
 			} else {
 				break; //TODO: Copy Cell

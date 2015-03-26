@@ -4,7 +4,7 @@ import java.util.Set;
 import java.lang.NullPointerException;
 
 public class Printer{
-	 public static String visit (User user) {
+	 public static String use (User user) {
 		    String s = "";
 
 		    s += " <USR\n";
@@ -16,7 +16,7 @@ public class Printer{
 		    return s;
 	 }
 
-	 public static String visit (SpreadSheet spreadsheet) {
+	 public static String use (SpreadSheet spreadsheet) {
 		    String s = "";
 			User owner = spreadsheet.getOwner();
 
@@ -38,7 +38,7 @@ public class Printer{
 			return s;
 	 }
 
-	 public static String visit (Cell cell) {
+	 public static String use (Cell cell) {
 		    String s = "";
 
 		 	s += " <CEL\n";		 	
@@ -53,7 +53,7 @@ public class Printer{
 		    return s;
 	 }
 
-	 public static String visit (Literal literal) {
+	 public static String use (Literal literal) {
 		    String s = "";
 
 		    s += " LIT (" + literal.getContentValue() + ")";
@@ -61,9 +61,9 @@ public class Printer{
 	    	return s;
 	 }
 
-	 public static String visit (Reference reference){
+	 public static String use (Reference reference){
 		    String s = "";
-	    	Cell cell = reference.getCell_reference();
+	    	Cell cell = reference.getCell();
 
 			try {
 				s += " REF (" + cell.get_cellRow() + ";" + cell.get_cellColumn() + ")";
@@ -74,7 +74,7 @@ public class Printer{
 	    	return s;
 	 }
 
-	 private static String visit (BinaryFunction function, String op) {
+	 private static String use (BinaryFunction function, String op) {
 		    String s = "";
 		    String c[] = new String[2];
 			int i = 0;
@@ -96,12 +96,12 @@ public class Printer{
 	    	return s;
 	 }
 
-	 public static String visit (ADD function) { return visit(function, "ADD"); }
-	 public static String visit (SUB function) { return visit(function, "SUB"); }
-	 public static String visit (MUL function) { return visit(function, "MUL"); }
-	 public static String visit (DIV function) { return visit(function, "DIV"); }
+	 public static String use (ADD function) { return use(function, "ADD"); }
+	 public static String use (SUB function) { return use(function, "SUB"); }
+	 public static String use (MUL function) { return use(function, "MUL"); }
+	 public static String use (DIV function) { return use(function, "DIV"); }
 
-	 private static String visit (RangedFunction function, String op) {
+	 private static String use (RangedFunction function, String op) {
 		    String s = "";
 		    String c[] = new String[2];
 			int i = 0;
@@ -123,7 +123,7 @@ public class Printer{
 	    	return s;
 	 }
 
-	 public static String visit (AVG function) { return visit(function, "AVG"); }
-	 public static String visit (PRD function) { return visit(function, "PRD"); }
+	 public static String use (AVG function) { return use(function, "AVG"); }
+	 public static String use (PRD function) { return use(function, "PRD"); }
 
 }

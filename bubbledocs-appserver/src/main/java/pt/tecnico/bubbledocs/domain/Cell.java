@@ -19,9 +19,9 @@ public class Cell extends Cell_Base {
     	set_protected(!get_protected());
     }
 
-	public void    importFromXML    (Element element, SpreadSheet sheet) { Importer.visit (this, element, sheet) ; }
-	public Element exportToXML      ()                { return Exporter.visit (this)          ; }
-    public String  toString         ()                { return Printer.visit  (this)          ; }
+	public void    importFromXML    (Element element, SpreadSheet sheet) { Importer.use (this, element, sheet) ; }
+	public Element exportToXML      ()                { return Exporter.use (this)          ; }
+    public String  toString         ()                { return Printer.use  (this)          ; }
 
-    public int     getValue         ()                { return Getter.visit   (this)          ; }
+    public int     getValue         ()                { return Getter.use   (this)          ; }
 }

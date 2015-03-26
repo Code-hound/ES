@@ -11,7 +11,7 @@ import org.joda.time.LocalDate;
 
 public class Importer {
 
-	public static void visit (User user, Element element){
+	public static void use (User user, Element element){
 		if (element.getName() != "User") {
 			System.out.println("throw new ImportDocumentException();");
 			return;
@@ -26,7 +26,7 @@ public class Importer {
 		//}
 	}
 
-	public static void visit (SpreadSheet spreadsheet, Element element) {
+	public static void use (SpreadSheet spreadsheet, Element element) {
 		if (element.getName() != "SpreadSheet") {
 			System.out.println("throw new ImportDocumentException();");
 			return;
@@ -59,7 +59,7 @@ public class Importer {
 		}
   }
 
-	public static void visit (Cell cell, Element element, SpreadSheet sheet) {
+	public static void use (Cell cell, Element element, SpreadSheet sheet) {
 		if (element.getName() != "Cell") {
 			System.out.println("throw new ImportDocumentException();");
 			return;
@@ -98,7 +98,7 @@ public class Importer {
 		}
     }
   
-    public static void visit (Literal literal, Element element, SpreadSheet sheet) {
+    public static void use (Literal literal, Element element, SpreadSheet sheet) {
 		if (element.getName() != "Literal") {
 			System.out.println("throw new ImportDocumentException();");
 			return;
@@ -111,7 +111,7 @@ public class Importer {
 		//}
     }
   
-    public static void visit (Reference reference, Element element, SpreadSheet sheet) {
+    public static void use (Reference reference, Element element, SpreadSheet sheet) {
 		if (element.getName() != "Reference") {
 			System.out.println("throw new ImportDocumentException();");
 			return;
@@ -137,7 +137,7 @@ public class Importer {
 		//}
     }
 
-    private static void visit (BinaryFunction function, Element element, SpreadSheet sheet, String type) {
+    private static void use (BinaryFunction function, Element element, SpreadSheet sheet, String type) {
 		if (element.getName() != type) {
 			System.out.println("throw new ImportDocumentException();");
 			return;
@@ -158,12 +158,12 @@ public class Importer {
 		}
     }
 
-    public static void visit (ADD function, Element element, SpreadSheet sheet) { visit(function, element, sheet, "ADD"); }
-    public static void visit (SUB function, Element element, SpreadSheet sheet) { visit(function, element, sheet, "SUB"); }
-    public static void visit (MUL function, Element element, SpreadSheet sheet) { visit(function, element, sheet, "MUL"); }
-    public static void visit (DIV function, Element element, SpreadSheet sheet) { visit(function, element, sheet, "DIV"); }
+    public static void use (ADD function, Element element, SpreadSheet sheet) { use(function, element, sheet, "ADD"); }
+    public static void use (SUB function, Element element, SpreadSheet sheet) { use(function, element, sheet, "SUB"); }
+    public static void use (MUL function, Element element, SpreadSheet sheet) { use(function, element, sheet, "MUL"); }
+    public static void use (DIV function, Element element, SpreadSheet sheet) { use(function, element, sheet, "DIV"); }
 
-    private static void visit (RangedFunction function, Element element, SpreadSheet sheet, String type) {
+    private static void use (RangedFunction function, Element element, SpreadSheet sheet, String type) {
 		if (element.getName() != type) {
 			System.out.println("throw new ImportDocumentException();");
 			return;
@@ -178,6 +178,6 @@ public class Importer {
 		}
     }
 
-    public static void visit (AVG function, Element element, SpreadSheet sheet) { visit(function, element, sheet, "AVG"); }
-    public static void visit (PRD function, Element element, SpreadSheet sheet) { visit(function, element, sheet, "PRD"); }
+    public static void use (AVG function, Element element, SpreadSheet sheet) { use(function, element, sheet, "AVG"); }
+    public static void use (PRD function, Element element, SpreadSheet sheet) { use(function, element, sheet, "PRD"); }
 }
