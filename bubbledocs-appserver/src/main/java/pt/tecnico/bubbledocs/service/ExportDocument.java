@@ -34,7 +34,9 @@ public class ExportDocument extends BubbleDocsService {
 	protected void dispatch() throws BubbleDocsException {
 		SpreadSheet sheet = getBubbleDocs().getSpreadSheetById(sheetId);
 		User user         = getBubbleDocs().getUserByUserName(userToken);
-		//FIXME: if ( userToken has reading or writting or owning permissions )
+		if ( sheet.getReadWriteUserOnly().contains(user)
+		  || sheet.getReadUserOnly().contains(user)
+		  || sheet.getOwner() == user )
 			Element xml = sheet.exportToXML();
 	}
 
