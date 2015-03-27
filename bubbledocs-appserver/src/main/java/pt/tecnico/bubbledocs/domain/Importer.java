@@ -43,7 +43,7 @@ public class Importer {
 			spreadsheet.setOwner(new User (element.getChild("User")));
 			for(Element newContent : element.getChildren("Cell")) {
 				newCell = new Cell(spreadsheet, newContent);
-				for (Cell cell : spreadsheet.getCellReferencesSet()) {
+				for (Cell cell : spreadsheet.getCellsSet()) {
 					if (cell.get_cellRow() == newCell.get_cellRow() && cell.get_cellColumn() == newCell.get_cellColumn()) {
 						// try{
 						cell = newCell;
@@ -122,7 +122,7 @@ public class Importer {
     	//try {
 			int row = Integer.parseInt(element.getChild("User").getAttribute("row").getName());
 			int column = Integer.parseInt(element.getChild("User").getAttribute("column").getName());
-			for (Cell cell : sheet.getCellReferencesSet()) {
+			for (Cell cell : sheet.getCellsSet()) {
 				if (cell.get_cellRow() == row && cell.get_cellColumn() == column) {
 					// try{
 					reference.setCell(cell);

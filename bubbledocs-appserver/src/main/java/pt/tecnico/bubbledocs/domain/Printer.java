@@ -30,7 +30,7 @@ public class Printer{
 		 	s += " Name : " + spreadsheet.get_spreadSheetName();
 		 	s += " Date : " + spreadsheet.get_date() + "\n";
 		 	s += " Size : " + spreadsheet.get_numberRows() + "," + spreadsheet.get_numberColumns() + "\n";
-		 	for (Cell cell : spreadsheet.getCellReferencesSet())
+		 	for (Cell cell : spreadsheet.getCellsSet())
 				if(cell.getContent() != null)
 					s += cell.toString();
 			s += "\\SPR>\n";
