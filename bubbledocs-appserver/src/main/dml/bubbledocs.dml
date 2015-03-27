@@ -1,13 +1,5 @@
 package pt.tecnico.bubbledocs.domain;
 
-/*
-enum Permission {
-	ROOT, OWNER, 
-	READ, WRITE, 
-	WRITEREAD
-}
-*/
-
 class BubbleDocs{
 	int _nextDocumentId;
 }
@@ -139,7 +131,7 @@ relation ReferenceContainsCell {
 	Reference playsRole reference {
 		multiplicity 0..*;
 	}
-	Cell playsRole cell {
+	Cell playsRole cellReference {
 		multiplicity 1;
 	}
 }
