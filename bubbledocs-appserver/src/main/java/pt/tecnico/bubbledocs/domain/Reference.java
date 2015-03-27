@@ -13,7 +13,7 @@ public class Reference extends Reference_Base {
     	super();
     	for (Cell c : sheet.getCellsSet()) {
     		if (c.get_cellColumn() == row && c.get_cellRow() == column) {
-    			setCell(c);
+    			setCellReference(c);
     			break;
     		}
     	}
