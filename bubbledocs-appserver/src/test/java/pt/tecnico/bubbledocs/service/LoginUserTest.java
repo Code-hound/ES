@@ -10,6 +10,18 @@ import org.joda.time.Seconds;
 
 // add needed import declarations
 
+/*
+ * Added by Calisto
+ */
+
+import pt.tecnico.bubbledocs.domain.User;
+import pt.tecnico.bubbledocs.domain.BubbleDocs;
+
+import pt.tecnico.bubbledocs.exception.UserDoesNotExistException;
+import pt.tecnico.bubbledocs.exception.UserIsNotRootException;
+import pt.tecnico.bubbledocs.exception.UserAlreadyExistException;
+import pt.tecnico.bubbledocs.exception.BubbleDocsException;
+
 public class LoginUserTest extends BubbleDocsServiceTest {
 
     private String jp; // the token for user jp

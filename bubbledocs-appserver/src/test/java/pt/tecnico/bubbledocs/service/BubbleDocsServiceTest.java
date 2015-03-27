@@ -11,6 +11,18 @@ import pt.ist.fenixframework.core.WriteOnReadError;
 
 // add needed import declarations
 
+/*
+ * Added by Calisto
+ */
+
+import pt.tecnico.bubbledocs.domain.User;
+import pt.tecnico.bubbledocs.domain.BubbleDocs;
+
+import pt.tecnico.bubbledocs.exception.UserDoesNotExistException;
+import pt.tecnico.bubbledocs.exception.UserIsNotRootException;
+import pt.tecnico.bubbledocs.exception.UserAlreadyExistException;
+import pt.tecnico.bubbledocs.exception.BubbleDocsException;
+
 public class BubbleDocsServiceTest {
 
     @Before
@@ -44,8 +56,7 @@ public class BubbleDocsServiceTest {
 	// add code here
     }
 
-    public SpreadSheet createSpreadSheet(User user, String name, int row,
-            int column) {
+    public SpreadSheet createSpreadSheet(User user, String name, int row, int column) {
 	// add code here
     }
 
