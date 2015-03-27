@@ -59,6 +59,22 @@ public class SpreadSheet extends SpreadSheet_Base {
 		}
 		return users;
 	}
+	
+	public void setOwner(User owner) {
+		Access a = new Access(owner, 1);
+		addDocAccess(a);
+	}
+	
+	public User getOwner () {
+		User owner = null;
+		for (Access a : getDocAccessSet()) {
+			if (a.get_permission() == 1) {
+				owner = a.getUser();
+				break;
+			}
+		}
+		return owner;
+	}
 
 	public List<User> getAccessUsers() {
 		List<User> users = new ArrayList<User>();

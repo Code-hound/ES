@@ -160,10 +160,3 @@ relation RangedFunctionContainsSpreadSheet {
 		multiplicity 1;
 	}
 }
-
-relation SpreadSheetContainsUser{
-	SpreadSheet playsRole document;
-	User playsRole owner{
-		multiplicity 1;
-	}
-}
