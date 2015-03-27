@@ -30,7 +30,7 @@ public class Printer{
 		 	s += " Name : " + spreadsheet.get_spreadSheetName();
 		 	s += " Date : " + spreadsheet.get_date() + "\n";
 		 	s += " Size : " + spreadsheet.get_numberRows() + "," + spreadsheet.get_numberColumns() + "\n";
-		 	for (Cell cell : spreadsheet.getCellsSet())
+		 	for (Cell cell : spreadsheet.getCellReferencesSet())
 				if(cell.getContent() != null)
 					s += cell.toString();
 			s += "\\SPR>\n";
@@ -63,7 +63,7 @@ public class Printer{
 
 	 public static String use (Reference reference){
 		    String s = "";
-	    	Cell cell = reference.getCell();
+	    	Cell cell = reference.getCellReference();
 
 			try {
 				s += " REF (" + cell.get_cellRow() + ";" + cell.get_cellColumn() + ")";

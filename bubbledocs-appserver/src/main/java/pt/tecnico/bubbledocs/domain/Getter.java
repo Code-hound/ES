@@ -16,7 +16,7 @@ public class Getter{
 	}
 
 	public static int use (Reference reference) {
-		Cell cell = reference.getCell();
+		Cell cell = reference.getCellReference();
 		Content c = cell.getContent();
 		return c.getContentValue();
 	}

@@ -33,7 +33,7 @@ public class Exporter {
 			System.out.println("Spreadsheet throws new ExportDocumentException();");
 		}
 
-		for(Cell c : type.getCellsSet())
+		for(Cell c : type.getCellReferencesSet())
 			if(c.getContent() != null)
 				element.addContent(c.exportToXML());
 
@@ -67,7 +67,7 @@ public class Exporter {
 		Element element = new Element(classname);
 
 		try {
-			element.addContent(type.getCell().exportToXML());
+			element.addContent(type.getCellReference().exportToXML());
 		} catch (NullPointerException e) {
 			System.out.println("Reference throws new ExportDocumentException();");
 		}
