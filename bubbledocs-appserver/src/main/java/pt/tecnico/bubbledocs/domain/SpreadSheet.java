@@ -31,12 +31,12 @@ public class SpreadSheet extends SpreadSheet_Base {
 			}
 		}
 	}
-
-	public SpreadSheet(User owner, String name, int rows,
-			int columns) {
+	/*
+	public SpreadSheet(User owner, String name, int rows, int columns) {
 		this(owner, -1, name, rows, columns);
 	}
-
+	*/
+	
 	public List<User> getReadOnlyUser() {
 		List<User> users = new ArrayList<User>();
 		for (Access a : getDocAccessSet()) {
@@ -82,6 +82,23 @@ public class SpreadSheet extends SpreadSheet_Base {
 			users.add(a.getUser());
 		}
 		return users;
+	}
+	
+	/*
+	 * Retorna o valor da permissão que o utilizador tem sobre o documento caso esta exista, 0 caso contrário
+	 * Permissões:
+	 * 1 - ROOT
+	 * 2 - OWNER
+	 * 3 - WRITER
+	 * 4 - READER
+	 */
+	public int getUserPermission (User user) {
+		for (Access a : getDocAccessSet()) {
+			if (a.getUser().get_username().equals(user.get_username())) {
+				return a.get_permission();
+			}
+		}
+		return 0;
 	}
 
 	public void addContent(Content c, int row, int column) {
