@@ -35,8 +35,9 @@ public class ExportDocument extends BubbleDocsService {
 		SpreadSheet sheet = getBubbleDocs().getSpreadSheetById(sheetId);
 		User user         = getBubbleDocs().getUserByUserName(userToken);
 		if ( sheet.getReadWriteUserOnly().contains(user)
-		  || sheet.getReadUserOnly().contains(user)
-		  || sheet.getOwner() == user )
+		  || sheet.getReadOnlyUser().contains(user)
+		  || sheet.getOwner().get_username() == userToken )
+			return;
 			Element xml = sheet.exportToXML();
 	}
 
