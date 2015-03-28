@@ -43,15 +43,15 @@ public class CreateUserTest extends BubbleDocsServiceTest {
         assertEquals("jose", user.getPassword());
         assertEquals("José Ferreira", user.getName());
     }
-    
-    /*
 
-    @Test(expected = DuplicateUsernameException.class)
+    @Test(expected = UserAlreadyExistException.class)
     public void usernameExists() {
         CreateUser service = new CreateUser(root, USERNAME, "jose",
                 "José Ferreira");
         service.execute();
     }
+    
+    /*
 
     @Test(expected = EmptyUsernameException.class)
     public void emptyUsername() {
