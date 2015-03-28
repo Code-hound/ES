@@ -40,7 +40,7 @@ public class SpreadSheet extends SpreadSheet_Base {
 	public List<User> getReadOnlyUser() {
 		List<User> users = new ArrayList<User>();
 		for (Access a : getDocAccessSet()) {
-			if (a.get_permission() == 2) {
+			if (a.getPermission() == 4) {
 				users.add(a.getUser());
 			}
 		}
@@ -53,7 +53,7 @@ public class SpreadSheet extends SpreadSheet_Base {
 		 * User u = getCreator(); users.add(u);
 		 */
 		for (Access a : getDocAccessSet()) {
-			if (a.get_permission() == 3) {
+			if (a.getPermission() == 3) {
 				users.add(a.getUser());
 			}
 		}
@@ -61,14 +61,17 @@ public class SpreadSheet extends SpreadSheet_Base {
 	}
 	
 	public void setOwner(User owner) {
-		Access a = new Access(owner, 1);
-		addDocAccess(a);
+		for (Access a : getDocAccessSet()) {
+			if (a.getPermission() == 2) {
+				a.setUser(owner);
+			}
+		}
 	}
 	
 	public User getOwner () {
 		User owner = null;
 		for (Access a : getDocAccessSet()) {
-			if (a.get_permission() == 1) {
+			if (a.getPermission() == 2) {
 				owner = a.getUser();
 				break;
 			}
@@ -95,7 +98,7 @@ public class SpreadSheet extends SpreadSheet_Base {
 	public int getUserPermission (User user) {
 		for (Access a : getDocAccessSet()) {
 			if (a.getUser().get_username().equals(user.get_username())) {
-				return a.get_permission();
+				return a.getPermission();
 			}
 		}
 		return 0;

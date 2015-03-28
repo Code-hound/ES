@@ -13,9 +13,18 @@ public enum Permission {
 		this.permissionLevel = level;
 	}
 	
-	public static Permission getPermission (int level) {
+	public static Permission newPermission (int level) {
 		for (Permission p : Permission.values()) {
 			if (p.getPermissionLevel() == level) {
+				return p;
+			}
+		}
+		return Permission.NONE;
+	}
+	
+	public static Permission newPermission (String level) {
+		for (Permission p : Permission.values()) {
+			if (level.equalsIgnoreCase(p.name())) {
 				return p;
 			}
 		}

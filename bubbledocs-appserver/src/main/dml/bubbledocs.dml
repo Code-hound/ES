@@ -24,7 +24,6 @@ class SpreadSheet {
 }
 
 class Access{
-	int _permission;
 }
 
 
