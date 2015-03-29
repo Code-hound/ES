@@ -58,6 +58,19 @@ public class CreateUserTest extends BubbleDocsServiceTest {
         CreateUser service = new CreateUser(root, "", "jose", "José Ferreira");
         service.execute();
     }
+    
+    */
+    
+    //TODO
+    
+    @Test(expected = UserIsNotRootException.class)
+    public void unauthorizedUserCreation() {
+        CreateUser service = new CreateUser(ars, USERNAME_DOES_NOT_EXIST, "jose",
+                "José Ferreira");
+        service.execute();
+    }
+    
+    /*
 
     @Test(expected = UnauthorizedOperationException.class)
     public void unauthorizedUserCreation() {
