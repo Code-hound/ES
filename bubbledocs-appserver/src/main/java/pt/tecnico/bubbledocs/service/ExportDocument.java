@@ -34,11 +34,12 @@ public class ExportDocument extends BubbleDocsService {
 	protected void dispatch() throws BubbleDocsException {
 		SpreadSheet sheet = getBubbleDocs().getSpreadSheetById(sheetId);
 		User user         = getBubbleDocs().getUserByUserName(userToken);
-		if ( sheet.getReadWriteUserOnly().contains(user)
-		  || sheet.getReadOnlyUser().contains(user)
-		  || sheet.getOwner().get_username() == userToken )
-			return;
-			Element xml = sheet.exportToXML();
+		boolean write = sheet.getReadWriteUserOnly().contains(user);
+		boolean read = sheet.getReadOnlyUser().contains(user);
+		Element xml;
+		boolean owns = sheet.getOwner().get_username() == userToken;
+		if ( owns || read || write )
+			 xml = sheet.exportToXML();
 	}
 
 }
