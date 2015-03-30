@@ -1,4 +1,6 @@
 package pt.tecnico.bubbledocs.domain;
+import pt.tecnico.bubbledocs.exception.*;
+import org.joda.time.*;
 
 public class Session extends Session_Base {
     
@@ -8,12 +10,12 @@ public class Session extends Session_Base {
         super();
     }
     
-    /*
-    public User checkUserLoggedIn(String userToken) throws UserNotLoggedInException{ //add LastAccess @ Session
+    public User checkUserLoggedIn(String userToken) 
+    		throws UserNotLoggedInException { //add LastAccess @ Session
     	UserLoggedIn uli = getUserLoggedInByToken(userToken);
     	
     	if(uli == null)
-    		throw new UserNotLoggedInException(userToker);
+    		throw new UserNotLoggedInException(userToken);
     	
     	LocalTime currentAccess = new LocalTime();
     	
@@ -25,7 +27,6 @@ public class Session extends Session_Base {
     		uli.setLastAccess(currentAccess);
     	return uli.getUser();
     }
-    */
     
     public void logout(String userToken){
     	/*
