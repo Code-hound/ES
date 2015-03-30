@@ -27,7 +27,7 @@ public class BubbleApplication {
 		User user2 = new User("ra","Step Rabbit","cor");
 		bd.addUser(user2);
 
-		SpreadSheet sheet1 = new SpreadSheet(user1, "Notas ES", 300,20);
+		SpreadSheet sheet1 = new SpreadSheet(user1, -1 , "Notas ES", 300,20);
 
 		System.out.println(sheet1);
 
