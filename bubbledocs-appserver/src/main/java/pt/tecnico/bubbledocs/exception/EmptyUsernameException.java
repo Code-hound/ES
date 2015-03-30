@@ -1,21 +1,21 @@
 package pt.tecnico.bubbledocs.exception;
 
-public class UserAlreadyExistException extends BubbleDocsException
+public class EmptyUsernameException extends BubbleDocsException
 {
 
 	/*
-	 *	USER ALREADY EXIST EXCEPTION
+	 *	EMPTY USERNAME EXCEPTION
 	 *
-	 *	Excepcao da varificacao se user ja existe.
+	 *	Excepcao caso o User esteja vazio.
 	 *
 	 *	@author: Francisco Maria Calisto
 	 */
 	
 	private static final long serialVersionUID = 1L;
 
-	private String userName;
+	private String userName; //userName
 
-	public UserAlreadyExistException(String userName)
+	public EmptyUsernameException(String userName)
 	{
 		this.userName = userName;
 	}
@@ -28,7 +28,7 @@ public class UserAlreadyExistException extends BubbleDocsException
 	@Override
 	public String getMessage()
 	{
-		return "This name " + this.userName + " is already being used";
+		return "User field is empty: " + this.userName;
 	}
 	
 }

@@ -50,16 +50,12 @@ public class CreateUserTest extends BubbleDocsServiceTest {
                 "José Ferreira");
         service.execute();
     }
-    
-    /*
 
     @Test(expected = EmptyUsernameException.class)
     public void emptyUsername() {
         CreateUser service = new CreateUser(root, "", "jose", "José Ferreira");
         service.execute();
     }
-    
-    */
     
     //TODO
     

@@ -26,4 +26,10 @@ public class UserIsNotRootException extends BubbleDocsException
 		return this.rootUserToken;
 	}
 	
+	@Override
+	public String getMessage()
+	{
+		return "User " + this.rootUserToken + " is not a root user";
+	}
+	
 }

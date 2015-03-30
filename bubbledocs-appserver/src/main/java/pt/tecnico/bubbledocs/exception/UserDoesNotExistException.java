@@ -25,4 +25,10 @@ public class UserDoesNotExistException extends BubbleDocsException
 		return this.userToken;
 	}
 	
+	@Override
+	public String getMessage()
+	{
+		return "User " + this.userToken + " does not exist";
+	}
+	
 }

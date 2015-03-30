@@ -9,6 +9,7 @@ import pt.tecnico.bubbledocs.exception.UserDoesNotExistException;
 import pt.tecnico.bubbledocs.exception.UserIsNotRootException;
 import pt.tecnico.bubbledocs.exception.UserAlreadyExistException;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
+import pt.tecnico.bubbledocs.exception.EmptyUsernameException;
 
 /*
  * CREATE USER
@@ -37,7 +38,7 @@ public class CreateUser extends BubbleDocsService
     }
 
     @Override
-    protected void dispatch() throws UserIsNotRootException, UserAlreadyExistException, UserDoesNotExistException, BubbleDocsException
+    protected void dispatch() throws EmptyUsernameException, UserIsNotRootException, UserAlreadyExistException, UserDoesNotExistException, BubbleDocsException
     {
     	
     	if(userToken == "root")
@@ -45,13 +46,20 @@ public class CreateUser extends BubbleDocsService
     		
     		User userToVerify = getUser(newUsername);
     		
-    		if(userToVerify != getUser(userToken))
+    		if(newUsername != "")
     		{
-    			getBubbleDocs().addUser(new User(newUsername, name, password));
+	    		if(userToVerify != getUser(userToken))
+	    		{
+	    			getBubbleDocs().addUser(new User(newUsername, name, password));
+	    		}
+	    		else
+	    		{
+	    			throw new UserAlreadyExistException(this.newUsername);
+	    		}
     		}
     		else
     		{
-    			throw new UserAlreadyExistException(this.newUsername);
+    			throw new EmptyUsernameException(this.newUsername);
     		}
     	}
     	else
