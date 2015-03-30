@@ -31,11 +31,6 @@ public class SpreadSheet extends SpreadSheet_Base {
 			}
 		}
 	}
-	/*
-	public SpreadSheet(User owner, String name, int rows, int columns) {
-		this(owner, -1, name, rows, columns);
-	}
-	*/
 	
 	public List<User> getReadOnlyUser() {
 		List<User> users = new ArrayList<User>();
