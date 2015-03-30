@@ -79,7 +79,7 @@ public class User extends User_Base {
     		getBubbleDocs().removeUser(this, user);
     	}
     }
-    
+   
     public void removeSpreadsheet(SpreadSheet sheet) {
     	if (this.get_username().equals("root")) {
     		getBubbleDocs().removeSpreadSheetById(Integer.toString(sheet.get_id()));

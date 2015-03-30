@@ -8,6 +8,7 @@ class User {
 	String _username;
 	String _name;
 	String _password;
+	String _userToken;
 }
 
 class Session {
@@ -33,8 +34,6 @@ class Cell {
 }
 
 class Content;
-
-class UserLoggedIn extends User;
 
 class FunctionArguments extends Content;
 
@@ -104,11 +103,11 @@ relation BubbleDocsContainsSession {
 	}
 }
 
-relation SessionContainsUserLoggedIn {
+relation SessionContainsUser {
 	Session playsRole session {
-		multiplicity 1;
+		multiplicity 0..1;
 	}
-	UserLoggedIn playsRole userLoggedIn {
+	User playsRole user {
 		multiplicity 1;
 	}
 }
