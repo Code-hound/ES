@@ -11,6 +11,8 @@ import pt.ist.fenixframework.core.WriteOnReadError;
 
 // add needed import declarations
 
+import pt.tecnico.bubbledocs.domain.SpreadSheet;
+
 /*
  * Added by Calisto
  */
