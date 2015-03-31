@@ -25,7 +25,7 @@ public abstract class BubbleDocsService {
 		return user;
 	}
 	
-	public static SpreadSheet getSpreadSheet (String sheetId) {
+	public static SpreadSheet getSpreadSheet (int sheetId) {
 		SpreadSheet sheet = getBubbleDocs().getSpreadSheetById(sheetId);
 		if (sheet == null) {
 			throw new BubbleDocsException();

@@ -37,9 +37,9 @@ public class AssignLiteralToCell extends BubbleDocsService {
     	int row = Integer.parseInt(rowAux);
     	int column = Integer.parseInt(columnAux);
     	
-    	String docIdString = "" + docId;
+    	//String docIdString = "" + docId;
     	
-    	for (Cell cell : getSpreadSheet(docIdString).getCellsSet()) {
+    	for (Cell cell : getSpreadSheet(docId).getCellsSet()) {
 			if (cell.getCellRow() == row && cell.getCellColumn() == column) {
 				if (cell.getProtect())
 					{
@@ -47,7 +47,7 @@ public class AssignLiteralToCell extends BubbleDocsService {
 					}
 				else
 				{
-					getSpreadSheet(docIdString).addContent(new Literal(Integer.parseInt(literal)), row, column);
+					getSpreadSheet(docId).addContent(new Literal(Integer.parseInt(literal)), row, column);
 				}
 			}
 		}    	

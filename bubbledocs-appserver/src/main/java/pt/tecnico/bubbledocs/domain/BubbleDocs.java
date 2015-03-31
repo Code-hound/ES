@@ -73,10 +73,10 @@ public class BubbleDocs extends BubbleDocs_Base {
     	
     }
     
-    public SpreadSheet getSpreadSheetById (String id) {
-    	int idInteger = Integer.parseInt(id);
+    public SpreadSheet getSpreadSheetById (int id) {
+    	//int idInteger = Integer.parseInt(id);
     	for (SpreadSheet s : getDocsSet()) {
-    		if (s.getId() == idInteger) {
+    		if (s.getId() == id) {
     			return s;
     		}
     	}
@@ -160,7 +160,7 @@ public class BubbleDocs extends BubbleDocs_Base {
         }
     }
     
-    public void removeSpreadSheetById(String id) {
+    public void removeSpreadSheetById(int id) {
     	removeDocs(getSpreadSheetById(id));
     }
 

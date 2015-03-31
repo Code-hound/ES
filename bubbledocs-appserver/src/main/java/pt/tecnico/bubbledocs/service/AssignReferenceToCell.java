@@ -49,20 +49,20 @@ public class AssignReferenceToCell extends BubbleDocsService {
     	int columnCellReference = Integer.parseInt(rowAndColumnContent[1]);
     	String docIdString = "" + docId;
     	
-    	int rowSpreadSheet = getSpreadSheet(docIdString).getNumberColumns();  
-    	int columnSpreadSheet = getSpreadSheet(docIdString).getNumberRows();
+    	int rowSpreadSheet = getSpreadSheet(docId).getNumberColumns();  
+    	int columnSpreadSheet = getSpreadSheet(docId).getNumberRows();
     	
     	//testa se a celula existe nas dimensoes da spreadsheet
     	if ((rowCellReference >= 0) && (rowCellReference <= rowSpreadSheet))
     	{
     		if ((columnCellReference >= 0) && (columnCellReference <= columnSpreadSheet))
     		{
-    			Reference referenceAux= new Reference (getSpreadSheet(docIdString), rowCellReference, columnCellReference);
+    			Reference referenceAux= new Reference (getSpreadSheet(docId), rowCellReference, columnCellReference);
     			if (referenceAux.getCellReference().getProtect())
     				throw new ProtectedCellException(rowCell, columnCell);
     			else
     			{	
-    			getSpreadSheet(docIdString).addContent(referenceAux, rowCell, columnCell);
+    			getSpreadSheet(docId).addContent(referenceAux, rowCell, columnCell);
     		 	}
     		}	
     		else 

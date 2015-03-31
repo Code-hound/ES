@@ -29,9 +29,9 @@ public class ExportDocument extends BubbleDocsService {
 
     // the tokens
 	private String userToken;
-	private String sheetId;
+	private int sheetId;
 
-	public ExportDocument(String userToken, String sheetId) {
+	public ExportDocument(String userToken, int sheetId) {
 		this.userToken = userToken;
 		this.sheetId = sheetId;
 	}
