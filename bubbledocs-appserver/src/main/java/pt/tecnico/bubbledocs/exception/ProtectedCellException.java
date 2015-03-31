@@ -8,7 +8,7 @@ public class ProtectedCellException extends BubbleDocsException
 	 *
 	 *	Excepcao caso a célula esteja protegida.
 	 *
-	 *	@author: Luís Ribeiro Gomes
+	 *	@author: Luis Ribeiro Gomes
 	 */
 
 	private int row;    //row

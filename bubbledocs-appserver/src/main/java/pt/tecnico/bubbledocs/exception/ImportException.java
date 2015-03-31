@@ -1,6 +1,6 @@
 package pt.tecnico.bubbledocs.exception;
 
-public class ImportException extends ConversionException
+public class ImportException extends XMLException
 {
 
 	/*
@@ -8,7 +8,7 @@ public class ImportException extends ConversionException
 	 *
 	 *	Excepcao caso algum attributo do XML estiver vazio.
 	 *
-	 *	@author: Luís Ribeiro Gomes
+	 *	@author: Luis Ribeiro Gomes
 	 */
 
 	public ImportException(String element, String attribute)
@@ -24,7 +24,7 @@ public class ImportException extends ConversionException
 	@Override
 	public String getMessage()
 	{
-		return "Import exception : " + getException().getMessage();
+		return "Import exception : " + super.getMessage();
 	}
 	
 }

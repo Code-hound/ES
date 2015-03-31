@@ -85,8 +85,8 @@ public class SpreadSheet extends SpreadSheet_Base {
 	}
 	
 	/*
-	 * Retorna o valor da permissão que o utilizador tem sobre o documento caso esta exista, 0 caso contrário
-	 * Permissões:
+	 * Retorna o valor da permissao que o utilizador tem sobre o documento caso esta exista, 0 caso contrário
+	 * Permissoes:
 	 * 1 - ROOT
 	 * 2 - OWNER
 	 * 3 - WRITER

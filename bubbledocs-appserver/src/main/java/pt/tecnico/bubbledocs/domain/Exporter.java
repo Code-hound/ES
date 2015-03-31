@@ -13,7 +13,7 @@ public class Exporter {
 	 *
 	 *	Exporta os elementos da SpreadSheet para XML
 	 *
-	 *	@author: Luís Ribeiro Gomes
+	 *	@author: Luis Ribeiro Gomes
 	 */
 
 	public static Element use(User type) throws ExportException {

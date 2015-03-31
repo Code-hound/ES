@@ -6,7 +6,7 @@ public class UserNotLoggedInException extends BubbleDocsException
 	/*
 	 *	USER NOT LOGGED IN EXCEPTION
 	 *
-	 *	Excepcao caso o User nao esteja em sessão
+	 *	Excepcao caso o User nao esteja em sessao
 	 *
 	 *	@author: Aline Caliente
 	 */

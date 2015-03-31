@@ -5,7 +5,7 @@ public class DividedByZeroException extends ArithmeticException {
 	/*
 	 *	DIVIDED BY ZERO EXCEPTION
 	 *
-	 *	@author: Luís Ribeiro Gomes
+	 *	@author: Luis Ribeiro Gomes
 	 */
 	
 	public DividedByZeroException(){

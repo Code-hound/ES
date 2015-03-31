@@ -1,14 +1,14 @@
 package pt.tecnico.bubbledocs.exception;
 
-public class ExportException extends ConversionException
+public class ExportException extends XMLException
 {
 
 	/*
 	 *	EXPORT EXCEPTION
 	 *
-	 *	Excepcao caso algum attributo da SpreadSheet estiver vazio.
+	 *	Excepcao caso algum attributo do Documento estiver vazio.
 	 *
-	 *	@author: Luís Ribeiro Gomes
+	 *	@author: Luis Ribeiro Gomes
 	 */
 
 	public ExportException(String element, String attribute)
@@ -24,7 +24,7 @@ public class ExportException extends ConversionException
 	@Override
 	public String getMessage()
 	{
-		return "Export exception : " + getException().getMessage();
+		return "Export exception : " + super.getMessage();
 	}
 	
 }
