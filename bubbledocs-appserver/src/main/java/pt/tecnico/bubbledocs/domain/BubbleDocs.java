@@ -5,9 +5,8 @@ import java.util.List;
 
 import org.jdom2.Element;
 import org.joda.time.LocalDate;
-import pt.tecnico.bubbledocs.exception.ImportException;
-import pt.tecnico.bubbledocs.exception.ExportException;
 
+import pt.tecnico.bubbledocs.exception.*;
 import pt.ist.fenixframework.FenixFramework;
 
 public class BubbleDocs extends BubbleDocs_Base {
@@ -41,27 +40,26 @@ public class BubbleDocs extends BubbleDocs_Base {
     	}
     	return null;
     }
-    
-    public boolean hasUserByUserName(String UserName){
+
+	public boolean hasUserByUserName(String UserName){
     	return getUserByUserName(UserName) != null;
     }
 
-    /* Deprecated function
-     * User initialization should be handled by the User class, not by the database adder
-    public void addUser(User currentUser, String newUserName, String newName, String newPassword){
-    	//try{
-    	User newUser = currentUser.createUser(newUserName, newName, newPassword);
-    	addUsers(newUser);
-    	//catch(InvalidAccessException){}
+    public User createUser(String newUserName, String newName, String newPassword){
+    	User newUser = new User (newUserName, newName, newPassword);
+    	addUser(newUser);
+    	return newUser;
     }
-    */
     
-    public void addUser(User user) {
-    	//try
-    	if (!hasUserByUserName(user.getUsername())) {
+    
+    public void addUser(User user) throws UserAlreadyExistException {
+    	if (hasUserByUserName(user.getUsername())) {
+    		throw new UserAlreadyExistException(user.getUsername());
+    	}
+    	else {
     		addUsers(user);
     	}
-    	//catch
+    	
     }
     
     public boolean hasSpreadSheet(){
@@ -115,17 +113,17 @@ public class BubbleDocs extends BubbleDocs_Base {
     	return null;
     }
     
-    public void createSpreadSheet(User user,String sheetName,int rows,int columns){
+    public SpreadSheet createSpreadSheet(User user,String sheetName,int rows,int columns){
     	SpreadSheet newSpreadSheet = new SpreadSheet(user, getNextDocumentId(), sheetName, rows, columns);
     	User root=getUserByUserName("root");
     	if (newSpreadSheet != null) {
     		newSpreadSheet.addDocAccess(new Access(root,0));
     		newSpreadSheet.addDocAccess(new Access(user, 1));
-    		addDocs(newSpreadSheet);
+    		addSpreadSheet(newSpreadSheet);
     		
     		setNextDocumentId(getNextDocumentId() + 1);
-    		//set_entityId(get_entityId()+1); //Unique and sequential ID
     	}
+    	return newSpreadSheet;
     }
     
     public void addSpreadSheet(SpreadSheet spreadsheet){

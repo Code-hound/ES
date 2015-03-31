@@ -17,8 +17,7 @@ import pt.tecnico.bubbledocs.domain.SpreadSheet;
  * Added by Calisto
  */
 
-import pt.tecnico.bubbledocs.domain.User;
-import pt.tecnico.bubbledocs.domain.BubbleDocs;
+import pt.tecnico.bubbledocs.domain.*;
 
 import pt.tecnico.bubbledocs.exception.UserDoesNotExistException;
 import pt.tecnico.bubbledocs.exception.UserIsNotRootException;
@@ -55,31 +54,38 @@ public class BubbleDocsServiceTest {
     // auxiliary methods that access the domain layer and are needed in the test classes
     // for defining the iniital state and checking that the service has the expected behavior
     public User createUser(String username, String password, String name) {
-	// add code here
-		return null;
+    	BubbleDocs bd = BubbleDocs.getInstance();
+    	
+    	User user = bd.createUser(username, password, name);
+    	return user;
     }
 
     public SpreadSheet createSpreadSheet(User user, String name, int row, int column) {
-	// add code here
-		return null;
+		BubbleDocs bd = BubbleDocs.getInstance();
+		
+		SpreadSheet spread = bd.createSpreadSheet(user, name, row, column);
+		return spread;
     }
 
     // returns a spreadsheet whose name is equal to name
     public SpreadSheet getSpreadSheet(String name) {
-	// add code here
-		return null;
+    	BubbleDocs bd = BubbleDocs.getInstance();
+    	
+    	SpreadSheet spread = bd.getSpreadSheetByName(name).get(0);
+    	return spread;
     }
 
     // returns the user registered in the application whose username is equal to username
     User getUserFromUsername(String username) {
-	// add code here
-		return null;
+    	BubbleDocs bd = BubbleDocs.getInstance();
+    	
+    	User user = bd.getUserByUserName(username);
+    	return user;
     }
 
     // put a user into session and returns the token associated to it
     String addUserToSession(String username) {
-	// add code here
-		return null;
+    	return null;
     }
 
     // remove a user from session given its token
