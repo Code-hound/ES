@@ -44,5 +44,5 @@ public class AssignLiteralCell extends BubbleDocsService {
     public String getResult() {
         return result;
     }
-
+ 
 }
