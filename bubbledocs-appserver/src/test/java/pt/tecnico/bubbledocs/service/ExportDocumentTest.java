@@ -15,7 +15,7 @@ import pt.tecnico.bubbledocs.domain.SpreadSheet;
 import pt.tecnico.bubbledocs.exception.ExportException;
 import pt.tecnico.bubbledocs.exception.ImportException;
 import pt.tecnico.bubbledocs.exception.AccessException;
-
+/*
 public class ExportDocumentTest extends BubbleDocsServiceTest {
 
     // the tokens
@@ -137,7 +137,7 @@ public class ExportDocumentTest extends BubbleDocsServiceTest {
                 "José Ferreira");
         service.execute();
     }*/
-
+/*
     @Test(expected = AccessException.class)
     public void UserWithoutAccess() {
         ExportDocument service = new ExportDocument(USERNAME_NO_ACCESS, NAME);
@@ -146,3 +146,4 @@ public class ExportDocumentTest extends BubbleDocsServiceTest {
 
 
 }
+*/

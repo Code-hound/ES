@@ -24,7 +24,7 @@ import pt.tecnico.bubbledocs.exception.BubbleDocsException;
  * @author: Luis Ribeiro Gomes
  * 
  */
-
+/*
 public class ExportDocument extends BubbleDocsService {
 
     // the tokens
@@ -58,3 +58,4 @@ public class ExportDocument extends BubbleDocsService {
 	}
 
 }
+*/
