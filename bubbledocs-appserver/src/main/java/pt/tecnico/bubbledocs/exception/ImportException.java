@@ -11,6 +11,8 @@ public class ImportException extends XMLException
 	 *	@author: Luis Ribeiro Gomes
 	 */
 
+	private static final long serialVersionUID = 1L;
+	
 	public ImportException(String element, String attribute)
 	{
 		super(element, attribute);

@@ -7,6 +7,8 @@ public class DividedByZeroException extends ArithmeticException {
 	 *
 	 *	@author: Luis Ribeiro Gomes
 	 */
+
+	private static final long serialVersionUID = 1L;
 	
 	public DividedByZeroException(){
 		super("Argument divided by 0");

@@ -11,6 +11,8 @@ public class AccessException extends BubbleDocsException
 	 *	@author: Luis Ribeiro Gomes
 	 */
 
+	private static final long serialVersionUID = 1L;
+	
 	private String userToken;       //userToken
 	private String spreadSheetName; //spreadSheetName
 

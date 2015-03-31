@@ -11,6 +11,8 @@ public class ExportException extends XMLException
 	 *	@author: Luis Ribeiro Gomes
 	 */
 
+	private static final long serialVersionUID = 1L;
+	
 	public ExportException(String element, String attribute)
 	{
 		super(element, attribute);

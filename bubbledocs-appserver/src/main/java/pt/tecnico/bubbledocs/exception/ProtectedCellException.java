@@ -11,6 +11,8 @@ public class ProtectedCellException extends BubbleDocsException
 	 *	@author: Luis Ribeiro Gomes
 	 */
 
+	private static final long serialVersionUID = 1L;
+	
 	private int row;    //row
 	private int column; //column
 
