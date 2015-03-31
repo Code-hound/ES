@@ -4,6 +4,7 @@ import org.jdom2.Element;
 import org.jdom2.output.XMLOutputter;
 import java.lang.NullPointerException;
 import pt.tecnico.bubbledocs.exception.ExportException;
+import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 
 public class Exporter {
 
@@ -91,6 +92,11 @@ public class Exporter {
 	public static Element use(Cell type){
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
+
+		if (type.get_protected()) {
+			throw new ProtectedCellException (type.get_cellRow(), type.get_cellColumn());
+			return;
+		}
 
 		try {
 			element.setAttribute("row", String.valueOf(type.get_cellRow()));
