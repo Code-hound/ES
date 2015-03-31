@@ -7,6 +7,8 @@ package pt.tecnico.bubbledocs.service;
 
 ////redefinir para ficar apenas os importes necessarios necessarios
 import pt.tecnico.bubbledocs.*;
+import pt.tecnico.bubbledocs.service.*;
+
 //// add needed import declarations
 
 /*
@@ -29,7 +31,7 @@ public class AssignReferenceCell extends BubbleDocsService {
     private String tokenUser;
     private int docId;
     private String cellId;
-    private String refrence;
+    private String reference;
 
     public AssignReferenceCell(String tokenUser, int docId, String cellId, String reference)
     {
@@ -52,8 +54,13 @@ public class AssignReferenceCell extends BubbleDocsService {
     	String rowContent = rowAndColumnContent[0]; 
     	String collumnContent = rowAndColumnContent[1];
     	
-    	int rowSpreadSheet = getBubbleDocs().getSpreadSheetById(docId).get_numberColumns();
-    	int collumnSpreadSheet = getBubbleDocs().getSpreadSheetById(docId).get_numberRows();
+    	String docIdString = "" + docId;
+    	//dimensoes da spreadsheet
+    	
+    	// descomentar
+    	
+    /*	String rowSpreadSheet = getBubbleDocs().getSpreadSheetById(docIdString).get_numberColumns();  
+    	String collumnSpreadSheet = getBubbleDocs().getSpreadSheetById(docIdString).get_numberRows();
     	
     	//se entrar nos dois if a reference aponta 
     	//para uma cell existente nas dimensoes da spreadsheet
@@ -72,9 +79,12 @@ public class AssignReferenceCell extends BubbleDocsService {
     	{
     		//throw new BubbleDocsException();
     	}
+    	*/ 
+    	
+    	// descomentar
     	
     }
-
+    
     public final String getResult() {
         return result;
     }
