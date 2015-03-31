@@ -20,10 +20,6 @@ import pt.tecnico.bubbledocs.exception.ProtectedCellException;
  */
 
 public class AssignReferenceToCell extends BubbleDocsService {
-	
-	/*
-	 * Added by Calisto
-	 */
     
 	private String result;
     private String tokenUser;
