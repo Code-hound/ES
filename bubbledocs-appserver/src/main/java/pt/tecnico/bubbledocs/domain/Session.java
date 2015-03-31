@@ -33,7 +33,7 @@ public class Session extends Session_Base {
     }
     
     public void logout(String userToken){
-    	UserLoggedIn userLoggedIn = getUserLoggedInSet().stream().filter(uli.getUserToken().equals(userToken)).findFirst().orElse(null);
+    	User userLoggedIn = getUserLoggedInSet().stream().filter(uli.getUserToken().equals(userToken)).findFirst().orElse(null);
 	    	
 	    if(userLoggedIn != null)
 	    	userLoggedIn.delete();
