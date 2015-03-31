@@ -58,11 +58,15 @@ public class SpreadSheet extends SpreadSheet_Base {
 	}
 	
 	public void setOwner(User owner) {
+		/*
 		for (Access a : getDocAccessSet()) {
 			if (a.getPermission() == 2) {
 				a.setUser(owner);
 			}
 		}
+		*/
+		Access a = new Access (owner, "owner");
+		addDocAccess(a);
 	}
 	
 	public User getOwner () {

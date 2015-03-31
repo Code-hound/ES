@@ -15,7 +15,7 @@ import pt.tecnico.bubbledocs.exception.ExportException;
 import pt.tecnico.bubbledocs.exception.ImportException;
 import pt.tecnico.bubbledocs.exception.AccessException;
 
-public class ExportDocumentTest extends BubbleDocsServiceTest {
+public class AssignLiteralToCellTest extends BubbleDocsServiceTest {
 
     // the tokens
 	private String userToken;
