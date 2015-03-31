@@ -38,6 +38,8 @@ public class AssignReferenceToCell extends BubbleDocsService {
     @Override
     protected void dispatch()  {
 	
+    	//getBubbleDocs.
+    	
     	String[] rowAndColumnCell = cellId.split(";");
     	int rowCell = Integer.parseInt(rowAndColumnCell[0]); 
     	int columnCell = Integer.parseInt(rowAndColumnCell[1]);

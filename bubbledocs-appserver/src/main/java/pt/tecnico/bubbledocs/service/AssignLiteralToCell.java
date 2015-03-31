@@ -16,14 +16,15 @@ public class AssignLiteralToCell extends BubbleDocsService {
 	private int docId;
 	private String cellId;
 	private String literal;
+	private String tokenUser;
 
-    public AssignLiteralToCell(String accessUsername, int docId, String cellId, String literal) {
+    public AssignLiteralToCell(String tokenUser, String accessUsername, int docId, String cellId, String literal) {
     
     	this.accessUsername = accessUsername;
     	this.docId = docId; 
     	this.cellId = cellId;
     	this.literal = literal;
-    
+    	this.tokenUser = tokenUser;
     }
 
     @Override
