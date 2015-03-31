@@ -1,18 +1,11 @@
 //FALTA: 
 //-->tokens e permissoes
-//-->tirar o * no import, para ficar menos abrangente
-//-->confirmar se e' precisso importar a funcao split
-
 
 package pt.tecnico.bubbledocs.service;
 
-//redefinir para ficar apenas os importes necessarios necessarios
-//import pt.tecnico.bubbledocs.*;
 import pt.tecnico.bubbledocs.domain.Literal;
 //import pt.tecnico.bubbledocs.service.*;
-
-
-// add needed import declarations
+//import pt.tecnico.bubbledocs.*;
 
 public class AssignLiteralToCell extends BubbleDocsService {
     
@@ -42,7 +35,7 @@ public class AssignLiteralToCell extends BubbleDocsService {
     	int column = Integer.parseInt(columnAux);
     	
     	String docIdString = "" + docId;
-    	getBubbleDocs().getSpreadSheetById(docIdString).addContent(new Literal(Integer.parseInt(literal)), row, column);
+    	getSpreadSheet(docIdString).addContent(new Literal(Integer.parseInt(literal)), row, column);
     	result = literal;
     	
     }

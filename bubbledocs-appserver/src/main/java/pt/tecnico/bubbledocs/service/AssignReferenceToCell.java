@@ -1,15 +1,12 @@
 //FALTA: 
 //-->tokens e permissoes
-//-->tirar o * no import, para ficar menos abrangente
-//-->confirmar se e' precisso importar a funcao split
 
 package pt.tecnico.bubbledocs.service;
 
-////redefinir para ficar apenas os importes necessarios necessarios
-import pt.tecnico.bubbledocs.*;
-import pt.tecnico.bubbledocs.service.*;
+import pt.tecnico.bubbledocs.domain.Reference;
 
-//// add needed import declarations
+//import pt.tecnico.bubbledocs.*;
+//import pt.tecnico.bubbledocs.service.*;
 
 /*
  * ASSIGN REFERENCE CELL
@@ -35,40 +32,34 @@ public class AssignReferenceToCell extends BubbleDocsService {
 
     public AssignReferenceToCell(String tokenUser, int docId, String cellId, String reference)
     {
-    
     	this.tokenUser = tokenUser;
     	this.docId = docId;
     	this.cellId = cellId;
     	this.reference = reference;
-	
-    }
+	}
     
     @Override
     protected void dispatch(){ //throws BubbleDocsException {
 	
     	String[] rowAndColumnCell = cellId.split(";");
-    	String rowCell = rowAndColumnCell[0]; 
-    	String collumnCell = rowAndColumnCell[1];
+    	int rowCell = Integer.parseInt(rowAndColumnCell[0]); 
+    	int columnCell = Integer.parseInt(rowAndColumnCell[1]);
     	
     	String[] rowAndColumnContent = reference.split(";");
-    	String rowContent = rowAndColumnContent[0]; 
-    	String collumnContent = rowAndColumnContent[1];
-    	
+    	int rowCellReference = Integer.parseInt(rowAndColumnContent[0]); 
+    	int columnCellReference = Integer.parseInt(rowAndColumnContent[1]);
     	String docIdString = "" + docId;
-    	//dimensoes da spreadsheet
     	
-    	// descomentar
+    	int rowSpreadSheet = getSpreadSheet(docIdString).getNumberColumns();  
+    	int columnSpreadSheet = getSpreadSheet(docIdString).getNumberRows();
     	
-    /*	String rowSpreadSheet = getBubbleDocs().getSpreadSheetById(docIdString).getNumberColumns();  
-    	String collumnSpreadSheet = getBubbleDocs().getSpreadSheetById(docIdString).getNumberRows();
-    	
-    	//se entrar nos dois if a reference aponta 
-    	//para uma cell existente nas dimensoes da spreadsheet
-    	if ((rowContent >= 0) && (rowContent <= rowSpreadSheet))
+    	//testa se a celula existe nas dimensoes da spreadsheet
+    	if ((rowCellReference >= 0) && (rowCellReference <= rowSpreadSheet))
     	{
-    		if ((columnContent >= 0) && (columnContent <= columnSpreadSheet))
+    		if ((columnCellReference >= 0) && (columnCellReference <= columnSpreadSheet))
     		{
-    			getBubbleDocs().getSpreadSheetById(docId).addContent(reference, row, column);
+    			 Reference referenceAux= new Reference (getSpreadSheet(docIdString), rowCellReference, columnCellReference);
+    			getSpreadSheet(docIdString).addContent(referenceAux, rowCell, columnCell);
     		}
     		else 
     		{
@@ -79,10 +70,7 @@ public class AssignReferenceToCell extends BubbleDocsService {
     	{
     		//throw new BubbleDocsException();
     	}
-    	*/ 
-    	
-    	// descomentar
-    	
+     	
     }
      
     public final String getResult() {
