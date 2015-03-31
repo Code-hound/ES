@@ -95,31 +95,32 @@ public class Exporter {
 
 		if (type.get_protected()) {
 			throw new ProtectedCellException (type.get_cellRow(), type.get_cellColumn());
-			return;
-		}
+		} else {
 
-		try {
-			element.setAttribute("row", String.valueOf(type.get_cellRow()));
-		} catch (NullPointerException e) {
-			throw new ExportException(classname, "row");
-		}
+			try {
+				element.setAttribute("row", String.valueOf(type.get_cellRow()));
+			} catch (NullPointerException e) {
+				throw new ExportException(classname, "row");
+			}
 
-		try {
-			element.setAttribute("column", String.valueOf(type.get_cellColumn()));
-		} catch (NullPointerException e) {
-			throw new ExportException(classname, "column");
-		}
+			try {
+				element.setAttribute("column", String.valueOf(type.get_cellColumn()));
+			} catch (NullPointerException e) {
+				throw new ExportException(classname, "column");
+			}
 
-		try {
-			element.setAttribute("protected", String.valueOf(type.get_protected()));
-		} catch (NullPointerException e) {
-			throw new ExportException(classname, "protected");
-		}
+			try {
+				element.setAttribute("protected", String.valueOf(type.get_protected()));
+			} catch (NullPointerException e) {
+				throw new ExportException(classname, "protected");
+			}
 
-		try {
-			element.addContent(type.getContent().exportToXML());
-		} catch (NullPointerException e) {
-			throw new ExportException("Content");
+			try {
+				element.addContent(type.getContent().exportToXML());
+			} catch (NullPointerException e) {
+				throw new ExportException("Content");
+			}
+
 		}
 
 		return element;

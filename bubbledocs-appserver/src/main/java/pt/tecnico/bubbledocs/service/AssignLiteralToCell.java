@@ -13,10 +13,10 @@ import pt.tecnico.bubbledocs.service.*;
 
 // add needed import declarations
 
-public class AssignLiteralCell extends BubbleDocsService {
+public class AssignLiteralToCell extends BubbleDocsService {
     private String result;
 
-    public AssignLiteralCell(String accessUsername, int docId, String cellId, String literal) {
+    public AssignLiteralToCell(String accessUsername, int docId, String cellId, String literal) {
     	/*
     	this.accessUsername = acceddUsername;
     	this.docId = docId; 

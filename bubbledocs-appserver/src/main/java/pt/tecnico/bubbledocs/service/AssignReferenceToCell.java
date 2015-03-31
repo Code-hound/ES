@@ -21,7 +21,7 @@ import pt.tecnico.bubbledocs.service.*;
  * 
  */
 
-public class AssignReferenceCell extends BubbleDocsService {
+public class AssignReferenceToCell extends BubbleDocsService {
 	
 	/*
 	 * Added by Calisto
@@ -33,7 +33,7 @@ public class AssignReferenceCell extends BubbleDocsService {
     private String cellId;
     private String reference;
 
-    public AssignReferenceCell(String tokenUser, int docId, String cellId, String reference)
+    public AssignReferenceToCell(String tokenUser, int docId, String cellId, String reference)
     {
     	this.tokenUser = tokenUser;
     	this.docId = docId;
