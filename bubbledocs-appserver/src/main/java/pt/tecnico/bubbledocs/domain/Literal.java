@@ -11,7 +11,7 @@ public class Literal extends Literal_Base {
 
     public Literal(int literal) {
         super();
-        set_number(literal);
+        setNumber(literal);
     }
     
 	public void    importFromXML    (Element element, SpreadSheet sheet) { Importer.use (this, element, sheet) ; }

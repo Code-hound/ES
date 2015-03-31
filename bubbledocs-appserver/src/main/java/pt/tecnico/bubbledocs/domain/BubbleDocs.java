@@ -12,7 +12,7 @@ public class BubbleDocs extends BubbleDocs_Base {
     
     private BubbleDocs() {
         super();
-        set_nextDocumentId(0);
+        setNextDocumentId(0);
         addUsers(new User("root", "root", "rootroot"));
     }
     
@@ -33,7 +33,7 @@ public class BubbleDocs extends BubbleDocs_Base {
     public User getUserByUserName(String username){
     	if(hasUsers()){
 	    	for(User u : getUsersSet()){
-	    		if(u.get_username().equals(username))
+	    		if(u.getUsername().equals(username))
 	    			return u;
 	    	}
     	}
@@ -56,7 +56,7 @@ public class BubbleDocs extends BubbleDocs_Base {
     
     public void addUser(User user) {
     	//try
-    	if (!hasUserByUserName(user.get_username())) {
+    	if (!hasUserByUserName(user.getUsername())) {
     		addUsers(user);
     	}
     	//catch
@@ -67,7 +67,7 @@ public class BubbleDocs extends BubbleDocs_Base {
     }
 
     public void removeUser(User currentUser, User userToRemove){
-    	if(hasUserByUserName(userToRemove.get_username()) && currentUser.get_username().equals("root")){
+    	if(hasUserByUserName(userToRemove.getUsername()) && currentUser.getUsername().equals("root")){
     		removeUsers(userToRemove);
     	}
     	
@@ -76,7 +76,7 @@ public class BubbleDocs extends BubbleDocs_Base {
     public SpreadSheet getSpreadSheetById (String id) {
     	int idInteger = Integer.parseInt(id);
     	for (SpreadSheet s : getDocsSet()) {
-    		if (s.get_id() == idInteger) {
+    		if (s.getId() == idInteger) {
     			return s;
     		}
     	}
@@ -86,7 +86,7 @@ public class BubbleDocs extends BubbleDocs_Base {
     public List<SpreadSheet> getSpreadSheetByName(String sheetName){
     	List<SpreadSheet> list=new ArrayList<SpreadSheet>();
     	for(SpreadSheet s : getDocsSet()){
-    		String s_name=s.get_spreadSheetName();
+    		String s_name=s.getSpreadSheetName();
     		if(s_name.equals(sheetName)){
     			list.add(s);
     		}
@@ -97,7 +97,7 @@ public class BubbleDocs extends BubbleDocs_Base {
     public List<SpreadSheet> getSpreadSheetByOwner(String userName){
     	List<SpreadSheet> list=new ArrayList<SpreadSheet>();
     	for(SpreadSheet s : getDocsSet()){
-    		String s_name=s.getOwner().get_username();
+    		String s_name=s.getOwner().getUsername();
     		if(s_name.equals(userName)){
     			list.add(s);
     		}
@@ -107,33 +107,33 @@ public class BubbleDocs extends BubbleDocs_Base {
     
     public SpreadSheet getSpreadSheetByNameAndDate(String sheetName,LocalDate date){
     	for(SpreadSheet s:getDocsSet()){
-    		if(s.get_spreadSheetName().equals(sheetName)&&s.get_date().equals(date))
+    		if(s.getSpreadSheetName().equals(sheetName)&&s.getDate().equals(date))
     			return s;
     	}
     	return null;
     }
     
     public void createSpreadSheet(User user,String sheetName,int rows,int columns){
-    	SpreadSheet newSpreadSheet = new SpreadSheet(user, get_nextDocumentId(), sheetName, rows, columns);
+    	SpreadSheet newSpreadSheet = new SpreadSheet(user, getNextDocumentId(), sheetName, rows, columns);
     	User root=getUserByUserName("root");
     	if (newSpreadSheet != null) {
     		newSpreadSheet.addDocAccess(new Access(root,0));
     		newSpreadSheet.addDocAccess(new Access(user, 1));
     		addDocs(newSpreadSheet);
     		
-    		set_nextDocumentId(get_nextDocumentId() + 1);
+    		setNextDocumentId(getNextDocumentId() + 1);
     		//set_entityId(get_entityId()+1); //Unique and sequential ID
     	}
     }
     
     public void addSpreadSheet(SpreadSheet spreadsheet){
-    	spreadsheet.set_id(get_nextDocumentId());
+    	spreadsheet.setId(getNextDocumentId());
     	User root=getUserByUserName("root");
     	spreadsheet.addDocAccess(new Access(root,0));
     	spreadsheet.addDocAccess(new Access(spreadsheet.getOwner(), 1));
     	addDocs(spreadsheet);
     	
-    	set_nextDocumentId(get_nextDocumentId() + 1);
+    	setNextDocumentId(getNextDocumentId() + 1);
     	//set_entityId(get_entityId()+1); //Unique and sequential ID
     }
 
@@ -145,7 +145,7 @@ public class BubbleDocs extends BubbleDocs_Base {
 	    		if(!list.equals("")){
 	    			list+="\n";
 	    		}
-	    		list+="Name: "+s.get_spreadSheetName()+" Id: "+s.get_id();
+	    		list+="Name: "+s.getSpreadSheetName()+" Id: "+s.getId();
 	    	}
 	    	return list;
     	}
@@ -154,7 +154,7 @@ public class BubbleDocs extends BubbleDocs_Base {
     
     public void removeSpreadSheetByOwner(String owner, String sheetName) {
         for (SpreadSheet s : getSpreadSheetByName(sheetName)) {
-            if (s.getOwner().get_username().equals(owner)) {
+            if (s.getOwner().getUsername().equals(owner)) {
             	removeDocs(s);
             }
         }

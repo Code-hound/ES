@@ -69,12 +69,12 @@ public class BubbleApplication {
 		
 		System.out.println("pf Spreadsheet Names:");
 		for (SpreadSheet s: spreadsheet_list_pf)
-			System.out.println(s.get_spreadSheetName());
+			System.out.println(s.getSpreadSheetName());
 		System.out.println();
 		
 		System.out.println("ra Spreadsheet Names:");
 		for (SpreadSheet s: spreadsheet_list_ra)
-			System.out.println(s.get_spreadSheetName());
+			System.out.println(s.getSpreadSheetName());
 		System.out.println();
 	//}
 	

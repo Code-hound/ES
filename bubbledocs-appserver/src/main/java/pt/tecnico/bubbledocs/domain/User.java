@@ -12,14 +12,14 @@ public class User extends User_Base {
 
 	public User (String userName, String name, String password) {
         super();
-        set_username(userName);
-        set_name(name);
-        set_password(password);
+        setUsername(userName);
+        setName(name);
+        setPassword(password);
     }
     /*
     private SpreadSheet getDocumentById(int id){
     	for(SpreadSheet document : getDocsSet()){
-    		if(document.get_id().equals(id)){
+    		if(document.getId().equals(id)){
     			return document;
     		}
     		
@@ -34,7 +34,7 @@ public class User extends User_Base {
     public void addDocument(User userName, SpreadSheet spreadSheetToBeAdded) { //will throw exception if it already exists
     	
     	
-    	//if(hasDocument(spreadSheetToBeAdded.get_id()))
+    	//if(hasDocument(spreadSheetToBeAdded.getId()))
     	//	throw new IdAlreadyExistsException(spreadSheetToBeAdded.getId());
     	
     
@@ -61,7 +61,7 @@ public class User extends User_Base {
     public List<SpreadSheet> getDocumentsByName(String spreadSheetName){
     	List<SpreadSheet> docList = new ArrayList<SpreadSheet>();
     	for(SpreadSheet s :getDocsSet()){
-    		if(s.get_spreadSheetName().equalsIgnoreCase(spreadSheetName))
+    		if(s.getSpreadSheetName().equalsIgnoreCase(spreadSheetName))
     			docList.add(s);
     	}
     	return docList;
@@ -69,20 +69,20 @@ public class User extends User_Base {
     */
     
     public User createUser(String userName,String name, String password){
-    	//if(!get_username().equals("root"))
+    	//if(!getUsername().equals("root"))
     		//throws InvalidAccessException
     	return new User(userName, name, password);	
     }
     
     public void removeUser(User user) {
-    	if (this.get_username().equals("root")) {
+    	if (this.getUsername().equals("root")) {
     		getBubbleDocs().removeUser(this, user);
     	}
     }
    
     public void removeSpreadsheet(SpreadSheet sheet) {
-    	if (this.get_username().equals("root")) {
-    		getBubbleDocs().removeSpreadSheetById(Integer.toString(sheet.get_id()));
+    	if (this.getUsername().equals("root")) {
+    		getBubbleDocs().removeSpreadSheetById(Integer.toString(sheet.getId()));
     	}
     }
 

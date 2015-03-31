@@ -8,9 +8,9 @@ public class Printer{
 		    String s = "";
 
 		    s += " <USR\n";
-		    s += "  User : " + user.get_username() + "\n";
-		    s += "  Name : " + user.get_name()     + "\n";
-		    s += "  Pass : " + user.get_password() + "\n";
+		    s += "  User : " + user.getUsername() + "\n";
+		    s += "  Name : " + user.getName()     + "\n";
+		    s += "  Pass : " + user.getPassword() + "\n";
 		    s += " \\USR>\n";
 
 		    return s;
@@ -26,10 +26,10 @@ public class Printer{
 			} catch (NullPointerException e) {
 				s += " User : NULL";
 			}
-		 	s += " ID   : " + spreadsheet.get_id()   + "\n";
-		 	s += " Name : " + spreadsheet.get_spreadSheetName();
-		 	s += " Date : " + spreadsheet.get_date() + "\n";
-		 	s += " Size : " + spreadsheet.get_numberRows() + "," + spreadsheet.get_numberColumns() + "\n";
+		 	s += " ID   : " + spreadsheet.getId()   + "\n";
+		 	s += " Name : " + spreadsheet.getSpreadSheetName();
+		 	s += " Date : " + spreadsheet.getDate() + "\n";
+		 	s += " Size : " + spreadsheet.getNumberRows() + "," + spreadsheet.getNumberColumns() + "\n";
 		 	for (Cell cell : spreadsheet.getCellsSet())
 				if(cell.getContent() != null)
 					s += cell.toString();
@@ -42,7 +42,7 @@ public class Printer{
 		    String s = "";
 
 		 	s += " <CEL\n";		 	
-		 	s += "  Loc  : " + cell.get_cellRow() + ";" + cell.get_cellColumn() + "\n";
+		 	s += "  Loc  : " + cell.getCellRow() + ";" + cell.getCellColumn() + "\n";
 		    try {
 	    	    s += "  Cont : " + cell.getContent() + "\n";
 	    	} catch (NullPointerException e) {
@@ -66,7 +66,7 @@ public class Printer{
 	    	Cell cell = reference.getCellReference();
 
 			try {
-				s += " REF (" + cell.get_cellRow() + ";" + cell.get_cellColumn() + ")";
+				s += " REF (" + cell.getCellRow() + ";" + cell.getCellColumn() + ")";
 			} catch (NullPointerException e) {
 				s += " REF (NULL)";
 			}

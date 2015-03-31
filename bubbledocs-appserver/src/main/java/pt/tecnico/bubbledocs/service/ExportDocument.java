@@ -37,7 +37,7 @@ public class ExportDocument extends BubbleDocsService {
 		boolean write = sheet.getReadWriteUserOnly().contains(user);
 		boolean read = sheet.getReadOnlyUser().contains(user);
 		Element xml;
-		boolean owns = sheet.getOwner().get_username() == userToken;
+		boolean owns = sheet.getOwner().getUsername() == userToken;
 		if ( owns || read || write )
 			 xml = sheet.exportToXML();
 	}

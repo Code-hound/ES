@@ -1,14 +1,14 @@
 package pt.tecnico.bubbledocs.domain;
 
 class BubbleDocs{
-	int _nextDocumentId;
+	int nextDocumentId;
 }
 
 class User {
-	String _username;
-	String _name;
-	String _password;
-	String _userToken;
+	String username;
+	String name;
+	String password;
+	String userToken;
 }
 
 class Session {
@@ -16,11 +16,11 @@ class Session {
 }
 
 class SpreadSheet {
-	int _id;
-	String _spreadSheetName;
-	LocalDate _date;
-	int _numberRows;
-	int _numberColumns;
+	int id;
+	String spreadSheetName;
+	LocalDate date;
+	int numberRows;
+	int numberColumns;
 }
 
 class Access{
@@ -28,9 +28,9 @@ class Access{
 
 
 class Cell {
-	int _cellRow;
-	int _cellColumn;
-	boolean _protected;
+	int cellRow;
+	int cellColumn;
+	boolean protect;
 }
 
 class Content;
@@ -38,7 +38,7 @@ class Content;
 class FunctionArguments extends Content;
 
 class Literal extends FunctionArguments {
-	int _number;
+	int number;
 }
 
 class Reference extends FunctionArguments;

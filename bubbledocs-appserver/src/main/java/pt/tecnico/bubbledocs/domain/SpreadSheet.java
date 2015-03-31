@@ -19,12 +19,12 @@ public class SpreadSheet extends SpreadSheet_Base {
 		super();
 		//setBubbleDocs(BubbleDocs.getInstance());
 		setOwner(owner);
-		set_id(id);
+		setId(id);
 			//BubbleDocs.getInstance().
-		set_spreadSheetName(name);
-		set_date(new LocalDate());
-		set_numberRows(rows);
-		set_numberColumns(columns);
+		setSpreadSheetName(name);
+		setDate(new LocalDate());
+		setNumberRows(rows);
+		setNumberColumns(columns);
 		for (int row = 1; row < rows; row++) {
 			for (int column = 1; column < columns; column++) {
 				addCells(new Cell(row, column));
@@ -92,7 +92,7 @@ public class SpreadSheet extends SpreadSheet_Base {
 	 */
 	public int getUserPermission (User user) {
 		for (Access a : getDocAccessSet()) {
-			if (a.getUser().get_username().equals(user.get_username())) {
+			if (a.getUser().getUsername().equals(user.getUsername())) {
 				return a.getPermission();
 			}
 		}
@@ -101,7 +101,7 @@ public class SpreadSheet extends SpreadSheet_Base {
 
 	public void addContent(Content c, int row, int column) {
 		for (Cell cell : getCellsSet()) {
-			if (cell.get_cellRow() == row && cell.get_cellColumn() == column) {
+			if (cell.getCellRow() == row && cell.getCellColumn() == column) {
 				// try{
 				cell.setContent(c);
 				// }catch(ProtectedCellException e)
@@ -112,7 +112,7 @@ public class SpreadSheet extends SpreadSheet_Base {
 
 	public void removeContent(int row, int column) {
 		for (Cell cell : getCellsSet()) {
-			if (cell.get_cellRow() == row && cell.get_cellColumn() == column) {
+			if (cell.getCellRow() == row && cell.getCellColumn() == column) {
 				// try{
 				cell.setContent(null);
 				// }catch(ProtectedCellException e)
@@ -127,7 +127,7 @@ public class SpreadSheet extends SpreadSheet_Base {
 			if (!description.equals("")) {
 				description += "\n";
 			}
-			if (cell.get_cellRow() == row && cell.get_cellColumn() == column) {
+			if (cell.getCellRow() == row && cell.getCellColumn() == column) {
 				// try{
 				description += row + ";" + column;
 				description += cell.toString();

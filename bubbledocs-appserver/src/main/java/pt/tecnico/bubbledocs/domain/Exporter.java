@@ -21,19 +21,19 @@ public class Exporter {
 		Element element = new Element(classname);
 
 		try {
-			element.setAttribute("username", type.get_username());
+			element.setAttribute("username", type.getUsername());
 		} catch (NullPointerException e) {
 			throw new ExportException(classname, "username");
 		}
 
 		try {
-			element.setAttribute("name", type.get_name());
+			element.setAttribute("name", type.getName());
 		} catch (NullPointerException e) {
 			throw new ExportException(classname, "name");
 		}
 
 		try {
-			element.setAttribute("password", type.get_password());
+			element.setAttribute("password", type.getPassword());
 		} catch (NullPointerException e) {
 			throw new ExportException(classname, "password");
 		}
@@ -47,31 +47,31 @@ public class Exporter {
 		Element element = new Element(classname);
 
 		try {
-			element.setAttribute("id", String.valueOf(type.get_id()));
+			element.setAttribute("id", String.valueOf(type.getId()));
 		} catch (NullPointerException e) {
 			throw new ExportException(classname, "id");
 		}
 
 		try {
-			element.setAttribute("name", type.get_spreadSheetName());
+			element.setAttribute("name", type.getSpreadSheetName());
 		} catch (NullPointerException e) {
 			throw new ExportException(classname, "name");
 		}
 
 		try {
-			element.setAttribute("date", type.get_date().toString());
+			element.setAttribute("date", type.getDate().toString());
 		} catch (NullPointerException e) {
 			throw new ExportException(classname, "date");
 		}
 
 		try {
-			element.setAttribute("rows", String.valueOf(type.get_numberRows()));
+			element.setAttribute("rows", String.valueOf(type.getNumberRows()));
 		} catch (NullPointerException e) {
 			throw new ExportException(classname, "rows");
 		}
 
 		try {
-			element.setAttribute("columns", String.valueOf(type.get_numberColumns()));
+			element.setAttribute("columns", String.valueOf(type.getNumberColumns()));
 		} catch (NullPointerException e) {
 			throw new ExportException(classname, "columns");
 		}
@@ -93,26 +93,26 @@ public class Exporter {
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
 
-		if (type.get_protected()) {
-			throw new ProtectedCellException (type.get_cellRow(), type.get_cellColumn());
+		if (type.getProtect()) {
+			throw new ProtectedCellException (type.getCellRow(), type.getCellColumn());
 		} else {
 
 			try {
-				element.setAttribute("row", String.valueOf(type.get_cellRow()));
+				element.setAttribute("row", String.valueOf(type.getCellRow()));
 			} catch (NullPointerException e) {
 				throw new ExportException(classname, "row");
 			}
 
 			try {
-				element.setAttribute("column", String.valueOf(type.get_cellColumn()));
+				element.setAttribute("column", String.valueOf(type.getCellColumn()));
 			} catch (NullPointerException e) {
 				throw new ExportException(classname, "column");
 			}
 
 			try {
-				element.setAttribute("protected", String.valueOf(type.get_protected()));
+				element.setAttribute("protect", String.valueOf(type.getProtect()));
 			} catch (NullPointerException e) {
-				throw new ExportException(classname, "protected");
+				throw new ExportException(classname, "protect");
 			}
 
 			try {
@@ -131,7 +131,7 @@ public class Exporter {
 		Element element = new Element(classname);
 
 		try {
-			element.setAttribute("number", String.valueOf(type.get_number()));
+			element.setAttribute("number", String.valueOf(type.getNumber()));
 		} catch (NullPointerException e) {
 			throw new ExportException(classname, "number");
 		}

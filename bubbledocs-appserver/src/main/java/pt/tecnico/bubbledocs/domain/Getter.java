@@ -12,7 +12,7 @@ public class Getter{
 	}
 
 	public static int use (Literal literal) {
-		return literal.get_number();
+		return literal.getNumber();
 	}
 
 	public static int use (Reference reference) {

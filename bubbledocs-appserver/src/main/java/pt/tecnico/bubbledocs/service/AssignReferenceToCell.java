@@ -59,8 +59,8 @@ public class AssignReferenceToCell extends BubbleDocsService {
     	
     	// descomentar
     	
-    /*	String rowSpreadSheet = getBubbleDocs().getSpreadSheetById(docIdString).get_numberColumns();  
-    	String collumnSpreadSheet = getBubbleDocs().getSpreadSheetById(docIdString).get_numberRows();
+    /*	String rowSpreadSheet = getBubbleDocs().getSpreadSheetById(docIdString).getNumberColumns();  
+    	String collumnSpreadSheet = getBubbleDocs().getSpreadSheetById(docIdString).getNumberRows();
     	
     	//se entrar nos dois if a reference aponta 
     	//para uma cell existente nas dimensoes da spreadsheet

@@ -15,19 +15,19 @@ public class Importer {
 		try {
 
 			try {
-				user.set_username (element.getAttribute("username").getName());
+				user.setUsername (element.getAttribute("username").getName());
 			} catch (NullPointerException e) { 
 				throw new ImportException(element.getName(), "username");
 			}
 
 			try {
-				user.set_name (element.getAttribute("name").getName()    );
+				user.setName (element.getAttribute("name").getName()    );
 			} catch (NullPointerException e) { 
 				throw new ImportException(element.getName(), "name");
 			}
 
 			try {
-				user.set_password (element.getAttribute("password").getName());
+				user.setPassword (element.getAttribute("password").getName());
 			} catch (NullPointerException e) { 
 				throw new ImportException(element.getName(), "password");
 			}
@@ -43,31 +43,31 @@ public class Importer {
 			Cell newCell;
 
 			try {
-				spreadsheet.set_id (Integer.parseInt(element.getAttribute("id").getName())     );
+				spreadsheet.setId (Integer.parseInt(element.getAttribute("id").getName())     );
 			} catch (NullPointerException e) { 
 				throw new ImportException(element.getName(), "id");
 			}
 
 			try {
-				spreadsheet.set_spreadSheetName (element.getAttribute("name").getName()                     );
+				spreadsheet.setSpreadSheetName (element.getAttribute("name").getName()                     );
 			} catch (NullPointerException e) { 
 				throw new ImportException(element.getName(), "name");
 			}
 
 			try {
-				spreadsheet.set_date (new LocalDate (element.getAttribute("date").getName())     );
+				spreadsheet.setDate (new LocalDate (element.getAttribute("date").getName())     );
 			} catch (NullPointerException e) { 
 				throw new ImportException(element.getName(), "date");
 			}
 
 			try {
-				spreadsheet.set_numberRows (Integer.parseInt(element.getAttribute("rows").getName())   );
+				spreadsheet.setNumberRows (Integer.parseInt(element.getAttribute("rows").getName())   );
 			} catch (NullPointerException e) { 
 				throw new ImportException(element.getName(), "rows");
 			}
 
 			try {
-				spreadsheet.set_numberColumns (Integer.parseInt(element.getAttribute("columns").getName()));
+				spreadsheet.setNumberColumns (Integer.parseInt(element.getAttribute("columns").getName()));
 			} catch (NullPointerException e) { 
 				throw new ImportException(element.getName(), "columns");
 			}
@@ -83,7 +83,7 @@ public class Importer {
 				
 					newCell = new Cell(spreadsheet, newContent);
 					for (Cell cell : spreadsheet.getCellsSet()) {
-						if (cell.get_cellRow() == newCell.get_cellRow() && cell.get_cellColumn() == newCell.get_cellColumn()) {
+						if (cell.getCellRow() == newCell.getCellRow() && cell.getCellColumn() == newCell.getCellColumn()) {
 							// try{
 							cell = newCell;
 							// }catch(ProtectedCellException e)
@@ -108,21 +108,21 @@ public class Importer {
 			Element content = content_list.get(0);
 
 			try {
-				cell.set_cellRow(Integer.parseInt(element.getAttribute("row").getName()));
+				cell.setCellRow(Integer.parseInt(element.getAttribute("row").getName()));
 			} catch (NullPointerException e) { 
 				throw new ImportException(element.getName(), "row");
 			}
 
 			try {
-				cell.set_cellColumn(Integer.parseInt(element.getAttribute("column").getName()));
+				cell.setCellColumn(Integer.parseInt(element.getAttribute("column").getName()));
 			} catch (NullPointerException e) { 
 				throw new ImportException(element.getName(), "column");
 			}
 
 			try {
-				cell.set_protected(Boolean.parseBoolean(element.getAttribute("protected").getName()));
+				cell.setProtect(Boolean.parseBoolean(element.getAttribute("protect").getName()));
 			} catch (NullPointerException e) { 
-				throw new ImportException(element.getName(), "protected");
+				throw new ImportException(element.getName(), "protect");
 			}
 
 			switch (content.getName()) {
@@ -154,7 +154,7 @@ public class Importer {
 		try {
 
 			try {
-				literal.set_number(Integer.parseInt(element.getAttribute("number").getName()));
+				literal.setNumber(Integer.parseInt(element.getAttribute("number").getName()));
 			} catch (NullPointerException e) {
 				throw new ImportException(element.getName(), "number");
 			}
@@ -175,7 +175,7 @@ public class Importer {
 				int column = Integer.parseInt(element.getChild("User").getAttribute("column").getName());
 
 				for (Cell cell : sheet.getCellsSet()) {
-					if (cell.get_cellRow() == row && cell.get_cellColumn() == column) {
+					if (cell.getCellRow() == row && cell.getCellColumn() == column) {
 						// try{
 						reference.setCell(cell);
 						// }catch(ProtectedCellException e)

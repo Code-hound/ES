@@ -11,12 +11,12 @@ public class Cell extends Cell_Base {
 	
     public Cell (int row, int column) {
         super();
-        set_cellRow(row);
-        set_cellColumn(column);
+        setCellRow(row);
+        setCellColumn(column);
     }
     
     public void toogleProtection(){
-    	set_protected(!get_protected());
+    	setProtect(!getProtect());
     }
 
 	public void    importFromXML    (Element element, SpreadSheet sheet) { Importer.use (this, element, sheet) ; }
