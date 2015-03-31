@@ -35,17 +35,17 @@ public class AssignReferenceToCell extends BubbleDocsService {
 
     public AssignReferenceToCell(String tokenUser, int docId, String cellId, String reference)
     {
+    
     	this.tokenUser = tokenUser;
     	this.docId = docId;
     	this.cellId = cellId;
     	this.reference = reference;
-	// add code here
+	
     }
     
     @Override
     protected void dispatch(){ //throws BubbleDocsException {
-	// add code here
-    	
+	
     	String[] rowAndColumnCell = cellId.split(";");
     	String rowCell = rowAndColumnCell[0]; 
     	String collumnCell = rowAndColumnCell[1];
