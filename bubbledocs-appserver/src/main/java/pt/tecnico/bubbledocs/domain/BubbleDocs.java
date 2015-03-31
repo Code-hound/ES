@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.jdom2.Element;
 import org.joda.time.LocalDate;
+import pt.tecnico.bubbledocs.exception.ImportException;
+import pt.tecnico.bubbledocs.exception.ExportException;
 
 import pt.ist.fenixframework.FenixFramework;
 

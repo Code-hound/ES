@@ -16,7 +16,7 @@ public class Exporter {
 	 *	@author: Luís Ribeiro Gomes
 	 */
 
-	public static Element use(User type){
+	public static Element use(User type) throws ExportException {
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
 
@@ -42,7 +42,7 @@ public class Exporter {
 	}
 
 
-	public static Element use(SpreadSheet type) {
+	public static Element use(SpreadSheet type) throws ExportException {
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
 
@@ -89,7 +89,7 @@ public class Exporter {
 		return element;
 	}
 
-	public static Element use(Cell type){
+	public static Element use(Cell type) throws ExportException {
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
 
@@ -126,7 +126,7 @@ public class Exporter {
 		return element;
 	}
 
-	public static Element use(Literal type) {
+	public static Element use(Literal type) throws ExportException {
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
 
@@ -139,7 +139,7 @@ public class Exporter {
 		return element;
 	}
 
-	public static Element use(Reference type) {
+	public static Element use(Reference type) throws ExportException {
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
 
@@ -152,7 +152,7 @@ public class Exporter {
 		return element;
 	}
 	
-	public static Element use(BinaryFunction type) {
+	public static Element use(BinaryFunction type) throws ExportException {
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
 
@@ -167,7 +167,7 @@ public class Exporter {
 		return element;
 	}
 
-	public static Element use(RangedFunction type) {
+	public static Element use(RangedFunction type) throws ExportException {
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
 

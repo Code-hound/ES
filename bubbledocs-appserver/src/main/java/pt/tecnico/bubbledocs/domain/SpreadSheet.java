@@ -5,6 +5,8 @@ import java.util.List;
 
 
 import org.jdom2.Element;
+import pt.tecnico.bubbledocs.exception.ImportException;
+import pt.tecnico.bubbledocs.exception.ExportException;
 
 import org.joda.time.LocalDate;
 
@@ -137,7 +139,7 @@ public class SpreadSheet extends SpreadSheet_Base {
 		return description;
 	}
 	
-	public void    importFromXML    (Element element) { Importer.use (this, element) ; }
-	public Element exportToXML      ()                { return Exporter.use (this)   ; }
+	public void    importFromXML (Element element)                    throws ImportException { Importer.use (this, element) ; }
+	public Element exportToXML   ()                                   throws ExportException { return Exporter.use (this)   ; }
     public String  toString         ()                { return Printer.use  (this)   ; }
 }

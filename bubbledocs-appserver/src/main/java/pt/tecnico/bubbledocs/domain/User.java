@@ -2,6 +2,8 @@
 package pt.tecnico.bubbledocs.domain;
 
 import org.jdom2.Element;
+import pt.tecnico.bubbledocs.exception.ImportException;
+import pt.tecnico.bubbledocs.exception.ExportException;
 
 public class User extends User_Base {
 
@@ -86,7 +88,7 @@ public class User extends User_Base {
     	}
     }
 
-	public void    importFromXML    (Element element) { Importer.use (this, element) ; }
-	public Element exportToXML      ()                { return Exporter.use (this)   ; }
+	public void    importFromXML (Element element) throws ImportException { Importer.use (this, element) ; }
+	public Element exportToXML   ()                throws ExportException { return Exporter.use (this)   ; }
     public String  toString         ()                { return Printer.use  (this)   ; }
 }
