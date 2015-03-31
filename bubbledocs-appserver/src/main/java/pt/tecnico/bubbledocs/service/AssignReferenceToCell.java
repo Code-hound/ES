@@ -4,6 +4,7 @@
 package pt.tecnico.bubbledocs.service;
 
 import pt.tecnico.bubbledocs.domain.Reference;
+import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 
 //import pt.tecnico.bubbledocs.*;
 //import pt.tecnico.bubbledocs.service.*;
@@ -39,7 +40,7 @@ public class AssignReferenceToCell extends BubbleDocsService {
 	}
     
     @Override
-    protected void dispatch(){ //throws BubbleDocsException {
+    protected void dispatch()  {
 	
     	String[] rowAndColumnCell = cellId.split(";");
     	int rowCell = Integer.parseInt(rowAndColumnCell[0]); 
@@ -58,17 +59,22 @@ public class AssignReferenceToCell extends BubbleDocsService {
     	{
     		if ((columnCellReference >= 0) && (columnCellReference <= columnSpreadSheet))
     		{
-    			 Reference referenceAux= new Reference (getSpreadSheet(docIdString), rowCellReference, columnCellReference);
+    			Reference referenceAux= new Reference (getSpreadSheet(docIdString), rowCellReference, columnCellReference);
+    			if (referenceAux.getCellReference().getProtect())
+    				throw new ProtectedCellException(rowCell, columnCell);
+    			else
+    			{	
     			getSpreadSheet(docIdString).addContent(referenceAux, rowCell, columnCell);
-    		}
+    		 	}
+    		}	
     		else 
     		{
-    			//throw new BubbleDocsException();
+    			System.out.println("Referenced cell not in spreadsheet");
     		}
     	}
     	else 
     	{
-    		//throw new BubbleDocsException();
+    		System.out.println("Referenced cell not in spreadsheet");
     	}
      	
     }

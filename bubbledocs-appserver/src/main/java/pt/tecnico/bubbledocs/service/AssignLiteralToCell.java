@@ -3,9 +3,11 @@
 
 package pt.tecnico.bubbledocs.service;
 
+import pt.tecnico.bubbledocs.domain.Cell;
 import pt.tecnico.bubbledocs.domain.Literal;
 //import pt.tecnico.bubbledocs.service.*;
 //import pt.tecnico.bubbledocs.*;
+import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 
 public class AssignLiteralToCell extends BubbleDocsService {
     
@@ -35,7 +37,22 @@ public class AssignLiteralToCell extends BubbleDocsService {
     	int column = Integer.parseInt(columnAux);
     	
     	String docIdString = "" + docId;
-    	getSpreadSheet(docIdString).addContent(new Literal(Integer.parseInt(literal)), row, column);
+    	
+    	for (Cell cell : getSpreadSheet(docIdString).getCellsSet()) {
+			if (cell.getCellRow() == row && cell.getCellColumn() == column) {
+				if (cell.getProtect())
+					{
+					throw new ProtectedCellException(row, column);
+					}
+				else
+				{
+					getSpreadSheet(docIdString).addContent(new Literal(Integer.parseInt(literal)), row, column);
+				}
+			}
+		}    	
+    	
+    	
+		
     	result = literal;
     	
     }

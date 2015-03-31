@@ -6,7 +6,7 @@ public class ProtectedCellException extends BubbleDocsException
 	/*
 	 *	PROTECTED CELL EXCEPTION EXCEPTION
 	 *
-	 *	Excepcao caso a célula esteja protegida.
+	 *	Excepcao caso a celula esteja protegida.
 	 *
 	 *	@author: Luis Ribeiro Gomes
 	 */
