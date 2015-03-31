@@ -1,183 +1,236 @@
 package pt.tecnico.bubbledocs.domain;
 
 import org.jdom2.Element;
-import org.jdom2.DataConversionException;
 import java.lang.NullPointerException;
 import java.lang.Integer;
 import java.lang.Boolean;
 import java.util.List;
+import pt.tecnico.bubbledocs.exception.ImportException;
 
 import org.joda.time.LocalDate;
 
 public class Importer {
 
-	public static void use (User user, Element element){
-		if (element.getName() != "User") {
-			System.out.println("throw new ImportDocumentException();");
-			return;
-		}
+	public static void use (User user, Element element) throws ImportException {
+		try {
 
-		//try {
-			user.set_username (element.getAttribute("username").getName());
-			user.set_name     (element.getAttribute("name").getName()    );
-			user.set_password (element.getAttribute("password").getName());
-		//} catch (DataConversionException e) { 
-			//System.out.println("throw new ImportDocumentException();");
-		//}
+			try {
+				user.set_username (element.getAttribute("username").getName());
+			} catch (NullPointerException e) { 
+				throw new ImportException(element.getName(), "username");
+			}
+
+			try {
+				user.set_name (element.getAttribute("name").getName()    );
+			} catch (NullPointerException e) { 
+				throw new ImportException(element.getName(), "name");
+			}
+
+			try {
+				user.set_password (element.getAttribute("password").getName());
+			} catch (NullPointerException e) { 
+				throw new ImportException(element.getName(), "password");
+			}
+
+		} catch (NullPointerException e) { 
+			throw new ImportException("User");
+		}
 	}
 
-	public static void use (SpreadSheet spreadsheet, Element element) {
-		if (element.getName() != "SpreadSheet") {
-			System.out.println("throw new ImportDocumentException();");
-			return;
-		}
-
-		Cell newCell;
-
+	public static void use (SpreadSheet spreadsheet, Element element) throws ImportException {
 		try {
-			spreadsheet.set_id              (Integer.parseInt(element.getAttribute("id").getName())     );
-			spreadsheet.set_spreadSheetName (element.getAttribute("name").getName()                     );
-			spreadsheet.set_date            (new LocalDate (element.getAttribute("date").getName())     );
-			spreadsheet.set_numberRows      (Integer.parseInt(element.getAttribute("rows").getName())   );
-			spreadsheet.set_numberColumns   (Integer.parseInt(element.getAttribute("columns").getName()));
-			spreadsheet.setOwner(new User (element.getChild("User")));
+
+			Cell newCell;
+
+			try {
+				spreadsheet.set_id (Integer.parseInt(element.getAttribute("id").getName())     );
+			} catch (NullPointerException e) { 
+				throw new ImportException(element.getName(), "id");
+			}
+
+			try {
+				spreadsheet.set_spreadSheetName (element.getAttribute("name").getName()                     );
+			} catch (NullPointerException e) { 
+				throw new ImportException(element.getName(), "name");
+			}
+
+			try {
+				spreadsheet.set_date (new LocalDate (element.getAttribute("date").getName())     );
+			} catch (NullPointerException e) { 
+				throw new ImportException(element.getName(), "date");
+			}
+
+			try {
+				spreadsheet.set_numberRows (Integer.parseInt(element.getAttribute("rows").getName())   );
+			} catch (NullPointerException e) { 
+				throw new ImportException(element.getName(), "rows");
+			}
+
+			try {
+				spreadsheet.set_numberColumns (Integer.parseInt(element.getAttribute("columns").getName()));
+			} catch (NullPointerException e) { 
+				throw new ImportException(element.getName(), "columns");
+			}
+
+			try {
+				spreadsheet.setOwner(new User (element.getChild("User")));
+			} catch (NullPointerException e) { 
+				throw new ImportException("User");
+			}
+
 			for(Element newContent : element.getChildren("Cell")) {
-				newCell = new Cell(spreadsheet, newContent);
-				for (Cell cell : spreadsheet.getCellsSet()) {
-					if (cell.get_cellRow() == newCell.get_cellRow() && cell.get_cellColumn() == newCell.get_cellColumn()) {
+				try {
+				
+					newCell = new Cell(spreadsheet, newContent);
+					for (Cell cell : spreadsheet.getCellsSet()) {
+						if (cell.get_cellRow() == newCell.get_cellRow() && cell.get_cellColumn() == newCell.get_cellColumn()) {
+							// try{
+							cell = newCell;
+							// }catch(ProtectedCellException e)
+							break;
+						}
+					}
+				
+				} catch (NullPointerException e) { 
+					throw new ImportException("Cell");
+				}
+			}
+
+		} catch (NullPointerException e) { 
+			throw new ImportException("SpreadSheet");
+		}
+	}
+
+	public static void use (Cell cell, Element element, SpreadSheet sheet) throws ImportException {
+		try {
+
+			List<Element> content_list = element.getChildren();
+			Element content = content_list.get(0);
+
+			try {
+				cell.set_cellRow(Integer.parseInt(element.getAttribute("row").getName()));
+			} catch (NullPointerException e) { 
+				throw new ImportException(element.getName(), "row");
+			}
+
+			try {
+				cell.set_cellColumn(Integer.parseInt(element.getAttribute("column").getName()));
+			} catch (NullPointerException e) { 
+				throw new ImportException(element.getName(), "column");
+			}
+
+			try {
+				cell.set_protected(Boolean.parseBoolean(element.getAttribute("protected").getName()));
+			} catch (NullPointerException e) { 
+				throw new ImportException(element.getName(), "protected");
+			}
+
+			switch (content.getName()) {
+				case "Literal"   : cell.setContent(new Literal   (sheet, content));
+								   break;
+				case "Reference" : cell.setContent(new Reference (sheet, content));
+								   break;
+				case "ADD"       : cell.setContent(new ADD       (sheet, content));
+								   break;
+				case "SUB"       : cell.setContent(new SUB       (sheet, content));
+								   break;
+				case "MUL"       : cell.setContent(new MUL       (sheet, content));
+								   break;
+				case "DIV"       : cell.setContent(new DIV       (sheet, content));
+								   break;
+				case "AVG"       : cell.setContent(new AVG       (sheet, content));
+								   break;
+				case "PRD"       : cell.setContent(new PRD       (sheet, content));
+								   break;
+				default          : throw new ImportException("Content");
+			}
+
+		} catch (NullPointerException e) { 
+			throw new ImportException("Cell");
+		}
+    }
+  
+    public static void use (Literal literal, Element element, SpreadSheet sheet) throws ImportException {
+		try {
+
+			try {
+				literal.set_number(Integer.parseInt(element.getAttribute("number").getName()));
+			} catch (NullPointerException e) {
+				throw new ImportException(element.getName(), "number");
+			}
+
+		} catch (NullPointerException e) { 
+			throw new ImportException("Literal");
+		}
+    }
+  
+    public static void use (Reference reference, Element element, SpreadSheet sheet) throws ImportException {
+		try {
+
+			try {
+
+				Element content = element.getChild("Cell");
+
+				int row = Integer.parseInt(element.getChild("User").getAttribute("row").getName());
+				int column = Integer.parseInt(element.getChild("User").getAttribute("column").getName());
+
+				for (Cell cell : sheet.getCellsSet()) {
+					if (cell.get_cellRow() == row && cell.get_cellColumn() == column) {
 						// try{
-						cell = newCell;
+						reference.setCell(cell);
 						// }catch(ProtectedCellException e)
 						break;
 					}
 				}
+
+			} catch (NullPointerException e) { 
+				throw new ImportException("Cell");
 			}
-		//} catch (DataConversionException e) { 
-			//System.out.println("throw new ImportDocumentException();");
-		} catch (NullPointerException e) {
-			System.out.println("throw new ImportDocumentException();");
+
+		} catch (NullPointerException e) { 
+			throw new ImportException("Reference");
 		}
-  }
+    }
 
-	public static void use (Cell cell, Element element, SpreadSheet sheet) {
-		if (element.getName() != "Cell") {
-			System.out.println("throw new ImportDocumentException();");
-			return;
-		}
-
-		List<Element> content_list = element.getChildren();
-		Element content = content_list.get(0);
-
+    private static void use (BinaryFunction function, Element element, SpreadSheet sheet, String type) throws ImportException {
 		try {
-			cell.set_cellRow(Integer.parseInt(element.getAttribute("row").getName()));
-			cell.set_cellColumn(Integer.parseInt(element.getAttribute("column").getName()));
-			cell.set_protected(Boolean.parseBoolean(element.getAttribute("protected").getName()));
-			switch (content.getName()) {
-				case "Literal"   : cell.setContent(new Literal   (sheet, content));
-				                   break;
-				case "Reference" : cell.setContent(new Reference (sheet, content));
-				                   break;
-				case "ADD"       : cell.setContent(new ADD       (sheet, content));
-				                   break;
-				case "SUB"       : cell.setContent(new SUB       (sheet, content));
-				                   break;
-				case "MUL"       : cell.setContent(new MUL       (sheet, content));
-				                   break;
-				case "DIV"       : cell.setContent(new DIV       (sheet, content));
-				                   break;
-				case "AVG"       : cell.setContent(new AVG       (sheet, content));
-				                   break;
-				case "PRD"       : cell.setContent(new PRD       (sheet, content));
-				                   break;
-				default          : System.out.println("throw new ImportDocumentException();");
-			}
-		//} catch (DataConversionException e) { 
-			//System.out.println("throw new ImportDocumentException();");
-		} catch (NullPointerException e) {
-			System.out.println("throw new ImportDocumentException();");
-		}
-    }
-  
-    public static void use (Literal literal, Element element, SpreadSheet sheet) {
-		if (element.getName() != "Literal") {
-			System.out.println("throw new ImportDocumentException();");
-			return;
-		}
 
-    	//try {
-			literal.set_number(Integer.parseInt(element.getAttribute("number").getName()));
-		//} catch (DataConversionException e) {
-			//System.out.println("throw new ImportDocumentException();");
-		//}
-    }
-  
-    public static void use (Reference reference, Element element, SpreadSheet sheet) {
-		if (element.getName() != "Reference") {
-			System.out.println("throw new ImportDocumentException();");
-			return;
-		}
-
-		Element content = element.getChild("Cell");
-
-    	//try {
-			int row = Integer.parseInt(element.getChild("User").getAttribute("row").getName());
-			int column = Integer.parseInt(element.getChild("User").getAttribute("column").getName());
-			for (Cell cell : sheet.getCellsSet()) {
-				if (cell.get_cellRow() == row && cell.get_cellColumn() == column) {
-					// try{
-					reference.setCell(cell);
-					// }catch(ProtectedCellException e)
-					break;
-				}
-			}
-			
-			
-		//} catch (DataConversionException e) {
-			//System.out.println("throw new ImportDocumentException();");
-		//}
-    }
-
-    private static void use (BinaryFunction function, Element element, SpreadSheet sheet, String type) {
-		if (element.getName() != type) {
-			System.out.println("throw new ImportDocumentException();");
-			return;
-		}
-
-		for (Element content : element.getChildren()) {
-			//try {
+			for (Element content : element.getChildren()) {
 				switch (content.getName()) {
 					case "Reference" : function.addArgs(new Reference (sheet, content));
-					                   break;
+									   break;
 					case "Literal"   : function.addArgs(new Literal (sheet, content));
-					                   break;
-				    default          : System.out.println("throw new ImportDocumentException();");
+									   break;
+					default          : throw new ImportException("FunctionArguments");
 				}
-			//} catch (DataConversionException e) {
-				//System.out.println("throw new ImportDocumentException();");
-			//}
+			}
+		
+		} catch (NullPointerException e) { 
+			throw new ImportException(type);
 		}
     }
 
-    public static void use (ADD function, Element element, SpreadSheet sheet) { use(function, element, sheet, "ADD"); }
-    public static void use (SUB function, Element element, SpreadSheet sheet) { use(function, element, sheet, "SUB"); }
-    public static void use (MUL function, Element element, SpreadSheet sheet) { use(function, element, sheet, "MUL"); }
-    public static void use (DIV function, Element element, SpreadSheet sheet) { use(function, element, sheet, "DIV"); }
+    public static void use (ADD function, Element element, SpreadSheet sheet) throws ImportException { use(function, element, sheet, "ADD"); }
+    public static void use (SUB function, Element element, SpreadSheet sheet) throws ImportException { use(function, element, sheet, "SUB"); }
+    public static void use (MUL function, Element element, SpreadSheet sheet) throws ImportException { use(function, element, sheet, "MUL"); }
+    public static void use (DIV function, Element element, SpreadSheet sheet) throws ImportException { use(function, element, sheet, "DIV"); }
 
-    private static void use (RangedFunction function, Element element, SpreadSheet sheet, String type) {
-		if (element.getName() != type) {
-			System.out.println("throw new ImportDocumentException();");
-			return;
-		}
+    private static void use (RangedFunction function, Element element, SpreadSheet sheet, String type) throws ImportException {
+		try {
 
-		for (Element content : element.getChildren()) {
-			//try {
-				function.addArgs(new Reference (sheet, content));
-			//} catch (DataConversionException e) {
-				//System.out.println("throw new ImportDocumentException();");
-			//}
+			for (Element content : element.getChildren()) {
+				try {
+					function.addArgs(new Reference (sheet, content));
+				} catch (NullPointerException e) {
+					throw new ImportException("Reference");
+				}
+			}
+		
+		} catch (NullPointerException e) { 
+			throw new ImportException(type);
 		}
     }
 
-    public static void use (AVG function, Element element, SpreadSheet sheet) { use(function, element, sheet, "AVG"); }
-    public static void use (PRD function, Element element, SpreadSheet sheet) { use(function, element, sheet, "PRD"); }
+    public static void use (AVG function, Element element, SpreadSheet sheet) throws ImportException { use(function, element, sheet, "AVG"); }
+    public static void use (PRD function, Element element, SpreadSheet sheet) throws ImportException { use(function, element, sheet, "PRD"); }
 }
