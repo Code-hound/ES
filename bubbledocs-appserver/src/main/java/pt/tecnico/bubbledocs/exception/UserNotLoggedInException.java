@@ -17,7 +17,7 @@ public class UserNotLoggedInException extends BubbleDocsException
 
 	public UserNotLoggedInException(String userToken)
 	{
-		this.userOff = userToken;
+		this.userOff = userName;
 	}
 	
 	public String getUserOff()
