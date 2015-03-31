@@ -2,6 +2,8 @@
 package pt.tecnico.bubbledocs.domain;
 
 import org.jdom2.Element;
+import org.joda.time.ReadablePartial;
+
 import pt.tecnico.bubbledocs.exception.ImportException;
 import pt.tecnico.bubbledocs.exception.ExportException;
 
@@ -91,4 +93,9 @@ public class User extends User_Base {
 	public void    importFromXML (Element element) throws ImportException { Importer.use (this, element) ; }
 	public Element exportToXML   ()                throws ExportException { return Exporter.use (this)   ; }
     public String  toString         ()                { return Printer.use  (this)   ; }
+
+	public ReadablePartial getLastAccess() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
