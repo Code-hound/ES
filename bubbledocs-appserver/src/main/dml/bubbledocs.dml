@@ -124,7 +124,7 @@ relation AccessContainsUser {
 relation SpreadSheetContainsCells {
 	SpreadSheet playsRole document;
 	Cell playsRole cells {
-		multiplicity 1..*;
+		multiplicity 0..*;
 	}
 }
 

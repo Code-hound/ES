@@ -2,23 +2,53 @@ package pt.tecnico.bubbledocs;
 
 import java.util.List;
 
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+
 import org.jdom2.output.XMLOutputter;
 
 import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.FenixFramework;
 import pt.tecnico.bubbledocs.domain.*;
 
 public class BubbleApplication {
 	public static void main(String[] args) {
-		populateDomain();
+		try {
+			populateDomain();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RollbackException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (HeuristicMixedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (HeuristicRollbackException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//writeUsers();
 		//writeUserSheets();
 		//writePfSheet();
 		//removePfSheet();
 	}
     
-	@Atomic
-	static void populateDomain() {
-    	
+	
+	static void populateDomain() throws NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
+    	FenixFramework.getTransactionManager().begin();
 		BubbleDocs bd = BubbleDocs.getInstance();
 		XMLOutputter xml = new XMLOutputter();
 
@@ -109,5 +139,6 @@ public class BubbleApplication {
 		bd.removeSpreadSheetByOwner("pf", "Notas ES");
 		
 		System.exit(0);	
+		FenixFramework.getTransactionManager().commit();
 	}
 }
