@@ -1,5 +1,5 @@
 //FALTA: 
-//-->tokens e permissoes
+//-->Excepssion's: [user can't write] [cell protected] [cell to write in not in spreadsheet]
 
 package pt.tecnico.bubbledocs.service;
 
@@ -17,6 +17,7 @@ public class AssignLiteralToCell extends BubbleDocsService {
 	private String cellId;
 	private String literal;
 	private String tokenUser;
+	private String username;
 
 	public AssignLiteralToCell(String tokenUser, String accessUsername,
 			int docId, String cellId, String literal) {
@@ -30,30 +31,32 @@ public class AssignLiteralToCell extends BubbleDocsService {
 
 	@Override
 	protected void dispatch() { // throws BubbleDocsException {
-
-		String[] rowAndColumn = cellId.split(";");
-		String rowAux = rowAndColumn[0];
-		String columnAux = rowAndColumn[1];
-
-		int row = Integer.parseInt(rowAux);
-		int column = Integer.parseInt(columnAux);
-
-		// String docIdString = "" + docId;
-
-		for (Cell cell : getSpreadSheet(docId).getCellsSet()) {
-			if (cell.getCellRow() == row && cell.getCellColumn() == column) {
-				if (cell.getProtect()) {
-					throw new ProtectedCellException(row, column);
-				} else {
-					getSpreadSheet(docId)
-							.addContent(new Literal(Integer.parseInt(literal)),
-									row, column);
+		
+		username = getBubbleDocs().getUserLoggedInByToken(tokenUser).getName();
+		if(getSpreadSheet(docId).canBeWrittenBy(username)){
+			String[] rowAndColumn = cellId.split(";");
+			String rowAux = rowAndColumn[0];
+			String columnAux = rowAndColumn[1];
+	
+			int row = Integer.parseInt(rowAux);
+			int column = Integer.parseInt(columnAux);
+	
+			// String docIdString = "" + docId;
+	
+			for (Cell cell : getSpreadSheet(docId).getCellsSet()) {
+				if (cell.getCellRow() == row && cell.getCellColumn() == column) {
+					if (cell.getProtect()) {
+						throw new ProtectedCellException(row, column);
+					} else {
+						getSpreadSheet(docId)
+								.addContent(new Literal(Integer.parseInt(literal)),
+										row, column);
+					}
 				}
 			}
+
+			result = literal;
 		}
-
-		result = literal;
-
 	}
 
 	public String getResult() {
