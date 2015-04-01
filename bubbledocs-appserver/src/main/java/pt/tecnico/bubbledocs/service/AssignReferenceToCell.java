@@ -1,13 +1,10 @@
 //FALTA: 
-//-->Excepssion's: [user can't write] [cell protected] [cell to write in not in spreadsheet] [cell referenced not in spreadsheet]
+//-->Excepssion's: [user can't write] [cell protected] [cell not in spreadsheet]
 
 package pt.tecnico.bubbledocs.service;
 
 import pt.tecnico.bubbledocs.domain.Reference;
 import pt.tecnico.bubbledocs.exception.ProtectedCellException;
-
-//import pt.tecnico.bubbledocs.*;
-//import pt.tecnico.bubbledocs.service.*;
 
 /*
  * ASSIGN REFERENCE CELL

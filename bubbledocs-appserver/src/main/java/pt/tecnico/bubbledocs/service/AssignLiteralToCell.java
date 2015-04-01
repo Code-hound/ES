@@ -1,28 +1,25 @@
 //FALTA: 
-//-->Excepssion's: [user can't write] [cell protected] [cell to write in not in spreadsheet]
+//-->Excepssion's: [user can't write] [cell protected] [cell not in spreadsheet]
 
 package pt.tecnico.bubbledocs.service;
 
 import pt.tecnico.bubbledocs.domain.Cell;
 import pt.tecnico.bubbledocs.domain.Literal;
-//import pt.tecnico.bubbledocs.service.*;
-//import pt.tecnico.bubbledocs.*;
 import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 
 public class AssignLiteralToCell extends BubbleDocsService {
-
-	private String result;
-	private String accessUsername;
+	
 	private int docId;
 	private String cellId;
 	private String literal;
 	private String tokenUser;
+
+	private String result;
 	private String username;
+	
+	public AssignLiteralToCell(String tokenUser, int docId, String cellId, 
+			String literal) {
 
-	public AssignLiteralToCell(String tokenUser, String accessUsername,
-			int docId, String cellId, String literal) {
-
-		this.accessUsername = accessUsername;
 		this.docId = docId;
 		this.cellId = cellId;
 		this.literal = literal;
@@ -40,8 +37,6 @@ public class AssignLiteralToCell extends BubbleDocsService {
 	
 			int row = Integer.parseInt(rowAux);
 			int column = Integer.parseInt(columnAux);
-	
-			// String docIdString = "" + docId;
 	
 			for (Cell cell : getSpreadSheet(docId).getCellsSet()) {
 				if (cell.getCellRow() == row && cell.getCellColumn() == column) {
