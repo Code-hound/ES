@@ -238,11 +238,8 @@ public class BubbleDocs extends BubbleDocs_Base {
 		return null;
 	}
 
-	public Element exportSpreadSheetToXML(String sheetName, LocalDate date) {
-		// try{
+	public Element exportToXML(String sheetName, LocalDate date) {
 		return Exporter.use(getSpreadSheetByNameAndDate(sheetName, date));
-		// }catch(Exception e){throw new NonExistingSpreadSheetException(name,
-		// date);}
 	}
 
 }

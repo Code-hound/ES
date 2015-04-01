@@ -33,26 +33,10 @@ public class SpreadSheet extends SpreadSheet_Base {
 		}
 	}
 
-	/*
-	 * public List<User> getReadOnlyUser() { List<User> users = new
-	 * ArrayList<User>(); for (Access a : getDocAccessSet()) { if
-	 * (a.getPermission() == 4) { users.add(a.getUser()); } } return users; }
-	 * 
-	 * public List<User> getReadWriteUserOnly() { List<User> users = new
-	 * ArrayList<User>();
-	 * 
-	 * //User u = getCreator(); users.add(u);
-	 * 
-	 * for (Access a : getDocAccessSet()) { if (a.getPermission() == 3) {
-	 * users.add(a.getUser()); } } return users; }
-	 */
 	public void setOwner(String username) {
-		/*
-		 * for (Access a : getDocAccessSet()) { if (a.getPermission() == 2) {
-		 * a.setUser(owner); } }
-		 */
-		Access a = new Access(username, "owner");
+		Access a = new Access(username, "writer");
 		addDocAccess(a);
+		setOwnerUsername(username);
 	}
 	
 	public List<String> getAccessUsers() {
@@ -92,10 +76,8 @@ public class SpreadSheet extends SpreadSheet_Base {
 	public void addContent(Content c, int row, int column) {
 		for (Cell cell : getCellsSet()) {
 			if (cell.getCellRow() == row && cell.getCellColumn() == column) {
-				// try{
 				cell.setContent(c);
-				// }catch(ProtectedCellException e)
-				break;
+				return;
 			}
 		}
 	}
@@ -103,10 +85,8 @@ public class SpreadSheet extends SpreadSheet_Base {
 	public void removeContent(int row, int column) {
 		for (Cell cell : getCellsSet()) {
 			if (cell.getCellRow() == row && cell.getCellColumn() == column) {
-				// try{
 				cell.setContent(null);
-				// }catch(ProtectedCellException e)
-				break;
+				return;
 			}
 		}
 	}
@@ -118,10 +98,8 @@ public class SpreadSheet extends SpreadSheet_Base {
 				description += "\n";
 			}
 			if (cell.getCellRow() == row && cell.getCellColumn() == column) {
-				// try{
 				description += row + ";" + column;
 				description += cell.toString();
-				// }catch(ProtectedCellException e)
 			}
 		}
 		return description;

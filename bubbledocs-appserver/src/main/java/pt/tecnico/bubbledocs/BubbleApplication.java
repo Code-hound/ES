@@ -18,25 +18,13 @@ public class BubbleApplication {
 	public static void main(String[] args) {
 		try {
 			populateDomain();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotSupportedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SystemException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RollbackException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (HeuristicMixedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (HeuristicRollbackException e) {
+		} catch (SecurityException |
+				 IllegalStateException |
+				 NotSupportedException |
+				 SystemException |
+				 RollbackException |
+				 HeuristicMixedException |
+				 HeuristicRollbackException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -46,9 +34,14 @@ public class BubbleApplication {
 		// removePfSheet();
 	}
 
-	static void populateDomain() throws NotSupportedException, SystemException,
-			SecurityException, IllegalStateException, RollbackException,
-			HeuristicMixedException, HeuristicRollbackException {
+	@Atomic
+	static void populateDomain() throws NotSupportedException,
+			                            SystemException,
+			                            SecurityException,
+			                            IllegalStateException,
+			                            RollbackException,
+			                            HeuristicMixedException,
+			                            HeuristicRollbackException {
 		FenixFramework.getTransactionManager().begin();
 		BubbleDocs bd = BubbleDocs.getInstance();
 		XMLOutputter xml = new XMLOutputter();
@@ -58,7 +51,7 @@ public class BubbleApplication {
 		User user2 = new User("ra", "Step Rabbit", "cor");
 		bd.addUser(user2);
 
-		SpreadSheet sheet1 = new SpreadSheet(user1.getUsername(), -1, "Notas ES", 300, 20);
+		SpreadSheet sheet1 = new SpreadSheet("pf", -1, "Notas ES", 300, 20);
 
 		System.out.println(sheet1);
 

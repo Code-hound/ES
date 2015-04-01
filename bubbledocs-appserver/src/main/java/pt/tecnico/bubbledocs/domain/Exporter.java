@@ -51,7 +51,7 @@ public class Exporter {
 		}
 
 		try {
-			element.setAttribute("columns", type.getOwnerUsername());
+			element.setAttribute("ownerUsername", type.getOwnerUsername());
 		} catch (NullPointerException e) {
 			throw new ExportException(classname, "ownerUsername");
 		}
@@ -92,11 +92,8 @@ public class Exporter {
 				throw new ExportException(classname, "protect");
 			}
 
-			try {
+			if (type.getContent() != null)
 				element.addContent(type.getContent().exportToXML());
-			} catch (NullPointerException e) {
-				throw new ExportException("Content");
-			}
 
 		}
 

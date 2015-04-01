@@ -3,6 +3,7 @@ package pt.tecnico.bubbledocs.domain;
 import org.jdom2.Element;
 import pt.tecnico.bubbledocs.exception.ImportException;
 import pt.tecnico.bubbledocs.exception.ExportException;
+import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 
 public class Cell extends Cell_Base {
 
@@ -36,5 +37,21 @@ public class Cell extends Cell_Base {
 
 	public int getValue() {
 		return Getter.use(this);
+	}
+	
+	@Override
+	public void setContent(Content content) throws ProtectedCellException {
+		if (getProtect())
+			throw new ProtectedCellException(getCellRow(),getCellColumn());
+		else
+			super.setContent(content);
+	}
+	
+	@Override
+	public Content getContent() throws ProtectedCellException {
+		if (getProtect())
+			throw new ProtectedCellException(getCellRow(),getCellColumn());
+		else
+			return super.getContent();
 	}
 }
