@@ -6,44 +6,13 @@ import java.lang.Integer;
 import java.lang.Boolean;
 import java.util.List;
 import pt.tecnico.bubbledocs.exception.ImportException;
-import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 
 import org.joda.time.LocalDate;
 
 public class Importer {
 
-<<<<<<< HEAD
-	public static void use(User user, Element element) throws ImportException {
-		try {
-
-			try {
-				user.setUsername(element.getAttribute("username").getName());
-			} catch (NullPointerException e) {
-				throw new ImportException(element.getName(), "username");
-			}
-
-			try {
-				user.setName(element.getAttribute("name").getName());
-			} catch (NullPointerException e) {
-				throw new ImportException(element.getName(), "name");
-			}
-
-			try {
-				user.setPassword(element.getAttribute("password").getName());
-			} catch (NullPointerException e) {
-				throw new ImportException(element.getName(), "password");
-			}
-
-		} catch (NullPointerException e) {
-			throw new ImportException("User");
-		}
-	}
-
-	public static void use(SpreadSheet spreadsheet, Element element)
+	public static void use (SpreadSheet spreadsheet, Element element)
 			throws ImportException {
-=======
-	public static void use (SpreadSheet spreadsheet, Element element) throws ImportException {
->>>>>>> changed functions
 		try {
 
 			Cell newCell;
@@ -63,7 +32,7 @@ public class Importer {
 			}
 
 			try {
-				spreadsheet.setDate(new LocalDate(element.getAttribute("date")
+				spreadsheet.setCreationDate(new LocalDate(element.getAttribute("date")
 						.getName()));
 			} catch (NullPointerException e) {
 				throw new ImportException(element.getName(), "date");
@@ -84,15 +53,9 @@ public class Importer {
 			}
 
 			try {
-<<<<<<< HEAD
-				spreadsheet.setOwner(new User(element.getChild("User")));
-			} catch (NullPointerException e) {
-				throw new ImportException("User");
-=======
 				spreadsheet.setOwnerUsername (element.getAttribute("ownerUsername").getName());
 			} catch (NullPointerException e) { 
-				throw new ImportException(element.getName(), "columns");
->>>>>>> changed functions
+				throw new ImportException(element.getName(), "ownerUsername");
 			}
 
 			for (Element newContent : element.getChildren("Cell")) {
@@ -103,9 +66,7 @@ public class Importer {
 						if (cell.getCellRow() == newCell.getCellRow()
 								&& cell.getCellColumn() == newCell
 										.getCellColumn()) {
-							// try{
 							cell = newCell;
-							// }catch(ProtectedCellException e)
 							break;
 						}
 					}
@@ -196,39 +157,21 @@ public class Importer {
 		} catch (NullPointerException e) {
 			throw new ImportException("Literal");
 		}
-<<<<<<< HEAD
-	}
-
-	public static void use(Reference reference, Element element,
-			SpreadSheet sheet) throws ImportException {
-=======
     }
 
-    public static void use (Reference reference, Element element, SpreadSheet sheet) throws ImportException {
->>>>>>> changed functions
+    public static void use (Reference reference, Element element, SpreadSheet sheet)
+    		throws ImportException {
 		try {
 
 			try {
 
 				Element content = element.getChild("Cell");
 
-<<<<<<< HEAD
-				int row = Integer.parseInt(element.getChild("User")
-						.getAttribute("row").getName());
-				int column = Integer.parseInt(element.getChild("User")
-						.getAttribute("column").getName());
-
-				for (Cell cell : sheet.getCellsSet()) {
-					if (cell.getCellRow() == row
-							&& cell.getCellColumn() == column) {
-						// try{
-=======
 				int row    = Integer.parseInt(content.getAttribute("row").getName());
 				int column = Integer.parseInt(content.getAttribute("column").getName());
 
 				for (Cell cell : sheet.getCellsSet()) {
 					if (cell.getCellRow() == row && cell.getCellColumn() == column) {
->>>>>>> changed functions
 						reference.setCell(cell);
 						break;
 					}
@@ -243,8 +186,8 @@ public class Importer {
 		}
 	}
 
-	private static void use(BinaryFunction function, Element element,
-			SpreadSheet sheet, String type) throws ImportException {
+	private static void use(BinaryFunction function, Element element, SpreadSheet sheet, String type)
+			throws ImportException {
 		try {
 
 			for (Element content : element.getChildren()) {

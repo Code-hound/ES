@@ -1,7 +1,6 @@
 package pt.tecnico.bubbledocs.domain;
 
 import java.util.Set;
-import pt.tecnico.bubbledocs.exception.DividedByZeroException;
 
 public class Getter {
 	public static int use(Cell cell) {
@@ -30,19 +29,16 @@ public class Getter {
 		case "*":
 			return i * next;
 		case "/":
-			if (next == 0)
-				throw new DividedByZeroException();
-			else
-				return i / next;
+			return i / next;
 		default:
 			return 0;
 		}
 	}
 
 	private static int use(BinaryFunction function, String op) {
-		int i = 0, next;
+		int i = 0;
 
-		for (FunctionArguments content : function.getArgs())
+		for (FunctionArguments content : function.getArgsSet())
 			if (content != null)
 				i = apply(op, i, content.getContentValue());
 
@@ -66,7 +62,7 @@ public class Getter {
 	}
 
 	private static int use(Set<Reference> contents, String op) {
-		int i = 0, next;
+		int i = 0;
 
 		for (Reference content : contents)
 			if (content != null)

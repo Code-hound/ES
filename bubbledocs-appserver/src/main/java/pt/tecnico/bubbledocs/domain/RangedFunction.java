@@ -29,14 +29,14 @@ public abstract class RangedFunction extends RangedFunction_Base {
 		int i = 0;
 		int state = IGNORE;
 
-		for (Reference content : getArgs()) {
+		for (Reference content : getArgsSet()) {
 			if (content != null)
 				r[i] = content;
 			else
 				return null; // TODO: Throw error
 			i++;
 		}
-		for (Cell c : getSpreadSheet().getCells()) {
+		for (Cell c : getSpreadSheet().getCellsSet()) {
 			if (state == IGNORE) {
 				if (c == r[0].getCell())
 					state = COPY;

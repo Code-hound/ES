@@ -1,11 +1,7 @@
 ///dsf
 package pt.tecnico.bubbledocs.domain;
 
-import org.jdom2.Element;
 import org.joda.time.ReadablePartial;
-
-import pt.tecnico.bubbledocs.exception.ImportException;
-import pt.tecnico.bubbledocs.exception.ExportException;
 
 public class User extends User_Base {
 

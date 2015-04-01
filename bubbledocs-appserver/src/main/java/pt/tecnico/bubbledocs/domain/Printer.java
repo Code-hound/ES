@@ -1,6 +1,5 @@
 package pt.tecnico.bubbledocs.domain;
 
-import java.util.Set;
 import java.lang.NullPointerException;
 
 public class Printer {
@@ -18,19 +17,13 @@ public class Printer {
 
 	public static String use(SpreadSheet spreadsheet) {
 		String s = "";
-		User owner = spreadsheet.getOwner();
 
 		s += "<SPR\n";
-		try {
-			s += owner.toString();
-		} catch (NullPointerException e) {
-			s += " User : NULL";
-		}
+		s += " OwnerUsername : " + spreadsheet.getOwnerUsername();
 		s += " ID   : " + spreadsheet.getId() + "\n";
 		s += " Name : " + spreadsheet.getSpreadSheetName();
 		s += " Date : " + spreadsheet.getCreationDate() + "\n";
-		s += " Size : " + spreadsheet.getNumberRows() + ","
-				+ spreadsheet.getNumberColumns() + "\n";
+		s += " Size : " + spreadsheet.getNumberRows() + "," + spreadsheet.getNumberColumns() + "\n";
 		for (Cell cell : spreadsheet.getCellsSet())
 			if (cell.getContent() != null)
 				s += cell.toString();
@@ -82,7 +75,7 @@ public class Printer {
 		String c[] = new String[2];
 		int i = 0;
 
-		for (FunctionArguments content : function.getArgs()) {
+		for (FunctionArguments content : function.getArgsSet()) {
 			try {
 				c[i] = content.toString();
 			} catch (NullPointerException e) {
@@ -120,7 +113,7 @@ public class Printer {
 		String c[] = new String[2];
 		int i = 0;
 
-		for (Reference content : function.getArgs()) {
+		for (Reference content : function.getArgsSet()) {
 			try {
 				c[i] = content.toString();
 			} catch (NullPointerException e) {

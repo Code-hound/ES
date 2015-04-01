@@ -1,7 +1,5 @@
 package pt.tecnico.bubbledocs.domain;
 
-import pt.tecnico.bubbledocs.domain.Permission;
-
 /* You can set an access by giving it the user and 
  * either a string with the desired permission
  * or an integer with the desired permission level.

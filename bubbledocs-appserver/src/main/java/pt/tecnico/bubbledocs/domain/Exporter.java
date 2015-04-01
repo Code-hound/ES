@@ -1,7 +1,6 @@
 package pt.tecnico.bubbledocs.domain;
 
 import org.jdom2.Element;
-import org.jdom2.output.XMLOutputter;
 import java.lang.NullPointerException;
 import pt.tecnico.bubbledocs.exception.ExportException;
 import pt.tecnico.bubbledocs.exception.ProtectedCellException;
@@ -16,34 +15,6 @@ public class Exporter {
 	 * @author: Luis Ribeiro Gomes
 	 */
 
-<<<<<<< HEAD
-	public static Element use(User type) throws ExportException {
-		String classname = type.getClass().getSimpleName();
-		Element element = new Element(classname);
-
-		try {
-			element.setAttribute("username", type.getUsername());
-		} catch (NullPointerException e) {
-			throw new ExportException(classname, "username");
-		}
-
-		try {
-			element.setAttribute("name", type.getName());
-		} catch (NullPointerException e) {
-			throw new ExportException(classname, "name");
-		}
-
-		try {
-			element.setAttribute("password", type.getPassword());
-		} catch (NullPointerException e) {
-			throw new ExportException(classname, "password");
-		}
-
-		return element;
-	}
-
-=======
->>>>>>> changed functions
 	public static Element use(SpreadSheet type) throws ExportException {
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
@@ -61,7 +32,7 @@ public class Exporter {
 		}
 
 		try {
-			element.setAttribute("date", type.getDate().toString());
+			element.setAttribute("date", type.getCreationDate().toString());
 		} catch (NullPointerException e) {
 			throw new ExportException(classname, "date");
 		}
@@ -162,7 +133,7 @@ public class Exporter {
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
 
-		for (FunctionArguments content : type.getArgs()) {
+		for (FunctionArguments content : type.getArgsSet()) {
 			try {
 				element.addContent(content.exportToXML());
 			} catch (NullPointerException e) {
@@ -177,7 +148,7 @@ public class Exporter {
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
 
-		for (Reference content : type.getArgs()) {
+		for (Reference content : type.getArgsSet()) {
 			try {
 				element.addContent(content.exportToXML());
 			} catch (NullPointerException e) {

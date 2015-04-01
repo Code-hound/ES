@@ -83,7 +83,7 @@ public class BubbleDocsServiceTest {
 	User getUserFromUsername(String username) {
 		BubbleDocs bd = BubbleDocs.getInstance();
 
-		User user = bd.getUserByUserName(username);
+		User user = bd.getUserByUsername(username);
 		return user;
 	}
 

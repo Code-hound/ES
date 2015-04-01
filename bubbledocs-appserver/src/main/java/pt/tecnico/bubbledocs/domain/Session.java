@@ -1,6 +1,6 @@
 package pt.tecnico.bubbledocs.domain;
 
-import pt.tecnico.bubbledocs.exception.*;
+//import pt.tecnico.bubbledocs.exception.*;
 
 import org.joda.time.*;
 
