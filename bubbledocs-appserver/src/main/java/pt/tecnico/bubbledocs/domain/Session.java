@@ -33,11 +33,9 @@ public class Session extends Session_Base {
 	 * UserNotLoggedInException(userToken); }
 	 * 
 	 * // ADD LOGIN SERVICE ("CREATE SESSION")
-	 * 
-	 * public void logout(String userToken){ User userLoggedIn =
-	 * getUserLoggedInByToken(userToken);
-	 * 
-	 * if(userLoggedIn != null) userLoggedIn.setUserToken(null); //TODO: delete
-	 * Session }
+	 *
+	 public void logout(String userToken) {
+		 User userLoggedIn = getUserLoggedInByToken(userToken);
+		 if(userLoggedIn != null) userLoggedIn.setUserToken(null); //TODO: delete
 	 */
 }

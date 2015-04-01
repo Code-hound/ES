@@ -31,6 +31,27 @@ public class BubbleDocs extends BubbleDocs_Base {
 		return !getUsersSet().isEmpty();
 	}
 
+	public void addUser(User user) throws UserAlreadyExistException {
+		if (hasUserByUsername(user.getUsername())) {
+			throw new UserAlreadyExistException(user.getUsername());
+		} else {
+			addUsers(user);
+		}
+	
+	}
+
+	public void removeUser(User currentUser, User userToRemove) {
+		if (hasUserByUsername(userToRemove.getUsername())
+				&& currentUser.getUsername().equals("root")) {
+			removeUsers(userToRemove);
+		}
+		userToRemove = null;
+	}
+
+	public boolean hasUserByUsername(String UserName) {
+		return getUserByUsername(UserName) != null;
+	}
+
 	public User getUserByUsername(String username) {
 		if (hasUsers()) {
 			for (User u : getUsersSet()) {
@@ -41,22 +62,44 @@ public class BubbleDocs extends BubbleDocs_Base {
 		return null;
 	}
 
-	public boolean hasUserByUsername(String UserName) {
-		return getUserByUsername(UserName) != null;
-	}
-
 	public User getUserLoggedInByToken(String userToken) {
+		User user;
 		if (hasUsers()) {
-			for (User u : getUsersSet()) {
-				if (u.getUserToken().equals(userToken))
-					return u;
+			for (Session s : getSessionsSet()) {
+				user = getUserByUsername(s.getUsername());
+				if (user.getUserToken().equals(userToken))
+					return user;
 			}
 		}
 		return null;
 	}
 
-	public boolean checkUserLoggedInByToken(String userToken) {
+	public boolean hasUserLoggedInByToken(String userToken) {
 		return getUserLoggedInByToken(userToken) != null;
+	}
+
+	public void addUserToSession(String username) {
+		removeIdleUsersInSession ();
+		User user = getUserByUsername(username);
+		
+		Session session = new Session(username);
+		addSessions(session);
+		
+		String usertoken = username + (int)(Math.random()*10);
+		user.setUserToken(""+username+usertoken);
+	}
+	
+	public void removeUserFromSession (String userToken) {
+		User user = getUserLoggedInByToken (userToken);
+		user.setUserToken(null);
+		
+		for (Session s : getSessionsSet()) {
+			if (s.getUsername().equals(user.getUsername())) {
+				removeSessions(s);
+				s = null;
+				break;
+			}
+		}
 	}
 
 	public User createUser(String newUserName, String newName,
@@ -66,36 +109,18 @@ public class BubbleDocs extends BubbleDocs_Base {
 		return newUser;
 	}
 
-	public void addUser(User user) throws UserAlreadyExistException {
-		if (hasUserByUsername(user.getUsername())) {
-			throw new UserAlreadyExistException(user.getUsername());
-		} else {
-			addUsers(user);
+	private void removeIdleUsersInSession() {
+		if (hasUsers()) {
+			for (Session s : getSessionsSet()) {
+				if(s.getLastAccess().plusHours(2).isAfterNow()) {
+					removeSessions(s);
+				}
+			}
 		}
-
-	}
-
-	public void addUserToSession(String username) {
-		User user = getUserByUsername(username);
-		
-		Session session = new Session(username);
-		addSessions(session);
-		/*
-		String usertoken = username + Math.random().intValue();
-		user.setUserToken(username+);
-		*/
 	}
 
 	public boolean hasSpreadSheet() {
 		return !getDocsSet().isEmpty();
-	}
-
-	public void removeUser(User currentUser, User userToRemove) {
-		if (hasUserByUsername(userToRemove.getUsername())
-				&& currentUser.getUsername().equals("root")) {
-			removeUsers(userToRemove);
-		}
-
 	}
 
 	public SpreadSheet getSpreadSheetById(int id) {
@@ -189,12 +214,15 @@ public class BubbleDocs extends BubbleDocs_Base {
 		for (SpreadSheet s : getSpreadSheetByName(sheetName)) {
 			if (s.getOwnerUsername().equals(owner)) {
 				removeDocs(s);
+				s = null;
 			}
 		}
 	}
 
 	public void removeSpreadSheetById(int id) {
-		removeDocs(getSpreadSheetById(id));
+		SpreadSheet spreadsheetToRemove = getSpreadSheetById(id);
+		removeDocs(spreadsheetToRemove);
+		spreadsheetToRemove = null;
 	}
 
 	public String listUsers() {
