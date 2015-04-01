@@ -12,27 +12,29 @@ public class AccessException extends BubbleDocsException {
 
 	private static final long serialVersionUID = 1L;
 
-	private String userToken; // userToken
-	private String spreadSheetName; // spreadSheetName
+	private String userToken;       //userToken
+	private int sheetId; //spreadSheetName
 
-	public AccessException(String userToken, String spreadSheetName) {
-		this.userToken = userToken;
-		this.spreadSheetName = spreadSheetName;
+	public AccessException(String userToken, int sheetId)
+	{
+		this.userToken       = userToken;
+		this.sheetId = sheetId;
 	}
-
-	public String getUserToken() {
-		return userToken;
+	
+	public String getUserToken ()
+	{
+		return this.userToken;
 	}
-
-	public String getSpreadSheetName() {
-		return spreadSheetName;
+	
+	public int getSheetId ()
+	{
+		return this.sheetId;
 	}
 
 	@Override
-	public String getMessage() {
-		return "Access exception : the User \"" + this.userToken
-				+ "\" has no access to Document \"" + this.spreadSheetName
-				+ "\".";
+	public String getMessage()
+	{
+		return "Access exception : the User \"" + this.userToken + "\" has no access to Document \"" + this.sheetId + "\".";
 	}
 
 }

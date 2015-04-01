@@ -9,11 +9,6 @@ import pt.tecnico.bubbledocs.exception.ExportException;
 
 public class User extends User_Base {
 
-	public User(Element element) {
-		super();
-		importFromXML(element);
-	}
-
 	public User(String userName, String name, String password) {
 		super();
 		setUsername(userName);
@@ -77,14 +72,6 @@ public class User extends User_Base {
 		if (this.getUsername().equals("root")) {
 			getBubbleDocs().removeSpreadSheetById(sheet.getId());
 		}
-	}
-
-	public void importFromXML(Element element) throws ImportException {
-		Importer.use(this, element);
-	}
-
-	public Element exportToXML() throws ExportException {
-		return Exporter.use(this);
 	}
 
 	public String toString() {

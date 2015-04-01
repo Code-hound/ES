@@ -16,6 +16,7 @@ public class Exporter {
 	 * @author: Luis Ribeiro Gomes
 	 */
 
+<<<<<<< HEAD
 	public static Element use(User type) throws ExportException {
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
@@ -41,6 +42,8 @@ public class Exporter {
 		return element;
 	}
 
+=======
+>>>>>>> changed functions
 	public static Element use(SpreadSheet type) throws ExportException {
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
@@ -77,9 +80,9 @@ public class Exporter {
 		}
 
 		try {
-			element.addContent(type.getOwner().exportToXML());
+			element.setAttribute("columns", type.getOwnerUsername());
 		} catch (NullPointerException e) {
-			throw new ExportException("User");
+			throw new ExportException(classname, "ownerUsername");
 		}
 
 		for (Cell c : type.getCellsSet())

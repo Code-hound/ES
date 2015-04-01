@@ -6,11 +6,13 @@ import java.lang.Integer;
 import java.lang.Boolean;
 import java.util.List;
 import pt.tecnico.bubbledocs.exception.ImportException;
+import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 
 import org.joda.time.LocalDate;
 
 public class Importer {
 
+<<<<<<< HEAD
 	public static void use(User user, Element element) throws ImportException {
 		try {
 
@@ -39,6 +41,9 @@ public class Importer {
 
 	public static void use(SpreadSheet spreadsheet, Element element)
 			throws ImportException {
+=======
+	public static void use (SpreadSheet spreadsheet, Element element) throws ImportException {
+>>>>>>> changed functions
 		try {
 
 			Cell newCell;
@@ -79,9 +84,15 @@ public class Importer {
 			}
 
 			try {
+<<<<<<< HEAD
 				spreadsheet.setOwner(new User(element.getChild("User")));
 			} catch (NullPointerException e) {
 				throw new ImportException("User");
+=======
+				spreadsheet.setOwnerUsername (element.getAttribute("ownerUsername").getName());
+			} catch (NullPointerException e) { 
+				throw new ImportException(element.getName(), "columns");
+>>>>>>> changed functions
 			}
 
 			for (Element newContent : element.getChildren("Cell")) {
@@ -185,16 +196,23 @@ public class Importer {
 		} catch (NullPointerException e) {
 			throw new ImportException("Literal");
 		}
+<<<<<<< HEAD
 	}
 
 	public static void use(Reference reference, Element element,
 			SpreadSheet sheet) throws ImportException {
+=======
+    }
+
+    public static void use (Reference reference, Element element, SpreadSheet sheet) throws ImportException {
+>>>>>>> changed functions
 		try {
 
 			try {
 
 				Element content = element.getChild("Cell");
 
+<<<<<<< HEAD
 				int row = Integer.parseInt(element.getChild("User")
 						.getAttribute("row").getName());
 				int column = Integer.parseInt(element.getChild("User")
@@ -204,8 +222,14 @@ public class Importer {
 					if (cell.getCellRow() == row
 							&& cell.getCellColumn() == column) {
 						// try{
+=======
+				int row    = Integer.parseInt(content.getAttribute("row").getName());
+				int column = Integer.parseInt(content.getAttribute("column").getName());
+
+				for (Cell cell : sheet.getCellsSet()) {
+					if (cell.getCellRow() == row && cell.getCellColumn() == column) {
+>>>>>>> changed functions
 						reference.setCell(cell);
-						// }catch(ProtectedCellException e)
 						break;
 					}
 				}
