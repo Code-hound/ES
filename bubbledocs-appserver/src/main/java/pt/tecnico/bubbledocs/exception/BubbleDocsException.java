@@ -1,26 +1,23 @@
 package pt.tecnico.bubbledocs.exception;
 
-public class BubbleDocsException extends RuntimeException
-{
-	
+public class BubbleDocsException extends RuntimeException {
+
 	/*
-	 *	BUBBLEDOCS EXCEPTION
-	 *
-	 *	Ficheiro "copiado" do exemplo phonebook
-	 *
-	 *	@author: Francisco Maria Calisto
+	 * BUBBLEDOCS EXCEPTION
+	 * 
+	 * Ficheiro "copiado" do exemplo phonebook
+	 * 
+	 * @author: Francisco Maria Calisto
 	 */
-	
+
 	private static final long serialVersionUID = 1L;
-	
-	public BubbleDocsException()
-	{
-		
+
+	public BubbleDocsException() {
+
 	}
-	
-	public BubbleDocsException(String msg)
-	{
+
+	public BubbleDocsException(String msg) {
 		super(msg);
 	}
-	
+
 }

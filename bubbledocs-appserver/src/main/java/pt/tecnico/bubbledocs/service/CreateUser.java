@@ -21,52 +21,44 @@ import pt.tecnico.bubbledocs.exception.EmptyUsernameException;
  * 
  */
 
-public class CreateUser extends BubbleDocsService
-{
-	
+public class CreateUser extends BubbleDocsService {
+
 	private String userToken;
 	private String newUsername;
 	private String password;
 	private String name;
 
-    public CreateUser(String userToken, String newUsername, String password, String name)
-    {
+	public CreateUser(String userToken, String newUsername, String password,
+			String name) {
 		this.userToken = userToken;
 		this.newUsername = newUsername;
-    	this.password = password;
-    	this.name = name;
-    }
+		this.password = password;
+		this.name = name;
+	}
 
-    @Override
-    protected void dispatch() throws EmptyUsernameException, UserIsNotRootException, UserAlreadyExistException, UserDoesNotExistException, BubbleDocsException
-    {
-    	
-    	if(userToken == "root")
-    	{
-    		
-    		User userToVerify = getUser(newUsername);
-    		
-    		if(newUsername != "")
-    		{
-	    		if(userToVerify != getUser(userToken))
-	    		{
-	    			getBubbleDocs().addUser(new User(newUsername, name, password));
-	    		}
-	    		else
-	    		{
-	    			throw new UserAlreadyExistException(this.newUsername);
-	    		}
-    		}
-    		else
-    		{
-    			throw new EmptyUsernameException(this.newUsername);
-    		}
-    	}
-    	else
-    	{
-    		throw new UserIsNotRootException(this.newUsername);
-    	}
-    	
-    }
-    
+	@Override
+	protected void dispatch() throws EmptyUsernameException,
+			UserIsNotRootException, UserAlreadyExistException,
+			UserDoesNotExistException, BubbleDocsException {
+
+		if (userToken == "root") {
+
+			User userToVerify = getUser(newUsername);
+
+			if (newUsername != "") {
+				if (userToVerify != getUser(userToken)) {
+					getBubbleDocs().addUser(
+							new User(newUsername, name, password));
+				} else {
+					throw new UserAlreadyExistException(this.newUsername);
+				}
+			} else {
+				throw new EmptyUsernameException(this.newUsername);
+			}
+		} else {
+			throw new UserIsNotRootException(this.newUsername);
+		}
+
+	}
+
 }

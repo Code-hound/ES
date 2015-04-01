@@ -25,37 +25,25 @@ import pt.tecnico.bubbledocs.exception.BubbleDocsException;
  * 
  */
 /*
-public class ExportDocument extends BubbleDocsService {
-
-    // the tokens
-	private String userToken;
-	private int sheetId;
-
-	public ExportDocument(String userToken, int sheetId) {
-		this.userToken = userToken;
-		this.sheetId = sheetId;
-	}
-
-	@Override
-	protected void dispatch() throws BubbleDocsException {
-		try {
-
-			SpreadSheet sheet = getSpreadSheet(sheetId);
-			User        user  = getUser(userToken);
-			boolean write = sheet.getReadWriteUserOnly().contains(user);
-			boolean read  = sheet.getReadOnlyUser().contains(user);
-			boolean owns  = sheet.getOwner().getUsername() == userToken;
-			Element xml;
-
-			if ( owns || read || write )
-				xml = sheet.exportToXML();
-			else
-				throw new AccessException(userToken, sheetId);
-
-		} catch (NullPointerException e) {
-			throw new ExportException("SpreadSheet");
-		}
-	}
-
-}
-*/
+ * public class ExportDocument extends BubbleDocsService {
+ * 
+ * // the tokens private String userToken; private int sheetId;
+ * 
+ * public ExportDocument(String userToken, int sheetId) { this.userToken =
+ * userToken; this.sheetId = sheetId; }
+ * 
+ * @Override protected void dispatch() throws BubbleDocsException { try {
+ * 
+ * SpreadSheet sheet = getSpreadSheet(sheetId); User user = getUser(userToken);
+ * boolean write = sheet.getReadWriteUserOnly().contains(user); boolean read =
+ * sheet.getReadOnlyUser().contains(user); boolean owns =
+ * sheet.getOwner().getUsername() == userToken; Element xml;
+ * 
+ * if ( owns || read || write ) xml = sheet.exportToXML(); else throw new
+ * AccessException(userToken, sheetId);
+ * 
+ * } catch (NullPointerException e) { throw new ExportException("SpreadSheet");
+ * } }
+ * 
+ * }
+ */

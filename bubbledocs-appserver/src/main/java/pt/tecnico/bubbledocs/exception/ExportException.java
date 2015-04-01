@@ -1,33 +1,28 @@
 package pt.tecnico.bubbledocs.exception;
 
-public class ExportException extends XMLException
-{
+public class ExportException extends XMLException {
 
 	/*
-	 *	EXPORT EXCEPTION
-	 *
-	 *	Excepcao caso algum attributo do Documento estiver vazio.
-	 *
-	 *	@author: Luis Ribeiro Gomes
+	 * EXPORT EXCEPTION
+	 * 
+	 * Excepcao caso algum attributo do Documento estiver vazio.
+	 * 
+	 * @author: Luis Ribeiro Gomes
 	 */
 
 	private static final long serialVersionUID = 1L;
-	
-	public ExportException(String element, String attribute)
-	{
+
+	public ExportException(String element, String attribute) {
 		super(element, attribute);
 	}
 
-	public ExportException(String element)
-	{
+	public ExportException(String element) {
 		super(element);
 	}
 
 	@Override
-	public String getMessage()
-	{
+	public String getMessage() {
 		return "Export exception : " + super.getMessage();
 	}
-	
+
 }
- 

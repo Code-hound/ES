@@ -6,20 +6,31 @@ import pt.tecnico.bubbledocs.exception.ExportException;
 
 public class DIV extends DIV_Base {
 
-	public DIV (SpreadSheet sheet, Element element) {
+	public DIV(SpreadSheet sheet, Element element) {
 		super();
 		importFromXML(element, sheet);
 	}
 
-    public DIV (FunctionArguments arg1, FunctionArguments arg2) {
-        super();
-    	addArgs(arg1);
-    	addArgs(arg2);
-    }
-    
-	public void    importFromXML (Element element, SpreadSheet sheet) throws ImportException { Importer.use (this, element, sheet) ; }
-	public Element exportToXML   ()                                   throws ExportException { return Exporter.use (this)   ; }
-    public String  toString         ()                { return Printer.use  (this)   ; }
+	public DIV(FunctionArguments arg1, FunctionArguments arg2) {
+		super();
+		addArgs(arg1);
+		addArgs(arg2);
+	}
 
-    public int     getContentValue  ()                { return Getter.use   (this)   ; }
+	public void importFromXML(Element element, SpreadSheet sheet)
+			throws ImportException {
+		Importer.use(this, element, sheet);
+	}
+
+	public Element exportToXML() throws ExportException {
+		return Exporter.use(this);
+	}
+
+	public String toString() {
+		return Printer.use(this);
+	}
+
+	public int getContentValue() {
+		return Getter.use(this);
+	}
 }

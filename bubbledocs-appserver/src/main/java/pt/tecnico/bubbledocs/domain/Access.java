@@ -10,29 +10,27 @@ import pt.tecnico.bubbledocs.domain.Permission;
  * 
  * permissionLevel values:
  * (int) 0 : (String) "none"
- * (int) 1 : (String) "root"
- * (int) 2 : (String) "owner"
- * (int) 3 : (String) "write"
- * (int) 4 : (String) "read"
+ * (int) 1 : (String) "reader"
+ * (int) 2 : (String) "writer"
  */
 
 public class Access extends Access_Base {
-    
+
 	private Permission permission;
-	
-    public Access(User user, int permissionLevel) {
-        super();
-        setUser(user);
-        permission = Permission.newPermission(permissionLevel);
-    }
-    
-    public Access (User user, String permissionLevel) {
-    	super();
-    	setUser(user);
-    	permission = Permission.newPermission(permissionLevel);
-    }
-    
-    public int getPermission () {
-    	return this.permission.getPermissionLevel();
-    }
+
+	public Access(String user, int permissionLevel) {
+		super();
+		setUsername(user);
+		permission = Permission.newPermission(permissionLevel);
+	}
+
+	public Access(String user, String permissionLevel) {
+		super();
+		setUsername(user);
+		permission = Permission.newPermission(permissionLevel);
+	}
+
+	public int getPermission() {
+		return this.permission.getPermissionLevel();
+	}
 }

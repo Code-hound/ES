@@ -1,39 +1,38 @@
 package pt.tecnico.bubbledocs.exception;
 
-public class AccessException extends BubbleDocsException
-{
+public class AccessException extends BubbleDocsException {
 
 	/*
-	 *	ACCESS EXCEPTION
-	 *
-	 *	Excepcao caso o utilizador nao tenha permissoes no Documento.
-	 *
-	 *	@author: Luis Ribeiro Gomes
+	 * ACCESS EXCEPTION
+	 * 
+	 * Excepcao caso o utilizador nao tenha permissoes no Documento.
+	 * 
+	 * @author: Luis Ribeiro Gomes
 	 */
 
 	private static final long serialVersionUID = 1L;
-	
-	private String userToken;       //userToken
-	private String spreadSheetName; //spreadSheetName
 
-	public AccessException(String userToken, String spreadSheetName)
-	{
-		this.userToken       = userToken;
+	private String userToken; // userToken
+	private String spreadSheetName; // spreadSheetName
+
+	public AccessException(String userToken, String spreadSheetName) {
+		this.userToken = userToken;
 		this.spreadSheetName = spreadSheetName;
 	}
-	
-	public String getUserToken () {
+
+	public String getUserToken() {
 		return userToken;
 	}
-	
-	public String getSpreadSheetName () {
+
+	public String getSpreadSheetName() {
 		return spreadSheetName;
 	}
 
 	@Override
-	public String getMessage()
-	{
-		return "Access exception : the User \"" + this.userToken + "\" has no access to Document \"" + this.spreadSheetName + "\".";
+	public String getMessage() {
+		return "Access exception : the User \"" + this.userToken
+				+ "\" has no access to Document \"" + this.spreadSheetName
+				+ "\".";
 	}
-	
+
 }

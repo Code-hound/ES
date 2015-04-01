@@ -12,18 +12,21 @@ class User {
 }
 
 class Session {
-	LocalTime LastAccess;
+	DateTime LastAccess;
+	String username;
 }
 
 class SpreadSheet {
 	int id;
 	String spreadSheetName;
-	LocalDate date;
+	String ownerUsername;
+	LocalDate creationDate;
 	int numberRows;
 	int numberColumns;
 }
 
 class Access{
+	String username;
 }
 
 
@@ -102,7 +105,7 @@ relation BubbleDocsContainsSession {
 		multiplicity 1..*;
 	}
 }
-
+/*
 relation SessionContainsUser {
 	Session playsRole session {
 		multiplicity 0..1;
@@ -111,7 +114,8 @@ relation SessionContainsUser {
 		multiplicity 1;
 	}
 }
-
+*/
+/*
 relation AccessContainsUser {
 	Access playsRole access {
 		multiplicity 0..*;
@@ -120,7 +124,7 @@ relation AccessContainsUser {
 		multiplicity 1;
 	}
 }
-
+*/
 relation SpreadSheetContainsCells {
 	SpreadSheet playsRole document;
 	Cell playsRole cells {

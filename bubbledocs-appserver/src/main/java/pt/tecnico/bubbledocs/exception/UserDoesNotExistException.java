@@ -1,34 +1,30 @@
 package pt.tecnico.bubbledocs.exception;
 
-public class UserDoesNotExistException extends BubbleDocsException
-{
+public class UserDoesNotExistException extends BubbleDocsException {
 
 	/*
-	 *	USER DOES NOT EXIST EXCEPTION
-	 *
-	 *	Ficheiro "copiado" do exemplo phonebook
-	 *
-	 *	@author: Francisco Maria Calisto
+	 * USER DOES NOT EXIST EXCEPTION
+	 * 
+	 * Ficheiro "copiado" do exemplo phonebook
+	 * 
+	 * @author: Francisco Maria Calisto
 	 */
-	
+
 	private static final long serialVersionUID = 1L;
 
-	private String userToken; //userName
+	private String userToken; // userName
 
-	public UserDoesNotExistException(String userToken)
-	{
+	public UserDoesNotExistException(String userToken) {
 		this.userToken = userToken;
 	}
-	
-	public String getUserToken()
-	{
+
+	public String getUserToken() {
 		return this.userToken;
 	}
-	
+
 	@Override
-	public String getMessage()
-	{
+	public String getMessage() {
 		return "User " + this.userToken + " does not exist";
 	}
-	
+
 }

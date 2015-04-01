@@ -1,32 +1,28 @@
 package pt.tecnico.bubbledocs.exception;
 
-public class ImportException extends XMLException
-{
+public class ImportException extends XMLException {
 
 	/*
-	 *	IMPORT EXCEPTION
-	 *
-	 *	Excepcao caso algum attributo do XML estiver vazio.
-	 *
-	 *	@author: Luis Ribeiro Gomes
+	 * IMPORT EXCEPTION
+	 * 
+	 * Excepcao caso algum attributo do XML estiver vazio.
+	 * 
+	 * @author: Luis Ribeiro Gomes
 	 */
 
 	private static final long serialVersionUID = 1L;
-	
-	public ImportException(String element, String attribute)
-	{
+
+	public ImportException(String element, String attribute) {
 		super(element, attribute);
 	}
 
-	public ImportException(String element)
-	{
+	public ImportException(String element) {
 		super(element);
 	}
 
 	@Override
-	public String getMessage()
-	{
+	public String getMessage() {
 		return "Import exception : " + super.getMessage();
 	}
-	
+
 }

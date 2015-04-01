@@ -3,7 +3,6 @@ package pt.tecnico.bubbledocs.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.jdom2.Element;
 import pt.tecnico.bubbledocs.exception.ImportException;
 import pt.tecnico.bubbledocs.exception.ExportException;
@@ -12,19 +11,19 @@ import org.joda.time.LocalDate;
 
 public class SpreadSheet extends SpreadSheet_Base {
 
-	public SpreadSheet (Element element) {
+	public SpreadSheet(Element element) {
 		super();
 		importFromXML(element);
 	}
 
-	public SpreadSheet (User owner, int id, String name, int rows, int columns) {
+	public SpreadSheet(String owner, int id, String name, int rows, int columns) {
 		super();
-		//setBubbleDocs(BubbleDocs.getInstance());
+		// setBubbleDocs(BubbleDocs.getInstance());
 		setOwner(owner);
 		setId(id);
-			//BubbleDocs.getInstance().
+		// BubbleDocs.getInstance().
 		setSpreadSheetName(name);
-		setDate(new LocalDate());
+		setCreationDate(new LocalDate());
 		setNumberRows(rows);
 		setNumberColumns(columns);
 		for (int row = 1; row < rows; row++) {
@@ -33,76 +32,61 @@ public class SpreadSheet extends SpreadSheet_Base {
 			}
 		}
 	}
-	
-	public List<User> getReadOnlyUser() {
-		List<User> users = new ArrayList<User>();
-		for (Access a : getDocAccessSet()) {
-			if (a.getPermission() == 4) {
-				users.add(a.getUser());
-			}
-		}
-		return users;
-	}
 
-	public List<User> getReadWriteUserOnly() {
-		List<User> users = new ArrayList<User>();
+	/*
+	 * public List<User> getReadOnlyUser() { List<User> users = new
+	 * ArrayList<User>(); for (Access a : getDocAccessSet()) { if
+	 * (a.getPermission() == 4) { users.add(a.getUser()); } } return users; }
+	 * 
+	 * public List<User> getReadWriteUserOnly() { List<User> users = new
+	 * ArrayList<User>();
+	 * 
+	 * //User u = getCreator(); users.add(u);
+	 * 
+	 * for (Access a : getDocAccessSet()) { if (a.getPermission() == 3) {
+	 * users.add(a.getUser()); } } return users; }
+	 */
+	public void setOwner(String username) {
 		/*
-		 * User u = getCreator(); users.add(u);
+		 * for (Access a : getDocAccessSet()) { if (a.getPermission() == 2) {
+		 * a.setUser(owner); } }
 		 */
-		for (Access a : getDocAccessSet()) {
-			if (a.getPermission() == 3) {
-				users.add(a.getUser());
-			}
-		}
-		return users;
-	}
-	
-	public void setOwner(User owner) {
-		/*
-		for (Access a : getDocAccessSet()) {
-			if (a.getPermission() == 2) {
-				a.setUser(owner);
-			}
-		}
-		*/
-		Access a = new Access (owner, "owner");
+		Access a = new Access(username, "owner");
 		addDocAccess(a);
 	}
 	
-	public User getOwner () {
-		User owner = null;
+	public List<String> getAccessUsers() {
+		List<String> users = new ArrayList<String>();
 		for (Access a : getDocAccessSet()) {
-			if (a.getPermission() == 2) {
-				owner = a.getUser();
-				break;
-			}
-		}
-		return owner;
-	}
-
-	public List<User> getAccessUsers() {
-		List<User> users = new ArrayList<User>();
-		for (Access a : getDocAccessSet()) {
-			users.add(a.getUser());
+			users.add(a.getUsername());
 		}
 		return users;
 	}
-	
+
 	/*
-	 * Retorna o valor da permissao que o utilizador tem sobre o documento caso esta exista, 0 caso contrário
-	 * Permissoes:
-	 * 1 - ROOT
-	 * 2 - OWNER
-	 * 3 - WRITER
-	 * 4 - READER
+	 * Retorna o valor da permissao que o utilizador tem sobre o documento caso
+	 * esta exista, 0 caso contrário Permissoes: 1 - ROOT 2 - OWNER 3 - WRITER 4
+	 * - READER
 	 */
-	public int getUserPermission (User user) {
+	public int getUserPermissionLevel (String username) {
 		for (Access a : getDocAccessSet()) {
-			if (a.getUser().getUsername().equals(user.getUsername())) {
+			if (a.getUsername().equals(username)) {
 				return a.getPermission();
 			}
 		}
 		return 0;
+	}
+	
+	public boolean canBeWrittenBy(String username) {
+		return getUserPermissionLevel(username) == 2;
+	}
+
+	public boolean canBeReadBy(String username) {
+		return getUserPermissionLevel(username) == 1;
+	}
+
+	public boolean isOwnedBy(String username) {
+		return this.getOwnerUsername() == username;
 	}
 
 	public void addContent(Content c, int row, int column) {
@@ -142,8 +126,16 @@ public class SpreadSheet extends SpreadSheet_Base {
 		}
 		return description;
 	}
-	
-	public void    importFromXML (Element element)                    throws ImportException { Importer.use (this, element) ; }
-	public Element exportToXML   ()                                   throws ExportException { return Exporter.use (this)   ; }
-    public String  toString         ()                { return Printer.use  (this)   ; }
+
+	public void importFromXML(Element element) throws ImportException {
+		Importer.use(this, element);
+	}
+
+	public Element exportToXML() throws ExportException {
+		return Exporter.use(this);
+	}
+
+	public String toString() {
+		return Printer.use(this);
+	}
 }

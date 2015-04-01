@@ -9,11 +9,11 @@ import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 public class Exporter {
 
 	/*
-	 *	Exporter
-	 *
-	 *	Exporta os elementos da SpreadSheet para XML
-	 *
-	 *	@author: Luis Ribeiro Gomes
+	 * Exporter
+	 * 
+	 * Exporta os elementos da SpreadSheet para XML
+	 * 
+	 * @author: Luis Ribeiro Gomes
 	 */
 
 	public static Element use(User type) throws ExportException {
@@ -40,7 +40,6 @@ public class Exporter {
 
 		return element;
 	}
-
 
 	public static Element use(SpreadSheet type) throws ExportException {
 		String classname = type.getClass().getSimpleName();
@@ -71,7 +70,8 @@ public class Exporter {
 		}
 
 		try {
-			element.setAttribute("columns", String.valueOf(type.getNumberColumns()));
+			element.setAttribute("columns",
+					String.valueOf(type.getNumberColumns()));
 		} catch (NullPointerException e) {
 			throw new ExportException(classname, "columns");
 		}
@@ -82,8 +82,8 @@ public class Exporter {
 			throw new ExportException("User");
 		}
 
-		for(Cell c : type.getCellsSet())
-			if(c.getContent() != null)
+		for (Cell c : type.getCellsSet())
+			if (c.getContent() != null)
 				element.addContent(c.exportToXML());
 
 		return element;
@@ -94,7 +94,8 @@ public class Exporter {
 		Element element = new Element(classname);
 
 		if (type.getProtect()) {
-			throw new ProtectedCellException (type.getCellRow(), type.getCellColumn());
+			throw new ProtectedCellException(type.getCellRow(),
+					type.getCellColumn());
 		} else {
 
 			try {
@@ -104,13 +105,15 @@ public class Exporter {
 			}
 
 			try {
-				element.setAttribute("column", String.valueOf(type.getCellColumn()));
+				element.setAttribute("column",
+						String.valueOf(type.getCellColumn()));
 			} catch (NullPointerException e) {
 				throw new ExportException(classname, "column");
 			}
 
 			try {
-				element.setAttribute("protect", String.valueOf(type.getProtect()));
+				element.setAttribute("protect",
+						String.valueOf(type.getProtect()));
 			} catch (NullPointerException e) {
 				throw new ExportException(classname, "protect");
 			}
@@ -151,7 +154,7 @@ public class Exporter {
 
 		return element;
 	}
-	
+
 	public static Element use(BinaryFunction type) throws ExportException {
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
