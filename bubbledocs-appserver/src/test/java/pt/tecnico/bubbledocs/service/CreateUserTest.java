@@ -10,9 +10,10 @@ import pt.tecnico.bubbledocs.domain.BubbleDocs;
 
 import pt.tecnico.bubbledocs.exception.UserDoesNotExistException;
 import pt.tecnico.bubbledocs.exception.UserIsNotRootException;
-import pt.tecnico.bubbledocs.exception.UserAlreadyExistException;
+import pt.tecnico.bubbledocs.exception.UserAlreadyExistsException;
 import pt.tecnico.bubbledocs.exception.EmptyUsernameException;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
+import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 
 public class CreateUserTest extends BubbleDocsServiceTest {
 
@@ -46,7 +47,7 @@ public class CreateUserTest extends BubbleDocsServiceTest {
 		assertEquals("José Ferreira", user.getName());
 	}
 
-	@Test(expected = UserAlreadyExistException.class)
+	@Test(expected = UserAlreadyExistsException.class)
 	public void usernameExists() {
 		CreateUser service = new CreateUser(root, USERNAME, "jose",
 				"José Ferreira");
@@ -69,15 +70,15 @@ public class CreateUserTest extends BubbleDocsServiceTest {
 	}
 
 	/*
-	 * 
-	 * @Test(expected = UnauthorizedOperationException.class) public void
-	 * unauthorizedUserCreation() { CreateUser service = new CreateUser(ars,
-	 * USERNAME_DOES_NOT_EXIST, "jose", "José Ferreira"); service.execute(); }
-	 * 
-	 * @Test(expected = UserNotInSessionException.class) public void
-	 * accessUsernameNotExist() { removeUserFromSession(root); CreateUser
-	 * service = new CreateUser(root, USERNAME_DOES_NOT_EXIST, "jose",
-	 * "José Ferreira"); service.execute(); }
-	 */
-
+	@Test(expected = UnauthorizedOperationException.class)
+	public void unauthorizedUserCreation() { CreateUser service = new CreateUser(ars,
+			USERNAME_DOES_NOT_EXIST, "jose", "José Ferreira"); service.execute();
+	}
+	*/
+	@Test(expected = UserNotInSessionException.class)
+	public void accessUsernameNotExist() {
+		removeUserFromSession(root);
+		CreateUser service = new CreateUser(root, USERNAME_DOES_NOT_EXIST, "jose", "José Ferreira");
+		service.execute();
+	}
 }

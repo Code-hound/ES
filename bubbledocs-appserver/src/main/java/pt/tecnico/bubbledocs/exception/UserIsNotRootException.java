@@ -12,19 +12,19 @@ public class UserIsNotRootException extends BubbleDocsException {
 
 	private static final long serialVersionUID = 1L;
 
-	private String rootUserToken; // userName
+	private String rootUserName; // userName
 
-	public UserIsNotRootException(String userToken) {
-		this.rootUserToken = userToken;
+	public UserIsNotRootException(String userName) {
+		this.rootUserName = userName;
 	}
 
-	public String getUserToken() {
-		return this.rootUserToken;
+	public String getUserName() {
+		return this.rootUserName;
 	}
 
 	@Override
 	public String getMessage() {
-		return "User " + this.rootUserToken + " is not a root user";
+		return "User " + this.rootUserName + " is not a root user.";
 	}
 
 }

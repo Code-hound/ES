@@ -1,6 +1,6 @@
 package pt.tecnico.bubbledocs.exception;
 
-public class UserNotLoggedInException extends BubbleDocsException {
+public class UserNotInSessionException extends BubbleDocsException {
 
 	/*
 	 * USER NOT LOGGED IN EXCEPTION
@@ -14,7 +14,7 @@ public class UserNotLoggedInException extends BubbleDocsException {
 
 	private String userOff; // userName
 
-	public UserNotLoggedInException(String userToken) {
+	public UserNotInSessionException(String userToken) {
 		this.userOff = userToken;
 	}
 
@@ -24,6 +24,6 @@ public class UserNotLoggedInException extends BubbleDocsException {
 
 	@Override
 	public String getMessage() {
-		return "User" + this.getUserOff() + "not logged in.";
+		return "UserNotInSessionException: User " + this.getUserOff() + " is not logged in.";
 	}
 }

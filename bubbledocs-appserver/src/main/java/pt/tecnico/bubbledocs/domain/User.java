@@ -58,18 +58,6 @@ public class User extends User_Base {
 		return new User(userName, name, password);
 	}
 
-	public void removeUser(User user) {
-		if (this.getUsername().equals("root")) {
-			getBubbleDocs().removeUser(this, user);
-		}
-	}
-
-	public void removeSpreadsheet(SpreadSheet sheet) {
-		if (this.getUsername().equals("root")) {
-			getBubbleDocs().removeSpreadSheetById(sheet.getId());
-		}
-	}
-
 	public String toString() {
 		return Printer.use(this);
 	}

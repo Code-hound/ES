@@ -7,7 +7,7 @@ import pt.tecnico.bubbledocs.domain.BubbleDocs;
 
 import pt.tecnico.bubbledocs.exception.UserDoesNotExistException;
 import pt.tecnico.bubbledocs.exception.UserIsNotRootException;
-import pt.tecnico.bubbledocs.exception.UserAlreadyExistException;
+import pt.tecnico.bubbledocs.exception.UserAlreadyExistsException;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.EmptyUsernameException;
 
@@ -37,10 +37,10 @@ public class CreateUser extends BubbleDocsService {
 	}
 
 	@Override
-	protected void dispatch() throws EmptyUsernameException,
-			UserIsNotRootException, UserAlreadyExistException,
-			UserDoesNotExistException, BubbleDocsException {
-
+	protected void dispatch() { /*throws EmptyUsernameException,
+			UserIsNotRootException, UserAlreadyExistsException,
+			UserDoesNotExistException, BubbleDocsException*/
+		/*
 		if (userToken == "root") {
 
 			User userToVerify = getBubbleDocs().getUserByUsername(newUsername);
@@ -50,7 +50,7 @@ public class CreateUser extends BubbleDocsService {
 					getBubbleDocs().addUser(
 							new User(newUsername, name, password));
 				} else {
-					throw new UserAlreadyExistException(this.newUsername);
+					throw new UserAlreadyExistsException(this.newUsername);
 				}
 			} else {
 				throw new EmptyUsernameException(this.newUsername);
@@ -60,5 +60,11 @@ public class CreateUser extends BubbleDocsService {
 		}
 
 	}
+	*/
+		BubbleDocs bd = getBubbleDocs();
+		try {
+			bd.checkIfRoot(userToken);
+			bd.addUser(newUserName, password, name);
+		}
 
 }

@@ -31,6 +31,7 @@ public class DeleteUser extends BubbleDocsService {
 	@Override
 	protected void dispatch() throws UserDoesNotExistException,
 			BubbleDocsException {
+		/*
 		if (userToken == "root") {
 			User userToDelete = getBubbleDocs().getUserByUsername(toDeleteUsername);
 
@@ -41,5 +42,9 @@ public class DeleteUser extends BubbleDocsService {
 			}
 		}
 	}
-
+	*/
+	BubbleDocs bd = getBubbleDocs();
+	try {
+		bd.deleteUser();
+	}
 }

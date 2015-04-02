@@ -1,6 +1,6 @@
 package pt.tecnico.bubbledocs.exception;
 
-public class UserAlreadyExistException extends BubbleDocsException {
+public class UserAlreadyExistsException extends BubbleDocsException {
 
 	/*
 	 * USER ALREADY EXIST EXCEPTION
@@ -14,7 +14,7 @@ public class UserAlreadyExistException extends BubbleDocsException {
 
 	private String userName;
 
-	public UserAlreadyExistException(String userName) {
+	public UserAlreadyExistsException(String userName) {
 		this.userName = userName;
 	}
 

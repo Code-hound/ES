@@ -10,7 +10,7 @@ import pt.tecnico.bubbledocs.domain.BubbleDocs;
 
 import pt.tecnico.bubbledocs.exception.UserDoesNotExistException;
 import pt.tecnico.bubbledocs.exception.UserIsNotRootException;
-import pt.tecnico.bubbledocs.exception.UserAlreadyExistException;
+import pt.tecnico.bubbledocs.exception.UserAlreadyExistsException;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 
 public class DeleteUserTest extends BubbleDocsServiceTest {

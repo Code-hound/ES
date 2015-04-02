@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jdom2.Element;
+
+import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
 import pt.tecnico.bubbledocs.exception.ImportException;
 import pt.tecnico.bubbledocs.exception.ExportException;
 
@@ -49,8 +51,8 @@ public class SpreadSheet extends SpreadSheet_Base {
 
 	/*
 	 * Retorna o valor da permissao que o utilizador tem sobre o documento caso
-	 * esta exista, 0 caso contrário Permissoes: 1 - ROOT 2 - OWNER 3 - WRITER 4
-	 * - READER
+	 * esta exista, 0 caso contrário
+	 * Permissoes: 1 - READER 2 - WRITER
 	 */
 	public int getUserPermissionLevel (String username) {
 		for (Access a : getDocAccessSet()) {
@@ -66,23 +68,24 @@ public class SpreadSheet extends SpreadSheet_Base {
 	}
 
 	public boolean canBeReadBy(String username) {
-		return getUserPermissionLevel(username) == 1;
+		return (getUserPermissionLevel(username) == 1 || getUserPermissionLevel(username) == 2);
 	}
 
 	public boolean isOwnedBy(String username) {
 		return this.getOwnerUsername() == username;
 	}
 
-	public void addContent(Content c, int row, int column) {
+	public void addContent(Content c, int row, int column) throws CellNotInSpreadSheetException {
 		for (Cell cell : getCellsSet()) {
 			if (cell.getCellRow() == row && cell.getCellColumn() == column) {
 				cell.setContent(c);
 				return;
 			}
 		}
+		throw new CellNotInSpreadSheetException(row, column, this.getId());
 	}
 
-	public void removeContent(int row, int column) {
+	public void removeContent(int row, int column) throws CellNotInSpreadSheetException {
 		for (Cell cell : getCellsSet()) {
 			if (cell.getCellRow() == row && cell.getCellColumn() == column) {
 				cell.setContent(null);
@@ -91,18 +94,21 @@ public class SpreadSheet extends SpreadSheet_Base {
 		}
 	}
 
-	public String getCellDescription(int row, int column) {
+	public String getCellDescription (int row, int column) throws CellNotInSpreadSheetException {
 		String description = "";
 		for (Cell cell : getCellsSet()) {
+			/*
 			if (!description.equals("")) {
 				description += "\n";
 			}
+			*/
 			if (cell.getCellRow() == row && cell.getCellColumn() == column) {
-				description += row + ";" + column;
+				description += row + ";" + column + " ";
 				description += cell.toString();
+				return description;
 			}
 		}
-		return description;
+		throw new CellNotInSpreadSheetException(row, column, this.getId());
 	}
 
 	public void importFromXML(Element element) throws ImportException {
