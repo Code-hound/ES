@@ -43,10 +43,10 @@ public class CreateUser extends BubbleDocsService {
 
 		if (userToken == "root") {
 
-			User userToVerify = getUser(newUsername);
+			User userToVerify = getBubbleDocs().getUserByUsername(newUsername);
 
 			if (newUsername != "") {
-				if (userToVerify != getUser(userToken)) {
+				if (userToVerify != getBubbleDocs().getUserLoggedInByToken(userToken)) {
 					getBubbleDocs().addUser(
 							new User(newUsername, name, password));
 				} else {

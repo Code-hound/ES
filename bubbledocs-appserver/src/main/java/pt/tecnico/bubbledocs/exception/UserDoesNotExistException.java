@@ -12,19 +12,19 @@ public class UserDoesNotExistException extends BubbleDocsException {
 
 	private static final long serialVersionUID = 1L;
 
-	private String userToken; // userName
+	private String userName; // userName
 
-	public UserDoesNotExistException(String userToken) {
-		this.userToken = userToken;
+	public UserDoesNotExistException(String userName) {
+		this.userName = userName;
 	}
 
-	public String getUserToken() {
-		return this.userToken;
+	public String getUserName() {
+		return this.userName;
 	}
 
 	@Override
 	public String getMessage() {
-		return "User " + this.userToken + " does not exist";
+		return "User " + this.userName + " does not exist";
 	}
 
 }
