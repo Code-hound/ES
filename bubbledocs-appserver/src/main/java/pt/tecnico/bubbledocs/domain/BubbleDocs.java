@@ -49,13 +49,13 @@ public class BubbleDocs extends BubbleDocs_Base {
 		addUsers(newUser);
 		return newUser;
 	}
-
-	public void deleteUser(String userToRemove)
+	/*
+	public void deleteUser(User userToRemove)
 			throws UserDoesNotExistException {
 		User user = getUserByUsername (userToRemove);
 		removeUsers(user);
 	}
-	
+	*/
 	private boolean hasUserByUsername(String UserName) {
 		if (hasUsers()) {
 			for (User u : getUsersSet()) {
@@ -67,7 +67,7 @@ public class BubbleDocs extends BubbleDocs_Base {
 		return false;
 	}
 	
-	private User getUserByUsername(String username) 
+	public User getUserByUsername(String username) 
 			throws UserDoesNotExistException {
 		if (hasUsers()) {
 			for (User u : getUsersSet()) {
@@ -79,11 +79,11 @@ public class BubbleDocs extends BubbleDocs_Base {
 		throw new UserDoesNotExistException(username);
 	}
 
-	public void addUserToSession(String username, String password)
+	public void addUserToSession(User user, String password)
 			throws UserAlreadyInSessionException, WrongPasswordException {
 		removeIdleUsersInSession ();
-		
-		User user = getUserByUsername(username); //already throws UserDoesNotExistException
+		String username = user.getUsername();
+		//User user = getUserByUsername(username); //already throws UserDoesNotExistException
 		if (hasUserLoggedInByUsername(username)) throw new UserAlreadyInSessionException(username);
 		if (!user.getPassword().equals(password)) throw new WrongPasswordException(username);
 		
@@ -171,37 +171,36 @@ public class BubbleDocs extends BubbleDocs_Base {
 	public List<SpreadSheet> getSpreadSheetByName(String sheetName) {
 		List<SpreadSheet> list = new ArrayList<SpreadSheet>();
 		for (SpreadSheet s : getDocsSet()) {
-			String s_name = s.getSpreadSheetName();
-			if (s_name.equals(sheetName)) {
+			if (s.getSpreadSheetName().equals(sheetName)) {
 				list.add(s);
 			}
 		}
 		return list;
 	}
 
-	public List<SpreadSheet> getSpreadSheetByOwner(String userName) {
+	public List<SpreadSheet> getSpreadSheetByOwner(User owner) {
 		List<SpreadSheet> list = new ArrayList<SpreadSheet>();
 		for (SpreadSheet s : getDocsSet()) {
-			String s_name = s.getOwnerUsername();
-			if (s_name.equals(userName)) {
+			if (s.getOwnerUsername().equals(owner.getUsername())) {
 				list.add(s);
 			}
 		}
 		return list;
 	}
 	
-	public SpreadSheet getSpreadSheetByOwnerAndName (String username, String sheetName) 
+	public SpreadSheet getSpreadSheetByOwnerAndName (User owner, String sheetName) 
 			throws DocumentDoesNotExistException {
-		for (SpreadSheet sheet : getSpreadSheetByOwner(username)) {
+		for (SpreadSheet sheet : getSpreadSheetByOwner(owner)) {
 			if (sheet.getSpreadSheetName().equals(sheetName)) {
 				return sheet;
 			}
 		}
-		throw new DocumentDoesNotExistException(username, sheetName);
+		throw new DocumentDoesNotExistException(owner.getUsername(), sheetName);
 	}
 	
-	public boolean hasSpreadSheetByOwnerAndName (String username, String sheetName) {
-		for (SpreadSheet sheet : getSpreadSheetByOwner(username)) {
+	public boolean hasSpreadSheetByOwnerAndName (User owner, String sheetName)
+			throws DocumentDoesNotExistException {
+		for (SpreadSheet sheet : getSpreadSheetByOwner(owner)) {
 			if (sheet.getSpreadSheetName().equals(sheetName)) {
 				return true;
 			}
@@ -219,18 +218,18 @@ public class BubbleDocs extends BubbleDocs_Base {
 		throw new DocumentDoesNotExistException(sheetName, date);
 	}
 
-	public SpreadSheet createSpreadSheet(String username, String sheetName, int rows,
+	public SpreadSheet createSpreadSheet(User owner, String sheetName, int rows,
 			int columns) throws UserAlreadyHasThisDocumentException {
 		
-		if (hasSpreadSheetByOwnerAndName(username, sheetName))
-			throw new UserAlreadyHasThisDocumentException(username, sheetName);
+		if (hasSpreadSheetByOwnerAndName(owner, sheetName))
+			throw new UserAlreadyHasThisDocumentException(owner.getUsername(), sheetName);
 		
 		//User user = getUserByUsername(username);
 			
-		SpreadSheet newSpreadSheet = new SpreadSheet(username, getNextDocumentId(),
+		SpreadSheet newSpreadSheet = new SpreadSheet(owner.getUsername(), getNextDocumentId(),
 				sheetName, rows, columns);
 		if (newSpreadSheet != null) {
-			newSpreadSheet.addDocAccess(new Access(username, "writer"));
+			newSpreadSheet.addDocAccess(new Access(owner.getUsername(), "writer"));
 			addDocs(newSpreadSheet);
 
 			setNextDocumentId(getNextDocumentId() + 1);
@@ -270,16 +269,16 @@ public class BubbleDocs extends BubbleDocs_Base {
 		return null;
 	}
 
-	public void removeSpreadSheetByOwner(String owner, String sheetName)
+	public void removeSpreadSheetByOwner(User owner, String sheetName)
 			throws DocumentDoesNotExistException {
 		for (SpreadSheet s : getSpreadSheetByName(sheetName)) {
-			if (s.getOwnerUsername().equals(owner)) {
+			if (s.getOwnerUsername().equals(owner.getUsername())) {
 				removeDocs(s);
 				s = null;
 				return;
 			}
 		}
-		throw new DocumentDoesNotExistException(owner, sheetName);
+		throw new DocumentDoesNotExistException(owner.getUsername(), sheetName);
 	}
 
 	public void removeSpreadSheetById(int id) throws DocumentDoesNotExistException {

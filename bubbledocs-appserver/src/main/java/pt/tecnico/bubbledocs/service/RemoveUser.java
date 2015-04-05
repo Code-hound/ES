@@ -2,11 +2,13 @@ package pt.tecnico.bubbledocs.service;
 
 //the needed import declarations
 
-import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
+import pt.tecnico.bubbledocs.domain.User;
+import pt.tecnico.bubbledocs.domain.SpreadSheet;
 
 import pt.tecnico.bubbledocs.exception.UserDoesNotExistException;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
+import pt.tecnico.bubbledocs.exception.UserIsNotRootException;
 
 /*
  * DELETE USER
@@ -18,12 +20,12 @@ import pt.tecnico.bubbledocs.exception.BubbleDocsException;
  * 
  */
 
-public class DeleteUser extends BubbleDocsService {
+public class RemoveUser extends BubbleDocsService {
 
 	private String userToken;
 	private String toDeleteUsername;
 
-	public DeleteUser(String userToken, String toDeleteUsername) {
+	public RemoveUser(String userToken, String toDeleteUsername) {
 		this.userToken = userToken;
 		this.toDeleteUsername = toDeleteUsername;
 	}
@@ -43,8 +45,19 @@ public class DeleteUser extends BubbleDocsService {
 		}
 	}
 	*/
-	BubbleDocs bd = getBubbleDocs();
-	try {
-		bd.deleteUser();
+		BubbleDocs bd = getBubbleDocs();
+		try {
+			if (bd.checkIfRoot(userToken)) {
+				User user = getUser(toDeleteUsername);
+				bd.removeUsers(user);
+				
+				for (SpreadSheet s : bd.getSpreadSheetByOwner(user)) {
+					bd.removeDocs(s);
+				}
+			}
+		}
+		catch (UserDoesNotExistException | UserIsNotRootException ex) {
+			System.out.println(ex.getMessage());
+		}
 	}
 }

@@ -1,11 +1,22 @@
 package pt.tecnico.bubbledocs.service;
 
+import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.domain.User;
+import pt.tecnico.bubbledocs.exception.UserAlreadyHasThisDocumentException;
+import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
+
+/*
+ * CREATE SPREADSHEET
+ * 
+ * Cria um novo documento do tipo SpreadSheet
+ * Recebe o token do utilizador que quer criar a spreadsheet,
+ * o nome do novo documento, o numero de linhas e o numero de colunas
+ * 
+ * @author: Francisco Silveira
+ * 
+ */
 
 public class CreateSpreadSheet extends BubbleDocsService {
-
-	// private int sheetId; // id of the new sheet
-	// UNNECESSARY, SHEET ID IS HANDLED BY BUBBLEDOCS AT THE DOMAIN LEVEL
 
 	private int numRows;
 	private int numColumns;
@@ -22,10 +33,17 @@ public class CreateSpreadSheet extends BubbleDocsService {
 
 	@Override
 	protected void dispatch() {
-		User user = getUser(userToken);
-		if (user != null) {
-			getBubbleDocs().createSpreadSheet(user, spreadsheetName, numRows,
-					numColumns);
+		BubbleDocs bd = getBubbleDocs();
+		
+		try {
+			User user = bd.getUserLoggedInByToken(userToken);
+			if (user != null) {
+				bd.createSpreadSheet(user, spreadsheetName, numRows,
+						numColumns);
+			}
+		}
+		catch (UserNotInSessionException | UserAlreadyHasThisDocumentException ex) {
+			System.out.println(ex.getMessage());
 		}
 	}
 }

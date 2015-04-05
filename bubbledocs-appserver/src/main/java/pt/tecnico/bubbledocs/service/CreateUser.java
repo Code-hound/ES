@@ -8,7 +8,7 @@ import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.exception.UserDoesNotExistException;
 import pt.tecnico.bubbledocs.exception.UserIsNotRootException;
 import pt.tecnico.bubbledocs.exception.UserAlreadyExistsException;
-import pt.tecnico.bubbledocs.exception.BubbleDocsException;
+//import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.EmptyUsernameException;
 
 /*
@@ -63,8 +63,12 @@ public class CreateUser extends BubbleDocsService {
 	*/
 		BubbleDocs bd = getBubbleDocs();
 		try {
-			bd.checkIfRoot(userToken);
-			bd.addUser(newUserName, password, name);
+			if (bd.checkIfRoot(userToken)) {
+				bd.createUser(newUsername, name, password);
+			}
 		}
-
+		catch (UserAlreadyExistsException ex) {
+			System.out.println(ex.getMessage());
+		}
+	}
 }

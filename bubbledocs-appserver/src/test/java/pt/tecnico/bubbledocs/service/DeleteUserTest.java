@@ -35,7 +35,7 @@ public class DeleteUserTest extends BubbleDocsServiceTest {
 	};
 
 	public void success() {
-		DeleteUser service = new DeleteUser(root, USERNAME_TO_DELETE);
+		RemoveUser service = new RemoveUser(root, USERNAME_TO_DELETE);
 		service.execute();
 
 		boolean deleted = getUserFromUsername(USERNAME_TO_DELETE) == null;
