@@ -46,12 +46,10 @@ public class BubbleApplication {
 		BubbleDocs bd = BubbleDocs.getInstance();
 		XMLOutputter xml = new XMLOutputter();
 
-		User user1 = new User("pf", "Paul Door", "sub");
-		bd.addUser(user1);
-		User user2 = new User("ra", "Step Rabbit", "cor");
-		bd.addUser(user2);
+		User user1 = bd.createUser("pf", "Paul Door", "sub");
+		User user2 = bd.createUser("ra", "Step Rabbit", "cor");
 
-		SpreadSheet sheet1 = new SpreadSheet("pf", -1, "Notas ES", 300, 20);
+		SpreadSheet sheet1 = bd.createSpreadSheet(user1, "Notas ES", 300, 20);
 
 		System.out.println(sheet1);
 
@@ -68,8 +66,9 @@ public class BubbleApplication {
 		System.out.println(sheet1);
 		System.out.println(xml.outputString(sheet1.exportToXML()));
 
-		bd.addSpreadSheet(sheet1);
-
+		//bd.addSpreadSheet(sheet1);
+		//é preciso re-adicionar a spreadsheet? à partida ela ficava alterada
+		
 		// return bd;
 		// }
 
@@ -90,8 +89,8 @@ public class BubbleApplication {
 		// static void writeUserSheets(){
 		// BubbleDocs bd = BubbleDocs.getInstance();
 
-		List<SpreadSheet> spreadsheet_list_pf = bd.getSpreadSheetByOwner("pf");
-		List<SpreadSheet> spreadsheet_list_ra = bd.getSpreadSheetByOwner("ra");
+		List<SpreadSheet> spreadsheet_list_pf = bd.getSpreadSheetByOwner(user1);
+		List<SpreadSheet> spreadsheet_list_ra = bd.getSpreadSheetByOwner(user2);
 
 		System.out.println("pf Spreadsheet Names:");
 		for (SpreadSheet s : spreadsheet_list_pf)
@@ -132,7 +131,7 @@ public class BubbleApplication {
 		}
 		System.out.println();
 
-		bd.removeSpreadSheetByOwner("pf", "Notas ES");
+		bd.removeSpreadSheetByOwner(user1, "Notas ES");
 
 		System.exit(0);
 		FenixFramework.getTransactionManager().commit();
