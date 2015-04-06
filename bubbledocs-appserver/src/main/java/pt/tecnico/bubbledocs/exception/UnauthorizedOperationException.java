@@ -1,6 +1,6 @@
 package pt.tecnico.bubbledocs.exception;
 
-public class UserIsNotRootException extends BubbleDocsException {
+public class UnauthorizedOperationException extends BubbleDocsException {
 
 	/*
 	 * USER IS NOT ROOT EXCEPTION
@@ -14,7 +14,7 @@ public class UserIsNotRootException extends BubbleDocsException {
 
 	private String rootUserName; // userName
 
-	public UserIsNotRootException(String userName) {
+	public UnauthorizedOperationException(String userName) {
 		this.rootUserName = userName;
 	}
 

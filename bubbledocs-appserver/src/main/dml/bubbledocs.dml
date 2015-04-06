@@ -13,7 +13,6 @@ class User {
 
 class Session {
 	DateTime LastAccess;
-	String username;
 }
 
 class SpreadSheet {
@@ -25,8 +24,7 @@ class SpreadSheet {
 	int numberColumns;
 }
 
-class Access{
-	String username;
+class Access {
 }
 
 
@@ -69,10 +67,10 @@ class PRD extends RangedFunction;
 relation DomainRootHasBubbleDocsApplication{
 	.pt.ist.fenixframework.DomainRoot playsRole root {
 		multiplicity 0..1;
-		}
-		BubbleDocs playsRole bubbleDocs {
-			multiplicity 0..1;
-		}
+	}
+	BubbleDocs playsRole bubbleDocs {
+		multiplicity 0..1;
+	}
 }
 
 relation SpreadSheetContainsAccess{
@@ -102,10 +100,10 @@ relation BubbleDocsContainsSession {
 	BubbleDocs playsRole bubbleDocs;
 	
 	Session playsRole sessions {
-		multiplicity 1..*;
+		multiplicity 0..*;
 	}
 }
-/*
+
 relation SessionContainsUser {
 	Session playsRole session {
 		multiplicity 0..1;
@@ -114,8 +112,7 @@ relation SessionContainsUser {
 		multiplicity 1;
 	}
 }
-*/
-/*
+
 relation AccessContainsUser {
 	Access playsRole access {
 		multiplicity 0..*;
@@ -124,7 +121,7 @@ relation AccessContainsUser {
 		multiplicity 1;
 	}
 }
-*/
+
 relation SpreadSheetContainsCells {
 	SpreadSheet playsRole document;
 	Cell playsRole cells {

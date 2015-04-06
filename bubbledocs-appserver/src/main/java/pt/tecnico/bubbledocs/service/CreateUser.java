@@ -3,10 +3,11 @@ package pt.tecnico.bubbledocs.service;
 // the needed import declarations
 
 import pt.tecnico.bubbledocs.domain.User;
+import pt.tecnico.bubbledocs.domain.Session;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
 
 import pt.tecnico.bubbledocs.exception.UserDoesNotExistException;
-import pt.tecnico.bubbledocs.exception.UserIsNotRootException;
+import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
 import pt.tecnico.bubbledocs.exception.UserAlreadyExistsException;
 //import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.EmptyUsernameException;
@@ -14,9 +15,9 @@ import pt.tecnico.bubbledocs.exception.EmptyUsernameException;
 /*
  * CREATE USER
  * 
- * Cria o utilizador passando-lhe como argumento um
- * Token como seu "nome".
+ * Cria um novo utilizador
  * 
+ * @author: Francisco Silveira
  * @author: Francisco Maria Calisto
  * 
  */
@@ -37,38 +38,21 @@ public class CreateUser extends BubbleDocsService {
 	}
 
 	@Override
-	protected void dispatch() { /*throws EmptyUsernameException,
-			UserIsNotRootException, UserAlreadyExistsException,
-			UserDoesNotExistException, BubbleDocsException*/
-		/*
-		if (userToken == "root") {
-
-			User userToVerify = getBubbleDocs().getUserByUsername(newUsername);
-
-			if (newUsername != "") {
-				if (userToVerify != getBubbleDocs().getUserLoggedInByToken(userToken)) {
-					getBubbleDocs().addUser(
-							new User(newUsername, name, password));
-				} else {
-					throw new UserAlreadyExistsException(this.newUsername);
-				}
-			} else {
-				throw new EmptyUsernameException(this.newUsername);
-			}
-		} else {
-			throw new UserIsNotRootException(this.newUsername);
-		}
-
-	}
-	*/
+	protected void dispatch() {
 		BubbleDocs bd = getBubbleDocs();
-		try {
-			if (bd.checkIfRoot(userToken)) {
-				bd.createUser(newUsername, name, password);
-			}
+		if (bd.checkIfRoot(userToken)) {
+			bd.createUser(newUsername, name, password);
 		}
-		catch (UserAlreadyExistsException ex) {
-			System.out.println(ex.getMessage());
+	}
+	
+	protected void removeIdleUsers() {
+		BubbleDocs bd = getBubbleDocs();
+		for (Session s : bd.getSessionsSet()) {
+			if(s.getLastAccess().plusHours(2).isBeforeNow()) {
+				User userToRemove = s.getUser();
+				bd.removeUserFromSession(userToRemove);
+				bd.removeSessions(s);
+			}
 		}
 	}
 }

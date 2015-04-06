@@ -1,5 +1,7 @@
 package pt.tecnico.bubbledocs.domain;
 
+import pt.tecnico.bubbledocs.domain.User;
+
 /* You can set an access by giving it the user and 
  * either a string with the desired permission
  * or an integer with the desired permission level.
@@ -16,15 +18,15 @@ public class Access extends Access_Base {
 
 	private Permission permission;
 
-	public Access(String user, int permissionLevel) {
+	public Access(User user, int permissionLevel) {
 		super();
-		setUsername(user);
+		setUser(user);
 		permission = Permission.newPermission(permissionLevel);
 	}
 
-	public Access(String user, String permissionLevel) {
+	public Access(User user, String permissionLevel) {
 		super();
-		setUsername(user);
+		setUser(user);
 		permission = Permission.newPermission(permissionLevel);
 	}
 

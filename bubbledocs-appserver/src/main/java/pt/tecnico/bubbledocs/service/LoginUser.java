@@ -12,18 +12,31 @@ import pt.tecnico.bubbledocs.exception.WrongPasswordException;
  * Cria uma nova sessao para o utilizador caso a autenticacao
  * esteja correcta
  * 
- * @author: Francisco Maria Calisto
+ * @author: Francisco Silveira
  * 
  */
 
-public class LoginUserService extends BubbleDocsService {
+public class LoginUser extends BubbleDocsService {
 	
 	private String username;
 	private String password;
+	private String userToken;
 	
-	public LoginUserService (String username, String password) {
+	public LoginUser (String username, String password) {
 		this.username = username;
 		this.password = password;
+	}
+	
+	public String getUsername() {
+		return this.username;
+	}
+	
+	public String getPassword() {
+		return this.password;
+	}
+	
+	public String getUserToken() {
+		return this.userToken;
 	}
 	
 	@Override
@@ -32,8 +45,8 @@ public class LoginUserService extends BubbleDocsService {
 		
 		try {
 			User user = getUser(username);
-			if (user != null) {
-				bd.addUserToSession(user, password);
+			if (user != null && user.getPassword().equals(password)) {
+				this.userToken = bd.addUserToSession(user);
 			}
 		}
 		catch (UserAlreadyInSessionException | WrongPasswordException ex) {

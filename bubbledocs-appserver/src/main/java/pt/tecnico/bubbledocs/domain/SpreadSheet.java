@@ -8,6 +8,7 @@ import org.jdom2.Element;
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
 import pt.tecnico.bubbledocs.exception.ImportException;
 import pt.tecnico.bubbledocs.exception.ExportException;
+import pt.tecnico.bubbledocs.domain.User;
 
 import org.joda.time.LocalDate;
 
@@ -36,15 +37,15 @@ public class SpreadSheet extends SpreadSheet_Base {
 	}
 
 	public void setOwner(String username) {
-		Access a = new Access(username, "writer");
-		addDocAccess(a);
+		//Access a = new Access(username, "writer");
+		//addDocAccess(a);
 		setOwnerUsername(username);
 	}
 	
-	public List<String> getAccessUsers() {
-		List<String> users = new ArrayList<String>();
+	public List<User> getAccessUsers() {
+		List<User> users = new ArrayList<User>();
 		for (Access a : getDocAccessSet()) {
-			users.add(a.getUsername());
+			users.add(a.getUser());
 		}
 		return users;
 	}
@@ -56,7 +57,7 @@ public class SpreadSheet extends SpreadSheet_Base {
 	 */
 	public int getUserPermissionLevel (String username) {
 		for (Access a : getDocAccessSet()) {
-			if (a.getUsername().equals(username)) {
+			if (a.getUser().getUsername().equals(username)) {
 				return a.getPermission();
 			}
 		}

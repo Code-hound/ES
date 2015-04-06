@@ -8,7 +8,7 @@ import pt.tecnico.bubbledocs.domain.SpreadSheet;
 
 import pt.tecnico.bubbledocs.exception.UserDoesNotExistException;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
-import pt.tecnico.bubbledocs.exception.UserIsNotRootException;
+import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
 
 /*
  * DELETE USER
@@ -56,7 +56,7 @@ public class RemoveUser extends BubbleDocsService {
 				}
 			}
 		}
-		catch (UserDoesNotExistException | UserIsNotRootException ex) {
+		catch (UserDoesNotExistException | UnauthorizedOperationException ex) {
 			System.out.println(ex.getMessage());
 		}
 	}

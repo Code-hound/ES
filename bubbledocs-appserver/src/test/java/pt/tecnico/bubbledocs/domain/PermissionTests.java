@@ -13,8 +13,8 @@ import pt.tecnico.bubbledocs.domain.Permission;
 public class PermissionTests {
 
 	private static int[] int_levels = { 0, 1, 2, 3, 4, 5, 10, -1, 20, -20 };
-	private static String[] string_levels = { "none", "root", "owner",
-			"writer", "reader", "mom", "dog", "1", "Shrek", "itsallogrenow" };
+	private static String[] string_levels = { "none", "reader", "writer",
+			"0", "1", "2", "dog", "1", "Shrek", "itsallogrenow" };
 
 	private static ArrayList<Permission> int_permissions = new ArrayList<Permission>();
 	private static ArrayList<Permission> string_permissions = new ArrayList<Permission>();
@@ -48,10 +48,10 @@ public class PermissionTests {
 				"2");
 		assertEquals(
 				Integer.toString(int_permissions.get(3).getPermissionLevel()),
-				"3");
+				"0");
 		assertEquals(
 				Integer.toString(int_permissions.get(4).getPermissionLevel()),
-				"4");
+				"0");
 		assertEquals(
 				Integer.toString(int_permissions.get(5).getPermissionLevel()),
 				"0");
@@ -72,10 +72,10 @@ public class PermissionTests {
 	@Test
 	public void checkIntPermissionsName() {
 		assertEquals(int_permissions.get(0).name(), "NONE");
-		assertEquals(int_permissions.get(1).name(), "ROOT");
-		assertEquals(int_permissions.get(2).name(), "OWNER");
-		assertEquals(int_permissions.get(3).name(), "WRITER");
-		assertEquals(int_permissions.get(4).name(), "READER");
+		assertEquals(int_permissions.get(1).name(), "READER");
+		assertEquals(int_permissions.get(2).name(), "WRITER");
+		assertEquals(int_permissions.get(3).name(), "NONE");
+		assertEquals(int_permissions.get(4).name(), "NONE");
 		assertEquals(int_permissions.get(5).name(), "NONE");
 		assertEquals(int_permissions.get(6).name(), "NONE");
 		assertEquals(int_permissions.get(7).name(), "NONE");
@@ -92,9 +92,9 @@ public class PermissionTests {
 		assertEquals(Integer.toString(string_permissions.get(2)
 				.getPermissionLevel()), "2");
 		assertEquals(Integer.toString(string_permissions.get(3)
-				.getPermissionLevel()), "3");
+				.getPermissionLevel()), "0");
 		assertEquals(Integer.toString(string_permissions.get(4)
-				.getPermissionLevel()), "4");
+				.getPermissionLevel()), "0");
 		assertEquals(Integer.toString(string_permissions.get(5)
 				.getPermissionLevel()), "0");
 		assertEquals(Integer.toString(string_permissions.get(6)
@@ -110,10 +110,10 @@ public class PermissionTests {
 	@Test
 	public void checkStringPermissionsName() {
 		assertEquals(string_permissions.get(0).name(), "NONE");
-		assertEquals(string_permissions.get(1).name(), "ROOT");
-		assertEquals(string_permissions.get(2).name(), "OWNER");
-		assertEquals(string_permissions.get(3).name(), "WRITER");
-		assertEquals(string_permissions.get(4).name(), "READER");
+		assertEquals(string_permissions.get(1).name(), "READER");
+		assertEquals(string_permissions.get(2).name(), "WRITER");
+		assertEquals(string_permissions.get(3).name(), "NONE");
+		assertEquals(string_permissions.get(4).name(), "NONE");
 		assertEquals(string_permissions.get(5).name(), "NONE");
 		assertEquals(string_permissions.get(6).name(), "NONE");
 		assertEquals(string_permissions.get(7).name(), "NONE");

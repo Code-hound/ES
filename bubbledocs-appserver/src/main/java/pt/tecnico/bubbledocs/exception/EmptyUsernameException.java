@@ -12,19 +12,21 @@ public class EmptyUsernameException extends BubbleDocsException {
 
 	private static final long serialVersionUID = 1L;
 
-	private String userName; // userName
+	//private String userName; // userName
 
-	public EmptyUsernameException(String userName) {
-		this.userName = userName;
+	public EmptyUsernameException() {
+		super();
 	}
-
+	
+	/*
 	public String getUserName() {
 		return this.userName;
 	}
+	*/
 
 	@Override
 	public String getMessage() {
-		return "User field is empty: " + this.userName;
+		return "User field is empty.";
 	}
 
 }

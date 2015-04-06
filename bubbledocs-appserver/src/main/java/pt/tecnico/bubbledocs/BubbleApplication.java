@@ -12,21 +12,56 @@ import org.jdom2.output.XMLOutputter;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.fenixframework.TransactionManager;
 import pt.tecnico.bubbledocs.domain.*;
 
 public class BubbleApplication {
+	
+	@Atomic
 	public static void main(String[] args) {
+		TransactionManager tm = FenixFramework.getTransactionManager();
+		if (tm==null)
+			System.out.println("Transaction Manager null!");
+		boolean committed = false;
+		
 		try {
-			populateDomain();
+			tm.begin();
+			System.out.println("Began");
+			
+			BubbleDocs bd = BubbleDocs.getInstance();
+			System.out.println("Got");
+			/*
+			populateDomain(bd);
+			System.out.println("Populated");
+			
+			writeUsers();
+			System.out.println("Wrote");
+			*/
+			tm.commit();
+			System.out.println("Committed");
+			committed = true;
+			
+			//System.exit(0);
+			//FenixFramework.getTransactionManager().commit();
 		} catch (SecurityException |
 				 IllegalStateException |
 				 NotSupportedException |
 				 SystemException |
 				 RollbackException |
 				 HeuristicMixedException |
-				 HeuristicRollbackException e) {
+				 HeuristicRollbackException ex) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Caught transaction exception: " + ex);
+			ex.printStackTrace();
+		} finally {
+			if (!committed) {
+				//System.out.println("Did not commit!");
+				try {
+					tm.rollback();
+				} catch (SystemException ex) {
+					System.out.println("Caught rollback exception: " + ex);
+				}
+			}
 		}
 		// writeUsers();
 		// writeUserSheets();
@@ -34,16 +69,15 @@ public class BubbleApplication {
 		// removePfSheet();
 	}
 
-	@Atomic
-	static void populateDomain() throws NotSupportedException,
+	static void populateDomain(BubbleDocs bd) throws NotSupportedException,
 			                            SystemException,
 			                            SecurityException,
 			                            IllegalStateException,
 			                            RollbackException,
 			                            HeuristicMixedException,
 			                            HeuristicRollbackException {
-		FenixFramework.getTransactionManager().begin();
-		BubbleDocs bd = BubbleDocs.getInstance();
+		
+		//BubbleDocs bd = BubbleDocs.getInstance();
 		XMLOutputter xml = new XMLOutputter();
 
 		User user1 = bd.createUser("pf", "Paul Door", "sub");
@@ -51,7 +85,7 @@ public class BubbleApplication {
 
 		SpreadSheet sheet1 = bd.createSpreadSheet(user1, "Notas ES", 300, 20);
 
-		System.out.println(sheet1);
+		//System.out.println(sheet1);
 
 		Content content1 = new Literal(5);
 		sheet1.addContent(content1, 3, 4);
@@ -62,19 +96,19 @@ public class BubbleApplication {
 		Content content4 = new DIV(new Reference(sheet1, 1, 1), new Reference(
 				sheet1, 3, 4));
 		sheet1.addContent(content4, 2, 2);
-
-		System.out.println(sheet1);
-		System.out.println(xml.outputString(sheet1.exportToXML()));
+		
+		//System.out.println(sheet1);
+		//System.out.println(xml.outputString(sheet1.exportToXML()));
 
 		//bd.addSpreadSheet(sheet1);
 		//é preciso re-adicionar a spreadsheet? à partida ela ficava alterada
 		
-		// return bd;
-		// }
+		//return bd;
+	}
 
-		// @Atomic
-		// static void writeUsers(){
-		// BubbleDocs bd = BubbleDocs.getInstance();
+	//@Atomic
+	static void writeUsers(){
+		BubbleDocs bd = BubbleDocs.getInstance();
 
 		// List<User> user_info_list = new ArrayList<User>(bd.getUsersSet());
 
@@ -83,8 +117,8 @@ public class BubbleApplication {
 			System.out.println(u);
 		}
 		System.out.println();
-		// }
-
+	}
+	/*
 		// @Atomic
 		// static void writeUserSheets(){
 		// BubbleDocs bd = BubbleDocs.getInstance();
@@ -132,8 +166,7 @@ public class BubbleApplication {
 		System.out.println();
 
 		bd.removeSpreadSheetByOwner(user1, "Notas ES");
-
-		System.exit(0);
-		FenixFramework.getTransactionManager().commit();
+		
 	}
+	*/
 }
