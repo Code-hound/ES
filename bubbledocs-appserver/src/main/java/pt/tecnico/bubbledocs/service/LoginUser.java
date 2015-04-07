@@ -2,6 +2,7 @@ package pt.tecnico.bubbledocs.service;
 
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.domain.User;
+import pt.tecnico.bubbledocs.domain.Session;
 import pt.tecnico.bubbledocs.exception.UserAlreadyInSessionException;
 import pt.tecnico.bubbledocs.exception.WrongPasswordException;
 
@@ -39,18 +40,24 @@ public class LoginUser extends BubbleDocsService {
 		return this.userToken;
 	}
 	
-	@Override
-	protected void dispatch() {
+	protected void removeIdleUsers() {
 		BubbleDocs bd = getBubbleDocs();
-		
-		try {
-			User user = getUser(username);
-			if (user != null && user.getPassword().equals(password)) {
-				this.userToken = bd.addUserToSession(user);
+		for (Session s : bd.getSessionsSet()) {
+			if(s.getLastAccess().plusHours(2).isBeforeNow()) {
+				User userToRemove = s.getUser();
+				bd.removeUserFromSession(userToRemove);
+				bd.removeSessions(s);
 			}
 		}
-		catch (UserAlreadyInSessionException | WrongPasswordException ex) {
-			System.out.println(ex.getMessage());
-		}
+	}
+	
+	@Override
+	protected void dispatch() {
+		removeIdleUsers();
+		BubbleDocs bd = getBubbleDocs();
+		
+		User user = getUser(username);
+		bd.verifyUser(user, this.password);
+		this.userToken = bd.addUserToSession(user);
 	}
 }

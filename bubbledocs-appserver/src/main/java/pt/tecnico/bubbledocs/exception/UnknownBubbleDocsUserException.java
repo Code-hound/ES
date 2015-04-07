@@ -1,6 +1,6 @@
 package pt.tecnico.bubbledocs.exception;
 
-public class UserDoesNotExistException extends BubbleDocsException {
+public class UnknownBubbleDocsUserException extends BubbleDocsException {
 
 	/*
 	 * USER DOES NOT EXIST EXCEPTION
@@ -14,7 +14,7 @@ public class UserDoesNotExistException extends BubbleDocsException {
 
 	private String userName; // userName
 
-	public UserDoesNotExistException(String userName) {
+	public UnknownBubbleDocsUserException(String userName) {
 		this.userName = userName;
 	}
 

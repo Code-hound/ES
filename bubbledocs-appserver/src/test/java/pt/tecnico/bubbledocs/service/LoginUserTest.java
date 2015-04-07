@@ -11,10 +11,11 @@ import org.joda.time.Seconds;
 import pt.tecnico.bubbledocs.domain.Session;
 import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
-import pt.tecnico.bubbledocs.exception.UserDoesNotExistException;
+import pt.tecnico.bubbledocs.exception.UnknownBubbleDocsUserException;
 import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
 import pt.tecnico.bubbledocs.exception.UserAlreadyExistsException;
-import pt.tecnico.bubbledocs.exception.BubbleDocsException;
+//import pt.tecnico.bubbledocs.exception.BubbleDocsException;
+import pt.tecnico.bubbledocs.exception.WrongPasswordException;
 
 
 public class LoginUserTest extends BubbleDocsServiceTest {
@@ -45,6 +46,7 @@ public class LoginUserTest extends BubbleDocsServiceTest {
 	 LocalTime currentTime = new LocalTime();
 	
 	 String token = service.getUserToken();
+	 //System.out.println("User token: " + token);
 	
 	 User user = getUserFromSession(service.getUserToken());
 	 assertEquals(USERNAME, user.getUsername());
@@ -54,7 +56,6 @@ public class LoginUserTest extends BubbleDocsServiceTest {
 	 assertTrue("Access time in session not correctly set", difference >= 0);
 	 assertTrue("diference in seconds greater than expected", difference < 2);
 	 }
-	
 	 @Test
 	 public void successLoginTwice() {
 	 LoginUser service = new LoginUser(USERNAME, PASSWORD);
@@ -65,13 +66,15 @@ public class LoginUserTest extends BubbleDocsServiceTest {
 	 service.execute();
 	 String token2 = service.getUserToken();
 	
+	 BubbleDocs bd = BubbleDocs.getInstance();
+	 
 	 User user = getUserFromSession(token1);
 	 assertNull(user);
 	 user = getUserFromSession(token2);
 	 assertEquals(USERNAME, user.getUsername());
 	 }
 	
-	 /*
+	 
 	 @Test(expected = UnknownBubbleDocsUserException.class)
 	 public void loginUnknownUser() {
 	 LoginUser service = new LoginUser("jp2", "jp");
@@ -83,5 +86,4 @@ public class LoginUserTest extends BubbleDocsServiceTest {
 	 LoginUser service = new LoginUser(USERNAME, "jp2");
 	 service.execute();
 	 }
-	 */
 }

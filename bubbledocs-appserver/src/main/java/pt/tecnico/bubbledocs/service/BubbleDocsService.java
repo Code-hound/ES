@@ -19,9 +19,11 @@ public abstract class BubbleDocsService {
 
 	public static User getUser(String username) {
 		User user = getBubbleDocs().getUserByUsername(username);
+		/*
 		if (user == null) {
 			throw new BubbleDocsException();
 		}
+		*/
 		return user;
 	}
 

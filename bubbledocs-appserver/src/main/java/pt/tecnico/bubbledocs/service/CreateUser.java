@@ -6,7 +6,7 @@ import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.Session;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
 
-import pt.tecnico.bubbledocs.exception.UserDoesNotExistException;
+import pt.tecnico.bubbledocs.exception.UnknownBubbleDocsUserException;
 import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
 import pt.tecnico.bubbledocs.exception.UserAlreadyExistsException;
 //import pt.tecnico.bubbledocs.exception.BubbleDocsException;
@@ -41,18 +41,9 @@ public class CreateUser extends BubbleDocsService {
 	protected void dispatch() {
 		BubbleDocs bd = getBubbleDocs();
 		if (bd.checkIfRoot(userToken)) {
-			bd.createUser(newUsername, name, password);
+			bd.createUser(newUsername, password, name);
 		}
 	}
 	
-	protected void removeIdleUsers() {
-		BubbleDocs bd = getBubbleDocs();
-		for (Session s : bd.getSessionsSet()) {
-			if(s.getLastAccess().plusHours(2).isBeforeNow()) {
-				User userToRemove = s.getUser();
-				bd.removeUserFromSession(userToRemove);
-				bd.removeSessions(s);
-			}
-		}
-	}
+	
 }

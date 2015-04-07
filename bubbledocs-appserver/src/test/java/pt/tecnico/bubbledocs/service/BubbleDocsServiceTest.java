@@ -19,7 +19,7 @@ import pt.tecnico.bubbledocs.domain.SpreadSheet;
 
 import pt.tecnico.bubbledocs.domain.*;
 
-import pt.tecnico.bubbledocs.exception.UserDoesNotExistException;
+import pt.tecnico.bubbledocs.exception.UnknownBubbleDocsUserException;
 import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
 import pt.tecnico.bubbledocs.exception.UserAlreadyExistsException;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
@@ -102,7 +102,8 @@ public class BubbleDocsServiceTest {
 	// remove a user from session given its token
 	void removeUserFromSession(String token) {
 		BubbleDocs bd = BubbleDocs.getInstance();
-		bd.removeUserFromSession(token);
+		User user = bd.getUserLoggedInByToken(token);
+		bd.removeUserFromSession(user);
 	}
 
 	// return the user registered in session whose token is equal to token

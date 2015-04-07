@@ -6,7 +6,7 @@ import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
 
-import pt.tecnico.bubbledocs.exception.UserDoesNotExistException;
+import pt.tecnico.bubbledocs.exception.UnknownBubbleDocsUserException;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
 
@@ -31,7 +31,7 @@ public class RemoveUser extends BubbleDocsService {
 	}
 
 	@Override
-	protected void dispatch() throws UserDoesNotExistException,
+	protected void dispatch() throws UnknownBubbleDocsUserException,
 			BubbleDocsException {
 		/*
 		if (userToken == "root") {
@@ -56,7 +56,7 @@ public class RemoveUser extends BubbleDocsService {
 				}
 			}
 		}
-		catch (UserDoesNotExistException | UnauthorizedOperationException ex) {
+		catch (UnknownBubbleDocsUserException | UnauthorizedOperationException ex) {
 			System.out.println(ex.getMessage());
 		}
 	}

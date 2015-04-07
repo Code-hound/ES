@@ -43,8 +43,8 @@ public class BubbleDocs extends BubbleDocs_Base {
 		return !getUsersSet().isEmpty();
 	}
 
-	public User createUser(String newUserName, String newName,
-			String newPassword) throws UserAlreadyExistsException {
+	public User createUser(String newUserName, String newPassword,
+			String newName) throws UserAlreadyExistsException {
 		if (newUserName.length() == 0) throw new EmptyUsernameException();
 		if (hasUserByUsername(newUserName)) throw new UserAlreadyExistsException(newUserName);
 		User newUser = new User(newUserName, newName, newPassword);
@@ -70,8 +70,15 @@ public class BubbleDocs extends BubbleDocs_Base {
 		return false;
 	}
 	
+	public boolean verifyUser(User user, String password) {
+		if (user.getPassword().equals(password)) {
+			return true;
+		}
+		throw new WrongPasswordException(user.getUsername());
+	}
+	
 	public User getUserByUsername(String username) 
-			throws UserDoesNotExistException {
+			throws UnknownBubbleDocsUserException {
 		if (hasUsers()) {
 			for (User u : getUsersSet()) {
 				if (u.getUsername().equals(username)) {
@@ -79,32 +86,24 @@ public class BubbleDocs extends BubbleDocs_Base {
 				}
 			}
 		}
-		throw new UserDoesNotExistException(username);
+		throw new UnknownBubbleDocsUserException(username);
 	}
 
-	public String addUserToSession(User user)
-			throws UserAlreadyInSessionException {
-		//removeIdleUsersInSession ();
-		String username = user.getUsername();
-		//User user = getUserByUsername(username); //already throws UserDoesNotExistException
-		if (hasUserLoggedInByUsername(username))
-			throw new UserAlreadyInSessionException(username);
-		//if (!user.getPassword().equals(password)) throw new WrongPasswordException(username);
+	public String addUserToSession(User user) {
 		
-		Session session = new Session(user);
-		addSessions(session);
+		String username = user.getUsername();
+		
+		this.removeUserFromSession(user);
 		
 		String usertoken = username + (int)(Math.random()*10);
 		user.setUserToken(""+usertoken);
 		
+		Session session = new Session(user);
+		this.addSessions(session);
+		
 		return usertoken;
 	}
-
-	public void removeUserFromSession (String userToken) {
-		User user = getUserLoggedInByToken (userToken); //already throws UserNotInSessionException
-		removeUserFromSession(user);
-	}
-
+	
 	public void removeUserFromSession (User user) {
 		user.setUserToken("");
 		//System.out.println("User " + user.getUsername() + " | Token: " + user.getUserToken());
@@ -138,25 +137,23 @@ public class BubbleDocs extends BubbleDocs_Base {
 	}
 	
 	public Session getSessionByToken (String userToken) {
+		//System.out.println("User token: "+userToken);
 		for (Session s : this.getSessionsSet()) {
-			if (s.getUser().getUserToken().equals(userToken)) {
+			//System.out.println("Session: "+s+"\nSession username: "+s.getUser().getUsername());
+			if (s.getUser().getUserToken()!=null
+					&& s.getUser().getUserToken().equals(userToken)) {
 				return s;
 			}
 		}
-		throw new UserNotInSessionException(userToken);
+		return null;
 	}
 	
-	public User getUserLoggedInByToken(String userToken) 
-			throws UserNotInSessionException {
-		return getSessionByToken(userToken).getUser();
-		/*
-		for (User user : this.getUsersSet()) {
-			//System.out.println(user.getUserToken());
-			//System.out.println(userToken);
-			if (user.getUserToken().equals(userToken))
-				return user;
+	public User getUserLoggedInByToken(String userToken) {
+		Session session = getSessionByToken(userToken);
+		if (session != null) {
+			return session.getUser();
 		}
-		*/
+		return null;
 	}
 	
 	public boolean hasSpreadSheet() {
