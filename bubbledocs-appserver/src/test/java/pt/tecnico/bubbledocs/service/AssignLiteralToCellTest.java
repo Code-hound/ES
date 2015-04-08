@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-
 import org.jdom2.Element;
 
 import pt.tecnico.bubbledocs.domain.Cell;
@@ -12,9 +11,20 @@ import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
 
+import pt.tecnico.bubbledocs.service.AssignLiteralToCell;
+
 import pt.tecnico.bubbledocs.exception.ExportException;
 import pt.tecnico.bubbledocs.exception.ImportException;
 import pt.tecnico.bubbledocs.exception.AccessException;
+import pt.tecnico.bubbledocs.exception.UserCantWriteException;
+
+/* 
+ * A testar:
+ * Sucesso: utilizadores owner e writer tentam fazer assign
+ * Falhanço: utilizadores reader, none e invalid tentam fazer assign
+ * Falhanço: utilizador qualquer tenta fazer assign a uma sheet inexistente
+ * Falhanço: utilizador com write/owner tenta fazer assign a uma cell inexistente
+ */
 
 public class AssignLiteralToCellTest extends BubbleDocsServiceTest {
 
@@ -56,13 +66,13 @@ public class AssignLiteralToCellTest extends BubbleDocsServiceTest {
 	private final String USERNAME_INVALID = null;
 	private final String PASSWORD_INVALID = null;
 	private final String NAMEUSER_INVALID = null;
-	private User INVALID;
-	private String INVALID_TOKEN;
+	//private User INVALID;
+	//private String INVALID_TOKEN;
 
 	// Document
 	private final String NAME = "sheet";
-	private final int ROW = 10;
-	private final int COLUMN = 10;
+	private final int ROW_NUMBER = 10;
+	private final int COLUMN_NUMBER = 10;
 	private SpreadSheet DOC;
 
 	// Document-Invalid
@@ -82,23 +92,37 @@ public class AssignLiteralToCellTest extends BubbleDocsServiceTest {
 
 	@Override
 	public void populate4Test() {
+		BubbleDocs bd = BubbleDocs.getInstance();
 		OWNER = createUser(USERNAME_OWNER, PASSWORD_OWNER, NAMEUSER_OWNER);
 		WRITE = createUser(USERNAME_WRITE, PASSWORD_WRITE, NAMEUSER_WRITE);
 		READ = createUser(USERNAME_READ, PASSWORD_READ, NAMEUSER_READ);
 		NO_ACCESS = createUser(USERNAME_NO_ACCESS, PASSWORD_NO_ACCESS,
 				NAMEUSER_NO_ACCESS);
-		INVALID = createUser(USERNAME_INVALID, PASSWORD_INVALID,
-				NAMEUSER_INVALID);
+		//INVALID = createUser(USERNAME_INVALID, PASSWORD_INVALID,
+		//		NAMEUSER_INVALID);
 
 		OWNER_TOKEN = addUserToSession(USERNAME_OWNER);
 		WRITE_TOKEN = addUserToSession(USERNAME_WRITE);
 		READ_TOKEN = addUserToSession(USERNAME_READ);
 		NO_ACCESS_TOKEN = addUserToSession(USERNAME_NO_ACCESS);
-		INVALID_TOKEN = addUserToSession(USERNAME_INVALID);
+		//INVALID_TOKEN = addUserToSession(USERNAME_INVALID);
 
-		DOC = createSpreadSheet(OWNER, NAME, ROW, COLUMN);
-		DOC_INVALID = createSpreadSheet(OWNER_INVALID, NAME_INVALID,
-				ROW_INVALID, COLUMN_INVALID);
+		DOC = createSpreadSheet(OWNER, NAME, ROW_NUMBER, COLUMN_NUMBER);
+		bd.addAccessToSpreadSheet(WRITE, DOC, "writer");
+		bd.addAccessToSpreadSheet(READ, DOC, "reader");
+		//DOC_INVALID = createSpreadSheet(OWNER_INVALID, NAME_INVALID,
+		//		ROW_INVALID, COLUMN_INVALID);
+		
+	}
+	
+	@Test 
+	public void success() {
+		
+	}
+	
+	@Test (expected = UserCantWriteException.class)
+	public void assignWithInvalidOwner() {
+		
 	}
 
 }

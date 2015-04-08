@@ -1,31 +1,48 @@
 package pt.tecnico.bubbledocs;
 
-import java.util.List;
+//import java.util.List;
 
+
+/*
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
-
+*/
 import org.jdom2.output.XMLOutputter;
 
+
+
+//import pt.ist.fenixframework.Config;
 import pt.ist.fenixframework.Atomic;
-import pt.ist.fenixframework.FenixFramework;
-import pt.ist.fenixframework.TransactionManager;
+//import pt.ist.fenixframework.FenixFramework;
+//import pt.ist.fenixframework.TransactionManager;
 import pt.tecnico.bubbledocs.domain.*;
 
 public class BubbleApplication {
 	
 	@Atomic
-	public static void main(String[] args) {
-		//TransactionManager tm = FenixFramework.getTransactionManager();
-		//if (tm==null)
-		//	System.out.println("Transaction Manager null!");
-		//boolean committed = false;
+	public static void main (String[] args) {
+		System.out.println("Began");
 		
-		//try {
-			//tm.begin();
+		BubbleDocs bd = BubbleDocs.getInstance();
+		System.out.println("Got");
+		
+		populateDomain(bd);
+		writeUsers(bd);
+	}
+	
+	/*
+	@Atomic
+	public static void main(String[] args) {
+		TransactionManager tm = FenixFramework.getTransactionManager();
+		if (tm==null)
+			System.out.println("Transaction Manager null!");
+		boolean committed = false;
+		
+		try {
+			tm.begin();
 			System.out.println("Began");
 			
 			BubbleDocs bd = BubbleDocs.getInstance();
@@ -37,13 +54,13 @@ public class BubbleApplication {
 			writeUsers();
 			System.out.println("Wrote");
 			
-			//tm.commit();
-			//System.out.println("Committed");
-			//committed = true;
+			tm.commit();
+			System.out.println("Committed");
+			committed = true;
 			
-			//System.exit(0);
-			//FenixFramework.getTransactionManager().commit();
-		/*} catch (SecurityException |
+			System.exit(0);
+			FenixFramework.getTransactionManager().commit();
+		} catch (SecurityException |
 				 IllegalStateException |
 				 NotSupportedException |
 				 SystemException |
@@ -53,21 +70,22 @@ public class BubbleApplication {
 			// TODO Auto-generated catch block
 			System.out.println("Caught transaction exception: " + ex);
 			ex.printStackTrace();
-		} /*finally {
+		} finally {
 			if (!committed) {
-				//System.out.println("Did not commit!");
+				System.out.println("Did not commit!");
 				try {
 					tm.rollback();
 				} catch (SystemException ex) {
 					System.out.println("Caught rollback exception: " + ex);
 				}
 			}
-		}*/
+		}
 		// writeUsers();
 		// writeUserSheets();
 		// writePfSheet();
 		// removePfSheet();
-	}
+		
+	}*/
 
 	static void populateDomain(BubbleDocs bd) /*throws NotSupportedException,
 			                            SystemException,
@@ -107,8 +125,8 @@ public class BubbleApplication {
 	}
 
 	//@Atomic
-	static void writeUsers(){
-		BubbleDocs bd = BubbleDocs.getInstance();
+	static void writeUsers(BubbleDocs bd){
+		//BubbleDocs bd = BubbleDocs.getInstance();
 
 		// List<User> user_info_list = new ArrayList<User>(bd.getUsersSet());
 

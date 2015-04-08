@@ -10,7 +10,7 @@ import static org.junit.Assert.assertNotNull;
 
 import pt.tecnico.bubbledocs.domain.Permission;
 
-public class PermissionTests {
+public class PermissionTest {
 
 	private static int[] int_levels = { 0, 1, 2, 3, 4, 5, 10, -1, 20, -20 };
 	private static String[] string_levels = { "none", "reader", "writer",

@@ -34,7 +34,9 @@ public class BubbleDocs extends BubbleDocs_Base {
 	public boolean checkIfRoot (String userToken)
 			throws UnauthorizedOperationException, UserNotInSessionException {
 		User root = getUserLoggedInByToken (userToken);
-		if (!isRoot(root))
+		if (root == null)
+			throw new UserNotInSessionException(userToken);
+		else if (!isRoot(root))
 			throw new UnauthorizedOperationException(root.getUsername());
 		return true;
 	}
@@ -254,8 +256,13 @@ public class BubbleDocs extends BubbleDocs_Base {
 
 	public void addAccessToSpreadSheet(User user, SpreadSheet spreadsheet,
 			int permissionLevel) {
-		//String username = user.getUsername();
 		Access access = new Access(user, permissionLevel);
+		spreadsheet.addDocAccess(access);
+	}
+	
+	public void addAccessToSpreadSheet(User user, SpreadSheet spreadsheet,
+			String permission) {
+		Access access = new Access(user, permission);
 		spreadsheet.addDocAccess(access);
 	}
 
