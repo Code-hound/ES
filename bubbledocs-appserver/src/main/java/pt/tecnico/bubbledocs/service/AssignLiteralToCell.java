@@ -52,7 +52,6 @@ public class AssignLiteralToCell extends BubbleDocsService {
 					}
 				}
 			}
-
 			result = literal;
 		}
 	}

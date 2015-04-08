@@ -94,7 +94,16 @@ public class SpreadSheet extends SpreadSheet_Base {
 			}
 		}
 	}
-
+	
+	public Cell getCell (int row, int column) throws CellNotInSpreadSheetException {
+		for (Cell cell : getCellsSet()) {
+			if (cell.getCellRow() == row && cell.getCellColumn() == column) {
+				return cell;
+			}
+		}
+		throw new CellNotInSpreadSheetException(row, column, this.getId());
+	}
+	
 	public String getCellDescription (int row, int column) throws CellNotInSpreadSheetException {
 		String description = "";
 		for (Cell cell : getCellsSet()) {

@@ -110,6 +110,14 @@ public class AssignLiteralToCellTest extends BubbleDocsServiceTest {
 		DOC = createSpreadSheet(OWNER, NAME, ROW_NUMBER, COLUMN_NUMBER);
 		bd.addAccessToSpreadSheet(WRITE, DOC, "writer");
 		bd.addAccessToSpreadSheet(READ, DOC, "reader");
+		/*
+		Cell A = DOC.getCell(1,1);
+		Cell B = DOC.getCell(2,2);
+		Cell C = DOC.getCell(3,3);
+		Cell D = DOC.getCell(4,4);
+		Cell E = DOC.getCell(5,5);
+		Cell F = DOC.getCell(6,6);
+		*/
 		//DOC_INVALID = createSpreadSheet(OWNER_INVALID, NAME_INVALID,
 		//		ROW_INVALID, COLUMN_INVALID);
 		
@@ -118,11 +126,24 @@ public class AssignLiteralToCellTest extends BubbleDocsServiceTest {
 	@Test 
 	public void success() {
 		
+		//Owner assigns the value 5 to cell A "1;1"
+		AssignLiteralToCell service_owner = new AssignLiteralToCell
+				(OWNER_TOKEN, DOC.getId(), "1;1", "5");
+		service_owner.execute();
+		//Writer assigns the value 7 to cell B "2;2"
+		AssignLiteralToCell service_writer = new AssignLiteralToCell
+				(WRITE_TOKEN, DOC.getId(), "2;2", "7");
+		service_writer.execute();
+		
+		assertEquals(service_owner.getResult(), "5");
+		assertEquals(DOC.getCell(1,1).getValue(), 5);
+		assertEquals(service_writer.getResult(), "7");
+		assertEquals(DOC.getCell(2,2).getValue(), 7);
 	}
-	
+	/*
 	@Test (expected = UserCantWriteException.class)
 	public void assignWithInvalidOwner() {
 		
 	}
-
+	*/
 }
