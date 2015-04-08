@@ -17,6 +17,9 @@ import pt.tecnico.bubbledocs.exception.ExportException;
 import pt.tecnico.bubbledocs.exception.ImportException;
 import pt.tecnico.bubbledocs.exception.AccessException;
 import pt.tecnico.bubbledocs.exception.UserCantWriteException;
+import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
+import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
+import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
 
 /* 
  * A testar:
@@ -66,8 +69,8 @@ public class AssignLiteralToCellTest extends BubbleDocsServiceTest {
 	private final String USERNAME_INVALID = null;
 	private final String PASSWORD_INVALID = null;
 	private final String NAMEUSER_INVALID = null;
-	//private User INVALID;
-	//private String INVALID_TOKEN;
+	private User INVALID;
+	private String INVALID_TOKEN;
 
 	// Document
 	private final String NAME = "sheet";
@@ -78,6 +81,7 @@ public class AssignLiteralToCellTest extends BubbleDocsServiceTest {
 	// Document-Invalid
 	private final User OWNER_INVALID = null;
 	private final String NAME_INVALID = null;
+	//private final int ID_DOC_INVALID = null;
 	private final int ROW_INVALID = -1;
 	private final int COLUMN_INVALID = -1;
 	private SpreadSheet DOC_INVALID;
@@ -109,6 +113,7 @@ public class AssignLiteralToCellTest extends BubbleDocsServiceTest {
 
 		DOC = createSpreadSheet(OWNER, NAME, ROW_NUMBER, COLUMN_NUMBER);
 		bd.addAccessToSpreadSheet(WRITE, DOC, "writer");
+		//System.out.println("Test received permission level "+DOC.getUserPermissionLevel(USERNAME_OWNER));
 		bd.addAccessToSpreadSheet(READ, DOC, "reader");
 		/*
 		Cell A = DOC.getCell(1,1);
@@ -125,11 +130,11 @@ public class AssignLiteralToCellTest extends BubbleDocsServiceTest {
 	
 	@Test 
 	public void success() {
-		
 		//Owner assigns the value 5 to cell A "1;1"
 		AssignLiteralToCell service_owner = new AssignLiteralToCell
 				(OWNER_TOKEN, DOC.getId(), "1;1", "5");
 		service_owner.execute();
+		
 		//Writer assigns the value 7 to cell B "2;2"
 		AssignLiteralToCell service_writer = new AssignLiteralToCell
 				(WRITE_TOKEN, DOC.getId(), "2;2", "7");
@@ -140,10 +145,39 @@ public class AssignLiteralToCellTest extends BubbleDocsServiceTest {
 		assertEquals(service_writer.getResult(), "7");
 		assertEquals(DOC.getCell(2,2).getValue(), 7);
 	}
-	/*
+	
 	@Test (expected = UserCantWriteException.class)
-	public void assignWithInvalidOwner() {
-		
+	public void assignWithuNoAccessUser() {
+		AssignLiteralToCell service_unauthorized = new AssignLiteralToCell
+				(NO_ACCESS_TOKEN, DOC.getId(), "1;1", "5");
+		service_unauthorized.execute();
 	}
-	*/
+	
+	@Test (expected = UserCantWriteException.class)
+	public void assignWithReader() {
+		AssignLiteralToCell service_reader = new AssignLiteralToCell
+				(READ_TOKEN, DOC.getId(), "1;1", "5");
+		service_reader.execute();
+	}
+	
+	@Test (expected = UserNotInSessionException.class)
+	public void assignWithInvalidUser() {
+		AssignLiteralToCell service_invalid = new AssignLiteralToCell
+				(INVALID_TOKEN, DOC.getId(), "1;1", "5");
+		service_invalid.execute();
+	}
+	
+	@Test (expected = DocumentDoesNotExistException.class)
+	public void assignToInvalidSpreadSheet() {
+		AssignLiteralToCell service_invalid_sheet = new AssignLiteralToCell 
+				(OWNER_TOKEN, 17000, "1;1", "5");
+		service_invalid_sheet.execute();
+	}
+	
+	@Test (expected = CellNotInSpreadSheetException.class)
+	public void assignToOutOfRangeCell() {
+		AssignLiteralToCell service_invalid_cell = new AssignLiteralToCell 
+				(OWNER_TOKEN, DOC.getId(), "20;40", "5");
+		service_invalid_cell.execute();
+	}
 }

@@ -159,7 +159,10 @@ public class BubbleDocs extends BubbleDocs_Base {
 	}
 
 	public String getUsernameLoggedInByToken(String userToken) {
-		return getUserLoggedInByToken(userToken).getUsername();
+		User user = getUserLoggedInByToken(userToken);
+		if (user!=null)
+			return user.getUsername();
+		return null;
 	}
 	
 	public boolean hasSpreadSheet() {

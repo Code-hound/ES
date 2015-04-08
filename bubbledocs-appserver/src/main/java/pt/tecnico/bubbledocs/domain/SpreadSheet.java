@@ -56,7 +56,8 @@ public class SpreadSheet extends SpreadSheet_Base {
 	 * Permissoes: 1 - READER 2 - WRITER
 	 */
 	public int getUserPermissionLevel (String username) {
-		for (Access a : getDocAccessSet()) {
+		for (Access a : this.getDocAccessSet()) {
+			//System.out.println("User "+a.getUser().getUsername()+" has permission level "+a.getPermission());
 			if (a.getUser().getUsername().equals(username)) {
 				return a.getPermission();
 			}
@@ -65,7 +66,8 @@ public class SpreadSheet extends SpreadSheet_Base {
 	}
 	
 	public boolean canBeWrittenBy(String username) {
-		return getUserPermissionLevel(username) == 2;
+		//System.out.println("CanBeWrittenBy\nUser "+username+" has permission level "+getUserPermissionLevel(username));
+		return this.getUserPermissionLevel(username) == 2;
 	}
 
 	public boolean canBeReadBy(String username) {

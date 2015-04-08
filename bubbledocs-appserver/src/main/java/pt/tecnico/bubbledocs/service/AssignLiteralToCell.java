@@ -7,6 +7,8 @@ import pt.tecnico.bubbledocs.domain.SpreadSheet;
 import pt.tecnico.bubbledocs.domain.Cell;
 import pt.tecnico.bubbledocs.domain.Literal;
 import pt.tecnico.bubbledocs.exception.ProtectedCellException;
+import pt.tecnico.bubbledocs.exception.UserCantWriteException;
+import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 
 public class AssignLiteralToCell extends BubbleDocsService {
 	
@@ -30,30 +32,26 @@ public class AssignLiteralToCell extends BubbleDocsService {
 
 	@Override
 	protected void dispatch() { // throws BubbleDocsException {
-		username = getBubbleDocs().getUserLoggedInByToken(tokenUser).getName();
-		this.sheet = getSpreadSheet(docId);
+		username = getBubbleDocs().getUsernameLoggedInByToken(tokenUser);
+		if (username==null)
+			throw new UserNotInSessionException(tokenUser);
 		
+		this.sheet = getSpreadSheet(docId);
 		if(sheet.canBeWrittenBy(username)){
 			String[] rowAndColumn = cellId.split(";");
-			//String rowAux = rowAndColumn[0];
-			//String columnAux = rowAndColumn[1];
-	
 			int row = Integer.parseInt(rowAndColumn[0]);
 			int column = Integer.parseInt(rowAndColumn[1]);
-	
-			for (Cell cell : sheet.getCellsSet()) {
-				if (cell.getCellRow() == row && cell.getCellColumn() == column) {
-					if (cell.getProtect()) {
-						throw new ProtectedCellException(row, column);
-					}
-					else {
-						sheet.addContent(new Literal(
-								Integer.parseInt(literal)),row, column);
-					}
-				}
+			Cell cell = sheet.getCell(row, column); //throws CellNotInSpreadSheetException
+			
+			if (cell.getProtect())
+				throw new ProtectedCellException(row, column);
+			else {
+				sheet.addContent(new Literal
+						(Integer.parseInt(literal)),row, column);
 			}
 			result = literal;
 		}
+		else throw new UserCantWriteException(username, docId);
 	}
 
 	public String getResult() {
