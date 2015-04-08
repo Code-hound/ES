@@ -155,6 +155,10 @@ public class BubbleDocs extends BubbleDocs_Base {
 		}
 		return null;
 	}
+
+	public String getUsernameLoggedInByToken(String userToken) {
+		return getUserLoggedInByToken(userToken).getUsername();
+	}
 	
 	public boolean hasSpreadSheet() {
 		return !getDocsSet().isEmpty();
@@ -301,8 +305,8 @@ public class BubbleDocs extends BubbleDocs_Base {
 		return null;
 	}
 
-	public Element exportToXML(String sheetName, LocalDate date) {
-		return Exporter.use(getSpreadSheetByNameAndDate(sheetName, date));
+	public Element exportToXML(int sheetId) {
+		return getSpreadSheetById(sheetId).exportToXML();
 	}
 
 }

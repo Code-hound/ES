@@ -3,12 +3,10 @@ package pt.tecnico.bubbledocs.service;
 //the needed import declarations
 
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
+import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import org.jdom2.Element;
 
-import java.lang.NullPointerException;
-
 import pt.tecnico.bubbledocs.exception.AccessException;
-import pt.tecnico.bubbledocs.exception.ExportException;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 
 /*
@@ -37,19 +35,17 @@ public class ExportDocument extends BubbleDocsService {
 
 	@Override
 	protected void dispatch() throws BubbleDocsException {
-		try {
+		BubbleDocs bd = getBubbleDocs();
 
-			SpreadSheet sheet    = getSpreadSheet(sheetId);
-			String      username = getUser(userToken).getUsername();
-
-			if ( sheet.getOwnerUsername() == username || sheet.canBeReadBy(username) )
-				this.xml = sheet.exportToXML();
-			else
-				throw new AccessException(userToken, sheetId);
-
-		} catch (NullPointerException e) {
-			throw new ExportException("SpreadSheet");
-		}
+		//throws UserNotInSessionException
+		String username = bd.getUsernameLoggedInByToken(userToken);
+		//throws DocumentDoesNotExistException
+		SpreadSheet sheet = getSpreadSheet(sheetId);
+		//throws AccessException
+		if ( !sheet.isOwnedBy(username) && !sheet.canBeReadBy(username) )
+			throw new AccessException(username, sheetId);
+		//throws ExportException
+		sheet.exportToXML();
 	}
 
 	public Element getResult () {
