@@ -5,6 +5,7 @@ import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.Session;
 import pt.tecnico.bubbledocs.exception.UserAlreadyInSessionException;
 import pt.tecnico.bubbledocs.exception.WrongPasswordException;
+import pt.tecnico.bubbledocs.exception.UnknownBubbleDocsUserException;
 
 /*
  * LOG IN USER
@@ -57,6 +58,8 @@ public class LoginUser extends BubbleDocsService {
 		BubbleDocs bd = getBubbleDocs();
 		
 		User user = getUser(username);
+		if (user==null)
+			throw new UnknownBubbleDocsUserException(username);
 		bd.verifyUser(user, this.password);
 		this.userToken = bd.addUserToSession(user);
 	}

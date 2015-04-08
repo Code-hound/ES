@@ -2,6 +2,7 @@ package pt.tecnico.bubbledocs.service;
 
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -12,12 +13,12 @@ import pt.ist.fenixframework.core.WriteOnReadError;
 // add needed import declarations
 
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
+import pt.tecnico.bubbledocs.domain.User;
+import pt.tecnico.bubbledocs.domain.BubbleDocs;
 
 /*
  * Added by Calisto
  */
-
-import pt.tecnico.bubbledocs.domain.*;
 
 import pt.tecnico.bubbledocs.exception.UnknownBubbleDocsUserException;
 import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
@@ -86,15 +87,17 @@ public class BubbleDocsServiceTest {
 	public SpreadSheet getSpreadSheet(String name) {
 		BubbleDocs bd = BubbleDocs.getInstance();
 
-		SpreadSheet spread = bd.getSpreadSheetByName(name).get(0);
-		return spread;
+		List<SpreadSheet> sheetList = bd.getSpreadSheetByName(name);
+		if (sheetList.size()>0)
+				return sheetList.get(0);
+		return null;
 	}
 
 	// returns the user registered in the application whose username is equal to
 	// username
 	User getUserFromUsername(String username) {
 		BubbleDocs bd = BubbleDocs.getInstance();
-
+		
 		User user = bd.getUserByUsername(username);
 		return user;
 	}

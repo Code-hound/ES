@@ -2,10 +2,10 @@ package pt.tecnico.bubbledocs.service;
 
 //the needed import declarations
 
+import pt.tecnico.bubbledocs.domain.Access;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
-
 import pt.tecnico.bubbledocs.exception.UnknownBubbleDocsUserException;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
@@ -33,31 +33,18 @@ public class RemoveUser extends BubbleDocsService {
 	@Override
 	protected void dispatch() throws UnknownBubbleDocsUserException,
 			BubbleDocsException {
-		/*
-		if (userToken == "root") {
-			User userToDelete = getBubbleDocs().getUserByUsername(toDeleteUsername);
-
-			if (userToDelete != null) {
-				getBubbleDocs().getUserLoggedInByToken(userToken).removeUser(userToDelete);
-			} else {
-				throw new UserDoesNotExistException(this.toDeleteUsername);
-			}
-		}
-	}
-	*/
 		BubbleDocs bd = getBubbleDocs();
-		try {
-			if (bd.checkIfRoot(userToken)) {
-				User user = getUser(toDeleteUsername);
-				bd.removeUsers(user);
-				
-				for (SpreadSheet s : bd.getSpreadSheetByOwner(user)) {
-					bd.removeDocs(s);
-				}
+		if (bd.checkIfRoot(userToken)) {
+			User user = getUser(toDeleteUsername); //throws UnknownBubbleDocsUserException
+			if (user==null)
+				throw new UnknownBubbleDocsUserException(toDeleteUsername);
+			for (Access access : user.getAccessSet()) {
+				access.getDocument().removeDocAccess(access);
+				user.removeAccess(access);
+				access = null;
 			}
-		}
-		catch (UnknownBubbleDocsUserException | UnauthorizedOperationException ex) {
-			System.out.println(ex.getMessage());
+			bd.removeUserFromSession(user);
+			bd.removeUsers(user);
 		}
 	}
 }
