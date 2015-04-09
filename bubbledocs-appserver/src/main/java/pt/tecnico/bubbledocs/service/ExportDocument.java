@@ -45,7 +45,7 @@ public class ExportDocument extends BubbleDocsService {
 		if ( !sheet.isOwnedBy(username) && !sheet.canBeReadBy(username) )
 			throw new AccessException(username, sheetId);
 		//throws ExportException
-		sheet.exportToXML();
+		xml = sheet.exportToXML();  //modified by Calisto
 	}
 
 	public Element getResult () {

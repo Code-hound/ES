@@ -55,7 +55,7 @@ public class ExportDocumentTest extends BubbleDocsServiceTest {
     public void success() {
         ExportDocument service = new ExportDocument(this.ownerToken, this.sheetId);
         service.execute();
-        assertEquals(service.getResult(), this.xml);
+        assertEquals(service.getResult(), this.xml); //xml sao objectos diferentes: meter o xml em string e comprar as duas
     }
 
     @Test(expected = DocumentDoesNotExistException.class)
