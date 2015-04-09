@@ -83,7 +83,6 @@ public class BubbleDocs extends BubbleDocs_Base {
 			throws UnknownBubbleDocsUserException {
 		if (hasUsers()) {
 			for (User u : getUsersSet()) {
-				System.out.println("Username: "+u.getUsername());
 				if (u.getUsername().equals(username)) {
 					return u;
 				}
