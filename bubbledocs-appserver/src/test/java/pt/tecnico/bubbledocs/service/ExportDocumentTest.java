@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import org.jdom2.Element;
+import org.jdom2.output.XMLOutputter;
 
 import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
@@ -15,12 +15,14 @@ import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
 
 public class ExportDocumentTest extends BubbleDocsServiceTest {
 
+	private static XMLOutputter xml = new XMLOutputter();
+	
     // the tokens
 	private String ownerToken;
 	private String noAccessToken;
 	private SpreadSheet sheet;
 	private int sheetId;
-	private Element xml;
+	private String result;
 
 	//User-Owner
 	private final String USERNAME_OWNER = "username_owner";
@@ -48,14 +50,14 @@ public class ExportDocumentTest extends BubbleDocsServiceTest {
 		
 		this.sheet   = createSpreadSheet(owner, NAME, ROW, COLUMN);
 		this.sheetId = this.sheet.getId();
-		this.xml     = this.sheet.exportToXML();
+		this.result  = xml.outputString(this.sheet.exportToXML());
     }
 
     @Test
     public void success() {
         ExportDocument service = new ExportDocument(this.ownerToken, this.sheetId);
         service.execute();
-        assertEquals(service.getResult(), this.xml); //xml sao objectos diferentes: meter o xml em string e comprar as duas
+        assertEquals(service.getResult(), this.result);
     }
 
     @Test(expected = DocumentDoesNotExistException.class)

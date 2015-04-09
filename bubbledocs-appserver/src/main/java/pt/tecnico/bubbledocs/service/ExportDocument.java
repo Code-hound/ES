@@ -4,7 +4,7 @@ package pt.tecnico.bubbledocs.service;
 
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
-import org.jdom2.Element;
+import org.jdom2.output.XMLOutputter;
 
 import pt.tecnico.bubbledocs.exception.AccessException;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
@@ -23,10 +23,12 @@ import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 
 public class ExportDocument extends BubbleDocsService {
 
+	private static XMLOutputter xml = new XMLOutputter();
+	
     // the tokens
 	private String userToken;
 	private int sheetId;
-	private Element xml;
+	private String result;
 
 	public ExportDocument(String userToken, int sheetId) {
 		this.userToken = userToken;
@@ -45,10 +47,10 @@ public class ExportDocument extends BubbleDocsService {
 		if ( !sheet.isOwnedBy(username) && !sheet.canBeReadBy(username) )
 			throw new AccessException(username, sheetId);
 		//throws ExportException
-		xml = sheet.exportToXML();  //modified by Calisto
+		result = xml.outputString(sheet.exportToXML());  //modified by Calisto
 	}
 
-	public Element getResult () {
-		return this.xml;
+	public String getResult () {
+		return this.result;
 	}
 }
