@@ -1,6 +1,6 @@
 package pt.tecnico.bubbledocs;
 
-//import java.util.List;
+import java.util.List;
 
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
@@ -19,20 +19,7 @@ import pt.ist.fenixframework.TransactionManager;
 import pt.tecnico.bubbledocs.domain.*;
 
 public class BubbleApplication {
-	/*
-	@Atomic
-	public static void main (String[] args) {
-		System.out.println("Began");
-		
-		BubbleDocs bd = BubbleDocs.getInstance();
-		System.out.println("Got");
-		
-		populateDomain(bd);
-		writeUsers(bd);
-	}
-	*/
-	
-	//@Atomic
+
 	public static void main(String[] args) {
 		TransactionManager tm = FenixFramework.getTransactionManager();
 		if (tm==null)
@@ -49,16 +36,14 @@ public class BubbleApplication {
 			populateDomain(bd);
 			System.out.println("Populated");
 			
-			
 			writeUsers(bd);
+			writeUserSheets(bd);
 			System.out.println("Wrote");
 			
-			tm.commit();
-			System.out.println("Committed");
-			committed = true;
+			tm.rollback();
+			System.out.println("Reseting database");
 			
 			System.exit(0);
-			FenixFramework.getTransactionManager().commit();
 		} catch (SecurityException |
 				 IllegalStateException |
 				 NotSupportedException |
@@ -69,18 +54,10 @@ public class BubbleApplication {
 			// TODO Auto-generated catch block
 			System.out.println("Caught transaction exception: " + ex);
 			ex.printStackTrace();
-		} finally {
-			if (!committed) {
-				System.out.println("Did not commit!");
-				try {
-					tm.rollback();
-				} catch (SystemException ex) {
-					System.out.println("Caught rollback exception: " + ex);
-				}
-			}
-		}
+		} 
 	}
-
+	
+	
 	static void populateDomain(BubbleDocs bd) throws NotSupportedException,
 			                            SystemException,
 			                            SecurityException,
@@ -89,16 +66,18 @@ public class BubbleApplication {
 			                            HeuristicMixedException,
 			                            HeuristicRollbackException {
 		
-		//BubbleDocs bd = BubbleDocs.getInstance();
 		XMLOutputter xml = new XMLOutputter();
 
-		User user1 = bd.createUser("pf", "Paul Door", "sub");
-		User user2 = bd.createUser("ra", "Step Rabbit", "cor");
+		User user1 = bd.createUser("fms", "fms", "Francisco de Matos Silveira");
+		User user2 = bd.createUser("lrg", "lrg", "Luis Ribeiro Gomes");
 
+		//Francisco creates a spreadsheet called "Notas ES"
 		SpreadSheet sheet1 = bd.createSpreadSheet(user1, "Notas ES", 300, 20);
+		//Luis gets writing access to the spreadsheet
+		bd.addAccessToSpreadSheet(user2, sheet1, 2);
 
 		//System.out.println(sheet1);
-
+		//Content added to the spreadsheet
 		Content content1 = new Literal(5);
 		sheet1.addContent(content1, 3, 4);
 		Content content2 = new Reference(sheet1, 5, 6);
@@ -117,8 +96,7 @@ public class BubbleApplication {
 		
 		//return bd;
 	}
-
-	//@Atomic
+	
 	static void writeUsers(BubbleDocs bd){
 		//BubbleDocs bd = BubbleDocs.getInstance();
 
@@ -130,29 +108,30 @@ public class BubbleApplication {
 		}
 		System.out.println();
 	}
+	
+	static void writeUserSheets(BubbleDocs bd){
+		//BubbleDocs bd = BubbleDocs.getInstance();
+		
+		User fms = bd.getUserByUsername("fms");
+		User lrg = bd.getUserByUsername("lrg");
+
+		List<SpreadSheet> spreadsheet_list_fms = bd.getSpreadSheetByOwner(fms);
+		List<SpreadSheet> spreadsheet_list_lrg = bd.getSpreadSheetByOwner(lrg);
+
+		System.out.println(fms.getName()+"'s Spreadsheet:");
+		for (SpreadSheet s : spreadsheet_list_fms)
+			System.out.println(s);
+		System.out.println();
+
+		System.out.println(lrg.getName()+"'s Spreadsheet:");
+		for (SpreadSheet s : spreadsheet_list_lrg)
+			System.out.println(s);
+		System.out.println();
+	}
+	
 	/*
-		// @Atomic
-		// static void writeUserSheets(){
-		// BubbleDocs bd = BubbleDocs.getInstance();
-
-		List<SpreadSheet> spreadsheet_list_pf = bd.getSpreadSheetByOwner(user1);
-		List<SpreadSheet> spreadsheet_list_ra = bd.getSpreadSheetByOwner(user2);
-
-		System.out.println("pf Spreadsheet Names:");
-		for (SpreadSheet s : spreadsheet_list_pf)
-			System.out.println(s.getSpreadSheetName());
-		System.out.println();
-
-		System.out.println("ra Spreadsheet Names:");
-		for (SpreadSheet s : spreadsheet_list_ra)
-			System.out.println(s.getSpreadSheetName());
-		System.out.println();
-		// }
-
-		// @Atomic
-		// static void writePfSheet(){
+	static void writePfSheet(){
 		// Write pf spreadsheet xml
-		// BubbleDocs bd = BubbleDocs.getInstance();
 
 		// List<SpreadSheet> spreadsheet_list_pf =
 		// bd.getSpreadSheetByName("pf");
@@ -162,10 +141,10 @@ public class BubbleApplication {
 			System.out.println(xml.outputString(s.exportToXML()));
 		}
 		System.out.println();
-		// }
-
-		// @Atomic
-		// static void removePfSheet(){
+	}
+	*/
+	/*
+	static void removePfSheet(){
 		// BubbleDocs bd = BubbleDocs.getInstance();
 		// XMLOutputter xml = new XMLOutputter();
 

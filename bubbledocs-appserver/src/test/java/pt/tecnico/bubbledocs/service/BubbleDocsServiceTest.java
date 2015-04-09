@@ -25,14 +25,6 @@ import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
 import pt.tecnico.bubbledocs.exception.UserAlreadyExistsException;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 
-/*
- * A testar:
- * Sucesso: utilizadores owner e writer tentam fazer assign
- * Falhanço: utilizadores reader, none e invalid tentam fazer assign
- * Falhanço: utilizador qualquer tenta fazer assign a uma sheet inexistente
- * Falhanço: utilizador com write/owner tenta fazer assign a uma cell inexistente
- */
-
 public class BubbleDocsServiceTest {
 	
 	protected String rootToken;
