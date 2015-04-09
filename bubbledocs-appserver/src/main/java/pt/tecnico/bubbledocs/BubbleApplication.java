@@ -45,14 +45,14 @@ public class BubbleApplication {
 			
 			BubbleDocs bd = BubbleDocs.getInstance();
 			System.out.println("Got");
-			/*
+			
 			populateDomain(bd);
 			System.out.println("Populated");
 			
 			
 			writeUsers(bd);
 			System.out.println("Wrote");
-			*/
+			
 			tm.commit();
 			System.out.println("Committed");
 			committed = true;
