@@ -2,26 +2,24 @@ package pt.tecnico.bubbledocs;
 
 //import java.util.List;
 
-
-/*
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
-*/
+
 import org.jdom2.output.XMLOutputter;
 
 
 
-//import pt.ist.fenixframework.Config;
+import pt.ist.fenixframework.Config;
 import pt.ist.fenixframework.Atomic;
-//import pt.ist.fenixframework.FenixFramework;
-//import pt.ist.fenixframework.TransactionManager;
+import pt.ist.fenixframework.FenixFramework;
+import pt.ist.fenixframework.TransactionManager;
 import pt.tecnico.bubbledocs.domain.*;
 
 public class BubbleApplication {
-	
+	/*
 	@Atomic
 	public static void main (String[] args) {
 		System.out.println("Began");
@@ -32,9 +30,9 @@ public class BubbleApplication {
 		populateDomain(bd);
 		writeUsers(bd);
 	}
+	*/
 	
-	/*
-	@Atomic
+	//@Atomic
 	public static void main(String[] args) {
 		TransactionManager tm = FenixFramework.getTransactionManager();
 		if (tm==null)
@@ -47,13 +45,14 @@ public class BubbleApplication {
 			
 			BubbleDocs bd = BubbleDocs.getInstance();
 			System.out.println("Got");
-			
+			/*
 			populateDomain(bd);
 			System.out.println("Populated");
 			
-			writeUsers();
-			System.out.println("Wrote");
 			
+			writeUsers(bd);
+			System.out.println("Wrote");
+			*/
 			tm.commit();
 			System.out.println("Committed");
 			committed = true;
@@ -80,20 +79,15 @@ public class BubbleApplication {
 				}
 			}
 		}
-		// writeUsers();
-		// writeUserSheets();
-		// writePfSheet();
-		// removePfSheet();
-		
-	}*/
+	}
 
-	static void populateDomain(BubbleDocs bd) /*throws NotSupportedException,
+	static void populateDomain(BubbleDocs bd) throws NotSupportedException,
 			                            SystemException,
 			                            SecurityException,
 			                            IllegalStateException,
 			                            RollbackException,
 			                            HeuristicMixedException,
-			                            HeuristicRollbackException*/ {
+			                            HeuristicRollbackException {
 		
 		//BubbleDocs bd = BubbleDocs.getInstance();
 		XMLOutputter xml = new XMLOutputter();

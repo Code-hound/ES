@@ -16,6 +16,7 @@ public class BubbleDocs extends BubbleDocs_Base {
 		if (bubble == null) {
 			bubble = new BubbleDocs();
 		}
+
 		return bubble;
 	}
 
@@ -108,7 +109,6 @@ public class BubbleDocs extends BubbleDocs_Base {
 	
 	public void removeUserFromSession (User user) {
 		user.setUserToken("");
-		//System.out.println("User " + user.getUsername() + " | Token: " + user.getUserToken());
 		for (Session s : getSessionsSet()) {
 			if (s.getUser().getUsername().equals(user.getUsername())) {
 				removeSessions(s);
