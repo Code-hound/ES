@@ -46,8 +46,9 @@ public class AssignLiteralToCell extends BubbleDocsService {
 			else {
 				sheet.addContent(new Literal
 						(Integer.parseInt(literal)),row, column);
+				result = literal;
 			}
-			result = literal;
+			
 		}
 		else throw new UserCantWriteException(username, docId);
 	}

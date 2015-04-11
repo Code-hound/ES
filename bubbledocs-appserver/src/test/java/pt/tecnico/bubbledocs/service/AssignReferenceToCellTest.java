@@ -177,7 +177,7 @@ public class AssignReferenceToCellTest extends BubbleDocsServiceTest {
 	@Test (expected = CellNotInSpreadSheetException.class)
 	public void assignToOutOfRangeCell() {
 		AssignReferenceToCell service_invalid_cell = new AssignReferenceToCell 
-				(OWNER_TOKEN, DOC.getId(), "20;40", "1;2");
+				(OWNER_TOKEN, DOC.getId(),"1;2" , "20;40");
 		service_invalid_cell.execute();
 	}
 }

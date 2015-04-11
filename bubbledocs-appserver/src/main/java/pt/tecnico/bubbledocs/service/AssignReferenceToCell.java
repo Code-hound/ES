@@ -62,6 +62,7 @@ public class AssignReferenceToCell extends BubbleDocsService {
 					else {
 						getSpreadSheet(docId).addContent(referenceAux, rowCell,
 								columnCell);
+						result = reference;
 					}
 				} else {
 					throw new CellNotInSpreadSheetException(rowCellReference,columnCellReference,docId);
