@@ -1,10 +1,10 @@
-//FALTA: 
-//-->Excepssion's: [user can't write] [cell protected] [cell not in spreadsheet]
 
 package pt.tecnico.bubbledocs.service;
 
 import pt.tecnico.bubbledocs.domain.Reference;
+import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
 import pt.tecnico.bubbledocs.exception.ProtectedCellException;
+import pt.tecnico.bubbledocs.exception.UserCantWriteException;
 
 /*
  * ASSIGN REFERENCE CELL
@@ -64,9 +64,13 @@ public class AssignReferenceToCell extends BubbleDocsService {
 								columnCell);
 					}
 				} else {
-					System.out.println("Referenced cell not in spreadsheet");
+					throw new CellNotInSpreadSheetException(rowCellReference,columnCellReference,docId);
 			}
 		}
+		else {
+			throw new UserCantWriteException(username, docId);
+		}
+		
 	}
 
 	public final String getResult() {

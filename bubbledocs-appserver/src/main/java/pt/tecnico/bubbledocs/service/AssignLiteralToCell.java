@@ -1,5 +1,3 @@
-//FALTA: 
-//-->Excepssion's: [user can't write] [cell protected] [cell not in spreadsheet]
 
 package pt.tecnico.bubbledocs.service;
 
@@ -41,7 +39,7 @@ public class AssignLiteralToCell extends BubbleDocsService {
 			String[] rowAndColumn = cellId.split(";");
 			int row = Integer.parseInt(rowAndColumn[0]);
 			int column = Integer.parseInt(rowAndColumn[1]);
-			Cell cell = sheet.getCell(row, column); //throws CellNotInSpreadSheetException
+			Cell cell = sheet.getCell(row, column);
 			
 			if (cell.getProtect())
 				throw new ProtectedCellException(row, column);
