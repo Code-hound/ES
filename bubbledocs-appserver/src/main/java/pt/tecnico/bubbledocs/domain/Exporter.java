@@ -56,9 +56,11 @@ public class Exporter {
 			throw new ExportException(classname, "ownerUsername");
 		}
 
-		for (Cell c : type.getCellsSet())
+		for (Cell c : type.getCellsSet()) {
 			if (c.getContent() != null)
+				//throw new ExportException(classname, "cell"); 
 				element.addContent(c.exportToXML());
+		}
 
 		return element;
 	}

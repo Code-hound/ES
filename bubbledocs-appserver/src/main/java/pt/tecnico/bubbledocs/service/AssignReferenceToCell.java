@@ -51,9 +51,10 @@ public class AssignReferenceToCell extends BubbleDocsService {
 			int columnSpreadSheet = getSpreadSheet(docId).getNumberRows();
 	
 			// testa se a celula existe nas dimensoes da spreadsheet
-			if ((rowCellReference >= 0) && (rowCellReference <= rowSpreadSheet)) {
-				if ((columnCellReference >= 0)
-						&& (columnCellReference <= columnSpreadSheet)) {
+			if ((rowCellReference >= 0) 
+				&& (rowCellReference <= rowSpreadSheet)
+				&&(columnCellReference >= 0)
+				&& (columnCellReference <= columnSpreadSheet)) {
 					Reference referenceAux = new Reference(getSpreadSheet(docId),
 							rowCellReference, columnCellReference);
 					if (referenceAux.getCellReference().getProtect())
@@ -64,9 +65,6 @@ public class AssignReferenceToCell extends BubbleDocsService {
 					}
 				} else {
 					System.out.println("Referenced cell not in spreadsheet");
-				}
-			} else {
-				System.out.println("Referenced cell not in spreadsheet");
 			}
 		}
 	}
