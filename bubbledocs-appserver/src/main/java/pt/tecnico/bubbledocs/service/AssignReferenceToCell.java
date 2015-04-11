@@ -36,7 +36,7 @@ public class AssignReferenceToCell extends BubbleDocsService {
 	@Override
 	protected void dispatch() {
 
-		username = getBubbleDocs().getUserLoggedInByToken(tokenUser).getName();
+		username = getBubbleDocs().getUserLoggedInByToken(tokenUser).getUsername();
 		if(getSpreadSheet(docId).canBeWrittenBy(username)){
 			String[] rowAndColumnCell = cellId.split(";");
 			int rowCell = Integer.parseInt(rowAndColumnCell[0]);
@@ -62,6 +62,7 @@ public class AssignReferenceToCell extends BubbleDocsService {
 					else {
 						getSpreadSheet(docId).addContent(referenceAux, rowCell,
 								columnCell);
+						//Cell rowCell;columnCell now has Content of type Reference
 						result = reference;
 					}
 				} else {
