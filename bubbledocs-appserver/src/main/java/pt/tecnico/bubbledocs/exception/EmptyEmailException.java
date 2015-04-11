@@ -1,6 +1,7 @@
 package pt.tecnico.bubbledocs.exception;
 
-public class EmptyEmailException extends BubbleDocsException {
+public class EmptyEmailException extends BubbleDocsException
+{
 
 	/*
 	 * EMPTY EMAIL EXCEPTION
@@ -12,12 +13,14 @@ public class EmptyEmailException extends BubbleDocsException {
 
 	private static final long serialVersionUID = 1L;
 
-	public EmptyEmailException() {
+	public EmptyEmailException()
+	{
 		super();
 	}
 
 	@Override
-	public String getMessage() {
+	public String getMessage()
+	{
 		return "E-Mail field is empty.";
 	}
 
