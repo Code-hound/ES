@@ -6,8 +6,6 @@ import java.util.List;
 import org.jdom2.Element;
 
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
-import pt.tecnico.bubbledocs.exception.ImportException;
-import pt.tecnico.bubbledocs.exception.ExportException;
 import pt.tecnico.bubbledocs.domain.User;
 
 import org.joda.time.LocalDate;
@@ -123,11 +121,11 @@ public class SpreadSheet extends SpreadSheet_Base {
 		throw new CellNotInSpreadSheetException(row, column, this.getId());
 	}
 
-	public void importFromXML(Element element) throws ImportException {
+	public void importFromXML(Element element) {
 		Importer.use(this, element);
 	}
 
-	public Element exportToXML() throws ExportException {
+	public Element exportToXML() {
 		return Exporter.use(this);
 	}
 

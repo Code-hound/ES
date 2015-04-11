@@ -5,6 +5,7 @@ import pt.tecnico.bubbledocs.domain.Reference;
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
 import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 import pt.tecnico.bubbledocs.exception.UserCantWriteException;
+import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 
 /*
  * ASSIGN REFERENCE CELL
@@ -36,42 +37,40 @@ public class AssignReferenceToCell extends BubbleDocsService {
 	@Override
 	protected void dispatch() {
 
-		username = getBubbleDocs().getUserLoggedInByToken(tokenUser).getUsername();
-		if(getSpreadSheet(docId).canBeWrittenBy(username)){
-			String[] rowAndColumnCell = cellId.split(";");
-			int rowCell = Integer.parseInt(rowAndColumnCell[0]);
-			int columnCell = Integer.parseInt(rowAndColumnCell[1]);
-	
-			String[] rowAndColumnContent = reference.split(";");
-			int rowCellReference = Integer.parseInt(rowAndColumnContent[0]);
-			int columnCellReference = Integer.parseInt(rowAndColumnContent[1]);
-			String docIdString = "" + docId;
-	
-			int rowSpreadSheet = getSpreadSheet(docId).getNumberColumns();
-			int columnSpreadSheet = getSpreadSheet(docId).getNumberRows();
-	
-			// testa se a celula existe nas dimensoes da spreadsheet
-			if ((rowCellReference >= 0) 
-				&& (rowCellReference <= rowSpreadSheet)
-				&&(columnCellReference >= 0)
-				&& (columnCellReference <= columnSpreadSheet)) {
-					Reference referenceAux = new Reference(getSpreadSheet(docId),
-							rowCellReference, columnCellReference);
-					if (referenceAux.getCellReference().getProtect())
-						throw new ProtectedCellException(rowCell, columnCell);
-					else {
-						getSpreadSheet(docId).addContent(referenceAux, rowCell,
-								columnCell);
-						//Cell rowCell;columnCell now has Content of type Reference
-						result = reference;
-					}
-				} else {
-					throw new CellNotInSpreadSheetException(rowCellReference,columnCellReference,docId);
-			}
-		}
-		else {
+		username = getBubbleDocs().getUsernameLoggedInByToken(tokenUser);
+		if (username == null)
+			throw new UserNotInSessionException(tokenUser);
+
+		if(!getSpreadSheet(docId).canBeWrittenBy(username))
 			throw new UserCantWriteException(username, docId);
-		}
+
+		String[] rowAndColumnCell = cellId.split(";");
+		int rowCell = Integer.parseInt(rowAndColumnCell[0]);
+		int columnCell = Integer.parseInt(rowAndColumnCell[1]);
+
+		String[] rowAndColumnContent = reference.split(";");
+		int rowCellReference = Integer.parseInt(rowAndColumnContent[0]);
+		int columnCellReference = Integer.parseInt(rowAndColumnContent[1]);
+
+		int rowSpreadSheet = getSpreadSheet(docId).getNumberColumns();
+		int columnSpreadSheet = getSpreadSheet(docId).getNumberRows();
+
+		// testa se a celula existe nas dimensoes da spreadsheet
+		if (!(rowCellReference    >= 0) ||
+			!(rowCellReference    <= rowSpreadSheet) ||
+			!(columnCellReference >= 0) ||
+			!(columnCellReference <= columnSpreadSheet))
+			throw new CellNotInSpreadSheetException(rowCellReference, columnCellReference, docId);
+
+		Reference referenceAux = new Reference(getSpreadSheet(docId), rowCellReference, columnCellReference);
+
+		if (referenceAux.getCellReference().getProtect())
+			throw new ProtectedCellException(rowCell, columnCell);
+
+		getSpreadSheet(docId).addContent(referenceAux, rowCell, columnCell);
+		//Cell rowCell;columnCell now has Content of type Reference
+		result = reference;
+
 		
 	}
 

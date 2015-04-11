@@ -8,11 +8,10 @@ import org.junit.Test;
 import org.jdom2.output.XMLOutputter;
 
 import pt.tecnico.bubbledocs.domain.User;
-import pt.tecnico.bubbledocs.domain.Reference;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
-import pt.tecnico.bubbledocs.exception.ExportException;
-import pt.tecnico.bubbledocs.exception.AccessException;
+import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
+import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 
 public class ExportDocumentTest extends BubbleDocsServiceTest {
 
@@ -40,6 +39,7 @@ public class ExportDocumentTest extends BubbleDocsServiceTest {
 	private final int ROW     = 10;
 	private final int COLUMN  = 10;
 	private final int SHEETID_INVALID = -1;
+	private final String USERTOKEN_INVALID = "error";
 
     @Override
     public void populate4Test() {
@@ -64,29 +64,22 @@ public class ExportDocumentTest extends BubbleDocsServiceTest {
         assertEquals(service.getResult(), this.result);
     }
 
+	@Test (expected = UserNotInSessionException.class)
+    public void InvalidUser() {
+        ExportDocument service = new ExportDocument(USERTOKEN_INVALID, this.sheetId);
+        service.execute();
+    }
+    
     @Test(expected = DocumentDoesNotExistException.class)
     public void InvalidDocument() {
         ExportDocument service = new ExportDocument(this.ownerToken, SHEETID_INVALID);
         service.execute();
-        //assertEquals(service.getResult(), null);
     }
 
-    @Test(expected = ExportException.class)
-    public void InvalidExport() {
-    	try {
-    		this.sheet.addContent(new Reference(null,3,2), 4, 4);
-    	} catch (NullPointerException ex) {
-    	}
-        ExportDocument service = new ExportDocument(this.ownerToken, this.sheetId);
-        service.execute();
-        //assertEquals(service.getResult(), null);
-    }
-
-    @Test(expected = AccessException.class)
-    public void InvalidUser() {
+    @Test(expected = InvalidAccessException.class)
+    public void InvalidAccess() {
         ExportDocument service = new ExportDocument(this.noAccessToken, this.sheetId);
         service.execute();
-        //assertEquals(service.getResult(), null);
     }
 
 

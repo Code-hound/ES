@@ -3,15 +3,14 @@ package pt.tecnico.bubbledocs.service;
 //the needed import declarations
 
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
-import pt.tecnico.bubbledocs.domain.BubbleDocs;
 
 import org.jdom2.output.XMLOutputter;
-import java.lang.NullPointerException;
 import java.io.UnsupportedEncodingException;
 
-import pt.tecnico.bubbledocs.exception.AccessException;
-import pt.tecnico.bubbledocs.exception.ExportException;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
+import pt.tecnico.bubbledocs.exception.InvalidAccessException;
+import pt.tecnico.bubbledocs.exception.ExportDocumentException;
+import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 
 /*
  * Export Document
@@ -41,20 +40,23 @@ public class ExportDocument extends BubbleDocsService {
 
 	@Override
 	protected void dispatch() throws BubbleDocsException {
-		BubbleDocs bd = getBubbleDocs();
+		org.jdom2.Document jdomDoc = new org.jdom2.Document();
 
-		//throws UserNotInSessionException
-		String username = bd.getUsernameLoggedInByToken(userToken);
+		String username = getBubbleDocs().getUsernameLoggedInByToken(userToken);
+		if (username == null)
+			throw new UserNotInSessionException(userToken);
 		//throws DocumentDoesNotExistException
 		SpreadSheet sheet = getSpreadSheet(sheetId);
-		//throws AccessException
+
 		if ( !sheet.isOwnedBy(username) && !sheet.canBeReadBy(username) )
-			throw new AccessException(username, sheetId);
-		//throws ExportException
+			throw new InvalidAccessException(username, sheetId);
+
+		jdomDoc.setRootElement(sheet.exportToXML());
 		try {
-			result = xml.outputString(sheet.exportToXML()).getBytes("UTF-8");  //modified by Calisto
-		} catch (NullPointerException | UnsupportedEncodingException ex) {
-			throw new ExportException();
+			result = xml.outputString(jdomDoc).getBytes("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			 e.printStackTrace();
+			throw new ExportDocumentException();
 		}
 	}
 

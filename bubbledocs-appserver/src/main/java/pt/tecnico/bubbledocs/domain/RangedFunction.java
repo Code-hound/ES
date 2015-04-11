@@ -2,8 +2,6 @@ package pt.tecnico.bubbledocs.domain;
 
 import java.util.Set;
 import org.jdom2.Element;
-import pt.tecnico.bubbledocs.exception.ImportException;
-import pt.tecnico.bubbledocs.exception.ExportException;
 
 public abstract class RangedFunction extends RangedFunction_Base {
 
@@ -11,10 +9,9 @@ public abstract class RangedFunction extends RangedFunction_Base {
 		super();
 	}
 
-	public abstract void importFromXML(Element element, SpreadSheet sheet)
-			throws ImportException;
+	public abstract void importFromXML(Element element, SpreadSheet sheet);
 
-	public abstract Element exportToXML() throws ExportException;
+	public abstract Element exportToXML();
 
 	public abstract String toString();
 

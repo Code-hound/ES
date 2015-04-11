@@ -1,8 +1,6 @@
 package pt.tecnico.bubbledocs.domain;
 
 import org.jdom2.Element;
-import pt.tecnico.bubbledocs.exception.ImportException;
-import pt.tecnico.bubbledocs.exception.ExportException;
 
 public class PRD extends PRD_Base {
 
@@ -18,12 +16,11 @@ public class PRD extends PRD_Base {
 		setSpreadSheet(arg3);
 	}
 
-	public void importFromXML(Element element, SpreadSheet sheet)
-			throws ImportException {
+	public void importFromXML(Element element, SpreadSheet sheet) {
 		Importer.use(this, element, sheet);
 	}
 
-	public Element exportToXML() throws ExportException {
+	public Element exportToXML() {
 		return Exporter.use(this);
 	}
 

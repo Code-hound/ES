@@ -1,6 +1,6 @@
 package pt.tecnico.bubbledocs.exception;
 
-public class AccessException extends BubbleDocsException {
+public class InvalidAccessException extends BubbleDocsException {
 
 	/*
 	 * ACCESS EXCEPTION
@@ -15,7 +15,7 @@ public class AccessException extends BubbleDocsException {
 	private String username;       //userToken
 	private int sheetId; //spreadSheetName
 
-	public AccessException(String username, int sheetId)
+	public InvalidAccessException(String username, int sheetId)
 	{
 		this.username       = username;
 		this.sheetId = sheetId;

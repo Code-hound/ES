@@ -1,21 +1,15 @@
 package pt.tecnico.bubbledocs.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-import org.jdom2.Element;
 
-import pt.tecnico.bubbledocs.domain.Cell;
 import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
 
 import pt.tecnico.bubbledocs.service.AssignLiteralToCell;
 
-import pt.tecnico.bubbledocs.exception.ExportException;
-import pt.tecnico.bubbledocs.exception.ImportException;
-import pt.tecnico.bubbledocs.exception.AccessException;
 import pt.tecnico.bubbledocs.exception.UserCantWriteException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
@@ -30,12 +24,6 @@ import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
  */
 
 public class AssignLiteralToCellTest extends BubbleDocsServiceTest {
-
-	// the tokens
-	private String userToken;
-	private String sheetId;
-	private String root;
-	private String ars;
 
 	// User-Owner
 	private final String USERNAME_OWNER = "username_owner";
@@ -66,10 +54,6 @@ public class AssignLiteralToCellTest extends BubbleDocsServiceTest {
 	private String NO_ACCESS_TOKEN;
 
 	// User-Invalid
-	private final String USERNAME_INVALID = null;
-	private final String PASSWORD_INVALID = null;
-	private final String NAMEUSER_INVALID = null;
-	private User INVALID;
 	private String INVALID_TOKEN;
 
 	// Document
@@ -77,22 +61,6 @@ public class AssignLiteralToCellTest extends BubbleDocsServiceTest {
 	private final int ROW_NUMBER = 10;
 	private final int COLUMN_NUMBER = 10;
 	private SpreadSheet DOC;
-
-	// Document-Invalid
-	private final User OWNER_INVALID = null;
-	private final String NAME_INVALID = null;
-	//private final int ID_DOC_INVALID = null;
-	private final int ROW_INVALID = -1;
-	private final int COLUMN_INVALID = -1;
-	private SpreadSheet DOC_INVALID;
-
-	// Cell-Samples
-	private final Cell CELL_A = null;
-	private final Cell CELL_B = null;
-	private final Cell CELL_C = null;
-	private final Cell CELL_D = null;
-	private final Cell CELL_E = null;
-	private final Cell CELL_F = null;
 
 	@Override
 	public void populate4Test() {
