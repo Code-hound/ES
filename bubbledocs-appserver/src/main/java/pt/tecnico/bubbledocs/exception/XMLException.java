@@ -24,6 +24,8 @@ public abstract class XMLException extends BubbleDocsException {
 		this.element = element;
 	}
 
+	public XMLException() {}
+
 	public String getElement() {
 		return this.element;
 	}
@@ -34,10 +36,10 @@ public abstract class XMLException extends BubbleDocsException {
 
 	@Override
 	public String getMessage() {
+		if (this.element == null)
+			return "Error in importing document from XML";
 		if (this.attribute == null)
 			return "Cannot convert " + this.element;
-		else
-			return "Cannot convert " + this.attribute + " from " + this.element;
+		return "Cannot convert " + this.attribute + " from " + this.element;
 	}
-
 }

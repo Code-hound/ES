@@ -1,9 +1,6 @@
 package pt.tecnico.bubbledocs.domain;
 
 import org.jdom2.Element;
-import java.lang.NullPointerException;
-import pt.tecnico.bubbledocs.exception.ExportException;
-import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 
 public class Exporter {
 
@@ -15,144 +12,88 @@ public class Exporter {
 	 * @author: Luis Ribeiro Gomes
 	 */
 
-	public static Element use(SpreadSheet type) throws ExportException {
+	public static Element use(SpreadSheet type) {
+		String classname = type.getClass().getSimpleName();
+		Element element = new Element(classname), content;
+
+		element.setAttribute("id"             , String.valueOf(type.getId()));
+		element.setAttribute("spreadSheetName", type.getSpreadSheetName());
+		element.setAttribute("ownerUsername"  , type.getOwnerUsername());
+		element.setAttribute("creationDate"   , type.getCreationDate().toString());
+		element.setAttribute("numberRows"     , String.valueOf(type.getNumberRows()));
+		element.setAttribute("numberColumns"  , String.valueOf(type.getNumberColumns()));
+
+		for (Cell c : type.getCellsSet())
+			if (c.getContent() != null) {
+				content = c.exportToXML();
+				if (content != null)
+					element.addContent(content);
+				else
+					return null;
+			}
+
+		return element;
+	}
+
+	public static Element use(Cell type) {
+		String classname = type.getClass().getSimpleName();
+		Element element = new Element(classname), content;
+
+		element.setAttribute("cellRow"   , String.valueOf(type.getCellRow()));
+		element.setAttribute("cellColumn", String.valueOf(type.getCellColumn()));
+		element.setAttribute("protect"   , String.valueOf(type.getProtect()));
+
+		if (type.getContent() == null)
+			return null;
+
+		content = type.getContent().exportToXML();
+		element.addContent(content);
+
+		return element;
+	}
+
+	public static Element use(Literal type) {
 		String classname = type.getClass().getSimpleName();
 		Element element = new Element(classname);
 
-		try {
-			element.setAttribute("id", String.valueOf(type.getId()));
-		} catch (NullPointerException e) {
-			throw new ExportException(classname, "id");
-		}
+		element.setAttribute("number", String.valueOf(type.getNumber()));
 
-		try {
-			element.setAttribute("name", type.getSpreadSheetName());
-		} catch (NullPointerException e) {
-			throw new ExportException(classname, "name");
-		}
+		return element;
+	}
+	
+	public static Element use(Reference type) {
+		String classname = type.getClass().getSimpleName();
+		Element element = new Element(classname), content;
 
-		try {
-			element.setAttribute("date", type.getCreationDate().toString());
-		} catch (NullPointerException e) {
-			throw new ExportException(classname, "date");
-		}
 
-		try {
-			element.setAttribute("rows", String.valueOf(type.getNumberRows()));
-		} catch (NullPointerException e) {
-			throw new ExportException(classname, "rows");
-		}
+		if (type.getCellReference() != null)
+			return null;
+			
+		content = type.getCellReference().exportToXML();
+		element.addContent(content);
 
-		try {
-			element.setAttribute("columns",
-					String.valueOf(type.getNumberColumns()));
-		} catch (NullPointerException e) {
-			throw new ExportException(classname, "columns");
-		}
+		return element;
+	}
 
-		try {
-			element.setAttribute("ownerUsername", type.getOwnerUsername());
-		} catch (NullPointerException e) {
-			throw new ExportException(classname, "ownerUsername");
-		}
+	public static Element use(BinaryFunction type) {
+		String classname = type.getClass().getSimpleName();
+		Element element = new Element(classname), content;
 
-		for (Cell c : type.getCellsSet()) {
-			if (c.getContent() != null)
-				//throw new ExportException(classname, "cell"); 
-				element.addContent(c.exportToXML());
+		for (FunctionArguments c : type.getArgsSet()) {
+			content = c.exportToXML();
+			element.addContent(content);
 		}
 
 		return element;
 	}
 
-	public static Element use(Cell type) throws ExportException {
+	public static Element use(RangedFunction type) {
 		String classname = type.getClass().getSimpleName();
-		Element element = new Element(classname);
+		Element element = new Element(classname), content;
 
-		if (type.getProtect()) {
-			throw new ProtectedCellException(type.getCellRow(),
-					type.getCellColumn());
-		} else {
-
-			try {
-				element.setAttribute("row", String.valueOf(type.getCellRow()));
-			} catch (NullPointerException e) {
-				throw new ExportException(classname, "row");
-			}
-
-			try {
-				element.setAttribute("column",
-						String.valueOf(type.getCellColumn()));
-			} catch (NullPointerException e) {
-				throw new ExportException(classname, "column");
-			}
-
-			try {
-				element.setAttribute("protect",
-						String.valueOf(type.getProtect()));
-			} catch (NullPointerException e) {
-				throw new ExportException(classname, "protect");
-			}
-
-			if (type.getContent() != null)
-				element.addContent(type.getContent().exportToXML());
-
-		}
-
-		return element;
-	}
-
-	public static Element use(Literal type) throws ExportException {
-		String classname = type.getClass().getSimpleName();
-		Element element = new Element(classname);
-
-		try {
-			element.setAttribute("number", String.valueOf(type.getNumber()));
-		} catch (NullPointerException e) {
-			throw new ExportException(classname, "number");
-		}
-
-		return element;
-	}
-
-	public static Element use(Reference type) throws ExportException {
-		String classname = type.getClass().getSimpleName();
-		Element element = new Element(classname);
-
-		try {
-			element.addContent(type.getCellReference().exportToXML());
-		} catch (NullPointerException e) {
-			throw new ExportException(classname, "Cell");
-		}
-
-		return element;
-	}
-
-	public static Element use(BinaryFunction type) throws ExportException {
-		String classname = type.getClass().getSimpleName();
-		Element element = new Element(classname);
-
-		for (FunctionArguments content : type.getArgsSet()) {
-			try {
-				element.addContent(content.exportToXML());
-			} catch (NullPointerException e) {
-				throw new ExportException("FunctionArguments");
-			}
-		}
-
-		return element;
-	}
-
-	public static Element use(RangedFunction type) throws ExportException {
-		String classname = type.getClass().getSimpleName();
-		Element element = new Element(classname);
-
-		for (Reference content : type.getArgsSet()) {
-			try {
-				element.addContent(content.exportToXML());
-			} catch (NullPointerException e) {
-				throw new ExportException("Reference");
-			}
+		for (Reference  c : type.getArgsSet()) {
+			content = c.exportToXML();
+			element.addContent(content);
 		}
 
 		return element;

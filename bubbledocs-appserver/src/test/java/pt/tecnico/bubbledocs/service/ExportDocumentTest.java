@@ -2,13 +2,14 @@ package pt.tecnico.bubbledocs.service;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
+import java.io.UnsupportedEncodingException;
 
+import org.junit.Test;
 import org.jdom2.output.XMLOutputter;
 
 import pt.tecnico.bubbledocs.domain.User;
+import pt.tecnico.bubbledocs.domain.Reference;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
-
 import pt.tecnico.bubbledocs.exception.ExportException;
 import pt.tecnico.bubbledocs.exception.AccessException;
 import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
@@ -22,7 +23,7 @@ public class ExportDocumentTest extends BubbleDocsServiceTest {
 	private String noAccessToken;
 	private SpreadSheet sheet;
 	private int sheetId;
-	private String result;
+	private byte[] result;
 
 	//User-Owner
 	private final String USERNAME_OWNER = "username_owner";
@@ -50,7 +51,10 @@ public class ExportDocumentTest extends BubbleDocsServiceTest {
 		
 		this.sheet   = createSpreadSheet(owner, NAME, ROW, COLUMN);
 		this.sheetId = this.sheet.getId();
-		this.result  = xml.outputString(this.sheet.exportToXML());
+		try {
+			this.result  = xml.outputString(this.sheet.exportToXML()).getBytes("UTF-8");
+		} catch (UnsupportedEncodingException ex) {
+		}
     }
 
     @Test
@@ -66,15 +70,18 @@ public class ExportDocumentTest extends BubbleDocsServiceTest {
         service.execute();
         //assertEquals(service.getResult(), null);
     }
-    /*
+
     @Test(expected = ExportException.class)
     public void InvalidExport() {
-    	this.sheet.addContent(null, 4, 4);
+    	try {
+    		this.sheet.addContent(new Reference(null,3,2), 4, 4);
+    	} catch (NullPointerException ex) {
+    	}
         ExportDocument service = new ExportDocument(this.ownerToken, this.sheetId);
         service.execute();
         //assertEquals(service.getResult(), null);
     }
-    */
+
     @Test(expected = AccessException.class)
     public void InvalidUser() {
         ExportDocument service = new ExportDocument(this.noAccessToken, this.sheetId);

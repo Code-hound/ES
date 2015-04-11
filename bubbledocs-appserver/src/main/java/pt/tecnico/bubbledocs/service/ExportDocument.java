@@ -4,9 +4,13 @@ package pt.tecnico.bubbledocs.service;
 
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
+
 import org.jdom2.output.XMLOutputter;
+import java.lang.NullPointerException;
+import java.io.UnsupportedEncodingException;
 
 import pt.tecnico.bubbledocs.exception.AccessException;
+import pt.tecnico.bubbledocs.exception.ExportException;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 
 /*
@@ -28,7 +32,7 @@ public class ExportDocument extends BubbleDocsService {
     // the tokens
 	private String userToken;
 	private int sheetId;
-	private String result;
+	private byte[] result;
 
 	public ExportDocument(String userToken, int sheetId) {
 		this.userToken = userToken;
@@ -47,10 +51,14 @@ public class ExportDocument extends BubbleDocsService {
 		if ( !sheet.isOwnedBy(username) && !sheet.canBeReadBy(username) )
 			throw new AccessException(username, sheetId);
 		//throws ExportException
-		result = xml.outputString(sheet.exportToXML());  //modified by Calisto
+		try {
+			result = xml.outputString(sheet.exportToXML()).getBytes("UTF-8");  //modified by Calisto
+		} catch (NullPointerException | UnsupportedEncodingException ex) {
+			throw new ExportException();
+		}
 	}
 
-	public String getResult () {
+	public byte[] getResult () {
 		return this.result;
 	}
 }

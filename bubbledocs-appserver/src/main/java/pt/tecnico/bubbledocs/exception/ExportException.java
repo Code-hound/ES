@@ -20,6 +20,10 @@ public class ExportException extends XMLException {
 		super(element);
 	}
 
+	public ExportException() {
+		super();
+	}	
+
 	@Override
 	public String getMessage() {
 		return "Export exception : " + super.getMessage();
