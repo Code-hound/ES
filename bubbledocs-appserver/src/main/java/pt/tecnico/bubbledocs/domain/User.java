@@ -5,11 +5,11 @@ import org.joda.time.ReadablePartial;
 
 public class User extends User_Base {
 
-	public User(String userName, String name, String password) {
+	public User(String userName, String password, String name) {
 		super();
 		setUsername(userName);
-		setName(name);
 		setPassword(password);
+		setName(name);
 	}
 
 	/*
