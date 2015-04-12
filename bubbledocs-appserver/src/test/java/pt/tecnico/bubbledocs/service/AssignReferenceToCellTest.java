@@ -27,6 +27,7 @@ public class AssignReferenceToCellTest extends BubbleDocsServiceTest {
 	private final String USERNAME_OWNER = "username_owner";
 	private final String PASSWORD_OWNER = "password_owner";
 	private final String NAMEUSER_OWNER = "nameuser_owner";
+	private final String EMAIL_OWNER = "email_owner";
 	private User OWNER;
 	private String OWNER_TOKEN;
 
@@ -34,6 +35,7 @@ public class AssignReferenceToCellTest extends BubbleDocsServiceTest {
 	private final String USERNAME_WRITE = "username_write";
 	private final String PASSWORD_WRITE = "password_write";
 	private final String NAMEUSER_WRITE = "nameuser_write";
+	private final String EMAIL_WRITE = "email_write";
 	private User WRITE;
 	private String WRITE_TOKEN;
 
@@ -41,6 +43,7 @@ public class AssignReferenceToCellTest extends BubbleDocsServiceTest {
 	private final String USERNAME_READ = "username_read";
 	private final String PASSWORD_READ = "password_read";
 	private final String NAMEUSER_READ = "nameuser_read";
+	private final String EMAIL_READ = "email_read";
 	private User READ;
 	private String READ_TOKEN;
 
@@ -48,6 +51,7 @@ public class AssignReferenceToCellTest extends BubbleDocsServiceTest {
 	private final String USERNAME_NO_ACCESS = "username_no_access";
 	private final String PASSWORD_NO_ACCESS = "password_no_access";
 	private final String NAMEUSER_NO_ACCESS = "nameuser_no_access";
+	private final String EMAIL_NO_ACCESS = "email_no_access";
 	private User NO_ACCESS;
 	private String NO_ACCESS_TOKEN;
 
@@ -63,11 +67,10 @@ public class AssignReferenceToCellTest extends BubbleDocsServiceTest {
 	@Override
 	public void populate4Test() {
 		BubbleDocs bd = BubbleDocs.getInstance();
-		OWNER = createUser(USERNAME_OWNER, PASSWORD_OWNER, NAMEUSER_OWNER);
-		WRITE = createUser(USERNAME_WRITE, PASSWORD_WRITE, NAMEUSER_WRITE);
-		READ = createUser(USERNAME_READ, PASSWORD_READ, NAMEUSER_READ);
-		NO_ACCESS = createUser(USERNAME_NO_ACCESS, PASSWORD_NO_ACCESS,
-				NAMEUSER_NO_ACCESS);
+		OWNER = createUser(USERNAME_OWNER, PASSWORD_OWNER, NAMEUSER_OWNER, EMAIL_OWNER);
+		WRITE = createUser(USERNAME_WRITE, PASSWORD_WRITE, NAMEUSER_WRITE, EMAIL_WRITE);
+		READ = createUser(USERNAME_READ, PASSWORD_READ, NAMEUSER_READ, EMAIL_READ);
+		NO_ACCESS = createUser(USERNAME_NO_ACCESS, PASSWORD_NO_ACCESS, NAMEUSER_NO_ACCESS, EMAIL_NO_ACCESS);
 		//INVALID = createUser(USERNAME_INVALID, PASSWORD_INVALID,
 		//		NAMEUSER_INVALID);
 

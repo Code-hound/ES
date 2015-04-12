@@ -28,7 +28,7 @@ public class LoginUserTest extends BubbleDocsServiceTest {
 
 	 @Override
 	 public void populate4Test() {
-	 createUser(USERNAME, PASSWORD, "João Pereira");
+	 createUser(USERNAME, PASSWORD, "João Pereira", "email@email.email");
 	 }
 	
 	 // returns the time of the last access for the user with token userToken.

@@ -68,8 +68,8 @@ public class BubbleApplication {
 		
 		XMLOutputter xml = new XMLOutputter();
 
-		User user1 = bd.createUser("fms", "fms", "Francisco de Matos Silveira");
-		User user2 = bd.createUser("lrg", "lrg", "Luis Ribeiro Gomes");
+		User user1 = bd.createUser("fms", "fms", "Francisco de Matos Silveira", "email@email.email");
+		User user2 = bd.createUser("lrg", "lrg", "Luis Ribeiro Gomes", "email@email.email");
 
 		//Francisco creates a spreadsheet called "Notas ES"
 		SpreadSheet sheet1 = bd.createSpreadSheet(user1, "Notas ES", 300, 20);

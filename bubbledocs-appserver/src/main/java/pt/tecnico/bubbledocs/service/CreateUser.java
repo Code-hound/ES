@@ -28,7 +28,7 @@ public class CreateUser extends BubbleDocsService {
 
 	private String userToken;
 	private String newUsername;
-	// private String password;
+	private String password;
 	private String email;
 	private String name;
 
@@ -44,7 +44,7 @@ public class CreateUser extends BubbleDocsService {
 	protected void dispatch() {
 		BubbleDocs bd = getBubbleDocs();
 		if (bd.checkIfRoot(userToken)) {
-			bd.createUser(newUsername, email, name);
+			bd.createUser(newUsername, password, name, email);
 		}
 	}
 	

@@ -60,10 +60,10 @@ public class BubbleDocsServiceTest {
 	// classes
 	// for defining the iniital state and checking that the service has the
 	// expected behavior
-	public User createUser(String username, String password, String name) {
+	public User createUser(String username, String password, String name, String email) {
 		BubbleDocs bd = BubbleDocs.getInstance();
 
-		User user = bd.createUser(username, password, name);
+		User user = bd.createUser(username, password, name, email);
 		return user;
 	}
 

@@ -28,11 +28,13 @@ public class ExportDocumentTest extends BubbleDocsServiceTest {
 	private final String USERNAME_OWNER = "username_owner";
 	private final String PASSWORD_OWNER = "password_owner";
 	private final String NAMEUSER_OWNER = "nameuser_owner";
+	private final String EMAIL_OWNER = "email_owner";
 
 	//User-No-Access
 	private final String USERNAME_NO_ACCESS = "username_no_access";
 	private final String PASSWORD_NO_ACCESS = "password_no_access";
 	private final String NAMEUSER_NO_ACCESS = "nameuser_no_access";
+	private final String EMAIL_NO_ACCESS = "email_no_access";
 
 	//Document
 	private final String NAME = "sheet";
@@ -43,8 +45,8 @@ public class ExportDocumentTest extends BubbleDocsServiceTest {
 
     @Override
     public void populate4Test() {
-		User owner = createUser(USERNAME_OWNER, PASSWORD_OWNER, NAMEUSER_OWNER);
-		createUser(USERNAME_NO_ACCESS, PASSWORD_NO_ACCESS, NAMEUSER_NO_ACCESS);
+		User owner = createUser(USERNAME_OWNER, PASSWORD_OWNER, NAMEUSER_OWNER, EMAIL_OWNER);
+		createUser(USERNAME_NO_ACCESS, PASSWORD_NO_ACCESS, NAMEUSER_NO_ACCESS, EMAIL_NO_ACCESS);
 	
 		this.ownerToken    = addUserToSession(USERNAME_OWNER);
 		this.noAccessToken = addUserToSession(USERNAME_NO_ACCESS);

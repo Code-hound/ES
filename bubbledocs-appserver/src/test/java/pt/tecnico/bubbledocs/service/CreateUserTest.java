@@ -16,27 +16,36 @@ import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 
 public class CreateUserTest extends BubbleDocsServiceTest {
+	
+	/*
+	 * Falta fazer o Teste de mail vazio.
+	 * 
+	 * Como e que trato a excepcao de pass vazia?
+	 * 
+	 * @author: Francisco Maria Calisto
+	 * 
+	 */
 
 	// the tokens
-	private String ars;
 	private String root;
+	private String ars;
 
+
+	//private static final String ROOT_USERNAME = "root";
 	private static final String USERNAME = "ars";
 	private static final String PASSWORD = "ars";
-	private static final String ROOT_USERNAME = "root";
 	private static final String USERNAME_DOES_NOT_EXIST = "no-one";
 
 	@Override
 	public void populate4Test() {
-		createUser(USERNAME, PASSWORD, "António Rito Silva");
+		createUser(USERNAME, PASSWORD, "António Rito Silva", "email@email.email");
         root = addUserToSession("root");
         ars = addUserToSession("ars");
 	}
 
 	@Test
 	public void success() {
-		CreateUser service = new CreateUser(root, USERNAME_DOES_NOT_EXIST,
-				"jose", "José Ferreira");
+		CreateUser service = new CreateUser(root, USERNAME_DOES_NOT_EXIST, "José Ferreira", "email@email.email");
 		service.execute();
 		
 		User user = getUserFromUsername(USERNAME_DOES_NOT_EXIST);
@@ -47,8 +56,7 @@ public class CreateUserTest extends BubbleDocsServiceTest {
 
 	@Test(expected = UserAlreadyExistsException.class)
 	public void usernameExists() {
-		CreateUser service = new CreateUser(root, USERNAME, "jose",
-				"José Ferreira");
+		CreateUser service = new CreateUser(root, USERNAME, "José Ferreira", "email@email.email");
 		service.execute();
 	}
 

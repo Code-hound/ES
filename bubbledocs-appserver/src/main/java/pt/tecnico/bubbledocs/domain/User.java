@@ -5,11 +5,12 @@ import org.joda.time.ReadablePartial;
 
 public class User extends User_Base {
 
-	public User(String userName, String password, String name) {
+	public User(String userName, String password, String name, String email) {
 		super();
 		setUsername(userName);
 		setPassword(password);
 		setName(name);
+		setEmail(email);
 	}
 
 	/*
@@ -52,10 +53,10 @@ public class User extends User_Base {
 	 * docList.add(s); } return docList; }
 	 */
 
-	public User createUser(String userName, String name, String password) {
+	public User createUser(String userName, String password, String name, String email) {
 		// if(!getUsername().equals("root"))
 		// throws InvalidAccessException
-		return new User(userName, name, password);
+		return new User(userName, password, name, email);
 	}
 
 	public String toString() {
