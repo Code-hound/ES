@@ -19,3 +19,5 @@ target/*
 
 .directory
 *~
+
+sd-store/store-ws_wsdl/stored_files/*
