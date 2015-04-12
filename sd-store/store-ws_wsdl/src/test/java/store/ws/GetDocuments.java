@@ -15,7 +15,7 @@ public class GetDocuments {
 	private static final String USERNAME = "username";
 	private static final String SHEET_ID = "2205";
 	private static DocUserPair pair = new DocUserPair();
-	private static SDStoreImpl store = new SDStoreImpl();
+	private static StoreImpl store = new StoreImpl();
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {

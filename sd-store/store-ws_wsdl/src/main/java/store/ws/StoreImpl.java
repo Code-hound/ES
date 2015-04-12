@@ -9,11 +9,13 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.File;
 
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebResult;
-import javax.xml.ws.RequestWrapper;
-import javax.xml.ws.ResponseWrapper;
+import javax.jws.*;
+import store.ws.*; 
+//import javax.jws.WebMethod;
+//import javax.jws.WebParam;
+//import javax.jws.WebResult;
+//import javax.xml.ws.RequestWrapper;
+//import javax.xml.ws.ResponseWrapper;
 
 import org.jdom2.Element;
 import org.jdom2.Document;
@@ -24,7 +26,16 @@ import org.jdom2.JDOMException;
 
 import pt.ulisboa.tecnico.sdis.store.ws.*;
 
-public class SDStoreImpl implements SDStore {
+@WebService(
+	    endpointInterface="pt.ulisboa.tecnico.sdis.store.ws.SDStore", 
+	    wsdlLocation="SD-STORE.1_1.wsdl",
+	    name="SDStore",
+	    portName="SDStoreImplPort",
+	    targetNamespace="urn:pt:ulisboa:tecnico:sdis:store:ws",
+	    serviceName="SDStore"
+	)
+
+public class StoreImpl implements SDStore {
 	 
 	public void createDoc(DocUserPair docUser) throws DocAlreadyExists_Exception {
 		//CreateSpreadSheet();

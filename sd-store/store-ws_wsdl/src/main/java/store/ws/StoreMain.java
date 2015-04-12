@@ -2,18 +2,21 @@ package store.ws;
 
 import javax.xml.ws.Endpoint;
 
-public class SDStoreMain {
+// To confirm correct service publication:
+// http://localhost:8080/sd-store-ws/endpoint?WSDL
+
+public class StoreMain {
 	public static void main (String[] args) {
 		if (args.length < 1) {
             System.err.println("Argument(s) missing!");
-            System.err.printf("Usage: java %s url%n", SDStoreMain.class.getName());
+            System.err.printf("Usage: java %s url%n", StoreMain.class.getName());
             return;
         }
 
         String url = args[0];
         Endpoint endpoint = null;
         try {
-            endpoint = Endpoint.create(new SDStoreImpl());
+            endpoint = Endpoint.create(new StoreImpl());
 
             // publish endpoint
             System.out.printf("Starting %s%n", url);
