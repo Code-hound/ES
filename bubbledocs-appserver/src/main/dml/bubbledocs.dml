@@ -5,10 +5,10 @@ class BubbleDocs{
 }
 
 class User {
-	String username;
-	String name;
-	String password;
 	String userToken;
+	String username;
+	String password;
+	String name;
 	String email;
 }
 
