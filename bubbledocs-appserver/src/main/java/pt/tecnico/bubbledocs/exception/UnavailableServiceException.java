@@ -12,18 +12,17 @@ public class UnavailableServiceException extends BubbleDocsException
 	 * externo SD-ID via IDRemoteServices.
 	 * 
 	 * @author: Francisco Maria Calisto
+	 * 
 	 */
 
 	private static final long serialVersionUID = 1L;
 
-	public UnavailableServiceException()
-	{
+	public UnavailableServiceException() {
 		super();
 	}
 
 	@Override
-	public String getMessage()
-	{
+	public String getMessage() {
 		return "Unavailable service, try again.";
 	}
 

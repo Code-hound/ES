@@ -8,6 +8,7 @@ public class DuplicateEmailException extends BubbleDocsException {
 	 * Excepcao da varificacao se email ja existe.
 	 * 
 	 * @author: Francisco Maria Calisto
+	 * 
 	 */
 
 	private static final long serialVersionUID = 1L;
