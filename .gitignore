@@ -21,3 +21,5 @@ target/*
 *~
 
 sd-store/store-ws_wsdl/stored_files/*
+
+*.log
