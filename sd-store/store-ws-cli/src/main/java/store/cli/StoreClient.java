@@ -1,5 +1,7 @@
 package store.cli;
 
+import java.util.List;
+
 import pt.ulisboa.tecnico.sdis.store.ws.*;
 
 public class StoreClient implements SDStore {
@@ -8,7 +10,7 @@ public class StoreClient implements SDStore {
 		return null;
 	}
 	
-	public List<String >listDocs(String) {
+	public List<String> listDocs(String) {
 		return null;
 	}
 	
