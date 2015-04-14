@@ -4,7 +4,7 @@
   <!-- http://maven.apache.org/pom.html#Quick_Overview -->
 
   <groupId>pt.tecnico.ulisboa.essd</groupId>
-  <artifactId>sd-store-ws_wsdl</artifactId>
+  <artifactId>sd-store-ws-cli</artifactId>
   <version>1.1</version>
   <packaging>jar</packaging>
 
@@ -26,7 +26,14 @@
    		<artifactId>junit</artifactId>
     	<version>4.11</version>
     	<scope>test</scope>
-	</dependency>
+    </dependency>
+    <!-- JMockit - must appear before JUnit -->
+    <dependency>
+      <groupId>org.jmockit</groupId>
+      <artifactId>jmockit</artifactId>
+      <version>1.16</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
     	<groupId>javax.xml.registry</groupId>
     	<artifactId>javax.xml.registry-api</artifactId>
@@ -64,9 +71,6 @@
         <configuration>
           <!-- https://jax-ws-commons.java.net/jaxws-maven-plugin/wsimport-mojo.html -->
           <wsdlDirectory>${basedir}/src/main/resources</wsdlDirectory>
-          <wsdlFiles>
-            <wsdlFile>.wsdl</wsdlFile>
-          </wsdlFiles>
         </configuration>
         <dependencies>
           <dependency>
@@ -91,9 +95,6 @@
             <killAfter>-1</killAfter><!-- to prevent deprecation warning -->
             <mainClass>${mainclass}</mainClass>
             <arguments>
-              <argument>${uddi.url}</argument>
-              <argument>${ws.name}</argument>
-              <argument>${ws.url}</argument>
             </arguments>
           </configuration>
       </plugin>

@@ -2,7 +2,7 @@ package store.ws;
 
 import javax.xml.ws.Endpoint;
 
-import store.ws.uddi.UDDINaming;
+import uddi.UDDINaming;
 
 // To confirm correct service publication:
 // http://localhost:8080/sd-store-ws/endpoint?WSDL

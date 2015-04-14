@@ -1,4 +1,4 @@
-package store.ws.uddi;
+package uddi;
 
 import java.net.PasswordAuthentication;
 import java.util.*;
