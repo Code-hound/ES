@@ -62,7 +62,7 @@ public class UDDINaming {
             throw new IllegalArgumentException(
                     "Please provide UDDI server URL in http://host:port format!");
         this.autoConnectFlag = autoConnect;
-
+        
         try {
             InitialContext context = new InitialContext();
             connFactory = (ConnectionFactory) context

@@ -14,6 +14,7 @@ import pt.ulisboa.tecnico.sdis.store.ws.DocAlreadyExists_Exception;
 import pt.ulisboa.tecnico.sdis.store.ws.DocDoesNotExist_Exception;
 import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
 import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
+import store.ws.StoreImpl;
 
 public class ImplementationTests {
 	private static final String USERNAME = "username";
