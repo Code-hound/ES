@@ -68,5 +68,4 @@ public class StoreClient implements SDStore {
 			throws DocDoesNotExist_Exception, UserDoesNotExist_Exception {
 		return storeInterface.load(docUserPair);
 	}
-
 }
