@@ -103,6 +103,14 @@ public class IdImpl implements SDId {
             pstmt = conn.prepareStatement(sqlEmmitCheck, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, user);
             pstmt.setBoolean(2, endorsable);
+            
+            pstmt.executeUpdate();
+            rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                id = String.valueOf(rs.getString(1));
+            }
+            
+            conn.commit();
         }
     }
 
