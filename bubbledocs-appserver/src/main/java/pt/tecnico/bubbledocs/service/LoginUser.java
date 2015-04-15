@@ -1,5 +1,6 @@
 package pt.tecnico.bubbledocs.service;
 
+//import id.ws;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.Session;
@@ -56,8 +57,8 @@ public class LoginUser extends BubbleDocsService {
 		removeIdleUsers();
 		BubbleDocs bd = getBubbleDocs();
 		
-		SDId service = new SDId();
-		SdId port = service.getIdImplPort();
+		//SDId service = new SDId();
+		//SdId port = service.getIdImplPort();
 		
 		
 		User user = getUser(username);
