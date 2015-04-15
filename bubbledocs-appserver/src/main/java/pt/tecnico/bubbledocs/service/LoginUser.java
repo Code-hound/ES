@@ -1,12 +1,9 @@
 package pt.tecnico.bubbledocs.service;
 
-import id.ws;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.Session;
-import pt.tecnico.bubbledocs.exception.UserAlreadyInSessionException;
-import pt.tecnico.bubbledocs.exception.WrongPasswordException;
-import pt.tecnico.bubbledocs.exception.UnknownBubbleDocsUserException;
+import pt.tecnico.bubbledocs.exception.*;
 
 /*
  * LOG IN USER
