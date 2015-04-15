@@ -3,7 +3,7 @@ package pt.tecnico.bubbledocs.service.remote;
 import pt.tecnico.bubbledocs.exception.DuplicateEmailException;
 import pt.tecnico.bubbledocs.exception.DuplicateUsernameException;
 import pt.tecnico.bubbledocs.exception.InvalidEmailException;
-import pt.tecnico.bubbledocs.exception.InvalidUsernameException;
+import pt.tecnico.bubbledocs.exception.InvalidUserException;
 import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 
@@ -19,7 +19,7 @@ public class IDRemoteServices {
 	 */
 	
 	public void createUser(String username, String email)
-		throws InvalidUsernameException, DuplicateUsernameException, DuplicateEmailException, InvalidEmailException, RemoteInvocationException {
+		throws InvalidUserException, DuplicateUsernameException, DuplicateEmailException, InvalidEmailException, RemoteInvocationException {
 			
 			// TODO: the connection and invocation of the remote service
 			
