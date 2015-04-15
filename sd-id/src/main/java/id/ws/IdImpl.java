@@ -35,11 +35,14 @@ public class IdImpl implements SDId {
 			throws EmailAlreadyExists_Exception, InvalidEmail_Exception,
 			InvalidUser_Exception, UserAlreadyExists_Exception {
 		// TODO Auto-generated method stub
+		// Gera senha alfanumerica e armazena em String.
+		// Apresenta a senha na consola de serviço.
 		
 	}
 
 	public void renewPassword(String userId) throws UserDoesNotExist_Exception {
 		// TODO Auto-generated method stub
+		// Apresenta nova senha na consola de serviço.
 		
 	}
 
@@ -51,6 +54,9 @@ public class IdImpl implements SDId {
 	public byte[] requestAuthentication(String userId, byte[] reserved)
 			throws AuthReqFailed_Exception {
 		// TODO Auto-generated method stub
+		// Confirma correcção dos argumentos
+		// Retorna array com 1 byte, valor '(byte) 1'
+		// Exception se o utilizador não existe ou password incorrecta.
 		return null;
 	}
 
