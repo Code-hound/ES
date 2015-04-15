@@ -10,15 +10,31 @@ import javax.transaction.SystemException;
 
 import org.jdom2.output.XMLOutputter;
 
-
-
 import pt.ist.fenixframework.Config;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.TransactionManager;
+
 import pt.tecnico.bubbledocs.domain.*;
+import pt.tecnico.bubbledocs.service.*;
 
 public class BubbleApplication {
+	
+	private static final String ROOT_USERNAME = "root";
+	private static final String ROOT_PASSWORD = "rootroot";
+	private static final String USER1_USERNAME = "ars";
+	private static final String USER1_EMAIL = "ars@tecnico.ulisboa.pt";
+	private static final String USER1_NAME = "Antonio Rito Silva";
+	private static final String USER2_USERNAME = "smf";
+	private static final String USER2_EMAIL = "smf@tecnico.ulisboa.pt";
+	private static final String USER2_NAME = "Samuel Filipe Coelho";
+	private static final String SPREADSHEET_NAME = "Notas ES";
+	private static int SPREADSHEET_ID;
+	private static final int SPREADSHEET_ROWS = 300;
+	private static final int SPREADSHEET_COLUMNS = 20;
+	private static String ROOT_TOKEN;
+	private static String USER1_TOKEN;
+	private static String USER2_TOKEN;
 
 	public static void main(String[] args) {
 		TransactionManager tm = FenixFramework.getTransactionManager();
@@ -33,7 +49,7 @@ public class BubbleApplication {
 			BubbleDocs bd = BubbleDocs.getInstance();
 			System.out.println("Got");
 			
-			populateDomain(bd);
+			populateDomain();
 			System.out.println("Populated");
 			
 			writeUsers(bd);
@@ -58,7 +74,7 @@ public class BubbleApplication {
 	}
 	
 	
-	static void populateDomain(BubbleDocs bd) throws NotSupportedException,
+	static void populateDomain() throws NotSupportedException,
 			                            SystemException,
 			                            SecurityException,
 			                            IllegalStateException,
@@ -66,6 +82,7 @@ public class BubbleApplication {
 			                            HeuristicMixedException,
 			                            HeuristicRollbackException {
 		
+		/*
 		XMLOutputter xml = new XMLOutputter();
 
 		User user1 = bd.createUser("fms", "fms", "Francisco de Matos Silveira", "email@email.email");
@@ -95,6 +112,30 @@ public class BubbleApplication {
 		//é preciso re-adicionar a spreadsheet? à partida ela ficava alterada
 		
 		//return bd;
+		 */
+		LoginUser loginRootService = new LoginUser(ROOT_USERNAME, ROOT_PASSWORD);
+		loginRootService.execute();
+		ROOT_TOKEN = loginRootService.getUserToken();
+		
+		CreateUser createUserService_user1 = new CreateUser(ROOT_TOKEN, USER1_USERNAME, USER1_EMAIL, USER1_NAME);
+		createUserService_user1.execute();
+		
+		
+		CreateUser createUserService_user2 = new CreateUser(ROOT_TOKEN, USER2_USERNAME, USER2_EMAIL, USER2_NAME);
+		createUserService_user2.execute();
+		
+		CreateSpreadSheet createSpreadSheetService_user1 = new CreateSpreadSheet
+				(USER1_TOKEN, SPREADSHEET_NAME, SPREADSHEET_ROWS, SPREADSHEET_COLUMNS);
+		createSpreadSheetService_user1.execute();
+		SPREADSHEET_ID = createSpreadSheetService_user1.getId();
+		
+		AssignLiteralToCell assignLiteralToCellService = new AssignLiteralToCell
+				(USER1_TOKEN, SPREADSHEET_ID, "3;4", "5");
+		assignLiteralToCellService.execute();
+		
+		AssignReferenceToCell assignReferenceToCellService = new AssignReferenceToCell
+				(USER1_TOKEN, SPREADSHEET_ID, "1;1", "5;6");
+		assignReferenceToCellService.execute();
 	}
 	
 	static void writeUsers(BubbleDocs bd){
