@@ -28,13 +28,12 @@ public class ImplementationTests {
 	public static void setUpBeforeClass() throws Exception {
 		user.setUserId(USERNAME);
 		user.setEmailAddress(EMAIL);
-		
-		userDupEmail.setUserId(USERNAME2);
-		userDupEmail.setEmailAddress(EMAIL);
 	}
 	
+	
+	//TESTS FOR USER CREATION
 	@Test
-	public void success() {
+	public void userSuccess() {
 		id.createUser(user);
 		
 		assertEquals("username", user.getUserId());
@@ -43,21 +42,68 @@ public class ImplementationTests {
 	
 	@Test(expected = EmailAlreadyExists_Exception.class)
 	public void testDuplicateEmail() {
-		id.createUser(userDupEmail);
+		id.createUser(USERNAME2,EMAIL);
+	}
+	
+	@Test(expected = InvalidEmail_Exception.class)
+	public void testInvalidEmail() {
+		id.createUser(USERNAME2,INVALID_EMAIL);
+	}
+	
+	@Test(expected = InvalidUser_Exception.class)
+	public void testInvalidUser(){
+		id.createUser(INVALID_USERNAME,"b@a");
+	}
+	
+	@Test(expected = UserAlreadyExists_Exception.class)
+	public void testDuplicateUser(){
+		id.createUser(USERNAME,"b@a");
+	}	
+	
+	
+	// TESTS FOR PASSWORD RENEWING
+	@Test
+	public void renewSuccess() {
+		/*FIX ME*/
+	}
+	
+	@Test(expected = UserDoesNotExist_Exception.class)
+	public void testRenewUser(){
+		/*FIX ME*/
 	}
 	
 	
+	// TESTS FOR USER REMOVING
 	@Test
-	public void renewPassword() {
-		/*List<String> docs = store.listDocs(USERNAME);
-		//System.out.println(docs);
-		assertTrue("File number does not match the expected",
-				(store.listDocs(USERNAME).size()==1));*/
+	public void removeSuccess() {
+		/*FIX ME*/
+	}
+	
+	@Test(expected = UserDoesNotExist_Exception.class)
+	public void testRemoveUser(){
+		/*FIX ME*/
+	}	
+	
+	
+	// TESTS FOR AUTHENTICATION
+	
+	@Test
+	public void authenticationSuccess(){
+		/*FIX ME*/
+	}
+	
+	@Test(expected = AuthReqFailed_Exception.class)
+	public void testUserDoesNotExist(){
+		/*FIX ME*/
+	}
+	
+	@Test(expected = AuthReqFailed_Exception.class)
+	public void testIncorrectPassword(){
+		/*FIX ME*/
 	}
 	
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		id.removeUser(USERNAME);
-		id.removeUser(USERNAME2);
 	}
 }
