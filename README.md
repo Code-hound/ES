@@ -2,7 +2,7 @@
 
 This is the main README file for the Bubble Docs project.
 
-The initial version of the repository contains the following structure:
+The third release of the repository contains the following structure:
 
     .
     |__ .gitignore
