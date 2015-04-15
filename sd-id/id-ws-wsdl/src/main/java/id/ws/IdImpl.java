@@ -1,6 +1,11 @@
 package id.ws;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.jws.*;
 
@@ -67,52 +72,6 @@ public class IdImpl implements SDId {
      * Talvez tenha que adicionar o campo emial.
      * 
      */
-    
-    @Override
-    public String transmit(String user, boolean endorsable) throws UserDoesNotExist_Exception {
-    	String id = "";
-    	
-    	PrepareStatement pstmt = null;
-    	
-    	// Make sure you're connected
-        checkConnection();
-        
-        try {
-        	conn.setAutoCommit(false);
-        	
-        	// Find out if the user exists in the DB
-        	String sqlCheckerUser = "SELECT name FROM username WHERE name = ?;"; // MAY FIXME
-        	pstmt = conn.prepareStatement(sqlCheckUser);
-            pstmt.setString(1, titular);
-            ResultSet rs = pstmt.executeQuery();
-            
-            if(!rs.next() != null) {
-            	UserDoesNotExist udne = new UserDoesNotExist();
-                String errorMsg = String.format("O utilizador %s não existe na base de dados.", user);
-                udne.setMessage(errorMsg);
-                udne.setUser(user);
-                throw new UserDoesNotExist_Exception(errorMsg, udne);
-            }
-            
-            if(pstmt != null) {
-            	pstmt.close();
-            }
-            
-            // Insert a new check into the system
-            String sqlEmmitCheck = "INSERT INTO check (user,endorsable) VALUE (?,?,?);";
-            pstmt = conn.prepareStatement(sqlEmmitCheck, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, user);
-            pstmt.setBoolean(2, endorsable);
-            
-            pstmt.executeUpdate();
-            rs = pstmt.getGeneratedKeys();
-            if (rs.next()) {
-                id = String.valueOf(rs.getString(1));
-            }
-            
-            conn.commit();
-        }
-    }
 
     public String sayHello(String name) {
         return "Hello " + name + "!";
@@ -125,7 +84,69 @@ public class IdImpl implements SDId {
 		// Gera senha alfanumerica e armazena em String.
 		// Apresenta a senha na consola de serviço.
 		
-	}
+		String id = "";
+		
+		// Make sure you're connected
+        checkConnection();
+        
+        try {
+        	conn.setAutoCommit(false);
+        	
+        	// Find out if the user exists in the DB
+        	String sqlCheckerUser = "SELECT username FROM user WHERE username = ?;"; // FIXME
+        	pstmt = conn.prepareStatement(sqlCheckUser);
+            pstmt.setString(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if(!rs.next() != null) {
+            	UserDoesNotExist udne = new UserDoesNotExist();
+                String errorMsg = String.format("O utilizador %s não existe na base de dados.", userId);
+                udne.setMessage(errorMsg);
+                udne.setUserId(userId);
+                throw new UserDoesNotExist_Exception(errorMsg, udne);
+            }
+            
+            if(pstmt != null) {
+            	pstmt.close();
+            }
+            
+            // Insert a new check into the system
+            String sqlEmmitCheck = "INSERT INTO check (userId,emailAddress) VALUE (?,?,?);";
+            pstmt = conn.prepareStatement(sqlEmmitCheck, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, userId);
+            pstmt.setString(2, emailAddress);
+            
+            pstmt.executeUpdate();
+            rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                id = String.valueOf(rs.getString(1));
+            }
+            
+            conn.commit();
+        } catch (SQLException e) {
+        	System.out.println("IdImpl.createUser() error: couldn't execute query - " + e);
+            try {
+                /* undo all changes to database */
+                System.out.println("IdImpl.createUser(): Rollback update");
+                conn.rollback();
+            } catch (SQLException e2) {
+                System.out.println("IdImpl.createUser(): SQL exception while attempting rollback " + e2);
+            }
+            
+            printSQLExceptions(e);
+        } finally {
+            try {
+                if(pstmt != null)
+                    pstmt.close();
+                conn.setAutoCommit(true);
+            } catch (SQLException e) {
+                System.out.println("IdImpl.createUser() error attempting to wind down transaction: " + e);
+                printSQLExceptions(e);
+            }
+        }
+        
+        return id;
+    }
 
 	public void renewPassword(String userId) throws UserDoesNotExist_Exception {
 		// TODO Auto-generated method stub
