@@ -11,20 +11,8 @@ import pt.ulisboa.tecnico.sdis.id.ws.*; // classes generated from WSDL
     portName="SDIdImplPort",
     targetNamespace="urn:pt:ulisboa:tecnico:sdis:id:ws",
     serviceName="SDId"
-    
-    /*  
-  xmlns:tns="urn:pt:ulisboa:tecnico:sdis:id:ws"
-  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-  xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-  xmlns:soaphttp="http://schemas.xmlsoap.org/soap/http"
-  xmlns:wsamd="http://www.w3.org/2007/05/addressing/metadata">
-
-     * procurar onde meter isto 
-     * 
-     * 
-     * */
 )
+
 public class IdImpl implements SDId {
 
     public String sayHello(String name) {
