@@ -14,6 +14,51 @@ import pt.ulisboa.tecnico.sdis.id.ws.*; // classes generated from WSDL
 )
 
 public class IdImpl implements SDId {
+	
+	private Connection conn = null;
+    private String dbDriver;
+    private String dbUrl;
+    private String dbUsername;
+    private String dbPassword;
+   
+    /**
+     * Construtor da classe.
+     * 
+     * @param dbDriver recebe o driver especifico que utilizaremos para comunicar com a BD da aplicacao.
+     * @param dbUrl a localizacao da BD.
+     * @param dbUsername o username do utilizador com permissoes necessarias para manipular a BD.
+     * @param dbPassword a password desse utilizador.
+     */    
+    
+    public IdImpl(String dbDriver, String dbUrl, String dbUsername, String dbPassword) {
+        this.dbDriver = dbDriver;
+        this.dbUrl = dbUrl;
+        this.dbUsername = dbUsername;
+        this.dbPassword = dbPassword;
+        
+        checkConnection();
+    }
+    
+    
+    /*
+     * checkConnection - verifica que a ligacao a base de dados se encontra aberta. Caso por alguma razao
+     * se tenha fechado, tenta reestabelecer a ligacao.
+     */
+    
+    private void checkConnection() {
+        while(conn == null)
+            try {
+                Class.forName(dbDriver);
+                conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+            } catch (SQLException e) {
+                System.out.println("ChequeRefeicaoImpl error: couldn't establish connection to database - " + e);
+                printSQLExceptions(e);
+            } catch (ClassNotFoundException e) {
+                System.out.println("ChequeRefeicaoImpl error: couldn't load sql driver - " + e);
+                e.printStackTrace();
+                break;
+            }
+    }
 
     public String sayHello(String name) {
         return "Hello " + name + "!";
