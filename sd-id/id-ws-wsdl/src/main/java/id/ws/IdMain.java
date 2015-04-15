@@ -15,6 +15,10 @@ public class IdMain {
         String uddiURL = args[0];
         String name = args[1];
         String url = args[2];
+        String dbDriver = args[3]; // FIXME
+        String dbAlias = args[4]; // FIXME
+        String dbUsername = args[5]; // FIXME
+        String dbPassword = args[6]; // FIXME
         
         Endpoint endpoint = null;
         UDDINaming uddiNaming = null;
