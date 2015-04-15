@@ -1,4 +1,4 @@
-package store.ws;
+package id.ws;
 
 import static org.junit.Assert.*;
 
@@ -9,18 +9,14 @@ import org.jdom2.Element;
 
 import java.util.List;
 
-import pt.ulisboa.tecnico.sdis.store.ws.CapacityExceeded_Exception;
-import pt.ulisboa.tecnico.sdis.store.ws.DocAlreadyExists_Exception;
-import pt.ulisboa.tecnico.sdis.store.ws.DocDoesNotExist_Exception;
-import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
-import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
-import store.ws.StoreImpl;
+import pt.ulisboa.tecnico.sdis.id.ws.exception;
+import id.ws.IdImpl;
 
 public class ImplementationTests {
 	private static final String USERNAME = "username";
 	private static final String SHEET_ID = "2205";
 	private static DocUserPair pair = new DocUserPair();
-	private static StoreImpl store = new StoreImpl();
+	private static IdImpl id = new IdImpl();
 	private static final String CONTENT = "This project is getting really hard";
 
 	@BeforeClass
@@ -29,14 +25,14 @@ public class ImplementationTests {
 		pair.setDocumentId(SHEET_ID);
 		
 		try {
-			store.createDoc(pair);
+			id.createDoc(pair);
 		} catch (DocAlreadyExists_Exception ex) {
 			System.out.println(ex.getMessage());
 		}
 	}
 	
 	@Test
-	public void storeContent() throws CapacityExceeded_Exception, DocDoesNotExist_Exception, 
+	public void createUser() throws CapacityExceeded_Exception, DocDoesNotExist_Exception, 
 			UserDoesNotExist_Exception {
 		byte[] content_bytes = CONTENT.getBytes();
 		//System.out.println(content_bytes);
@@ -64,6 +60,6 @@ public class ImplementationTests {
 	
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		store.destroyFile(SHEET_ID);
+		id.destroyFile(SHEET_ID);
 	}
 }
