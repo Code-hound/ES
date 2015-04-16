@@ -35,6 +35,11 @@ public class ImplementationTests {
 		}
 	}
 	
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+		store.destroyFile(SHEET_ID);
+	}
+	
 	@Test
 	public void storeContent() throws CapacityExceeded_Exception, DocDoesNotExist_Exception, 
 			UserDoesNotExist_Exception {
@@ -47,9 +52,9 @@ public class ImplementationTests {
 	public void listFiles() throws CapacityExceeded_Exception, DocDoesNotExist_Exception, 
 			UserDoesNotExist_Exception {
 		List<String> docs = store.listDocs(USERNAME);
-		//System.out.println(docs);
+		System.out.println(docs);
 		assertTrue("File number does not match the expected",
-				(store.listDocs(USERNAME).size()==1));
+				(docs.size()==1));
 	}
 	
 	@Test
@@ -60,10 +65,5 @@ public class ImplementationTests {
 		String contentString = new String(contentInBytes);
 		assertTrue("Stored content does not match loaded content", 
 				(CONTENT.equals(contentString)));
-	}
-	
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-		store.destroyFile(SHEET_ID);
 	}
 }
