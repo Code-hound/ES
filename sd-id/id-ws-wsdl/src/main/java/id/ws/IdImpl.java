@@ -68,12 +68,6 @@ public class IdImpl implements SDId {
                 break;
             }
     }
-    
-    /*
-     * 
-     * Talvez tenha que adicionar o campo emial.
-     * 
-     */
 
     public String sayHello(String name) {
         return "Hello " + name + "!";
@@ -127,6 +121,13 @@ public class IdImpl implements SDId {
             }
             
             // FALTA O PARSER
+            
+            /*
+        	 * ?PERGUNTA?
+        	 * 
+        	 * Como implementar o Parser?
+        	 * 
+        	 */
             
             if(pstmt != null) {
             	pstmt.close();
@@ -184,6 +185,14 @@ public class IdImpl implements SDId {
         checkConnection();
         
         // CARE
+        
+        /*
+    	 * ?PERGUNTA?
+    	 * 
+    	 * Como implementar o random para este caso?
+    	 * 
+    	 */
+        
         Random rand = new Random();
         int randomNum = rend.nextInt((max - min) + 1) + min;
         
@@ -212,7 +221,24 @@ public class IdImpl implements SDId {
             // FIXME
             String sqlEmmitCheck = "INSERT INTO check (userId) VALUE (?,?,?);";
             pstmt = conn.prepareStatement(sqlEmmitCheck, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, userId);
+            
+            /*
+        	 * ?PERGUNTA?
+        	 * 
+        	 * Saber se a pass e actualizada assim? cc como e?
+        	 * 
+        	 */
+            
+            pstmt.setString(1, userId + "randomNum");
+            
+            /*
+        	 * ?PERGUNTA?
+        	 * 
+        	 * Para imprimir basta isto?
+        	 * 
+        	 */
+            
+            System.out.println(pstmt.setString(1, userId + "randomNum"));
             
             pstmt.executeUpdate();
             rs = pstmt.getGeneratedKeys();
@@ -259,5 +285,33 @@ public class IdImpl implements SDId {
 		// Exception se o utilizador não existe ou password incorrecta.
 		return null;
 	}
+	
+	
+	
+	// -----> EXTRA <-----
+	
+	/*
+	 * ?PERGUNTA?
+	 * 
+	 * Perguntar se o que se segue e necessario?
+	 * 
+	 */
+	
+	/*
+     * printSQLExceptions - imprime para o ecra informacao detalhada de quaisquer excepcoes de SQL que tenham
+     * ocorrido e que ainda nao tenham sido reportados.
+     */
+    private void printSQLExceptions(SQLException e) {
+        /* SQLException specific information */
+        while (e != null) {
+            System.out.println("SQLException detailed information");
+            System.out.println("Message: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("ErrorCode: " + e.getErrorCode());
+            e = e.getNextException();
+        }
+    }
 
+    
+    System.out.println("Ola");
 }
