@@ -5,12 +5,17 @@ package pt.tecnico.bubbledocs.service;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
 
 import org.jdom2.output.XMLOutputter;
+
 import java.io.UnsupportedEncodingException;
 
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.ExportDocumentException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
+import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
+import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
+import pt.tecnico.bubbledocs.service.remote.StoreRemoteServices;
+
 
 /*
  * Export Document
@@ -40,6 +45,7 @@ public class ExportDocument extends BubbleDocsService {
 
 	@Override
 	protected void dispatch() throws BubbleDocsException {
+		StoreRemoteServices service = new StoreRemoteServices();
 		org.jdom2.Document jdomDoc = new org.jdom2.Document();
 
 		String username = getBubbleDocs().getUsernameLoggedInByToken(userToken);
@@ -52,11 +58,19 @@ public class ExportDocument extends BubbleDocsService {
 			throw new InvalidAccessException(username, sheetId);
 
 		jdomDoc.setRootElement(sheet.exportToXML());
+		//throws ExportDocumentException
 		try {
 			result = xml.outputString(jdomDoc).getBytes("UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			 e.printStackTrace();
+			e.printStackTrace();
 			throw new ExportDocumentException();
+		}
+
+		//throws CannotStoreDocumentException and UnavailableServiceException
+		try {
+			service.storeDocument(username, sheet.getSpreadSheetName(), result);
+		} catch(RemoteInvocationException e) {
+			throw new UnavailableServiceException();
 		}
 	}
 

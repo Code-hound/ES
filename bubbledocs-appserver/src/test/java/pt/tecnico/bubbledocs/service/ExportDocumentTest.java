@@ -1,28 +1,25 @@
 package pt.tecnico.bubbledocs.service;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.UnsupportedEncodingException;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-import org.jdom2.output.XMLOutputter;
 
+import mockit.Mock;
+import mockit.MockUp;
 import pt.tecnico.bubbledocs.domain.User;
-import pt.tecnico.bubbledocs.domain.SpreadSheet;
 import pt.tecnico.bubbledocs.exception.InvalidAccessException;
-import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
+import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
+import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
+import pt.tecnico.bubbledocs.exception.CannotStoreDocumentException;
+import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
+import pt.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
 public class ExportDocumentTest extends BubbleDocsServiceTest {
-
-	private static XMLOutputter xml = new XMLOutputter();
 	
     // the tokens
-	private String ownerToken;
-	private String noAccessToken;
-	private SpreadSheet sheet;
+	private String userToken;
 	private int sheetId;
-	private byte[] result;
 
 	//User-Owner
 	private final String USERNAME_OWNER = "username_owner";
@@ -40,49 +37,62 @@ public class ExportDocumentTest extends BubbleDocsServiceTest {
 	private final String NAME = "sheet";
 	private final int ROW     = 10;
 	private final int COLUMN  = 10;
-	private final int SHEETID_INVALID = -1;
-	private final String USERTOKEN_INVALID = "error";
 
     @Override
     public void populate4Test() {
 		User owner = createUser(USERNAME_OWNER, PASSWORD_OWNER, NAMEUSER_OWNER, EMAIL_OWNER);
 		createUser(USERNAME_NO_ACCESS, PASSWORD_NO_ACCESS, NAMEUSER_NO_ACCESS, EMAIL_NO_ACCESS);
 	
-		this.ownerToken    = addUserToSession(USERNAME_OWNER);
-		this.noAccessToken = addUserToSession(USERNAME_NO_ACCESS);
-		
-		this.sheet   = createSpreadSheet(owner, NAME, ROW, COLUMN);
-		this.sheetId = this.sheet.getId();
-		try {
-			this.result  = xml.outputString(this.sheet.exportToXML()).getBytes("UTF-8");
-		} catch (UnsupportedEncodingException ex) {
-		}
+		this.userToken = addUserToSession(USERNAME_OWNER);
+		this.sheetId   = createSpreadSheet(owner, NAME, ROW, COLUMN).getId();
     }
 
     @Test
     public void success() {
-        ExportDocument service = new ExportDocument(this.ownerToken, this.sheetId);
+        ExportDocument service = new ExportDocument(this.userToken, this.sheetId);
         service.execute();
-        assertEquals(service.getResult(), this.result);
+        assertNotNull(service.getResult());
     }
 
 	@Test (expected = UserNotInSessionException.class)
     public void InvalidUser() {
-        ExportDocument service = new ExportDocument(USERTOKEN_INVALID, this.sheetId);
-        service.execute();
-    }
-    
-    @Test(expected = DocumentDoesNotExistException.class)
-    public void InvalidDocument() {
-        ExportDocument service = new ExportDocument(this.ownerToken, SHEETID_INVALID);
-        service.execute();
+		this.userToken = "error";
+		success();
     }
 
     @Test(expected = InvalidAccessException.class)
     public void InvalidAccess() {
-        ExportDocument service = new ExportDocument(this.noAccessToken, this.sheetId);
-        service.execute();
+    	this.userToken = addUserToSession(USERNAME_NO_ACCESS);
+    	success();
+    }	
+	
+    @Test(expected = DocumentDoesNotExistException.class)
+    public void InvalidDocument() {
+    	this.sheetId = -1;
+    	success();
+    }
+    
+    @Test(expected = UnavailableServiceException.class)
+    public void InvalidService() {
+    	new MockUp<StoreRemoteServices>() {
+    		@Mock
+    		public void storeDocument(String username, String SpreadSheetName, byte[] result)
+    				throws CannotStoreDocumentException, RemoteInvocationException {
+    			throw new RemoteInvocationException();
+    		}
+    	};
+    	success();
     }
 
-
+    @Test(expected = CannotStoreDocumentException.class)
+    public void InvalidStorage() {
+    	new MockUp<StoreRemoteServices>() {
+    		@Mock
+    		public void storeDocument(String username, String SpreadSheetName, byte[] result)
+    				throws CannotStoreDocumentException, RemoteInvocationException {
+    			throw new CannotStoreDocumentException(SpreadSheetName);
+    		}
+    	};
+    	success();
+    }
 }
