@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import java.util.Random;
+
 import javax.jws.*;
 
 import pt.ulisboa.tecnico.sdis.id.ws.*; // classes generated from WSDL
@@ -142,6 +144,8 @@ public class IdImpl implements SDId {
                 id = String.valueOf(rs.getString(1));
             }
             
+            
+            
             conn.commit();
         } catch (SQLException e) {
         	System.out.println("IdImpl.createUser() error: couldn't execute query - " + e);
@@ -172,6 +176,74 @@ public class IdImpl implements SDId {
 		// TODO Auto-generated method stub
 		// Apresenta nova senha na consola de serviço.
 		
+		String id = "";
+		private int min = 0;
+		private int max = 1000;
+		
+		// Make sure you're connected
+        checkConnection();
+        
+        // CARE
+        Random rand = new Random();
+        int randomNum = rend.nextInt((max - min) + 1) + min;
+        
+        try {
+        	conn.setAutoCommit(false);
+        	
+        	// Find out if the user exists in the DB
+        	String sqlCheckerUser = "SELECT username FROM user WHERE username = ?;"; // FIXME
+        	pstmt = conn.prepareStatement(sqlCheckUser);
+            pstmt.setString(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if(!rs.next() != null) {
+            	UserDoesNotExist udne = new UserDoesNotExist();
+                String errorMsg = String.format("O utilizador %s não existe na base de dados.", userId);
+                iu.setMessage(errorMsg);
+                iu.setUserId(userId);
+                throw new UserDoesNotExist_Exception(errorMsg, udne);
+            }
+            
+            if(pstmt != null) {
+            	pstmt.close();
+            }
+            
+            // Insert a new check into the system
+            // FIXME
+            String sqlEmmitCheck = "INSERT INTO check (userId) VALUE (?,?,?);";
+            pstmt = conn.prepareStatement(sqlEmmitCheck, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, userId);
+            
+            pstmt.executeUpdate();
+            rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                id = String.valueOf(rs.getString(1));
+            }
+            
+            conn.commit();
+        } catch (SQLException e) {
+        	System.out.println("IdImpl.createUser() error: couldn't execute query - " + e);
+            try {
+                /* undo all changes to database */
+                System.out.println("IdImpl.createUser(): Rollback update");
+                conn.rollback();
+            } catch (SQLException e2) {
+                System.out.println("IdImpl.createUser(): SQL exception while attempting rollback " + e2);
+            }
+            
+            printSQLExceptions(e);
+        } finally {
+            try {
+                if(pstmt != null)
+                    pstmt.close();
+                conn.setAutoCommit(true);
+            } catch (SQLException e) {
+                System.out.println("IdImpl.createUser() error attempting to wind down transaction: " + e);
+                printSQLExceptions(e);
+            }
+        }
+        
+        return id;
 	}
 
 	public void removeUser(String userId) throws UserDoesNotExist_Exception {
