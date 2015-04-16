@@ -66,7 +66,7 @@ public class ExportDocument extends BubbleDocsService {
 			throw new ExportDocumentException();
 		}
 
-		//throws CannotStoreDocumentException and UnavailableServiceException
+		//throws UnavailableServiceException
 		try {
 			service.storeDocument(username, sheet.getSpreadSheetName(), result);
 		} catch(RemoteInvocationException e) {
