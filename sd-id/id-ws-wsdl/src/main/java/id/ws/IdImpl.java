@@ -11,6 +11,14 @@ import java.util.Random;
 
 import javax.jws.*;
 
+import java.io.IOException;
+import java.io.File;
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import pt.ulisboa.tecnico.sdis.id.ws.*; // classes generated from WSDL
 
 @WebService(
@@ -271,6 +279,13 @@ public class IdImpl implements SDId {
         
         return id;
 	}
+	
+	/*
+	 * ?PERGUNTA?
+	 * 
+	 * Como e que e que devemos apagar? Algo tipo deleteUser de ES?
+	 * 
+	 */
 
 	public void removeUser(String userId) throws UserDoesNotExist_Exception {
 		// TODO Auto-generated method stub
@@ -283,7 +298,41 @@ public class IdImpl implements SDId {
 		// Confirma correcção dos argumentos
 		// Retorna array com 1 byte, valor '(byte) 1'
 		// Exception se o utilizador não existe ou password incorrecta.
-		return null;
+		
+		/*
+    	 * ?PERGUNTA?
+    	 * 
+    	 * Como e que acho a pass remota e a local?
+    	 * 
+    	 */
+		
+		String userpath = getUserPath(userId);
+    	// File file = new File(userpath);
+    	// float fileSize = file.length();
+    	
+    	//WARNING: casting float as int may not be safe
+    	
+    	byte[] content = new byte[(int)fileSize];
+    	FileInputStream reader;
+    	BufferedInputStream bufferedReader = null;
+    	
+    	try {
+    		AuthReqFailed udne = new AuthReqFailed();
+            String errorMsg = String.format("Falha com o user %s ao requisitar autenticação.", userId);
+            iu.setMessage(errorMsg);
+            iu.setUserId(userId);    		
+    		
+    		reader = new FileInputStream(file);
+    		bufferedReader = new BufferedInputStream(reader);
+    		bufferedReader.read(content);
+    		bufferedReader.close();
+    		
+    		throw new AuthReqFailed_Exception(errorMsg, udne);
+    	} catch (IOException ex) {
+    		System.out.println("Failed IO");
+    	}
+    	
+    	return content;
 	}
 	
 	
