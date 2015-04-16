@@ -10,6 +10,8 @@
 
     <modules>
         <module>bubbledocs-appserver</module>
+        <module>sd-id</module>
+        <module>sd-store</module>
         <!-- Add modules here... -->
     </modules>
 

@@ -60,6 +60,13 @@ public class IdImpl implements SDId {
     /*
      * checkConnection - verifica que a ligacao a base de dados se encontra aberta. Caso por alguma razao
      * se tenha fechado, tenta reestabelecer a ligacao.
+     * 
+     * NÃO UTILIZAR BASE DE DADOS, eliminar a complexidade do IdImpl pois não é preciso ser persistente,
+     * os objectos devem ser guardados aqui, num vector (sugerido pelo prof),
+     * cada posição vai ter um User com nome, senha e email.
+     * 
+     * Criar função ---populate--- com dados de teste indicados a seguir, armazenando-os no vector criado:
+     * 			http://disciplinas.tecnico.ulisboa.pt/leic-sod/2014-2015/labs/proj/test.html
      */
     
     private void checkConnection() {
@@ -68,10 +75,10 @@ public class IdImpl implements SDId {
                 Class.forName(dbDriver);
                 conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
             } catch (SQLException e) {
-                System.out.println("ChequeRefeicaoImpl error: couldn't establish connection to database - " + e);
+                System.out.println("IdImpl error: couldn't establish connection to database - " + e);
                 printSQLExceptions(e);
             } catch (ClassNotFoundException e) {
-                System.out.println("ChequeRefeicaoImpl error: couldn't load sql driver - " + e);
+                System.out.println("IdImpl error: couldn't load sql driver - " + e);
                 e.printStackTrace();
                 break;
             }
@@ -92,7 +99,9 @@ public class IdImpl implements SDId {
 		String userIdVazio = "";
 		String userIdNull = null;
 		
-		// Make sure you're connected
+		// Make sure you're connected. NAO É NECESSARIO!!!
+		// Apenas adicionar o User da criaçao no vector e gerar a sua senha (pode ser a letra inicial do nome repetida 3 vezes e um numero inteiro)
+		// Assim, seguiamos o exemplo dos dados de teste. Alice -> senha aaa1
         checkConnection();
         
         try {
@@ -133,7 +142,8 @@ public class IdImpl implements SDId {
             /*
         	 * ?PERGUNTA?
         	 * 
-        	 * Como implementar o Parser?
+        	 * Como implementar o Parser? 
+        	 * RETIRAR BASE DE DADOS
         	 * 
         	 */
             
@@ -189,7 +199,7 @@ public class IdImpl implements SDId {
 		private int min = 0;
 		private int max = 1000;
 		
-		// Make sure you're connected
+		// Make sure you're connected. RETIRAR
         checkConnection();
         
         // CARE
@@ -198,6 +208,10 @@ public class IdImpl implements SDId {
     	 * ?PERGUNTA?
     	 * 
     	 * Como implementar o random para este caso?
+    	 * 
+    	 * A senha para Alice, de acordo com os dados de teste, é aaa1.
+    	 * Para renovar podemos ir buscar a senha que corresponde ao userId Alice e adicionar 1 à String, ficando aaa11.
+    	 * Somar para ficar aaa2 acho mais complicado, uma vez que a senha é armazenada como String.
     	 * 
     	 */
         
@@ -234,15 +248,19 @@ public class IdImpl implements SDId {
         	 * ?PERGUNTA?
         	 * 
         	 * Saber se a pass e actualizada assim? cc como e?
+        	 *	retirar base de dados
         	 * 
         	 */
             
             pstmt.setString(1, userId + "randomNum");
             
             /*
-        	 * ?PERGUNTA?
         	 * 
-        	 * Para imprimir basta isto?
+        	 * 
+	    	 * A senha para Alice, de acordo com os dados de teste, é aaa1.
+	    	 * Para renovar podemos ir buscar a senha que corresponde ao userId Alice e adicionar 1 à String, ficando aaa11.
+	    	 * Somar para ficar aaa2 acho mais complicado, uma vez que a senha é armazenada como String.
+	    	 * depois é só imprimir, sim.
         	 * 
         	 */
             
@@ -284,6 +302,7 @@ public class IdImpl implements SDId {
 	 * ?PERGUNTA?
 	 * 
 	 * Como e que e que devemos apagar? Algo tipo deleteUser de ES?
+	 * Vector de objectos User, buscar pelo userId... user=null
 	 * 
 	 */
 
@@ -302,7 +321,8 @@ public class IdImpl implements SDId {
 		/*
     	 * ?PERGUNTA?
     	 * 
-    	 * Como e que acho a pass remota e a local?
+    	 * Ir buscar ao vector de Users pelo userId e ver se a password corresponde. Nao é preciso buscar nada
+    	 * (porque ES ainda nao está ligado a SD)
     	 * 
     	 */
 		
@@ -342,7 +362,7 @@ public class IdImpl implements SDId {
 	/*
 	 * ?PERGUNTA?
 	 * 
-	 * Perguntar se o que se segue e necessario?
+	 * Perguntar se o que se segue e necessario? remover BD
 	 * 
 	 */
 	

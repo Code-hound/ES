@@ -23,7 +23,7 @@ public class IdClient implements SDId {
     	createStub();
     }
     
-    public StoreClient(String wsURL) throws StoreClientException {
+    public IdClient(String wsURL) throws IdClientException {
     	this.wsURL = wsURL;
         createStub();
     }

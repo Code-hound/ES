@@ -61,7 +61,7 @@ public class ImplementationTests {
 	}	
 	
 	
-	// TESTS FOR PASSWORD RENEWING
+	// TESTS FOR PASSWORD RENEWING XXX
 	@Test
 	public void renewSuccess() {
 		/*FIX ME*/
@@ -97,7 +97,7 @@ public class ImplementationTests {
 		/*FIX ME*/
 	}
 	
-	@Test(expected = AuthReqFailed_Exception.class)
+	@Test(expected = AuthReqFailed_Exception.class) XXX
 	public void testIncorrectPassword(){
 		/*FIX ME*/
 	}
