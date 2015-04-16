@@ -116,7 +116,15 @@ public class IdImpl implements SDId {
                 throw new UserAlreadyExists_Exception(errorMsg, uae);
             }
             
+            if(!rs.next() != null) {
+            	EmailAlreadyExists eae = new EmailAlreadyExists();
+                String errorMsg = String.format("O E-Mail %s já existe na base de dados.", emailAddress);
+                iu.setMessage(errorMsg);
+                iu.setEmailAddress(emailAddress);
+                throw new UserAlreadyExists_Exception(errorMsg, eae);
+            }
             
+            // FALTA O PARSER
             
             if(pstmt != null) {
             	pstmt.close();
