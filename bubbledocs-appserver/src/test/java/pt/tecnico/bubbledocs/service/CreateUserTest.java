@@ -11,19 +11,14 @@ import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.exception.UnknownBubbleDocsUserException;
 import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
 import pt.tecnico.bubbledocs.exception.UserAlreadyExistsException;
-import pt.tecnico.bubbledocs.exception.EmptyUsernameException;
+import pt.tecnico.bubbledocs.exception.InvalidUsernameException;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 
 public class CreateUserTest extends BubbleDocsServiceTest {
 	
 	/*
-	 * Falta fazer o Teste de mail vazio.
-	 * 
-	 * Como e que trato a excepcao de pass vazia?
-	 * 
 	 * @author: Francisco Maria Calisto
-	 * 
 	 */
 
 	// the tokens
@@ -38,19 +33,20 @@ public class CreateUserTest extends BubbleDocsServiceTest {
 
 	@Override
 	public void populate4Test() {
-		createUser(USERNAME, PASSWORD, "António Rito Silva", "email@email.email");
+		createUser(USERNAME, PASSWORD, "email@email.email", "António Rito Silva");
         root = addUserToSession("root");
         ars = addUserToSession("ars");
 	}
 
 	@Test
 	public void success() {
-		CreateUser service = new CreateUser(root, USERNAME_DOES_NOT_EXIST, "José Ferreira", "email@email.email");
+		CreateUser service = new CreateUser
+				(root, USERNAME_DOES_NOT_EXIST, "email@email.email", "José Ferreira");
 		service.execute();
 		
 		User user = getUserFromUsername(USERNAME_DOES_NOT_EXIST);
 		assertEquals(USERNAME_DOES_NOT_EXIST, user.getUsername());
-		assertEquals("jose", user.getPassword());
+		assertEquals("email@email.email", user.getEmail());
 		assertEquals("José Ferreira", user.getName());
 	}
 
@@ -60,14 +56,19 @@ public class CreateUserTest extends BubbleDocsServiceTest {
 		service.execute();
 	}
 
-	@Test(expected = EmptyUsernameException.class)
+	@Test(expected = InvalidUsernameException.class)
 	public void emptyUsername() {
 		CreateUser service = new CreateUser(root, "", "jose", "José Ferreira");
 		service.execute();
 	}
-
-	// TODO
-
+	
+	@Test(expected = InvalidUsernameException.class)
+	public void hugeUsername() {
+		CreateUser service = new CreateUser
+				(root, "lookathowlongthisusernameis", "jose", "José Ferreira");
+		service.execute();
+	}
+	
 	@Test(expected = UnauthorizedOperationException.class)
 	public void unauthorizedUserCreation() {
 		CreateUser service = new CreateUser(ars, USERNAME_DOES_NOT_EXIST,

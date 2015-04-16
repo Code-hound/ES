@@ -41,16 +41,21 @@ public class CreateSpreadSheet extends BubbleDocsService {
 	protected void dispatch() {
 		BubbleDocs bd = getBubbleDocs();
 		
-		try {
+		//try {
 			User user = bd.getUserLoggedInByToken(userToken);
+			
+			resetUserLastAccess(user);
+			
 			if (user != null) {
 				SpreadSheet sheet = bd.createSpreadSheet(user, spreadsheetName, numRows,
 						numColumns);
 				this.id = sheet.getId();
 			}
+		/*
 		}
 		catch (UserNotInSessionException | UserAlreadyHasThisDocumentException ex) {
 			System.out.println(ex.getMessage());
 		}
+		*/
 	}
 }

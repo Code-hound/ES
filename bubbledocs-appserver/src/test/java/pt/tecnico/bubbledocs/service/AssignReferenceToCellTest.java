@@ -82,37 +82,32 @@ public class AssignReferenceToCellTest extends BubbleDocsServiceTest {
 
 		DOC = createSpreadSheet(OWNER, NAME, ROW_NUMBER, COLUMN_NUMBER);
 		bd.addAccessToSpreadSheet(WRITE, DOC, "writer");
-		//System.out.println("Test received permission level "+DOC.getUserPermissionLevel(USERNAME_OWNER));
 		bd.addAccessToSpreadSheet(READ, DOC, "reader");
-		/*
-		Cell A = DOC.getCell(1,1);
-		Cell B = DOC.getCell(2,2);
-		Cell C = DOC.getCell(3,3);
-		Cell D = DOC.getCell(4,4);
-		Cell E = DOC.getCell(5,5);
-		Cell F = DOC.getCell(6,6);
-		*/
-		//DOC_INVALID = createSpreadSheet(OWNER_INVALID, NAME_INVALID,
-		//		ROW_INVALID, COLUMN_INVALID);
 		
 	}
 	
 	@Test 
 	public void success() {
-		//Owner assigns the reference "1;2" to cell A "1;1"
+		//Owner assigns to cell A "1;1" a reference to cell "1;2" 
 		AssignReferenceToCell service_owner = new AssignReferenceToCell
-				(OWNER_TOKEN, DOC.getId(), "1;2", "1;1");
+				(OWNER_TOKEN, DOC.getId(), "1;1", "1;2");
+		AssignLiteralToCell service_aux = new AssignLiteralToCell
+				(OWNER_TOKEN, DOC.getId(), "1;2", "4");
 		service_owner.execute();
+		service_aux.execute();
 		
 		//Writer assigns the reference "1;1" to cell B "2;2"
-		/*AssignReferenceToCell service_writer = new AssignReferenceToCell
+		AssignReferenceToCell service_writer = new AssignReferenceToCell
 				(WRITE_TOKEN, DOC.getId(), "2;2", "1;1");
 		service_writer.execute();
-		*/
-		assertEquals(service_owner.getResult(), "1;1");
-		assertEquals(DOC.getCell(1,2).getValue(), "1;1");
-		//assertEquals(service_writer.getResult(), "1;1");
-		//assertEquals(DOC.getCell(2,2).getValue(), "1;1");
+		
+		//Checks if the value returned by the service is the referenced cell ID
+		assertEquals("1;2", service_owner.getResult());
+		//Checks if the value in 1;1 is the value in 1;2
+		assertEquals(4, DOC.getCell(1,1).getValue());
+		
+		assertEquals(service_writer.getResult(), "1;1");
+		assertEquals(DOC.getCell(2,2).getValue(), 4);
 	}
 	
 	@Test (expected = UserCantWriteException.class)

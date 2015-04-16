@@ -12,7 +12,7 @@ public class Reference extends Reference_Base {
 	public Reference(SpreadSheet sheet, int row, int column) {
 		super();
 		for (Cell c : sheet.getCellsSet()) {
-			if (c.getCellColumn() == row && c.getCellRow() == column) {
+			if (c.getCellRow() == row && c.getCellColumn() == column) {
 				setCellReference(c);
 				break;
 			}

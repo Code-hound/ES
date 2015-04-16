@@ -1,6 +1,6 @@
 package pt.tecnico.bubbledocs.exception;
 
-public class EmptyUsernameException extends BubbleDocsException {
+public class InvalidUsernameException extends BubbleDocsException {
 
 	/*
 	 * EMPTY USERNAME EXCEPTION
@@ -14,7 +14,7 @@ public class EmptyUsernameException extends BubbleDocsException {
 
 	//private String userName; // userName
 
-	public EmptyUsernameException() {
+	public InvalidUsernameException() {
 		super();
 	}
 	
@@ -26,7 +26,7 @@ public class EmptyUsernameException extends BubbleDocsException {
 
 	@Override
 	public String getMessage() {
-		return "User field is empty.";
+		return "Username must be no shorter than 3 characters and no longer than 8.";
 	}
 
 }

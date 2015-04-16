@@ -2,6 +2,7 @@
 package pt.tecnico.bubbledocs.service;
 
 import pt.tecnico.bubbledocs.domain.Reference;
+import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
 import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 import pt.tecnico.bubbledocs.exception.UserCantWriteException;
@@ -36,10 +37,13 @@ public class AssignReferenceToCell extends BubbleDocsService {
 
 	@Override
 	protected void dispatch() {
+		User user = getBubbleDocs().getUserLoggedInByToken(tokenUser);
 
-		username = getBubbleDocs().getUsernameLoggedInByToken(tokenUser);
-		if (username == null)
+		if (user == null)
 			throw new UserNotInSessionException(tokenUser);
+		
+		String username = user.getUsername();
+		resetUserLastAccess(user);
 
 		if(!getSpreadSheet(docId).canBeWrittenBy(username))
 			throw new UserCantWriteException(username, docId);
@@ -62,7 +66,8 @@ public class AssignReferenceToCell extends BubbleDocsService {
 			!(columnCellReference <= columnSpreadSheet))
 			throw new CellNotInSpreadSheetException(rowCellReference, columnCellReference, docId);
 
-		Reference referenceAux = new Reference(getSpreadSheet(docId), rowCellReference, columnCellReference);
+		Reference referenceAux = new Reference
+				(getSpreadSheet(docId), rowCellReference, columnCellReference);
 
 		if (referenceAux.getCellReference().getProtect())
 			throw new ProtectedCellException(rowCell, columnCell);
@@ -70,8 +75,6 @@ public class AssignReferenceToCell extends BubbleDocsService {
 		getSpreadSheet(docId).addContent(referenceAux, rowCell, columnCell);
 		//Cell rowCell;columnCell now has Content of type Reference
 		result = reference;
-
-		
 	}
 
 	public final String getResult() {

@@ -68,37 +68,6 @@ public class StoreImpl implements SDStore {
 			System.out.println(ex.getMessage());
 		}
 	}
-
-	/*
-		Element spreadsheet = new Element("spreadsheet");
-		spreadsheet.setAttribute("id", docUser.getDocumentId());
-		spreadsheet.setAttribute("ownerUsername", docUser.getUserId());
-		
-		Document document = new Document(spreadsheet);
-		
-		XMLOutputter xmlOutput = new XMLOutputter();
-		//Print on console
-		/*
-		try {
-			xmlOutput.output(document, System.out);
-		} catch (IOException ex) {
-			System.out.println(ex.getMessage());
-		}
-		
-		//Create a buffered file writer
-		try {
-			FileWriter writer = new FileWriter("stored_files/"+docUser.getDocumentId()+".xml");
-			BufferedWriter bufferedWriter = new BufferedWriter(writer);
-			
-			//Output the XML document through the buffered file writer
-			xmlOutput.setFormat(Format.getPrettyFormat());
-			xmlOutput.output(document, bufferedWriter);
-			
-			bufferedWriter.close();
-		} catch (IOException ex) {
-			System.out.println(ex.getMessage());
-		}
-	*/
 	
 	/*
 	 * 	Lists the document ids of the user's repository.
@@ -168,74 +137,12 @@ public class StoreImpl implements SDStore {
     
     // ========== END OF INTERFACE METHODS ==========
     
-    /*
-	private Element getElementFromFile (File file) {
-		//Creates a XML builder using the SAXBuilder class
-		SAXBuilder xmlBuilder = new SAXBuilder();
-		
-		try {
-			try {
-				//Generates a XML document through the XML builder using the imported document
-				Document document = xmlBuilder.build(file);
-				//Creates a new XML element equal to the root element from the document
-				Element element = document.getRootElement();
-				System.out.println("Printing document:");
-				System.out.println(document);
-				System.out.println("Printing root element:");
-				System.out.println(element);
-				System.out.println("Printing element contents:");
-				System.out.println(element.getContent());
-				for (int i = 0; i<element.getContent().size(); i++) {
-					System.out.println(element.getContent().get(i).getValue());
-				}
+   
 	
-	    		return element;
-			} catch (JDOMException ex) {
-				System.out.println(ex.getMessage());
-			}
-		} catch (IOException ex) {
-			System.out.println(ex.getMessage());
-		}
-		return null;
-	}
-	*/
-	
-	public void destroyFile (String id) {
+	public void destroyFile (String docId) {
 		String path = STORED;
-		destroyFile(id, path);
+		destroyFile(docId, path);
 	}
-
-	/*
-	private Element getElementFromFile (File file) {
-		//Creates a XML builder using the SAXBuilder class
-		SAXBuilder xmlBuilder = new SAXBuilder();
-		
-		try {
-			try {
-				//Generates a XML document through the XML builder using the imported document
-				Document document = xmlBuilder.build(file);
-				//Creates a new XML element equal to the root element from the document
-				Element element = document.getRootElement();
-				System.out.println("Printing document:");
-				System.out.println(document);
-				System.out.println("Printing root element:");
-				System.out.println(element);
-				System.out.println("Printing element contents:");
-				System.out.println(element.getContent());
-				for (int i = 0; i<element.getContent().size(); i++) {
-					System.out.println(element.getContent().get(i).getValue());
-				}
-	
-	    		return element;
-			} catch (JDOMException ex) {
-				System.out.println(ex.getMessage());
-			}
-		} catch (IOException ex) {
-			System.out.println(ex.getMessage());
-		}
-		return null;
-	}
-	*/
 	
 	private void destroyFile (String id, String path) {
 		File[] files = new File(path).listFiles();
@@ -249,6 +156,12 @@ public class StoreImpl implements SDStore {
 			}
 		}
 	}
+	
+	public void destroyRepository (String username) {
+		String path = getUserPath(username);
+		File repository = new File (path);
+		repository.delete();
+	}
 
 	private String getFilePath (DocUserPair docUser) {
     	return (String) getUserPath(docUser.getUserId())
@@ -258,36 +171,4 @@ public class StoreImpl implements SDStore {
 	private String getUserPath (String username) {
 		return (String) STORED + SEPARATOR + username;
 	}
-    
-    /*
-    private Element getElementFromFile (File file) {
-    	//Creates a XML builder using the SAXBuilder class
-    	SAXBuilder xmlBuilder = new SAXBuilder();
-    	
-    	try {
-    		try {
-    			//Generates a XML document through the XML builder using the imported document
-    			Document document = xmlBuilder.build(file);
-    			//Creates a new XML element equal to the root element from the document
-    			Element element = document.getRootElement();
-    			System.out.println("Printing document:");
-    			System.out.println(document);
-    			System.out.println("Printing root element:");
-    			System.out.println(element);
-    			System.out.println("Printing element contents:");
-    			System.out.println(element.getContent());
-    			for (int i = 0; i<element.getContent().size(); i++) {
-    				System.out.println(element.getContent().get(i).getValue());
-    			}
-
-	    		return element;
-    		} catch (JDOMException ex) {
-    			System.out.println(ex.getMessage());
-    		}
-    	} catch (IOException ex) {
-    		System.out.println(ex.getMessage());
-    	}
-    	return null;
-    }
-    */
 }

@@ -35,6 +35,10 @@ public class RemoveUser extends BubbleDocsService {
 			BubbleDocsException {
 		BubbleDocs bd = getBubbleDocs();
 		if (bd.checkIfRoot(userToken)) {
+			User root = getBubbleDocs().getUserLoggedInByToken(userToken);
+			
+			resetUserLastAccess(root);
+			
 			User user = getUser(toDeleteUsername); //throws UnknownBubbleDocsUserException
 			if (user==null)
 				throw new UnknownBubbleDocsUserException(toDeleteUsername);

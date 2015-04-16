@@ -2,8 +2,8 @@ package store.ws;
 
 import static org.junit.Assert.*;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.jdom2.Element;
 
@@ -17,14 +17,14 @@ import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
 import store.ws.StoreImpl;
 
 public class ImplementationTests {
-	private static final String USERNAME = "username";
+	private static final String USERNAME = "test_username";
 	private static final String SHEET_ID = "2205";
 	private static DocUserPair pair = new DocUserPair();
 	private static StoreImpl store = new StoreImpl();
 	private static final String CONTENT = "This project is getting really hard";
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	@Before
+	public void setUpBeforeClass() throws Exception {
 		pair.setUserId(USERNAME);
 		pair.setDocumentId(SHEET_ID);
 		
@@ -35,9 +35,10 @@ public class ImplementationTests {
 		}
 	}
 	
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
+	@After
+	public void tearDownAfterClass() throws Exception {
 		store.destroyFile(SHEET_ID);
+		store.destroyRepository(USERNAME);
 	}
 	
 	@Test

@@ -14,4 +14,9 @@ public class Session extends Session_Base {
 		setLastAccess(lastAccess);
 		setUser(user);
 	}
+	
+	public void resetLastAccess() {
+		DateTime lastAccess = new DateTime();
+		setLastAccess(lastAccess);
+	}
 }

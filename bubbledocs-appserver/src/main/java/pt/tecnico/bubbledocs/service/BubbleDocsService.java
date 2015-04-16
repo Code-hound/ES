@@ -19,6 +19,11 @@ public abstract class BubbleDocsService {
 	public static BubbleDocs getBubbleDocs() {
 		return BubbleDocs.getInstance();
 	}
+	
+	public static void resetUserLastAccess(User user) {
+		BubbleDocs bd = BubbleDocs.getInstance();
+		bd.resetUserLastAccess(user);
+	}
 
 	public static User getUser(String username) {
 		User user = getBubbleDocs().getUserByUsername(username);

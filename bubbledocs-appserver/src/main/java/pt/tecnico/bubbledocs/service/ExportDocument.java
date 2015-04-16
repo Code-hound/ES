@@ -3,6 +3,7 @@ package pt.tecnico.bubbledocs.service;
 //the needed import declarations
 
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
+import pt.tecnico.bubbledocs.domain.User;
 
 import org.jdom2.output.XMLOutputter;
 
@@ -45,12 +46,16 @@ public class ExportDocument extends BubbleDocsService {
 
 	@Override
 	protected void dispatch() throws BubbleDocsException {
+		User user = getBubbleDocs().getUserLoggedInByToken(userToken);
+		if (user == null)
+			throw new UserNotInSessionException(userToken);
+		
+		String username = user.getUsername();
+		resetUserLastAccess(user);
+		
 		StoreRemoteServices service = new StoreRemoteServices();
 		org.jdom2.Document jdomDoc = new org.jdom2.Document();
-
-		String username = getBubbleDocs().getUsernameLoggedInByToken(userToken);
-		if (username == null)
-			throw new UserNotInSessionException(userToken);
+		
 		//throws DocumentDoesNotExistException
 		SpreadSheet sheet = getSpreadSheet(sheetId);
 

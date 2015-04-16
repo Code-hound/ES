@@ -5,12 +5,11 @@ package pt.tecnico.bubbledocs.service;
 import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.Session;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
-
 import pt.tecnico.bubbledocs.exception.UnknownBubbleDocsUserException;
 import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
 import pt.tecnico.bubbledocs.exception.UserAlreadyExistsException;
 //import pt.tecnico.bubbledocs.exception.BubbleDocsException;
-import pt.tecnico.bubbledocs.exception.EmptyUsernameException;
+import pt.tecnico.bubbledocs.exception.InvalidUsernameException;
 
 /*
  * CREATE USER
@@ -33,6 +32,8 @@ public class CreateUser extends BubbleDocsService {
 	private String name;
 
 	public CreateUser(String userToken, String newUsername, String email, String name) {
+		if (newUsername.length() < 3 || newUsername.length() > 8)
+			throw new InvalidUsernameException();
 		this.userToken = userToken;
 		this.newUsername = newUsername;
 		// this.password = password;
@@ -41,9 +42,12 @@ public class CreateUser extends BubbleDocsService {
 	}
 
 	@Override
-	protected void dispatch() {
+	protected void dispatch() {		
 		BubbleDocs bd = getBubbleDocs();
 		if (bd.checkIfRoot(userToken)) {
+			User root = getBubbleDocs().getUserLoggedInByToken(userToken);
+			resetUserLastAccess(root);
+			
 			bd.createUser(newUsername, password, name, email);
 		}
 	}

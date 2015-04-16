@@ -16,7 +16,7 @@ public class BubbleDocs extends BubbleDocs_Base {
 		if (bubble == null) {
 			bubble = new BubbleDocs();
 		}
-
+		
 		return bubble;
 	}
 
@@ -47,7 +47,7 @@ public class BubbleDocs extends BubbleDocs_Base {
 	}
 
 	public User createUser(String newUserName, String newPassword, String newName, String newEmail) throws BubbleDocsException {
-		if (newUserName.length() == 0) throw new EmptyUsernameException();
+		if (newUserName.length() == 0) throw new InvalidUsernameException();
 		if (hasUserByUsername(newUserName)) throw new UserAlreadyExistsException(newUserName);
 		if (newEmail.length() == 0) throw new EmptyEmailException();
 		User newUser = new User(newUserName, newPassword, newName, newEmail);
@@ -116,6 +116,11 @@ public class BubbleDocs extends BubbleDocs_Base {
 				break;
 			}
 		}
+	}
+	
+	public void resetUserLastAccess (User user) {
+		Session session = user.getSession();
+		session.resetLastAccess();
 	}
 
 	public boolean hasUserLoggedInByToken(String userToken) {
