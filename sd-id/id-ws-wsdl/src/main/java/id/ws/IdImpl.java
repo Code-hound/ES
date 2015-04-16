@@ -85,6 +85,8 @@ public class IdImpl implements SDId {
 		// Apresenta a senha na consola de serviço.
 		
 		String id = "";
+		String userIdVazio = "";
+		String userIdNull = null;
 		
 		// Make sure you're connected
         checkConnection();
@@ -98,13 +100,23 @@ public class IdImpl implements SDId {
             pstmt.setString(1, userId);
             ResultSet rs = pstmt.executeQuery();
             
-            if(!rs.next() != null) {
-            	UserDoesNotExist udne = new UserDoesNotExist();
-                String errorMsg = String.format("O utilizador %s não existe na base de dados.", userId);
-                udne.setMessage(errorMsg);
-                udne.setUserId(userId);
-                throw new UserDoesNotExist_Exception(errorMsg, udne);
+            if(userId.equals(userIdVazio) || userId.equals(userIdNull)) {
+            	InvalidUser iu = new InvalidUser();
+                String errorMsg = String.format("O utilizador %s não é válido.", userId);
+                iu.setMessage(errorMsg);
+                iu.setUserId(userId);
+                throw new InvalidUser_Exception(errorMsg, iu);
             }
+            
+            if(!rs.next() != null) {
+            	UserAlreadyExists uae = new UserAlreadyExists();
+                String errorMsg = String.format("O utilizador %s já existe na base de dados.", userId);
+                iu.setMessage(errorMsg);
+                iu.setUserId(userId);
+                throw new UserAlreadyExists_Exception(errorMsg, uae);
+            }
+            
+            
             
             if(pstmt != null) {
             	pstmt.close();
