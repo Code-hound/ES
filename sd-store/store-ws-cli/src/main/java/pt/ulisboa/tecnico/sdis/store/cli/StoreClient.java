@@ -1,12 +1,38 @@
-package store.cli;
+package pt.ulisboa.tecnico.sdis.store.cli;
 
 import java.util.List;
 import java.util.Map;
+
 import javax.xml.ws.*;
 
 import pt.ulisboa.tecnico.sdis.store.ws.*;
+import uddi.UDDINaming;
 
 public class StoreClient implements SDStore {
+	
+	// PROXY METHODS - TO BE USED
+	public void createDoc(DocUserPair docUserPair)
+			throws DocAlreadyExists_Exception {
+		storeInterface.createDoc(docUserPair);
+	}
+
+	public List<String> listDocs(String userId)
+			throws UserDoesNotExist_Exception {
+		return storeInterface.listDocs(userId);
+	}
+
+	public void store(DocUserPair docUserPair, byte[] contents)
+			throws CapacityExceeded_Exception, DocDoesNotExist_Exception,
+			UserDoesNotExist_Exception {
+		storeInterface.store(docUserPair, contents);
+	}
+
+	public byte[] load(DocUserPair docUserPair)
+			throws DocDoesNotExist_Exception, UserDoesNotExist_Exception {
+		return storeInterface.load(docUserPair);
+	}
+	
+	// WEBSERVICE COMMUNICATION FUNCTIONALITIES
 	/** WS service */
 	private SDStore_Service storeService = null;
 	/** WS port (interface) */
@@ -47,25 +73,4 @@ public class StoreClient implements SDStore {
             requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, wsURL);
         }
     }
-	
-	public void createDoc(DocUserPair docUserPair)
-			throws DocAlreadyExists_Exception {
-		storeInterface.createDoc(docUserPair);
-	}
-
-	public List<String> listDocs(String userId)
-			throws UserDoesNotExist_Exception {
-		return storeInterface.listDocs(userId);
-	}
-
-	public void store(DocUserPair docUserPair, byte[] contents)
-			throws CapacityExceeded_Exception, DocDoesNotExist_Exception,
-			UserDoesNotExist_Exception {
-		storeInterface.store(docUserPair, contents);
-	}
-
-	public byte[] load(DocUserPair docUserPair)
-			throws DocDoesNotExist_Exception, UserDoesNotExist_Exception {
-		return storeInterface.load(docUserPair);
-	}
 }

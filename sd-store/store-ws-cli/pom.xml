@@ -48,10 +48,9 @@
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <mainclass>store.ws.StoreMain</mainclass>
 
-    <ws.name>SD-Store</ws.name>
-    <ws.url>http://localhost:8080/sd-store-ws/endpoint</ws.url>
+    <ws.name>SDStore</ws.name>
+    <ws.url>http://localhost:8080/sd-store-ws/endpoint?wsdl</ws.url>
     <uddi.url>http://localhost:8081</uddi.url>
   </properties>
   
