@@ -136,13 +136,13 @@ public class IdImpl implements SDId {
 			throw new InvalidUser_Exception;
 	    
 	    //verifica se o user id ou emailAdress ja existem
-        for(i = 0; i < listData().size; i++) {
+        for(i = 0; i < listData.size; i++) {
     		
-    		if(listUser[i][0] == userId) {
+    		if(listData[i][0] == userId) {
     			throw new UserAlreadyExists_Exception;
     		}
     		
-    		if(listUser[i][1] == emailAdress) {
+    		if(listData[i][1] == emailAdress) {
     			throw new EmailAlreadyExists_Exception;
     		}
     		
@@ -195,12 +195,18 @@ public class IdImpl implements SDId {
 		// TODO Auto-generated method stub
 		// Apresenta nova senha na consola de serviço.
 		
-		String id = "";
-		private int min = 0;
-		private int max = 1000;
+		String oldPass;
+		if(listData[i][0] == userId) {
+			oldPass = listData[i][2]
+			listData[i][2] = oldPass + oldPass.str.substring(3,4);
+			System.out.println(listData[i][2]);
+		}
+		else{
+			throw new UserDoesNotExist_Exception;
+		}
+	
 		
 		// Make sure you're connected. RETIRAR
-        checkConnection();
         
         // CARE
         
@@ -215,10 +221,6 @@ public class IdImpl implements SDId {
     	 * 
     	 */
         
-        Random rand = new Random();
-        int randomNum = rend.nextInt((max - min) + 1) + min;
-        
-        return id;
 	}
 	
 	/*
