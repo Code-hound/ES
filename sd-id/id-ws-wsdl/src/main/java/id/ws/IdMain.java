@@ -8,7 +8,7 @@ public class IdMain {
 
     public static void main(String[] args) {
         // Check arguments
-        if (args.length < 3) {
+        if (args.length < 5) {
             System.err.println("Argument(s) missing!");
             System.err.printf("Usage: java %s uddiURL wsName wsURL%n", IdMain.class.getName());
             return;
@@ -19,12 +19,11 @@ public class IdMain {
         String url = args[2];
         String dbUsername = args[3]; 
         String dbEmailAddress = args[4]; 
-        String dbPassword = args[5]; 
         
         Endpoint endpoint = null;
         UDDINaming uddiNaming = null;
         try {
-            endpoint = Endpoint.create(new IdImpl(dbUsername, dbPassword, dbEmailAddress));
+            endpoint = Endpoint.create(new IdImpl());
 
             // publish endpoint
             System.out.printf("Starting %s%n", url);

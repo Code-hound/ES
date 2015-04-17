@@ -2,6 +2,7 @@ package id.ws;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.lang.reflect.Array;
 import java.util.Random;
 
 import java.io.IOException;
@@ -42,12 +43,12 @@ import pt.ulisboa.tecnico.sdis.id.ws.*; // classes generated from WSDL
 
 public class IdImpl implements SDId {
 	
-    private String idUsername;
-    private String idPassword;
-    private String idEmail;
+    private static String idUsername;
+    private static String idPassword;
+    private static String idEmail;
     
-    public ArrayList<ArrayList<String>> listData = new ArrayList<ArrayList<String>>();
-    
+    //public ArrayList<ArrayList<String>> listData = new ArrayList<ArrayList<String>>();
+    private ArrayList<String[]> listData = new ArrayList<String[]>();
     
     
     /**
@@ -64,16 +65,16 @@ public class IdImpl implements SDId {
      * @author: Joao Pedro Zeferino
      * 
      */    
-    
-    public IdImpl(String idUsername, String idPassword, String idEmail) {
+    /*
+    public IdImpl() {
         this.idUsername = idUsername;
-        this.idPassword = idPassword;
+     //   this.idPassword = idPassword;
         this.idEmail = idEmail;
         
         // FIXME
         //checkConnection();
     }
-    
+    */
     
     /*
      * checkConnection - verifica que a ligacao a base de dados se encontra aberta. Caso por alguma razao
@@ -104,11 +105,11 @@ public class IdImpl implements SDId {
                 break;
             }
     }*/
-
+    /*
     public String sayHello(String name) {
         return "Hello " + name + "!";
     }
-
+	*/
 	public void createUser(String userId, String emailAddress)
 			throws EmailAlreadyExists_Exception,
 			       InvalidEmail_Exception,
@@ -118,44 +119,48 @@ public class IdImpl implements SDId {
 		// Gera senha alfanumerica e armazena em String.
 		// Apresenta a senha na consola de serviço.
 		
-		String id = "";
-		String userIdVazio = ""; // FIXME
-		String userIdNull = null; // FIXME
+		//String id = "";
+		//String userIdVazio = ""; // FIXME
+		//String userIdNull = null; // FIXME
+		if (userId == null || userId.length() == 0)
+			throw new InvalidUser_Exception("Invalid username.", new InvalidUser());
 		String str = userId + "";
-		String userLetter1 = str.substring(0,1);
+		String userLetter1 = "" + str.charAt(0);
 		
 		// Mover para private static int
-		int userIndex = listData.size() + 1;
-	    String userPassword = userLetter1.toUpperCase() + userLetter1 + userLetter1 + userIndex;
+		int userIndex = listData.size() +1;
+		
+	    String userPassword = 
+	    		userLetter1.toUpperCase() + userLetter1 + userLetter1 + userIndex;
 	    
 	    String[] auxEmail = emailAddress.split("@");
 		String auxEmail1 = auxEmail[0];
 		String auxEmail2 = auxEmail[1];
 		
+		
+		
 		if(auxEmail1.equals("") || auxEmail2.equals(""))
-			throw new InvalidEmail_Exception();
-			
-		if(userId == null || userId.equals(""))
-			throw new InvalidUser_Exception();
-	    
+			throw new InvalidEmail_Exception("Invalid email", new InvalidEmail());
+		
 	    //verifica se o user id ou emailAdress ja existem
-        for(i = 0; i < listData.size; i++) {
+        for(int i = 0; i < listData.size(); i++) {
     		
-    		if(userId.equals(listData[i][0])) {
-    			throw new UserAlreadyExists_Exception();
+    		if(userId.equals(listData.get(i)[0])) {
+    			throw new UserAlreadyExists_Exception
+    			("Invalid user ID", new UserAlreadyExists());
     		}
     		
-    		if(emailAdress.equals(listData[i][1])) {
-    			throw new EmailAlreadyExists_Exception();
+    		if(emailAddress.equals(listData.get(i)[1])) {
+    			throw new EmailAlreadyExists_Exception
+    			("Invalid email", new EmailAlreadyExists());
     		}
-    		
     	}
         
-    	public ArrayList<String> listUser = new ArrayList<String>();
+    	String[] listUser = new String[3];
     	
-    	listUser.add(userId);
-    	listUser.add(emailId);
-    	listUser.add(userPassword);
+    	listUser[0]=userId;
+    	listUser[1]=emailAddress;
+    	listUser[2]=userPassword;
     	
     	listData.add(listUser);
 	    
@@ -198,14 +203,17 @@ public class IdImpl implements SDId {
 		// Apresenta nova senha na consola de serviço.
 		
 		String oldPass;
-		if(userId.equals(listData[i][0])) {
-			oldPass = listData[i][2];
-			listData[i][2] = oldPass + oldPass.str.substring(3,4);
-			System.out.println(listData[i][2]);
+		for (int i=0; i<listData.size(); i++) {
+			if(userId.equals(listData.get(i)[0])) {
+				oldPass = listData.get(i)[2];
+				listData.get(i)[2] = oldPass + oldPass.substring(3,4);
+				System.out.println(listData.get(i)[2]);
+				return;
+			}
 		}
-		else{
-			throw new UserDoesNotExist_Exception();
-		}
+		throw new UserDoesNotExist_Exception
+			("User does not exist", new UserDoesNotExist());
+	}
 		
 		// Make sure you're connected. RETIRAR
         
@@ -221,8 +229,6 @@ public class IdImpl implements SDId {
     	 * Somar para ficar aaa2 acho mais complicado, uma vez que a senha é armazenada como String.
     	 * 
     	 */
-        
-	}
 	
 	/*
 	 * ?PERGUNTA?
@@ -236,19 +242,18 @@ public class IdImpl implements SDId {
 			throws UserDoesNotExist_Exception {
 		// TODO Auto-generated method stub
 			
-		for(i = 0; i < listData.size; i++) {
-			if(userId.equals(listData[i][0])) {
-					listData.remove(i);
-			}
-			else {
-				throw new UserDoesNotExist_Exception;
+		for(int i = 0; i < listData.size(); i++) {
+			if(userId.equals(listData.get(i)[0])) {
+				listData.remove(i);
+				return;
 			}
 		}
+		throw new UserDoesNotExist_Exception
+			("User does not exist", new UserDoesNotExist());
 	}
 
 	public byte[] requestAuthentication(String userId, byte[] reserved)
 			throws AuthReqFailed_Exception {
-		// TODO Auto-generated method stub
 		// Confirma correcção dos argumentos
 		// Retorna array com 1 byte, valor '(byte) 1'
 		// Exception se o utilizador não existe ou password incorrecta.
@@ -263,22 +268,16 @@ public class IdImpl implements SDId {
 		
 		
 		
-		for(i = 0; i < listData.size; i++) {
-			if(userId.equals(listData[i][0])) {
-				if(reserved.toString().equals(listData[i][2])) {
+		for(int i = 0; i < listData.size(); i++) {
+			if(userId.equals(listData.get(i)[0]) 
+						&& reserved.toString().equals(listData.get(i)[2])) {
 					byte [] response = new byte[1];
 					response[0] = '1';
 					
-					return responde;
-				}
-				else {
-					throw new AuthReqFailed_Exception;
-				}
-			}
-			else {
-				throw new AuthReqFailed_Exception;
+					return response;
 			}
 		}
+		throw new AuthReqFailed_Exception("Autentication Failed", new AuthReqFailed());
 	}
 	
 	// -----> EXTRA <-----
