@@ -133,9 +133,7 @@ public class IdImpl implements SDId {
 			throw new InvalidEmail_Exception;
 			
 		if(userId != "" || userId != null)
-			throw new InvalidUser_Exception;		
-		
-	    public ArrayList<String> listUser = new ArrayList<String>();
+			throw new InvalidUser_Exception;
 	    
 	    //verifica se o user id ou emailAdress ja existem
         for(i = 0; i < listData().size; i++) {
@@ -149,6 +147,8 @@ public class IdImpl implements SDId {
     		}
     		
     	}
+        
+    	public ArrayList<String> listUser = new ArrayList<String>();
     	
     	listUser.add(userId);
     	listUser.add(emailId);
@@ -229,8 +229,10 @@ public class IdImpl implements SDId {
 	 * 
 	 */
 
-	public void removeUser(String userId) throws UserDoesNotExist_Exception {
+	public void removeUser(String userId)
+			throws UserDoesNotExist_Exception {
 		// TODO Auto-generated method stub
+		
 		
 	}
 
