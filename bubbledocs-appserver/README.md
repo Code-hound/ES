@@ -58,7 +58,7 @@ Repositório:
 
 -------------------------------------------------------------------------------
 
-### Instruções de teste: ###
+### Estrutura do projecto: ###
 
     .
     |__ .classpath
