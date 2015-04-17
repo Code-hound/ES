@@ -34,7 +34,7 @@ Repositório:
 
 [1] Iniciar servidores de apoio
 JUDDI:
-> cd [pasta onde o servidor JUDDI se encontra]
+> $CATALINA_HOME/bin/startup.sh
 
 > chmod +x startup.sh
 
@@ -50,7 +50,7 @@ JUDDI:
 
 
 [3] Obter versão entregue
-> git clone https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/
+> git clone https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/R_3
 
 > (falta indicar a tag)
 
