@@ -18,7 +18,7 @@ João Pedro Clemente Zeferino
 
 
 Repositório:
-[tecnico-softeng-distsys-2015/A_29_59_63-project/sd-id](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/sd-id)
+[tecnico-softeng-distsys-2015/A_29_59_63-project](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project)
 
 
 -------------------------------------------------------------------------------
