@@ -21,15 +21,14 @@ import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 public class AssignReferenceToCell extends BubbleDocsService {
 
 	private String result;
-	private String tokenUser;
+	private String userToken;
 	private int docId;
 	private String cellId;
 	private String reference;
-	private String username;
 
-	public AssignReferenceToCell(String tokenUser, int docId, String cellId,
+	public AssignReferenceToCell(String userToken, int docId, String cellId,
 			String reference) {
-		this.tokenUser = tokenUser;
+		this.userToken = userToken;
 		this.docId = docId;
 		this.cellId = cellId;
 		this.reference = reference;
@@ -37,13 +36,12 @@ public class AssignReferenceToCell extends BubbleDocsService {
 
 	@Override
 	protected void dispatch() {
-		User user = getBubbleDocs().getUserLoggedInByToken(tokenUser);
 
-		if (user == null)
-			throw new UserNotInSessionException(tokenUser);
-		
-		String username = user.getUsername();
-		resetUserLastAccess(user);
+		String username = resetUserLastAccess(userToken);
+
+		//throws UserNotInSessionException
+		if (username == null)
+			throw new UserNotInSessionException(username);
 
 		if(!getSpreadSheet(docId).canBeWrittenBy(username))
 			throw new UserCantWriteException(username, docId);

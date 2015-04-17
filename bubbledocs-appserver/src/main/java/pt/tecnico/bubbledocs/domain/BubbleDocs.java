@@ -28,20 +28,6 @@ public class BubbleDocs extends BubbleDocs_Base {
 		addUsers(new User("root", "root", "rootroot", "email@email.email"));
 	}
 
-	private boolean isRoot (User user) {
-		return user.getUsername().equals("root");
-	}
-	
-	public boolean checkIfRoot (String userToken)
-			throws UnauthorizedOperationException, UserNotInSessionException {
-		User root = getUserLoggedInByToken (userToken);
-		if (root == null)
-			throw new UserNotInSessionException(userToken);
-		else if (!isRoot(root))
-			throw new UnauthorizedOperationException(root.getUsername());
-		return true;
-	}
-
 	private boolean hasUsers() {
 		return !getUsersSet().isEmpty();
 	}
@@ -118,9 +104,16 @@ public class BubbleDocs extends BubbleDocs_Base {
 		}
 	}
 	
-	public void resetUserLastAccess (User user) {
+	public String resetUserLastAccess (String userToken) {
+		User user = getUserLoggedInByToken(userToken);
+		
+		if (user == null)
+			return null;
+		
 		Session session = user.getSession();
 		session.resetLastAccess();
+
+		return user.getUsername();
 	}
 
 	public boolean hasUserLoggedInByToken(String userToken) {
@@ -233,13 +226,10 @@ public class BubbleDocs extends BubbleDocs_Base {
 		throw new DocumentDoesNotExistException(sheetName, date);
 	}
 
-	public SpreadSheet createSpreadSheet(User owner, String sheetName, int rows,
-			int columns) throws UserAlreadyHasThisDocumentException {
+	public SpreadSheet createSpreadSheet(User owner, String sheetName, int rows, int columns) {
 		
 		if (hasSpreadSheetByOwnerAndName(owner, sheetName))
-			throw new UserAlreadyHasThisDocumentException(owner.getUsername(), sheetName);
-		
-		//User user = getUserByUsername(username);
+			return null;
 			
 		SpreadSheet newSpreadSheet = new SpreadSheet(owner.getUsername(), getNextDocumentId(),
 				sheetName, rows, columns);

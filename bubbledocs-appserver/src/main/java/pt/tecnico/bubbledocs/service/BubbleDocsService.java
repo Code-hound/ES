@@ -20,9 +20,8 @@ public abstract class BubbleDocsService {
 		return BubbleDocs.getInstance();
 	}
 	
-	public static void resetUserLastAccess(User user) {
-		BubbleDocs bd = BubbleDocs.getInstance();
-		bd.resetUserLastAccess(user);
+	public static String resetUserLastAccess(String userToken) {
+		return getBubbleDocs().resetUserLastAccess(userToken);
 	}
 
 	public static User getUser(String username) {

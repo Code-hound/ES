@@ -1,8 +1,7 @@
 package pt.tecnico.bubbledocs.service;
 
-import pt.tecnico.bubbledocs.domain.BubbleDocs;
-import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
+import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.UserAlreadyHasThisDocumentException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 
@@ -25,8 +24,7 @@ public class CreateSpreadSheet extends BubbleDocsService {
 	private String userToken;
 	private int id;
 
-	public CreateSpreadSheet(String userToken, String name, int rows,
-			int columns) {
+	public CreateSpreadSheet(String userToken, String name, int rows, int columns) {
 		this.numRows = rows;
 		this.numColumns = columns;
 		this.spreadsheetName = name;
@@ -38,19 +36,20 @@ public class CreateSpreadSheet extends BubbleDocsService {
 	}
 
 	@Override
-	protected void dispatch() {
-		BubbleDocs bd = getBubbleDocs();
+	protected void dispatch() throws BubbleDocsException {
+
+		String username = resetUserLastAccess(userToken);
+
+		//throws UserNotInSessionException
+		if (username == null)
+			throw new UserNotInSessionException(username);
+
+		SpreadSheet sheet = getBubbleDocs().createSpreadSheet(getUser(username), spreadsheetName, numRows, numColumns);
 		
-		//try {
-			User user = bd.getUserLoggedInByToken(userToken);
-			
-			resetUserLastAccess(user);
-			
-			if (user != null) {
-				SpreadSheet sheet = bd.createSpreadSheet(user, spreadsheetName, numRows,
-						numColumns);
-				this.id = sheet.getId();
-			}
+		if (sheet == null)
+			throw new UserAlreadyHasThisDocumentException(username, spreadsheetName);
+		
+		this.id = sheet.getId();
 		/*
 		}
 		catch (UserNotInSessionException | UserAlreadyHasThisDocumentException ex) {

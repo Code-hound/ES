@@ -7,6 +7,8 @@ import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
+import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
+import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 /*
@@ -33,8 +35,15 @@ public class RemoveUser extends BubbleDocsService {
 	protected void dispatch() throws BubbleDocsException {
 		IDRemoteServices service = new IDRemoteServices();
 
-		//throws UserNotInSessionException and UnauthorizedOperationException
-		getBubbleDocs().checkIfRoot(userToken);
+		String username = resetUserLastAccess(userToken);
+
+		//throws UserNotInSessionException
+		if (username == null)
+			throw new UserNotInSessionException(username);
+		
+		//throws UnauthorizedOperationException
+		if (!username.equals("root"))
+			throw new UnauthorizedOperationException(username);
 
 		//throws UnavailableServiceException
 		try {
