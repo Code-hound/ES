@@ -3,7 +3,6 @@ package pt.tecnico.bubbledocs.service;
 //import id.ws;
 import pt.tecnico.bubbledocs.domain.Session;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
-import pt.tecnico.bubbledocs.exception.InvalidUserException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;

@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import mockit.Mock;
 import mockit.MockUp;
-import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
@@ -40,11 +39,11 @@ public class ExportDocumentTest extends BubbleDocsServiceTest {
 
     @Override
     public void populate4Test() {
-		User owner = createUser(USERNAME_OWNER, PASSWORD_OWNER, NAMEUSER_OWNER, EMAIL_OWNER);
 		createUser(USERNAME_NO_ACCESS, PASSWORD_NO_ACCESS, NAMEUSER_NO_ACCESS, EMAIL_NO_ACCESS);
 	
+		this.sheetId   = createSpreadSheet(createUser(USERNAME_OWNER, PASSWORD_OWNER, NAMEUSER_OWNER, EMAIL_OWNER),NAME, ROW, COLUMN).getId();
 		this.userToken = addUserToSession(USERNAME_OWNER);
-		this.sheetId   = createSpreadSheet(owner, NAME, ROW, COLUMN).getId();
+
     }
 
     @Test
