@@ -61,6 +61,7 @@ public class IdImpl implements SDId {
      * @param idEmail o email desse utilizador.
      * 
      * @author: Francisco Maria Calisto
+     * @author: Joao Pedro Zeferino
      * 
      */    
     
