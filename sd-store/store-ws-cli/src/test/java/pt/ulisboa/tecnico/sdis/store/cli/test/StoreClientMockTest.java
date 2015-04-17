@@ -49,6 +49,7 @@ public class StoreClientMockTest {
     /*
 	 * The mocked server fails on the second invocation
 	 */
+	 /*
     @Test
     public void mockServerExceptionOnSecondLoadCall(
     		@Mocked final SDStore_Service service,
@@ -84,6 +85,7 @@ public class StoreClientMockTest {
         	assertEquals("The document does not exist", e.getMessage());
         }
     }
+    */
     
     
     /*
