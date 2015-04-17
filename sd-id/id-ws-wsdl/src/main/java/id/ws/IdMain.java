@@ -17,9 +17,9 @@ public class IdMain {
         String uddiURL = args[0];
         String name = args[1];
         String url = args[2];
-        String dbUsername = args[3]; // FIXME
-        String dbEmailAddress = args[4]; // FIXME
-        String dbPassword = args[5]; // FIXME
+        String dbUsername = args[3]; 
+        String dbEmailAddress = args[4]; 
+        String dbPassword = args[5]; 
         
         Endpoint endpoint = null;
         UDDINaming uddiNaming = null;

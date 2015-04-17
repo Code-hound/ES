@@ -9,6 +9,10 @@ import org.jdom2.Element;
 
 import java.util.List;
 
+import pt.ulisboa.tecnico.sdis.id.ws.AuthReqFailed_Exception;
+import pt.ulisboa.tecnico.sdis.id.ws.InvalidUser_Exception;
+import pt.ulisboa.tecnico.sdis.id.ws.UserAlreadyExists_Exception;
+import pt.ulisboa.tecnico.sdis.id.ws.UserDoesNotExist_Exception;
 import pt.ulisboa.tecnico.sdis.id.ws.exception;
 import id.ws.IdImpl;
 
@@ -21,7 +25,7 @@ public class ImplementationTests {
     
 	private static createUser alice;
 
-	private static IdImpl id = new IdImpl();
+	private static IdImpl id = new IdImpl(ALICE_USERNAME,ALICE_EMAIL,  );
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -91,12 +95,12 @@ public class ImplementationTests {
 	
 	@Test(expected = AuthReqFailed_Exception.class)
 	public void testUserDoesNotExist(){
-		id.requestAuthentication("desconhecido","abcd");
+		id.requestAuthentication("desconhecido","abcd"); ///o arg 2 tem de ser byte[]
 	}
 	
 	@Test(expected = AuthReqFailed_Exception.class) XXX
 	public void testIncorrectPassword(){
-		id.requestAuthentication("alice","abcd");
+		id.requestAuthentication("alice","abcd"); ///o arg 2 tem de ser byte[]
 	}
 	
 	@AfterClass
