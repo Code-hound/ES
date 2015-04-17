@@ -46,14 +46,14 @@ public class MockTests {
     @Test(expected=WebServiceException.class)
     public void testMockServerException(
         @Mocked final SDId_Service service,
-        @Mocked final SDId idInterface port)
+        @Mocked final SDId port)
         throws Exception {
 
         // an "expectation block"
         // One or more invocations to mocked types, causing expectations to be recorded.
         new Expectations() {{
             new SDId_Service();
-            service.getCalcPort(); //FIX
+            service.getSDIdImplPort();
             result = port;
             port.renewPassword(anyUser);
             result = new WebServiceException("fabricated");
@@ -72,19 +72,19 @@ public class MockTests {
      */
     @Test
     public void testMockServerExceptionOnSecondCall(
-        @Mocked final CalcService service,
-        @Mocked final CalcPortType port)
+        @Mocked final SDId_Service service,
+        @Mocked final SDId port)
         throws Exception {
 
         // an "expectation block"
         // One or more invocations to mocked types, causing expectations to be recorded.
         new Expectations() {{
             new SDId_Service();
-            service.getCalcPort(); 
+            service.getSDIdImplPort(); 
             result = port;
             port.renewPassword(anyUser);
             // first call to sum returns the result
-            result = 3; // nao interessa, apenas a excepçao na second call
+            result = "aaa1";
             // second call throws an exception
             result = new WebServiceException("fabricated");
         }};
@@ -95,7 +95,7 @@ public class MockTests {
 
         // first call to mocked server
         try {
-            client.sum(1,2);
+            client.renewPassword("Alice");
         } catch(WebServiceException e) {
             // exception is not expected
             fail();
@@ -103,7 +103,7 @@ public class MockTests {
 
         // second call to mocked server
         try {
-            client.sum(1,2);
+            client.renewPassword("Alice");
             fail();
         } catch(WebServiceException e) {
             // exception is expected
@@ -117,34 +117,35 @@ public class MockTests {
      */
     @Test
     public void testMockServer(
-        @Mocked final CalcService service,
-        @Mocked final CalcPortType port)
+        @Mocked final SDId_Service service,
+        @Mocked final SDId port)
         throws Exception {
 
         // an "expectation block"
         // One or more invocations to mocked types, causing expectations to be recorded.
         new Expectations() {{
-            new CalcService();
-            service.getCalcPort(); result = port;
-            port.intdiv(anyInt, anyInt);
+            new SDId_Service();
+            service.getSDIdImplPort(); 
+            result = port;
+            port.removeUser(anyUser);
             // first call to intdiv returns any number
-            result = anyInt;
+            result = null;
             // second call throws an exception
-            result = new DivideByZero("fabricated", new DivideByZeroType());
+            result = new UserDoesNotExist_Exception("fabricated", new UserDoesNotExist_ExceptionType());
         }};
 
 
         // Unit under test is exercised.
-        CalcClient client = new CalcClient();
+        IdClient client = new IdClient();
 
         // first call to mocked server
-        client.intdiv(10,5);
+        client.removeUser("Alice");
 
         // second call to mocked server
         try {
-            client.intdiv(10,5);
+            client.removeUser("Alice");
             fail();
-        } catch(DivideByZero e) {
+        } catch(UserDoesNotExist_Exception e) {
             // exception is expected
             assertEquals("fabricated", e.getMessage());
         }
@@ -154,7 +155,7 @@ public class MockTests {
         // One or more invocations to mocked types, causing expectations to be verified.
         new Verifications() {{
             // Verifies that zero or one invocations occurred, with the specified argument value:
-            port.intdiv(anyInt, anyInt); maxTimes = 2;
+            port.removeUser(anyUser); maxTimes = 2;
         }};
     }
 
