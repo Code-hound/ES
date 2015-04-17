@@ -130,21 +130,21 @@ public class IdImpl implements SDId {
 		String auxEmail1 = String.parseString(auxEmail[0]);
 		String auxEmail2 = String.parseString(auxEmail[1]);
 		
-		if(auxEmail1 != "" || auxEmail1 != "")
+		if(!auxEmail1.equals("") || !auxEmail2.equals(""))
 			throw new InvalidEmail_Exception;
 			
-		if(userId != "" || userId != null)
-			throw new InvalidUser_Exception;
+		if(userId != null || !userId.equals(""))
+			throw new InvalidUser_Exception();
 	    
 	    //verifica se o user id ou emailAdress ja existem
         for(i = 0; i < listData.size; i++) {
     		
-    		if(listData[i][0] == userId) {
-    			throw new UserAlreadyExists_Exception;
+    		if(userId.equals(listData[i][0])) {
+    			throw new UserAlreadyExists_Exception();
     		}
     		
-    		if(listData[i][1] == emailAdress) {
-    			throw new EmailAlreadyExists_Exception;
+    		if(emailAdress.equals(listData[i][1])) {
+    			throw new EmailAlreadyExists_Exception();
     		}
     		
     	}
@@ -163,7 +163,6 @@ public class IdImpl implements SDId {
         
         // return id;
     }
-	
 	
 	/*		throws UserDoesNotExist_Exception {
 		User user = getUsername(userId);
@@ -197,15 +196,14 @@ public class IdImpl implements SDId {
 		// Apresenta nova senha na consola de serviço.
 		
 		String oldPass;
-		if(listData[i][0] == userId) {
-			oldPass = listData[i][2]
+		if(userId.equals(listData[i][0])) {
+			oldPass = listData[i][2];
 			listData[i][2] = oldPass + oldPass.str.substring(3,4);
 			System.out.println(listData[i][2]);
 		}
 		else{
-			throw new UserDoesNotExist_Exception;
+			throw new UserDoesNotExist_Exception();
 		}
-	
 		
 		// Make sure you're connected. RETIRAR
         
@@ -236,12 +234,12 @@ public class IdImpl implements SDId {
 			throws UserDoesNotExist_Exception {
 		// TODO Auto-generated method stub
 			
-		for(i = 0; i < listData().size; i++) {
-			if(listData[i][0] == userId) {
+		for(i = 0; i < listData.size; i++) {
+			if(userId.equals(listData[i][0])) {
 					listData.remove(i);
 			}
 			else {
-				throws new UserDoesNotExist_Exception;
+				throw new UserDoesNotExist_Exception;
 			}
 		}
 	}
@@ -261,36 +259,23 @@ public class IdImpl implements SDId {
     	 * 
     	 */
 		
-		String userpath = getUserPath(userId);
-    	// File file = new File(userpath);
-    	// float fileSize = file.length();
-    	
-    	//WARNING: casting float as int may not be safe
-    	
-    	byte[] content = new byte[(int)fileSize];
-    	FileInputStream reader;
-    	BufferedInputStream bufferedReader = null;
-    	
-    	try {
-    		AuthReqFailed udne = new AuthReqFailed();
-            String errorMsg = String.format("Falha com o user %s ao requisitar autenticação.", userId);
-            iu.setMessage(errorMsg);
-            iu.setUserId(userId);    		
-    		
-    		reader = new FileInputStream(file);
-    		bufferedReader = new BufferedInputStream(reader);
-    		bufferedReader.read(content);
-    		bufferedReader.close();
-    		
-    		throw new AuthReqFailed_Exception(errorMsg, udne);
-    	} catch (IOException ex) {
-    		System.out.println("Failed IO");
-    	}
-    	
+		
+		
+		for(i = 0; i < listData.size; i++) {
+			if(userId.equals(listData[i][0])) {
+				if(reserved.toString().equals(listData[i][2])) {////////////////
+					
+					listData[i][2] = oldPass + oldPass.str.substring(3,4);
+					System.out.println(listData[i][2]);
+				}
+			}
+			else {
+				throw new UserDoesNotExist_Exception;////////
+			}
+		}
+		
     	return content;
 	}
-	
-	
 	
 	// -----> EXTRA <-----
 	
@@ -301,7 +286,4 @@ public class IdImpl implements SDId {
 	 * 
 	 */
 	
-	private String getUsername(String user) {
-		return (String) username;
-	}
 }
