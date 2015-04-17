@@ -85,5 +85,66 @@ Abrir outra janela de terminal
 
 > mvn -Dtest=MockTests test
 
+
+-------------------------------------------------------------------------------
+
+### Estrutura do projecto: ###
+
+    .
+    |__ .classpath
+    |__ id-ws-cli
+    |   |__ .classpath
+    |   |__ pom.xml
+    |   \__ src
+    |       |__ main
+    |       |   |__ java
+    |       |   |   \__ id
+    |       |   |       |__ cli
+    |       |   |       |   |__ IdClientException.java
+    |       |   |       |   \__ IdClient.java
+    |       |   |       \__ exception
+    |       |   |           |__ AuthReqFailed_Exception.java
+    |       |   |           |__ EmailAlreadyExists_Exception.java
+    |       |   |           |__ InvalidEmail_Exception.java
+    |       |   |           |__ InvalidUser_Exception.java
+    |       |   |           |__ UserAlreadyExists_Exception.java
+    |       |   |           \__ UserDoesNotExist_Exception.java
+    |       |   \__ resources
+    |       |       \__ SD-ID.1_1.wsdl
+    |       \__ test
+    |           \__ java
+    |               \__ id
+    |                   \__ cli
+    |                       \__ MockTests.java
+    |__ id-ws_wsdl
+    |   |__ .classpath
+    |   |__ pom.xml
+    |   \__ src
+    |       |__ main
+    |       |   |__ java
+    |       |   |   \__ id
+    |       |   |       \__ ws
+    |       |   |           |__ IdImpl.java
+    |       |   |           \__ IdMain.java
+    |       |   \__ resources
+    |       |       |__ SD-ID.1_1.wsdl
+    |       |       \__ uddi.xml
+    |       \__ test
+    |           \__ java
+    |               \__ id
+    |                   \__ ws
+    |                       \__ ImplementationTests.java
+    |__ README.md
+    |__ readme.txt
+    \__ uddi
+        |__ .classpath
+        |__ pom.xml
+        \__ src
+            \__ main
+                \__ java
+                    \__ uddi
+                        \__ UDDINaming.java
+
+
 -------------------------------------------------------------------------------
 **FIM**
