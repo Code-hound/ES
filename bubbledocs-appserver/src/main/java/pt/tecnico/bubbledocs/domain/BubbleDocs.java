@@ -59,13 +59,6 @@ public class BubbleDocs extends BubbleDocs_Base {
 		return false;
 	}
 	
-	public boolean verifyUser(User user, String password) {
-		if (user.getPassword().equals(password)) {
-			return true;
-		}
-		throw new WrongPasswordException(user.getUsername());
-	}
-	
 	public User getUserByUsername(String username) 
 			throws UnknownBubbleDocsUserException {
 		if (hasUsers()) {

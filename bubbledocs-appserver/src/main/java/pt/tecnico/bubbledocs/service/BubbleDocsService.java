@@ -5,7 +5,6 @@ import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
 import pt.ist.fenixframework.Atomic;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
-import pt.tecnico.bubbledocs.exception.UnknownBubbleDocsUserException;
 import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
 
 
@@ -27,7 +26,7 @@ public abstract class BubbleDocsService {
 	public static User getUser(String username) {
 		User user = getBubbleDocs().getUserByUsername(username);
 		if (user == null) {
-			throw new UnknownBubbleDocsUserException(username);
+			return null;
 		}
 		return user;
 	}

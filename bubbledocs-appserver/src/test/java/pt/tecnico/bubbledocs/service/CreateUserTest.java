@@ -1,19 +1,20 @@
 package pt.tecnico.bubbledocs.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import mockit.Mock;
+import mockit.MockUp;
 
 import org.junit.Test;
 
-import pt.tecnico.bubbledocs.domain.Session;
 import pt.tecnico.bubbledocs.domain.User;
-import pt.tecnico.bubbledocs.domain.BubbleDocs;
-import pt.tecnico.bubbledocs.exception.UnknownBubbleDocsUserException;
+import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
+import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
+import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 import pt.tecnico.bubbledocs.exception.UserAlreadyExistsException;
 import pt.tecnico.bubbledocs.exception.InvalidUsernameException;
-import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
+import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 public class CreateUserTest extends BubbleDocsServiceTest {
 	
@@ -40,8 +41,7 @@ public class CreateUserTest extends BubbleDocsServiceTest {
 
 	@Test
 	public void success() {
-		CreateUser service = new CreateUser
-				(root, USERNAME_DOES_NOT_EXIST, "email@email.email", "José Ferreira");
+		CreateUser service = new CreateUser (root, USERNAME_DOES_NOT_EXIST, "email@email.email", "José Ferreira");
 		service.execute();
 		
 		User user = getUserFromUsername(USERNAME_DOES_NOT_EXIST);
@@ -50,38 +50,48 @@ public class CreateUserTest extends BubbleDocsServiceTest {
 		assertEquals("José Ferreira", user.getName());
 	}
 
-	@Test(expected = UserAlreadyExistsException.class)
-	public void usernameExists() {
-		CreateUser service = new CreateUser(root, USERNAME, "José Ferreira", "email@email.email");
-		service.execute();
-	}
-
 	@Test(expected = InvalidUsernameException.class)
-	public void emptyUsername() {
+	public void InvalidShortUsername() {
 		CreateUser service = new CreateUser(root, "", "jose", "José Ferreira");
 		service.execute();
 	}
 	
 	@Test(expected = InvalidUsernameException.class)
-	public void hugeUsername() {
-		CreateUser service = new CreateUser
-				(root, "lookathowlongthisusernameis", "jose", "José Ferreira");
+	public void InvalidLongUsername() {
+		CreateUser service = new CreateUser(root, "lookathowlongthisusernameis", "jose", "José Ferreira");
 		service.execute();
 	}
 	
 	@Test(expected = UnauthorizedOperationException.class)
 	public void unauthorizedUserCreation() {
-		CreateUser service = new CreateUser(ars, USERNAME_DOES_NOT_EXIST,
-				"jose", "José Ferreira");
+		CreateUser service = new CreateUser(ars, USERNAME_DOES_NOT_EXIST, "jose", "José Ferreira");
 		service.execute();
 	}
 
 	@Test(expected = UserNotInSessionException.class)
-	public void accessUsernameDoesNotExist() {
+	public void InvalidUser() {
 		removeUserFromSession(root);
 		
-		CreateUser service = new CreateUser(root, USERNAME_DOES_NOT_EXIST,
-				"jose", "José Ferreira");
+		CreateUser service = new CreateUser(root, USERNAME_DOES_NOT_EXIST, "jose", "José Ferreira");
 		service.execute();
+	}
+	
+	@Test(expected = UserAlreadyExistsException.class)
+	public void InvalidCreate() {
+		CreateUser service = new CreateUser (root, USERNAME_DOES_NOT_EXIST, "email@email.email", "José Ferreira");
+		service.execute();
+		service.execute();
+	}
+	
+	@Test(expected = UnavailableServiceException.class)
+	public void InvalidService() {
+		new MockUp<IDRemoteServices>() {
+			@Mock
+			public void createUser(String username, String password)
+					throws LoginBubbleDocsException, RemoteInvocationException {
+				throw new RemoteInvocationException();
+			}
+		};
+		success();
 	}
 }

@@ -1,10 +1,12 @@
 package pt.tecnico.bubbledocs.service;
 
 //import id.ws;
-import pt.tecnico.bubbledocs.domain.BubbleDocs;
-import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.Session;
-import pt.tecnico.bubbledocs.exception.*;
+import pt.tecnico.bubbledocs.exception.BubbleDocsException;
+import pt.tecnico.bubbledocs.exception.InvalidUserException;
+import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
+import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
+import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 /*
  * LOG IN USER
@@ -41,34 +43,28 @@ public class LoginUser extends BubbleDocsService {
 		return this.userToken;
 	}
 	
-	protected void removeIdleUsers() {
-		BubbleDocs bd = getBubbleDocs();
-		for (Session s : bd.getSessionsSet()) {
-			if(s.getLastAccess().plusHours(2).isBeforeNow()) {
-				User userToRemove = s.getUser();
-				bd.removeUserFromSession(userToRemove);
-				bd.removeSessions(s);
-			}
-		}
-	}
-	
 	@Override
-	protected void dispatch() {
-		removeIdleUsers();
-		BubbleDocs bd = getBubbleDocs();
+	protected void dispatch() throws BubbleDocsException {
+
+		IDRemoteServices service = new IDRemoteServices();
 		
-		//SDId service = new SDId();
-		//SdId port = service.getIdImplPort();
+		for (Session s : getBubbleDocs().getSessionsSet())
+			if(s.getLastAccess().plusHours(2).isBeforeNow()) {
+				getBubbleDocs().removeUserFromSession(s.getUser());
+				getBubbleDocs().removeSessions(s);
+			}
+
+		//throws UnavailableServiceException
+		try {
+			service.loginUser(this.username, this.password);
+		} catch (RemoteInvocationException e) {
+			if (getUser(this.username) == null || !getUser(username).getPassword().equals(this.password))
+				throw new UnavailableServiceException();
+		}
+
+		if (getUser(this.username) != null && !getUser(username).getPassword().equals(this.password))
+			getUser(username).setPassword(this.password);
 		
-		
-		User user = getUser(username);
-		if (user==null)
-			throw new UnknownBubbleDocsUserException(username);
-		bd.verifyUser(user, this.password);
-		
-		this.userToken = bd.addUserToSession(user);
-		
-		
-		
+		this.userToken = getBubbleDocs().addUserToSession(getUser(username));
 	}
 }

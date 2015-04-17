@@ -33,8 +33,8 @@ public class RemoveUser extends BubbleDocsService {
 
 	@Override
 	protected void dispatch() throws BubbleDocsException {
-		IDRemoteServices service = new IDRemoteServices();
 
+		IDRemoteServices service = new IDRemoteServices();
 		String username = resetUserLastAccess(userToken);
 
 		//throws UserNotInSessionException
