@@ -1,15 +1,8 @@
 package id.ws;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Random;
-
-import javax.jws.*;
 
 import java.io.IOException;
 import java.io.File;
@@ -19,7 +12,24 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.jws.*;
+
 import pt.ulisboa.tecnico.sdis.id.ws.*; // classes generated from WSDL
+
+/*
+ * Interface methods:
+ * -createUser
+ * -renewPassword
+ * -removeUser
+ * -requestAuthentication
+ */
 
 @WebService(
     endpointInterface="pt.ulisboa.tecnico.sdis.id.ws.SDId", 
@@ -35,7 +45,11 @@ public class IdImpl implements SDId {
     private String idUsername;
     private String idPassword;
     private String idEmail;
-   
+    
+    public ArrayList<ArrayList<String>> listData = new ArrayList<ArrayList<String>>();
+    
+    
+    
     /**
      * 
      * SD-ID IMPLEMENTATION
@@ -106,17 +120,78 @@ public class IdImpl implements SDId {
 		String id = "";
 		String userIdVazio = ""; // FIXME
 		String userIdNull = null; // FIXME
+		String str = userId + "";
+		String userLetter1 = str.substring(0,1);
+		int userIndex = listData().size() + 1;
+	    String userPassword = userLetter1.toUpperCase() + userLetter1 + userLetter1 + userIndex;
+	    
+	    String[] auxEmail = emailAddress.split("@");
+		String auxEmail1 = String.parseString(auxEmail[0]);
+		String auxEmail2 = String.parseString(auxEmail[1]);
 		
+		if(auxEmail1 != "" || auxEmail1 != "")
+			throw new InvalidEmail_Exception;
+			
+		if(userId != "" || userId != null)
+			throw new InvalidUser_Exception;		
+		
+	    public ArrayList<String> listUser = new ArrayList<String>();
+	    
+	    //verifica se o user id ou emailAdress ja existem
+        for(i = 0; i < listData().size; i++) {
+    		
+    		if(listUser[i][0] == userId) {
+    			throw new UserAlreadyExists_Exception;
+    		}
+    		
+    		if(listUser[i][1] == emailAdress) {
+    			throw new EmailAlreadyExists_Exception;
+    		}
+    		
+    	}
+    	
+    	listUser.add(userId);
+    	listUser.add(emailId);
+    	listUser.add(userPassword);
+    	
+    	listData.add(listUser);
+	    
 		// Make sure you're connected. NAO É NECESSARIO!!!
 		// Apenas adicionar o User da criaçao no vector e gerar a sua senha (pode ser a letra inicial do nome repetida 3 vezes e um numero inteiro)
-		// Assim, seguiamos o exemplo dos dados de teste. Alice -> senha aaa1
-        
-		checkConnection(); // TODELETE
+		// Assim, seguiamos o exemplo dos dados de teste. alice -> senha Aaa1
         
         return id;
     }
+	
+	
+	/*		throws UserDoesNotExist_Exception {
+		User user = getUsername(userId);
+		List<String> usersList = new ArrayList<String>();
+		
+		for(User user : user) {
+			usersList.add(user.getName());
+		}
+		
+		return usersList;
+	}*/
+	
+	/*
+	public List<String> listPassword(String userPassword)
+			throws UserDoesNotExist_Exception {
+		List<String> passList = new ArrayList<String>();
+		
+		private int userCont;
+		
+		for(i = 0; ) {
+			passList.add(user.getPassword());
+		}
+		
+		return usersList;
+	}
+	*/
 
-	public void renewPassword(String userId) throws UserDoesNotExist_Exception {
+	public void renewPassword(String userId)
+			throws UserDoesNotExist_Exception {
 		// TODO Auto-generated method stub
 		// Apresenta nova senha na consola de serviço.
 		
@@ -213,4 +288,8 @@ public class IdImpl implements SDId {
 	 * Perguntar se o que se segue e necessario? remover BD
 	 * 
 	 */
+	
+	private String getUsername(String user) {
+		return (String) username;
+	}
 }
