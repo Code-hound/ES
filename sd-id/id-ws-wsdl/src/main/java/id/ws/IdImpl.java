@@ -263,21 +263,20 @@ public class IdImpl implements SDId {
 		
 		for(i = 0; i < listData.size; i++) {
 			if(userId.equals(listData[i][0])) {
-				if(reserved.toString().equals(listData[i][2])) {////////////////
+				if(reserved.toString().equals(listData[i][2])) {
+					byte [] response = new byte[1];
+					response[0] = '1';
 					
-					listData[i][2] = oldPass + oldPass.str.substring(3,4);
-					System.out.println(listData[i][2]);
+					return responde;
 				}
 				else {
-					throw new AuthReqFailed_Exception;////////
+					throw new AuthReqFailed_Exception;
 				}
 			}
 			else {
-				throw new AuthReqFailed_Exception;////////
+				throw new AuthReqFailed_Exception;
 			}
 		}
-		
-    	return content;
 	}
 	
 	// -----> EXTRA <-----
