@@ -1,4 +1,4 @@
-# Bubble Docs
+# Bubble Docs - Third Release
 
 This is the main README file for the Bubble Docs project.
 
