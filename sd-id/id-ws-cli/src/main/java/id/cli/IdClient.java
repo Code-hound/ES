@@ -2,6 +2,10 @@ package id.cli;
 
 import pt.ulisboa.tecnico.sdis.id.ws.*;
 
+import javax.xml.ws.*;
+import java.util.List;
+import java.util.Map;
+
 public class IdClient implements SDId {
 	/** WS service */
 	private SDId_Service idService = null;

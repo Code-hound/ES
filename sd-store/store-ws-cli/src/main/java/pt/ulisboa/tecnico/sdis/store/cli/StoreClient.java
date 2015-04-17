@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.xml.ws.*;
 
 import pt.ulisboa.tecnico.sdis.store.ws.*;
-import uddi.UDDINaming;
 
 public class StoreClient implements SDStore {
 	
