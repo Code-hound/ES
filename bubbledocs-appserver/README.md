@@ -57,4 +57,96 @@ Repositório:
 
 
 -------------------------------------------------------------------------------
+
+### Instruções de teste: ###
+
+    .
+    |__ .classpath
+    |__ .gitignore
+    |__ pom.xml
+    |__ README.md
+    \__ src
+        \__ main
+            |__ dml
+            |   \__ bubbledocs.dml
+            |__ java
+            |   \__ pt
+            |       \__ tecnico
+            |           \__ bubbledocs
+            |               |__ BubbleApplication.java
+            |               |__ domain
+            |               |   |__ Access.java
+            |               |   |__ ADD.java
+            |               |   |__ AVG.java
+            |               |   |__ BinaryFunction.java
+            |               |   |__ BubbleDocs.java
+            |               |   |__ Cell.java
+            |               |   |__ Content.java
+            |               |   |__ DIV.java
+            |               |   |__ Exporter.java
+            |               |   |__ FunctionArguments.java
+            |               |   |__ Function.java
+            |               |   |__ Getter.java
+            |               |   |__ .gitignore
+            |               |   |__ Importer.java
+            |               |   |__ Literal.java
+            |               |   |__ MUL.java
+            |               |   |__ Permission.java
+            |               |   |__ PRD.java
+            |               |   |__ Printer.java
+            |               |   |__ RangedFunction.java
+            |               |   |__ Reference.java
+            |               |   |__ Session.java
+            |               |   |__ SpreadSheet.java
+            |               |   |__ SUB.java
+            |               |   \__ User.java
+            |               |__ exception
+            |               |   |__ BubbleDocsException.java
+            |               |   |__ CannotLoadDocumentException.java
+            |               |   |__ CannotStoreDocumentException.java
+            |               |   |__ CellNotInSpreadSheetException.java
+            |               |   |__ DocumentDoesNotExistsException.java
+            |               |   |__ DuplicateEmailException.java
+            |               |   |__ DuplicateUsernameException.java
+            |               |   |__ EmptyEmailException.java
+            |               |   |__ ExportDocumentException.java
+            |               |   |__ ImportDocumentException.java
+            |               |   |__ InvalidAccessException.java
+            |               |   |__ InvalidEmailException.java
+            |               |   |__ InvalidUserException.java
+            |               |   |__ InvalidUsernameException.java
+            |               |   |__ InvalidValueException.java
+            |               |   |__ LoginBubbleDocsException.java
+            |               |   |__ ProtectedCellException.java
+            |               |   |__ RemoteInvocationException.java
+            |               |   |__ UnauthorizedOperationException.java
+            |               |   |__ UnavailableServiceException.java
+            |               |   |__ UnknownBubbleDocsException.java
+            |               |   |__ UserAlreadyExistsException.java
+            |               |   |__ UserAlreadyHasThisDocumentException.java
+            |               |   |__ UserAlreadyInSessionException.java
+            |               |   |__ UserCantWriteException.java
+            |               |   |__ UserNotInSessionException.java
+            |               |   |__ WrongPasswordException.java
+            |               |   \__ XMLExceptionException.java
+            |               \__ service
+            |                   |__ AssignLiteralToCell.java
+            |                   |__ AssignReferenceToCell.java
+            |                   |__ BubbleDocsService.java
+            |                   |__ CreateSpreadSheet.java
+            |                   |__ CreateUser.java
+            |                   |__ dto
+            |                   |   \__ UserDto.java
+            |                   |__ ExportDocument.java
+            |                   |__ LoginUser.java
+            |                   |   |__ IDRemoteServices.java
+            |                   |   \__ StoreRemoteServices.java
+            |                   |__ RemoveUser.java
+            |                   \__ RenewPassword.java
+            \__ resources
+                |__ fenix-framework-jvstm-ojb.properties
+                \__ log4j.properties
+
+
+-------------------------------------------------------------------------------
 **FIM**
