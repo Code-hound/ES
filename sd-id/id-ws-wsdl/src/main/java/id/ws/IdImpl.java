@@ -268,9 +268,12 @@ public class IdImpl implements SDId {
 					listData[i][2] = oldPass + oldPass.str.substring(3,4);
 					System.out.println(listData[i][2]);
 				}
+				else {
+					throw new AuthReqFailed_Exception;////////
+				}
 			}
 			else {
-				throw new UserDoesNotExist_Exception;////////
+				throw new AuthReqFailed_Exception;////////
 			}
 		}
 		
