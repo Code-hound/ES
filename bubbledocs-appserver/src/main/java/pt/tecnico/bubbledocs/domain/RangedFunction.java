@@ -1,7 +1,10 @@
 package pt.tecnico.bubbledocs.domain;
 
 import java.util.Set;
+
 import org.jdom2.Element;
+
+import pt.tecnico.bubbledocs.exception.InvalidValueException;
 
 public abstract class RangedFunction extends RangedFunction_Base {
 
@@ -15,7 +18,7 @@ public abstract class RangedFunction extends RangedFunction_Base {
 
 	public abstract String toString();
 
-	public abstract int getContentValue();
+	public abstract int getContentValue() throws InvalidValueException;
 
 	public Set<Reference> getExpanded() {
 		final int IGNORE = 0;

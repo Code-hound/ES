@@ -2,6 +2,8 @@ package pt.tecnico.bubbledocs.domain;
 
 import org.jdom2.Element;
 
+import pt.tecnico.bubbledocs.exception.InvalidValueException;
+
 public abstract class Function extends Function_Base {
 
 	public Function() {
@@ -14,5 +16,5 @@ public abstract class Function extends Function_Base {
 
 	public abstract String toString();
 
-	public abstract int getContentValue();
+	public abstract int getContentValue() throws InvalidValueException;
 }

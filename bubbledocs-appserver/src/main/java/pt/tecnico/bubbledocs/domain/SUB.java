@@ -2,6 +2,8 @@ package pt.tecnico.bubbledocs.domain;
 
 import org.jdom2.Element;
 
+import pt.tecnico.bubbledocs.exception.InvalidValueException;
+
 public class SUB extends SUB_Base {
 
 	public SUB(SpreadSheet sheet, Element element) {
@@ -27,7 +29,7 @@ public class SUB extends SUB_Base {
 		return Printer.use(this);
 	}
 
-	public int getContentValue() {
+	public int getContentValue() throws InvalidValueException {
 		return Getter.use(this);
 	}
 }

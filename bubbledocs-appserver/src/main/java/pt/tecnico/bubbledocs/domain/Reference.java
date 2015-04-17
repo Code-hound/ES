@@ -2,6 +2,8 @@ package pt.tecnico.bubbledocs.domain;
 
 import org.jdom2.Element;
 
+import pt.tecnico.bubbledocs.exception.InvalidValueException;
+
 public class Reference extends Reference_Base {
 
 	public Reference(SpreadSheet sheet, Element element) {
@@ -31,7 +33,7 @@ public class Reference extends Reference_Base {
 		return Printer.use(this);
 	}
 
-	public int getContentValue() {
+	public int getContentValue() throws InvalidValueException {
 		return Getter.use(this);
 	}
 }

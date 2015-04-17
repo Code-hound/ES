@@ -1,6 +1,8 @@
 package pt.tecnico.bubbledocs.domain;
 
 import org.jdom2.Element;
+
+import pt.tecnico.bubbledocs.exception.InvalidValueException;
 import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 
 public class Cell extends Cell_Base {
@@ -45,7 +47,7 @@ public class Cell extends Cell_Base {
 	}
 	
 	@Override
-	public Content getContent() throws ProtectedCellException {
+	public Content getContent() throws ProtectedCellException, InvalidValueException {
 		if (getProtect())
 			throw new ProtectedCellException(getCellRow(),getCellColumn());
 		else

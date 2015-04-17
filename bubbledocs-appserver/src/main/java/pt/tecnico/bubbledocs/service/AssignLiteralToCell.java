@@ -16,11 +16,8 @@ public class AssignLiteralToCell extends BubbleDocsService {
 	private String literal;
 	private String userToken;
 	private SpreadSheet sheet;
-
-	private String result;
 	
-	public AssignLiteralToCell(String userToken, int docId, String cellId, 
-			String literal) {
+	public AssignLiteralToCell(String userToken, int docId, String cellId, String literal) {
 
 		this.docId = docId;
 		this.cellId = cellId;
@@ -49,7 +46,6 @@ public class AssignLiteralToCell extends BubbleDocsService {
 			else {
 				sheet.addContent(new Literal
 						(Integer.parseInt(literal)),row, column);
-				result = literal;
 			}
 			
 		}
@@ -57,7 +53,7 @@ public class AssignLiteralToCell extends BubbleDocsService {
 	}
 
 	public String getResult() {
-		return result;
+		return this.literal;
 	}
 
 }

@@ -2,7 +2,6 @@
 package pt.tecnico.bubbledocs.service;
 
 import pt.tecnico.bubbledocs.domain.Reference;
-import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
 import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 import pt.tecnico.bubbledocs.exception.UserCantWriteException;
@@ -20,7 +19,6 @@ import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 
 public class AssignReferenceToCell extends BubbleDocsService {
 
-	private String result;
 	private String userToken;
 	private int docId;
 	private String cellId;
@@ -47,14 +45,14 @@ public class AssignReferenceToCell extends BubbleDocsService {
 			throw new UserCantWriteException(username, docId);
 
 		String[] rowAndColumnCell = cellId.split(";");
-		int rowCell = Integer.parseInt(rowAndColumnCell[0]);
+		int rowCell    = Integer.parseInt(rowAndColumnCell[0]);
 		int columnCell = Integer.parseInt(rowAndColumnCell[1]);
 
 		String[] rowAndColumnContent = reference.split(";");
-		int rowCellReference = Integer.parseInt(rowAndColumnContent[0]);
+		int rowCellReference    = Integer.parseInt(rowAndColumnContent[0]);
 		int columnCellReference = Integer.parseInt(rowAndColumnContent[1]);
 
-		int rowSpreadSheet = getSpreadSheet(docId).getNumberColumns();
+		int rowSpreadSheet    = getSpreadSheet(docId).getNumberColumns();
 		int columnSpreadSheet = getSpreadSheet(docId).getNumberRows();
 
 		// testa se a celula existe nas dimensoes da spreadsheet
@@ -72,10 +70,9 @@ public class AssignReferenceToCell extends BubbleDocsService {
 
 		getSpreadSheet(docId).addContent(referenceAux, rowCell, columnCell);
 		//Cell rowCell;columnCell now has Content of type Reference
-		result = reference;
 	}
 
 	public final String getResult() {
-		return result;
+		return this.reference;
 	}
 }

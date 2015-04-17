@@ -30,10 +30,6 @@ public class CreateSpreadSheet extends BubbleDocsService {
 		this.spreadsheetName = name;
 		this.userToken = userToken;
 	}
-	
-	public int getId() {
-		return this.id;
-	}
 
 	@Override
 	protected void dispatch() throws BubbleDocsException {
@@ -56,5 +52,9 @@ public class CreateSpreadSheet extends BubbleDocsService {
 			System.out.println(ex.getMessage());
 		}
 		*/
+	}
+
+	public int getId() {
+		return this.id;
 	}
 }

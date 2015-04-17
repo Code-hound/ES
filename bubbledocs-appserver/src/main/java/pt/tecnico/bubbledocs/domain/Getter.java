@@ -1,26 +1,27 @@
 package pt.tecnico.bubbledocs.domain;
 
 import java.util.Set;
+import pt.tecnico.bubbledocs.exception.InvalidValueException;;
 
 public class Getter {
-	public static int use(Cell cell) {
-		// try{
+	public static int use(Cell cell) throws InvalidValueException {
 		Content c = cell.getContent();
+		if (c == null)
+			throw new InvalidValueException();
 		return c.getContentValue();
-		// }catch(InvalidValueException){}
 	}
 
-	public static int use(Literal literal) {
+	public static int use(Literal literal) throws InvalidValueException {
 		return literal.getNumber();
 	}
 
-	public static int use(Reference reference) {
+	public static int use(Reference reference) throws InvalidValueException {
 		Cell cell = reference.getCellReference();
 		Content c = cell.getContent();
 		return c.getContentValue();
 	}
 
-	private static int apply(String op, int i, int next) {
+	private static int apply(String op, int i, int next) throws InvalidValueException {
 		switch (op) {
 		case "+":
 			return i + next;
@@ -29,55 +30,63 @@ public class Getter {
 		case "*":
 			return i * next;
 		case "/":
+			if (next == 0)
+				throw new InvalidValueException();
 			return i / next;
 		default:
-			return 0;
+			throw new InvalidValueException();
 		}
 	}
 
-	private static int use(BinaryFunction function, String op) {
+	private static int use(BinaryFunction function, String op) throws InvalidValueException {
 		int i = 0;
 
-		for (FunctionArguments content : function.getArgsSet())
-			if (content != null)
-				i = apply(op, i, content.getContentValue());
+		for (FunctionArguments content : function.getArgsSet()) {
+			if (content == null)
+				throw new InvalidValueException();
+
+			i = apply(op, i, content.getContentValue());
+		}
 
 		return i;
 	}
 
-	public static int use(ADD function) {
+	public static int use(ADD function) throws InvalidValueException {
 		return use(function, "+");
 	}
 
-	public static int use(SUB function) {
+	public static int use(SUB function) throws InvalidValueException {
 		return use(function, "-");
 	}
 
-	public static int use(MUL function) {
+	public static int use(MUL function) throws InvalidValueException {
 		return use(function, "*");
 	}
 
-	public static int use(DIV function) {
+	public static int use(DIV function) throws InvalidValueException {
 		return use(function, "/");
 	}
 
-	private static int use(Set<Reference> contents, String op) {
+	private static int use(Set<Reference> contents, String op) throws InvalidValueException {
 		int i = 0;
 
-		for (Reference content : contents)
-			if (content != null)
-				i = apply(op, i, content.getContentValue());
+		for (Reference content : contents) {
+			if (content == null)
+				throw new InvalidValueException();
+
+			i = apply(op, i, content.getContentValue());
+		}
 
 		return i;
 	}
 
-	public static int use(AVG function) {
+	public static int use(AVG function) throws InvalidValueException {
 		Set<Reference> contents = function.getExpanded();
 
 		return use(contents, "+") / contents.size();
 	}
 
-	public static int use(PRD function) {
+	public static int use(PRD function) throws InvalidValueException {
 		return use(function.getExpanded(), "*");
 	}
 }
