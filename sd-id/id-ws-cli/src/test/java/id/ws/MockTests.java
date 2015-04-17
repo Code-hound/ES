@@ -63,7 +63,7 @@ public class MockTests {
         // Unit under test is exercised.
         IdClient client = new IdClient();
         // call to mocked server
-        client.renewPassword("Alice");
+        client.renewPassword("alice");
     }
 
     /**
@@ -95,7 +95,7 @@ public class MockTests {
 
         // first call to mocked server
         try {
-            client.renewPassword("Alice");
+            client.renewPassword("alice");
         } catch(WebServiceException e) {
             // exception is not expected
             fail();
@@ -103,7 +103,7 @@ public class MockTests {
 
         // second call to mocked server
         try {
-            client.renewPassword("Alice");
+            client.renewPassword("alice");
             fail();
         } catch(WebServiceException e) {
             // exception is expected
@@ -139,11 +139,11 @@ public class MockTests {
         IdClient client = new IdClient();
 
         // first call to mocked server
-        client.removeUser("Alice");
+        client.removeUser("alice");
 
         // second call to mocked server
         try {
-            client.removeUser("Alice");
+            client.removeUser("alice");
             fail();
         } catch(UserDoesNotExist_Exception e) {
             // exception is expected

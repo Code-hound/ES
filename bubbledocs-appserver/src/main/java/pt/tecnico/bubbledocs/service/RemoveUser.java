@@ -3,12 +3,11 @@ package pt.tecnico.bubbledocs.service;
 //the needed import declarations
 
 import pt.tecnico.bubbledocs.domain.Access;
-import pt.tecnico.bubbledocs.domain.BubbleDocs;
-import pt.tecnico.bubbledocs.domain.User;
-import pt.tecnico.bubbledocs.domain.SpreadSheet;
-import pt.tecnico.bubbledocs.exception.UnknownBubbleDocsUserException;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
-import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
+import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
+import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
+import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
+import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 /*
  * DELETE USER
@@ -31,24 +30,28 @@ public class RemoveUser extends BubbleDocsService {
 	}
 
 	@Override
-	protected void dispatch() throws UnknownBubbleDocsUserException,
-			BubbleDocsException {
-		BubbleDocs bd = getBubbleDocs();
-		if (bd.checkIfRoot(userToken)) {
-			User root = getBubbleDocs().getUserLoggedInByToken(userToken);
-			
-			resetUserLastAccess(root);
-			
-			User user = getUser(toDeleteUsername); //throws UnknownBubbleDocsUserException
-			if (user==null)
-				throw new UnknownBubbleDocsUserException(toDeleteUsername);
-			for (Access access : user.getAccessSet()) {
-				access.getDocument().removeDocAccess(access);
-				user.removeAccess(access);
-				access = null;
-			}
-			bd.removeUserFromSession(user);
-			bd.removeUsers(user);
+	protected void dispatch() throws BubbleDocsException {
+		IDRemoteServices service = new IDRemoteServices();
+
+		//throws UserNotInSessionException and UnauthorizedOperationException
+		getBubbleDocs().checkIfRoot(userToken);
+
+		//throws UnavailableServiceException
+		try {
+			service.removeUser(toDeleteUsername);
+		} catch (RemoteInvocationException e) {
+			throw new UnavailableServiceException();
 		}
+		
+		//throws LoginBubbleDocsException
+		if (getUser(toDeleteUsername)==null)
+			throw new LoginBubbleDocsException(toDeleteUsername);
+
+		for (Access access : getUser(toDeleteUsername).getAccessSet()) {
+			access.getDocument().removeDocAccess(access);
+			access = null;
+		}
+		getBubbleDocs().removeUserFromSession(getUser(toDeleteUsername));
+		getBubbleDocs().removeUsers(getUser(toDeleteUsername));
 	}
 }

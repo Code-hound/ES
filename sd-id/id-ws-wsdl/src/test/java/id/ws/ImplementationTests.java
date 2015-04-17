@@ -13,40 +13,37 @@ import pt.ulisboa.tecnico.sdis.id.ws.exception;
 import id.ws.IdImpl;
 
 public class ImplementationTests {
-	/*private static final String USERNAME = "username";
-	private static final String USERNAME2 = "username2";
-	private static final String EMAIL = "a@b";
+	private static final String ALICE_USERNAME = "alice";
+	private static final String ALICE_EMAIL = "alice@tecnico.pt";
+	
 	private static final String INVALID_USERNAME = "";
-	private static final String INVALID_EMAIL = "@b";*/
-	// private static final byte[] PASSWORD = "" /* COMO COMPARAR SE A PASS É GERADA AUTOMATICAMENTE? */
+	private static final String INVALID_EMAIL = "@b";
+    
 	private static createUser alice;
-	private static createUser userDupEmail = new createUser(); //CONFIRMAR
 
 	private static IdImpl id = new IdImpl();
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-	    alice.setUserId("alice");
-	    alice.setEmailAddress("alice@tecnico.pt");
 	}
 	
 	
 	//TESTS FOR USER CREATION
 	@Test
 	public void userSuccess() {
-	    id.createUser = new createUser()
-	    assertEquals("alice", alice.getUserId());
-		assertEquals("alice@tecnico.pt", alice.getEmailAddress());
+	    alice = id.createUser(ALICE_USERNAME,ALICE_EMAIL);
+	    assertEquals(ALICE_USERNAME, alice.getUserId());
+		assertEquals(ALICE_EMAIL, alice.getEmailAddress());
 	}
 	
 	@Test(expected = EmailAlreadyExists_Exception.class)
 	public void testDuplicateEmail() {
-		id.createUser(USERNAME2,EMAIL);
+		id.createUser("aline",ALICE_EMAIL);
 	}
 	
 	@Test(expected = InvalidEmail_Exception.class)
 	public void testInvalidEmail() {
-		id.createUser(USERNAME2,INVALID_EMAIL);
+		id.createUser("joao",INVALID_EMAIL);
 	}
 	
 	@Test(expected = InvalidUser_Exception.class)
@@ -56,31 +53,32 @@ public class ImplementationTests {
 	
 	@Test(expected = UserAlreadyExists_Exception.class)
 	public void testDuplicateUser(){
-		id.createUser(USERNAME,"b@a");
+        id.createUser(ALICE_USERNAME,"b@a");
+        id.createUser(ALICE_USERNAME,"b@a");
 	}	
 	
 	
-	// TESTS FOR PASSWORD RENEWING XXX
+	// TESTS FOR PASSWORD RENEWING
 	@Test
 	public void renewSuccess() {
-		/*FIX ME*/
+		id.renewPassword("alice");		
 	}
 	
 	@Test(expected = UserDoesNotExist_Exception.class)
 	public void testRenewUser(){
-		/*FIX ME*/
+		id.renewPassword("desconhecido");
 	}
 	
 	
 	// TESTS FOR USER REMOVING
 	@Test
 	public void removeSuccess() {
-		/*FIX ME*/
+		id.removeUser("alice");
 	}
 	
 	@Test(expected = UserDoesNotExist_Exception.class)
 	public void testRemoveUser(){
-		/*FIX ME*/
+		id.removeUser("desconhecido");
 	}	
 	
 	
@@ -88,21 +86,21 @@ public class ImplementationTests {
 	
 	@Test
 	public void authenticationSuccess(){
-		/*FIX ME*/
+	    id.requestAuthentication("alice","Aaa1")
 	}
 	
 	@Test(expected = AuthReqFailed_Exception.class)
 	public void testUserDoesNotExist(){
-		/*FIX ME*/
+		id.requestAuthentication("desconhecido","abcd");
 	}
 	
 	@Test(expected = AuthReqFailed_Exception.class) XXX
 	public void testIncorrectPassword(){
-		/*FIX ME*/
+		id.requestAuthentication("alice","abcd");
 	}
 	
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		id.removeUser(USERNAME);
+		id.removeUser(ALICE_USERNAME);
 	}
 }
