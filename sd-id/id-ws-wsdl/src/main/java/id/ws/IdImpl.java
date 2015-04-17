@@ -89,7 +89,7 @@ public class IdImpl implements SDId {
      * Fiquei sem ter a certeza se a funcao checkConnection() e para apagar
      * 
      */
-    
+    /*
     private void checkConnection() {
         while(conn == null)
             try {
@@ -103,7 +103,7 @@ public class IdImpl implements SDId {
                 e.printStackTrace();
                 break;
             }
-    }
+    }*/
 
     public String sayHello(String name) {
         return "Hello " + name + "!";
@@ -131,7 +131,7 @@ public class IdImpl implements SDId {
 		String auxEmail2 = String.parseString(auxEmail[1]);
 		
 		if(!auxEmail1.equals("") || !auxEmail2.equals(""))
-			throw new InvalidEmail_Exception;
+			throw new InvalidEmail_Exception();
 			
 		if(userId != null || !userId.equals(""))
 			throw new InvalidUser_Exception();
