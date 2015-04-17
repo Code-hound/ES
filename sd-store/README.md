@@ -29,7 +29,7 @@ Escolher o sistema operativo baseado em linux
 
 [1] Iniciar servidores de apoio
 JUDDI:
-> cd [pasta onde o servidor JUDDI se encontra]
+> $CATALINA_HOME/bin/startup.sh
 
 > chmod +x startup.sh
 
