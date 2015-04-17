@@ -24,7 +24,7 @@ import pt.ulisboa.tecnico.sdis.id.ws.*; // classes generated from WSDL
 @WebService(
     endpointInterface="pt.ulisboa.tecnico.sdis.id.ws.SDId", 
     wsdlLocation="SD-ID.1_1.wsdl",
-    name="SdId",//MESMO NOME D POM.XML done
+    name="SdId", // MESMO NOME D POM.XML done
     portName="SDIdImplPort",
     targetNamespace="urn:pt:ulisboa:tecnico:sdis:id:ws",
     serviceName="SDId"
@@ -32,27 +32,30 @@ import pt.ulisboa.tecnico.sdis.id.ws.*; // classes generated from WSDL
 
 public class IdImpl implements SDId {
 	
-	private Connection conn = null;
-    private String dbDriver;
-    private String dbUrl;
-    private String dbUsername;
-    private String dbPassword;
+    private String idUsername;
+    private String idPassword;
+    private String idEmail;
    
     /**
+     * 
+     * SD-ID IMPLEMENTATION
+     *
      * Construtor da classe.
      * 
-     * @param dbDriver recebe o driver especifico que utilizaremos para comunicar com a BD da aplicacao.
-     * @param dbUrl a localizacao da BD.
-     * @param dbUsername o username do utilizador com permissoes necessarias para manipular a BD.
-     * @param dbPassword a password desse utilizador.
+     * @param idUsername o username do utilizador com permissoes necessarias.
+     * @param idPassord a password desse utilizador.
+     * @param idEmail o email desse utilizador.
+     * 
+     * @author: Francisco Maria Calisto
+     * 
      */    
     
-    public IdImpl(String dbDriver, String dbUrl, String dbUsername, String dbPassword) {
-        this.dbDriver = dbDriver;
-        this.dbUrl = dbUrl;
-        this.dbUsername = dbUsername;
-        this.dbPassword = dbPassword;
+    public IdImpl(String idUsername, String idPassword, String idEmail) {
+        this.idUsername = idUsername;
+        this.idPassword = idPassword;
+        this.idEmail = idEmail;
         
+        // FIXME
         checkConnection();
     }
     
@@ -67,6 +70,9 @@ public class IdImpl implements SDId {
      * 
      * Criar função ---populate--- com dados de teste indicados a seguir, armazenando-os no vector criado:
      * 			http://disciplinas.tecnico.ulisboa.pt/leic-sod/2014-2015/labs/proj/test.html
+     * 
+     * Fiquei sem ter a certeza se a funcao checkConnection() e para apagar
+     * 
      */
     
     private void checkConnection() {
@@ -107,90 +113,6 @@ public class IdImpl implements SDId {
         
 		checkConnection(); // TODELETE
         
-        try {
-        	conn.setAutoCommit(false);
-        	
-        	// Find out if the user exists in the DB
-        	String sqlCheckerUser = "SELECT username FROM user WHERE username = ?;"; // FIXME
-        	pstmt = conn.prepareStatement(sqlCheckUser);
-            pstmt.setString(1, userId);
-            ResultSet rs = pstmt.executeQuery();
-            
-            if(userId.equals(userIdVazio) || userId.equals(userIdNull)) {
-            	InvalidUser iu = new InvalidUser();
-                String errorMsg = String.format("O utilizador %s não é válido.", userId);
-                iu.setMessage(errorMsg);
-                iu.setUserId(userId);
-                throw new InvalidUser_Exception(errorMsg, iu);
-            }
-            
-            if(!rs.next() != null) {
-            	UserAlreadyExists uae = new UserAlreadyExists();
-                String errorMsg = String.format("O utilizador %s já existe na base de dados.", userId);
-                iu.setMessage(errorMsg);
-                iu.setUserId(userId);
-                throw new UserAlreadyExists_Exception(errorMsg, uae);
-            }
-            
-            if(!rs.next() != null) {
-            	EmailAlreadyExists eae = new EmailAlreadyExists();
-                String errorMsg = String.format("O E-Mail %s já existe na base de dados.", emailAddress);
-                iu.setMessage(errorMsg);
-                iu.setEmailAddress(emailAddress);
-                throw new UserAlreadyExists_Exception(errorMsg, eae);
-            }
-            
-            // FALTA O PARSER
-            
-            /*
-        	 * ?PERGUNTA?
-        	 * 
-        	 * Como implementar o Parser? 
-        	 * RETIRAR BASE DE DADOS
-        	 * 
-        	 */
-            
-            if(pstmt != null) {
-            	pstmt.close();
-            }
-            
-            // Insert a new check into the system
-            String sqlEmmitCheck = "INSERT INTO check (userId,emailAddress) VALUE (?,?,?);";
-            pstmt = conn.prepareStatement(sqlEmmitCheck, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, userId);
-            pstmt.setString(2, emailAddress);
-            
-            pstmt.executeUpdate();
-            rs = pstmt.getGeneratedKeys();
-            if (rs.next()) {
-                id = String.valueOf(rs.getString(1));
-            }
-            
-            
-            
-            conn.commit();
-        } catch (SQLException e) {
-        	System.out.println("IdImpl.createUser() error: couldn't execute query - " + e);
-            try {
-                /* undo all changes to database */
-                System.out.println("IdImpl.createUser(): Rollback update");
-                conn.rollback();
-            } catch (SQLException e2) {
-                System.out.println("IdImpl.createUser(): SQL exception while attempting rollback " + e2);
-            }
-            
-            printSQLExceptions(e);
-        } finally {
-            try {
-                if(pstmt != null)
-                    pstmt.close();
-                conn.setAutoCommit(true);
-            } catch (SQLException e) {
-                System.out.println("IdImpl.createUser() error attempting to wind down transaction: " + e);
-                printSQLExceptions(e);
-            }
-        }
-        
         return id;
     }
 
@@ -220,83 +142,6 @@ public class IdImpl implements SDId {
         
         Random rand = new Random();
         int randomNum = rend.nextInt((max - min) + 1) + min;
-        
-        try {
-        	conn.setAutoCommit(false);
-        	
-        	// Find out if the user exists in the DB
-        	String sqlCheckerUser = "SELECT username FROM user WHERE username = ?;"; // FIXME
-        	pstmt = conn.prepareStatement(sqlCheckUser);
-            pstmt.setString(1, userId);
-            ResultSet rs = pstmt.executeQuery();
-            
-            if(!rs.next() != null) {
-            	UserDoesNotExist udne = new UserDoesNotExist();
-                String errorMsg = String.format("O utilizador %s não existe na base de dados.", userId);
-                iu.setMessage(errorMsg);
-                iu.setUserId(userId);
-                throw new UserDoesNotExist_Exception(errorMsg, udne);
-            }
-            
-            if(pstmt != null) {
-            	pstmt.close();
-            }
-            
-            // Insert a new check into the system
-            // FIXME
-            String sqlEmmitCheck = "INSERT INTO check (userId) VALUE (?,?,?);";
-            pstmt = conn.prepareStatement(sqlEmmitCheck, Statement.RETURN_GENERATED_KEYS);
-            
-            /*
-        	 * ?PERGUNTA?
-        	 * 
-        	 * Saber se a pass e actualizada assim? cc como e?
-        	 *	retirar base de dados
-        	 * 
-        	 */
-            
-            pstmt.setString(1, userId + "randomNum");
-            
-            /*
-        	 * 
-        	 * 
-	    	 * A senha para Alice, de acordo com os dados de teste, é aaa1.
-	    	 * Para renovar podemos ir buscar a senha que corresponde ao userId Alice e adicionar 1 à String, ficando aaa11.
-	    	 * Somar para ficar aaa2 acho mais complicado, uma vez que a senha é armazenada como String.
-	    	 * depois é só imprimir, sim.
-        	 * 
-        	 */
-            
-            System.out.println(pstmt.setString(1, userId + "randomNum"));
-            
-            pstmt.executeUpdate();
-            rs = pstmt.getGeneratedKeys();
-            if (rs.next()) {
-                id = String.valueOf(rs.getString(1));
-            }
-            
-            conn.commit();
-        } catch (SQLException e) {
-        	System.out.println("IdImpl.createUser() error: couldn't execute query - " + e);
-            try {
-                /* undo all changes to database */
-                System.out.println("IdImpl.createUser(): Rollback update");
-                conn.rollback();
-            } catch (SQLException e2) {
-                System.out.println("IdImpl.createUser(): SQL exception while attempting rollback " + e2);
-            }
-            
-            printSQLExceptions(e);
-        } finally {
-            try {
-                if(pstmt != null)
-                    pstmt.close();
-                conn.setAutoCommit(true);
-            } catch (SQLException e) {
-                System.out.println("IdImpl.createUser() error attempting to wind down transaction: " + e);
-                printSQLExceptions(e);
-            }
-        }
         
         return id;
 	}
@@ -368,22 +213,4 @@ public class IdImpl implements SDId {
 	 * Perguntar se o que se segue e necessario? remover BD
 	 * 
 	 */
-	
-	/*
-     * printSQLExceptions - imprime para o ecra informacao detalhada de quaisquer excepcoes de SQL que tenham
-     * ocorrido e que ainda nao tenham sido reportados.
-     */
-    private void printSQLExceptions(SQLException e) {
-        /* SQLException specific information */
-        while (e != null) {
-            System.out.println("SQLException detailed information");
-            System.out.println("Message: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("ErrorCode: " + e.getErrorCode());
-            e = e.getNextException();
-        }
-    }
-
-    
-    System.out.println("Ola");
 }
