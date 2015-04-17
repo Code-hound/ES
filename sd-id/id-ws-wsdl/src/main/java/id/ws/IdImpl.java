@@ -89,20 +89,23 @@ public class IdImpl implements SDId {
     }
 
 	public void createUser(String userId, String emailAddress)
-			throws EmailAlreadyExists_Exception, InvalidEmail_Exception,
-			InvalidUser_Exception, UserAlreadyExists_Exception {
+			throws EmailAlreadyExists_Exception,
+			       InvalidEmail_Exception,
+			       InvalidUser_Exception,
+			       UserAlreadyExists_Exception {
 		// TODO Auto-generated method stub
 		// Gera senha alfanumerica e armazena em String.
 		// Apresenta a senha na consola de serviço.
 		
 		String id = "";
-		String userIdVazio = "";
-		String userIdNull = null;
+		String userIdVazio = ""; // FIXME
+		String userIdNull = null; // FIXME
 		
 		// Make sure you're connected. NAO É NECESSARIO!!!
 		// Apenas adicionar o User da criaçao no vector e gerar a sua senha (pode ser a letra inicial do nome repetida 3 vezes e um numero inteiro)
 		// Assim, seguiamos o exemplo dos dados de teste. Alice -> senha aaa1
-        checkConnection();
+        
+		checkConnection(); // TODELETE
         
         try {
         	conn.setAutoCommit(false);
