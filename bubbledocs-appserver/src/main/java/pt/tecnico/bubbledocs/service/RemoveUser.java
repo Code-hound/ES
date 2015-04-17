@@ -3,8 +3,6 @@ package pt.tecnico.bubbledocs.service;
 //the needed import declarations
 
 import pt.tecnico.bubbledocs.domain.Access;
-import pt.tecnico.bubbledocs.domain.BubbleDocs;
-import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
@@ -34,10 +32,9 @@ public class RemoveUser extends BubbleDocsService {
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 		IDRemoteServices service = new IDRemoteServices();
-		BubbleDocs bd = getBubbleDocs();
 
 		//throws UserNotInSessionException and UnauthorizedOperationException
-		bd.checkIfRoot(userToken);
+		getBubbleDocs().checkIfRoot(userToken);
 
 		//throws UnavailableServiceException
 		try {
@@ -45,18 +42,16 @@ public class RemoveUser extends BubbleDocsService {
 		} catch (RemoteInvocationException e) {
 			throw new UnavailableServiceException();
 		}
-
+		
 		//throws LoginBubbleDocsException
-		User user = getUser(toDeleteUsername);
-		if (user==null)
+		if (getUser(toDeleteUsername)==null)
 			throw new LoginBubbleDocsException(toDeleteUsername);
 
-		for (Access access : user.getAccessSet()) {
+		for (Access access : getUser(toDeleteUsername).getAccessSet()) {
 			access.getDocument().removeDocAccess(access);
-			user.removeAccess(access);
 			access = null;
 		}
-		bd.removeUserFromSession(user);
-		bd.removeUsers(user);
+		getBubbleDocs().removeUserFromSession(getUser(toDeleteUsername));
+		getBubbleDocs().removeUsers(getUser(toDeleteUsername));
 	}
 }
