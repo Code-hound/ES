@@ -77,7 +77,7 @@ The third release of the repository contains the following structure:
     |           |               |   |__ UserCantWriteException.java
     |           |               |   |__ UserNotInSessionException.java
     |           |               |   |__ WrongPasswordException.java
-    |           |               |   |__ XMLExceptionException.java
+    |           |               |   \__ XMLExceptionException.java
     |           |               \__ service
     |           |                   |__ AssignLiteralToCell.java
     |           |                   |__ AssignReferenceToCell.java
