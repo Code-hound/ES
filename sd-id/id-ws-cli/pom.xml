@@ -48,10 +48,10 @@
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <mainclass>id.ws.IdMain</mainclass>
+    <!-- <mainclass>id.ws.IdMain</mainclass> -->
 
     <ws.name>SD-ID</ws.name>
-    <ws.url>http://localhost:8080/sd-id-ws/endpoint</ws.url>
+    <ws.url>http://localhost:8080/sd-id-ws/endpoint?wsdl</ws.url>
     <uddi.url>http://localhost:8081</uddi.url>
   </properties>
   
