@@ -114,7 +114,7 @@ public class IdImpl implements SDId {
 			       InvalidEmail_Exception,
 			       InvalidUser_Exception,
 			       UserAlreadyExists_Exception {
-		// TODO Auto-generated method stub
+		
 		// Gera senha alfanumerica e armazena em String.
 		// Apresenta a senha na consola de serviço.
 		
@@ -123,17 +123,19 @@ public class IdImpl implements SDId {
 		String userIdNull = null; // FIXME
 		String str = userId + "";
 		String userLetter1 = str.substring(0,1);
-		int userIndex = listData().size() + 1;
+		
+		// Mover para private static int
+		int userIndex = listData.size() + 1;
 	    String userPassword = userLetter1.toUpperCase() + userLetter1 + userLetter1 + userIndex;
 	    
 	    String[] auxEmail = emailAddress.split("@");
-		String auxEmail1 = String.parseString(auxEmail[0]);
-		String auxEmail2 = String.parseString(auxEmail[1]);
+		String auxEmail1 = auxEmail[0];
+		String auxEmail2 = auxEmail[1];
 		
-		if(!auxEmail1.equals("") || !auxEmail2.equals(""))
+		if(auxEmail1.equals("") || auxEmail2.equals(""))
 			throw new InvalidEmail_Exception();
 			
-		if(userId != null || !userId.equals(""))
+		if(userId == null || userId.equals(""))
 			throw new InvalidUser_Exception();
 	    
 	    //verifica se o user id ou emailAdress ja existem
