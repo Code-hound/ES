@@ -160,7 +160,7 @@ public class IdImpl implements SDId {
 		// Apenas adicionar o User da criaçao no vector e gerar a sua senha (pode ser a letra inicial do nome repetida 3 vezes e um numero inteiro)
 		// Assim, seguiamos o exemplo dos dados de teste. alice -> senha Aaa1
         
-        return id;
+        // return id;
     }
 	
 	
@@ -234,8 +234,15 @@ public class IdImpl implements SDId {
 	public void removeUser(String userId)
 			throws UserDoesNotExist_Exception {
 		// TODO Auto-generated method stub
-		
-		
+			
+		for(i = 0; i < listData().size; i++) {
+			if(listData[i][0] == userId) {
+					listData.remove(i);
+			}
+			else {
+				throws new UserDoesNotExist_Exception;
+			}
+		}
 	}
 
 	public byte[] requestAuthentication(String userId, byte[] reserved)
