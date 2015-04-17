@@ -6,7 +6,7 @@ Grupo de SD 63
 
 Luís Ribeiro Gomes
     N. 72904
-    [email]
+    luis.ribeiro.gomes@tecnico.ulisboa.pt
     
 Francisco de Matos Silveira
     N. 82390
