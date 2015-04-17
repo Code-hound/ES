@@ -71,7 +71,7 @@ public class IdImpl implements SDId {
         this.idEmail = idEmail;
         
         // FIXME
-        checkConnection();
+        //checkConnection();
     }
     
     

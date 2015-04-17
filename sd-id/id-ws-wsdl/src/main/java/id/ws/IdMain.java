@@ -2,6 +2,8 @@ package id.ws;
 
 import javax.xml.ws.Endpoint;
 
+import uddi.UDDINaming;
+
 public class IdMain {
 
     public static void main(String[] args) {
@@ -15,15 +17,14 @@ public class IdMain {
         String uddiURL = args[0];
         String name = args[1];
         String url = args[2];
-        String dbDriver = args[3]; // FIXME
-        String dbAlias = args[4]; // FIXME
-        String dbUsername = args[5]; // FIXME
-        String dbPassword = args[6]; // FIXME
+        String dbUsername = args[3]; // FIXME
+        String dbEmailAddress = args[4]; // FIXME
+        String dbPassword = args[5]; // FIXME
         
         Endpoint endpoint = null;
         UDDINaming uddiNaming = null;
         try {
-            endpoint = Endpoint.create(new IdImpl());
+            endpoint = Endpoint.create(new IdImpl(dbUsername, dbPassword, dbEmailAddress));
 
             // publish endpoint
             System.out.printf("Starting %s%n", url);
