@@ -49,7 +49,11 @@ public class StoreClientMockTest {
     /*
 	 * The mocked server fails on the second invocation
 	 */
+<<<<<<< HEAD
 	 /*
+=======
+    /*
+>>>>>>> Fixed wrong directory in README instruction
     @Test
     public void mockServerExceptionOnSecondLoadCall(
     		@Mocked final SDStore_Service service,
@@ -86,7 +90,10 @@ public class StoreClientMockTest {
         }
     }
     */
+<<<<<<< HEAD
     
+=======
+>>>>>>> Fixed wrong directory in README instruction
     
     /*
 	 * The mocked server fails on the second invocation

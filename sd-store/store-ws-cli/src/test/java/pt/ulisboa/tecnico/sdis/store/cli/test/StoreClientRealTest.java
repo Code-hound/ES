@@ -38,10 +38,10 @@ public class StoreClientRealTest {
     	client = null;
     	pair = null;
     }
-	
+	/*
     @Test
     public void success() throws DocAlreadyExists_Exception {
     	client.createDoc(pair);
     }
-
+	*/
 }

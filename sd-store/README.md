@@ -29,7 +29,11 @@ Escolher o sistema operativo baseado em linux
 
 [1] Iniciar servidores de apoio
 JUDDI:
+<<<<<<< HEAD
 > $CATALINA_HOME/bin/startup.sh
+=======
+> cd $CATALINA_HOME/bin/
+>>>>>>> Fixed wrong directory in README instruction
 
 > chmod +x startup.sh
 
@@ -41,27 +45,31 @@ JUDDI:
 
 > mkdir ES-SD_Project
 
-> cd ~/Documents
+> cd ES-SD_Project
 
 
 [3] Obter versão entregue
+<<<<<<< HEAD
 > git clone https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/R_3
 
 //falta indicar a tag
+=======
+> git clone -b R_3 https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/
+>>>>>>> Fixed wrong directory in README instruction
 
 
 [4] Construir e executar **servidor**
 O servidor Juddi deve ter sido inicializado há cerca de 1 minuto
-> cd A_29_59_63-project/sd-store/store-ws-wsdl
+> cd ~/Documents/ES-SD_Project/A_29_59_63-project/sd-store/store-ws-wsdl
 
-> mvn clean package 
+> mvn clean package
 
 > mvn exec:java
 
 
 [5] Construir **cliente**
 Abrir outra janela de terminal
-> cd ~/Documents/A_29_59_63-project/sd-store/store-ws-cli
+> cd ~/Documents/ES-SD_Project/A_29_59_63-project/sd-store/store-ws-cli
 
 > mvn clean package install
 
@@ -71,31 +79,26 @@ Abrir outra janela de terminal
 ### Instruções de teste: ###
 
 [1] Executar testes de implementação **servidor**
-> cd ~/Documents/A_29_59_63-project/sd-store/store-ws-wsdl
+> cd ~/Documents/ES-SD_Project/A_29_59_63-project/sd-store/store-ws-wsdl
 
-> mvn -Dtest=ImplementationTest test
+> mvn -Dtest=ImplementationTests test
 
 [2] Executar testes mocked **cliente**
-> cd ~/Documents/A_29_59_63-project/sd-store/store-ws-cli
+> cd ~/Documents/ES-SD_Project/A_29_59_63-project/sd-store/store-ws-cli
 
 > mvn -Dtest=StoreClientMockTest test
 
 [2] Executar testes de comunicação **cliente**
-> cd ~/Documents/A_29_59_63-project/sd-store/store-ws-wsdl
+> cd ~/Documents/ES-SD_Project/A_29_59_63-project/sd-store/store-ws-wsdl
 
 > mvn exec:java
 
 > (Abrir outra janela de terminal)
 
-> cd ~/Documents/A_29_59_63-project/sd-store/store-ws-cli
+> cd ~/Documents/ES-SD_Project/A_29_59_63-project/sd-store/store-ws-cli
 
 > mvn -Dtest=StoreClientRealTest test
 
-Não existe publicado um serviço de remoção de ficheiros, logo o 
-sucesso pode ser confirmado por verificar que foi criado, em
-~/Documents/A_29_59_63-project/sd-store/store-ws-wsdl/stored-files
-O repositório 'username' que contém o ficheiro 'docId' com
-conteúdo
 
 
 -------------------------------------------------------------------------------
