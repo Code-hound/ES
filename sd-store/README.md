@@ -29,11 +29,8 @@ Escolher o sistema operativo baseado em linux
 
 [1] Iniciar servidores de apoio
 JUDDI:
-<<<<<<< HEAD
-> $CATALINA_HOME/bin/startup.sh
-=======
+
 > cd $CATALINA_HOME/bin/
->>>>>>> Fixed wrong directory in README instruction
 
 > chmod +x startup.sh
 
@@ -49,13 +46,9 @@ JUDDI:
 
 
 [3] Obter versão entregue
-<<<<<<< HEAD
 > git clone https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/R_3
 
-//falta indicar a tag
-=======
 > git clone -b R_3 https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/
->>>>>>> Fixed wrong directory in README instruction
 
 
 [4] Construir e executar **servidor**
