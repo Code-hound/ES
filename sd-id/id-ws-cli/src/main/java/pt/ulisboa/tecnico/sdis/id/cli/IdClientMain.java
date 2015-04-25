@@ -18,6 +18,8 @@ import sd-id.AuthReqFailed_Exception;
  *
  */
 
+// TODO
+
 public class IdClientMain {
 
     public static void main(String[] args) throws Exception {
@@ -37,6 +39,36 @@ public class IdClientMain {
         } catch(InvalidEmail_Exception e) {
             System.out.println("Caught expected invalid email exception.");
         }
+
+        try {
+            System.out.print("alice@tecnico.pt");
+            System.out.println(client.createUser("alice" , "alice@tecnico.pt"));
+
+        } catch(EmailAlreadyExists_Exception e) {
+            System.out.println("Caught expected email already exist exception.");
+        }
+
+        try {
+            System.out.print("alice@tecnico.pt");
+            System.out.println(client.createUser(" " , "alicealice@tecnico.pt"));
+
+            System.out.print("alice@tecnico.pt");
+            System.out.println(client.createUser(null , "alicealice@tecnico.pt"));
+
+        } catch(InvalidUser_Exception e) {
+            System.out.println("Caught expected invalid user exception.");
+        }
+
+        //TODO
+        /*
+        try {
+            System.out.print("alice@tecnico.pt");
+            System.out.println(client.createUser("alice" , "alice@tecnico.pt"));
+
+        } catch(UserAlreadyExists_Exception e) {
+            System.out.println("Caught expected user already exists exception.");
+        }
+        */
 
     }
 
