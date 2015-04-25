@@ -25,46 +25,50 @@ Repositório:
 ### Instruções de instalação 
 
 [1] Iniciar sistema operativo
+
 Escolher o sistema operativo baseado em linux
 
+Abrir terminal
 
-[2] Iniciar servidores de apoio
+[2] criar ambiente temporário
+
+> export SD_STORE=`mktemp -d --tmpdir`
+
+> cd $SD_STORE
+
+[3] Iniciar servidores de apoio
+
 JUDDI:
-> wget http://disciplinas.tecnico.ulisboa.pt/leic-sod/2014-2015/download/juddi-3.2.1_tomcat-7.0.57_port-8081.zip -P ~/Downloads
 
-> unzip ~/Downloads/juddi-3.2.1_tomcat-7.0.57_port-8081.zip -d ~
+> wget http://disciplinas.tecnico.ulisboa.pt/leic-sod/2014-2015/download/juddi-3.2.1_tomcat-7.0.57_port-8081.zip
 
-> cd ~/juddi-3.2.1_tomcat-7.0.57_port-8081/bin
+> unzip ./juddi-3.2.1_tomcat-7.0.57_port-8081
 
-> chmod +x startup.sh
+> export CATALINA_HOME=$SD_STORE/juddi-3.2.1_tomcat-7.0.57_port-8081
 
-> chmod +x catalina.sh
+> cd ./juddi-3.2.1_tomcat-7.0.57_port-8081/bin
+
+> chmod +x ./startup.sh ./catalina.sh
 
 > ./startup.sh
 
-
-[3] Criar pasta temporária
-> cd ~/Documents
-
-> mkdir ES-SD_Project
-
-> cd ES-SD_Project
-
+> cd $SD_STORE
 
 [4] Obter versão entregue
-> git clone -b R_3 https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/
 
+> git clone -b R_3 https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/ project
 
 [5] Instalar o módulo de Juddi do projecto
-> cd ~/Documents/ES-SD_Project/A_29_59_63-project/sd-store/store-ws-wsdl
+
+> cd ./project/sd-store/store-ws-wsdl
 
 > mvn clean package install
 
-
 [6] Construir e executar **servidor**
+
 > O servidor Juddi deve ter sido inicializado há cerca de 1 minuto
 
-> cd ~/Documents/ES-SD_Project/A_29_59_63-project/sd-store/store-ws-wsdl
+> cd ../store-ws-wsdl
 
 > mvn clean package
 
@@ -72,6 +76,7 @@ JUDDI:
 
 
 [7] Construir **cliente**
+
 > Abrir outra janela de terminal
 
 > cd ~/Documents/ES-SD_Project/A_29_59_63-project/sd-store/store-ws-cli
