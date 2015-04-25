@@ -35,7 +35,7 @@ import pt.ulisboa.tecnico.sdis.id.ws.*; // classes generated from WSDL
 @WebService(
     endpointInterface="pt.ulisboa.tecnico.sdis.id.ws.SDId", 
     wsdlLocation="SD-ID.1_1.wsdl",
-    name="SdId", // MESMO NOME D POM.XML done
+    name="SdId",
     portName="SDIdImplPort",
     targetNamespace="urn:pt:ulisboa:tecnico:sdis:id:ws",
     serviceName="SDId"
@@ -46,8 +46,7 @@ public class IdImpl implements SDId {
     private static String idUsername;
     private static String idPassword;
     private static String idEmail;
-    
-    //public ArrayList<ArrayList<String>> listData = new ArrayList<ArrayList<String>>();
+
     private ArrayList<String[]> listData = new ArrayList<String[]>();
     
     
@@ -64,52 +63,8 @@ public class IdImpl implements SDId {
      * @author: Francisco Maria Calisto
      * @author: Joao Pedro Zeferino
      * 
-     */    
-    /*
-    public IdImpl() {
-        this.idUsername = idUsername;
-     //   this.idPassword = idPassword;
-        this.idEmail = idEmail;
-        
-        // FIXME
-        //checkConnection();
-    }
-    */
-    
-    /*
-     * checkConnection - verifica que a ligacao a base de dados se encontra aberta. Caso por alguma razao
-     * se tenha fechado, tenta reestabelecer a ligacao.
-     * 
-     * NÃO UTILIZAR BASE DE DADOS, eliminar a complexidade do IdImpl pois não é preciso ser persistente,
-     * os objectos devem ser guardados aqui, num vector (sugerido pelo prof),
-     * cada posição vai ter um User com nome, senha e email.
-     * 
-     * Criar função ---populate--- com dados de teste indicados a seguir, armazenando-os no vector criado:
-     * 			http://disciplinas.tecnico.ulisboa.pt/leic-sod/2014-2015/labs/proj/test.html
-     * 
-     * Fiquei sem ter a certeza se a funcao checkConnection() e para apagar
-     * 
      */
-    /*
-    private void checkConnection() {
-        while(conn == null)
-            try {
-                Class.forName(dbDriver);
-                conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-            } catch (SQLException e) {
-                System.out.println("IdImpl error: couldn't establish connection to database - " + e);
-                printSQLExceptions(e);
-            } catch (ClassNotFoundException e) {
-                System.out.println("IdImpl error: couldn't load sql driver - " + e);
-                e.printStackTrace();
-                break;
-            }
-    }*/
-    /*
-    public String sayHello(String name) {
-        return "Hello " + name + "!";
-    }
-	*/
+
 	public void createUser(String userId, String emailAddress)
 			throws EmailAlreadyExists_Exception,
 			       InvalidEmail_Exception,
@@ -118,16 +73,12 @@ public class IdImpl implements SDId {
 		
 		// Gera senha alfanumerica e armazena em String.
 		// Apresenta a senha na consola de serviço.
-		
-		//String id = "";
-		//String userIdVazio = ""; // FIXME
-		//String userIdNull = null; // FIXME
+
 		if (userId == null || userId.length() == 0)
 			throw new InvalidUser_Exception("Invalid username.", new InvalidUser());
 		String str = userId + "";
 		String userLetter1 = "" + str.charAt(0);
-		
-		// Mover para private static int
+
 		int userIndex = listData.size() +1;
 		
 	    String userPassword = 
@@ -163,39 +114,7 @@ public class IdImpl implements SDId {
     	listUser[2]=userPassword;
     	
     	listData.add(listUser);
-	    
-		// Make sure you're connected. NAO É NECESSARIO!!!
-		// Apenas adicionar o User da criaçao no vector e gerar a sua senha (pode ser a letra inicial do nome repetida 3 vezes e um numero inteiro)
-		// Assim, seguiamos o exemplo dos dados de teste. alice -> senha Aaa1
-        
-        // return id;
     }
-	
-	/*		throws UserDoesNotExist_Exception {
-		User user = getUsername(userId);
-		List<String> usersList = new ArrayList<String>();
-		
-		for(User user : user) {
-			usersList.add(user.getName());
-		}
-		
-		return usersList;
-	}*/
-	
-	/*
-	public List<String> listPassword(String userPassword)
-			throws UserDoesNotExist_Exception {
-		List<String> passList = new ArrayList<String>();
-		
-		private int userCont;
-		
-		for(i = 0; ) {
-			passList.add(user.getPassword());
-		}
-		
-		return usersList;
-	}
-	*/
 
 	public void renewPassword(String userId)
 			throws UserDoesNotExist_Exception {
@@ -214,29 +133,6 @@ public class IdImpl implements SDId {
 		throw new UserDoesNotExist_Exception
 			("User does not exist", new UserDoesNotExist());
 	}
-		
-		// Make sure you're connected. RETIRAR
-        
-        // CARE
-        
-        /*
-    	 * ?PERGUNTA?
-    	 * 
-    	 * Como implementar o random para este caso?
-    	 * 
-    	 * A senha para Alice, de acordo com os dados de teste, é aaa1.
-    	 * Para renovar podemos ir buscar a senha que corresponde ao userId Alice e adicionar 1 à String, ficando aaa11.
-    	 * Somar para ficar aaa2 acho mais complicado, uma vez que a senha é armazenada como String.
-    	 * 
-    	 */
-	
-	/*
-	 * ?PERGUNTA?
-	 * 
-	 * Como e que e que devemos apagar? Algo tipo deleteUser de ES?
-	 * Vector de objectos User, buscar pelo userId... user=null
-	 * 
-	 */
 
 	public void removeUser(String userId)
 			throws UserDoesNotExist_Exception {
@@ -253,20 +149,7 @@ public class IdImpl implements SDId {
 	}
 
 	public byte[] requestAuthentication(String userId, byte[] reserved)
-			throws AuthReqFailed_Exception {
-		// Confirma correcção dos argumentos
-		// Retorna array com 1 byte, valor '(byte) 1'
-		// Exception se o utilizador não existe ou password incorrecta.
-		
-		/*
-    	 * ?PERGUNTA?
-    	 * 
-    	 * Ir buscar ao vector de Users pelo userId e ver se a password corresponde. Nao é preciso buscar nada
-    	 * (porque ES ainda nao está ligado a SD)
-    	 * 
-    	 */
-		
-		
+			throws AuthReqFailed_Exception {		
 		
 		for(int i = 0; i < listData.size(); i++) {
 			if(userId.equals(listData.get(i)[0]) 
@@ -279,14 +162,5 @@ public class IdImpl implements SDId {
 		}
 		throw new AuthReqFailed_Exception("Autentication Failed", new AuthReqFailed());
 	}
-	
-	// -----> EXTRA <-----
-	
-	/*
-	 * ?PERGUNTA?
-	 * 
-	 * Perguntar se o que se segue e necessario? remover BD
-	 * 
-	 */
 	
 }

@@ -17,11 +17,10 @@ public class IdMain {
         String uddiURL = args[0];
         String name = args[1];
         String url = args[2];
-        String dbUsername = args[3]; 
-        String dbEmailAddress = args[4]; 
         
         Endpoint endpoint = null;
         UDDINaming uddiNaming = null;
+
         try {
             endpoint = Endpoint.create(new IdImpl());
 
