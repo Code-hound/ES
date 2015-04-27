@@ -9,18 +9,8 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 import javax.jws.*;
-
-import store.ws.*;
-
-import org.jdom2.Element;
-import org.jdom2.Document;
-import org.jdom2.output.XMLOutputter;
-import org.jdom2.output.Format;
-import org.jdom2.input.SAXBuilder;
-import org.jdom2.JDOMException;
 
 import pt.ulisboa.tecnico.sdis.store.ws.*;
 
@@ -33,19 +23,26 @@ import pt.ulisboa.tecnico.sdis.store.ws.*;
  */
 
 @WebService(
-	    endpointInterface="pt.ulisboa.tecnico.sdis.store.ws.SDStore", 
-	    wsdlLocation="SD-STORE.1_1.wsdl",
-	    name="SDStore",
-	    portName="SDStoreImplPort",
-	    targetNamespace="urn:pt:ulisboa:tecnico:sdis:store:ws",
-	    serviceName="SDStore"
-	)
+	endpointInterface="pt.ulisboa.tecnico.sdis.store.ws.SDStore", 
+	wsdlLocation="SD-STORE.1_1.wsdl",
+	name="SDStore",
+	portName="SDStoreImplPort",
+	targetNamespace="urn:pt:ulisboa:tecnico:sdis:store:ws",
+	serviceName="SDStore"
+)
+
+/*
+ * Luis: acrescentei esta anotacao, tal como descrito no lab:
+ * http://disciplinas.tecnico.ulisboa.pt/leic-sod/2014-2015/labs/10-ws4/index.html
+ */
+@HandlerChain(
+	file="/handler-chain.xml"
+)
 
 public class StoreImpl implements SDStore {
 	private static final String STORED = "stored_files";
 	private static final String TERMINATOR = ".txt";
 	private static final String SEPARATOR = Character.toString(File.separatorChar);
-	private static final int MAX_FILE_SIZE_BYTES = 1024; //10MB per file
 	 
 	/*
 	 *  Creates a new document in the provided user's repository.
