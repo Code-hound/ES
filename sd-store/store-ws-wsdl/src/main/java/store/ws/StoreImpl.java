@@ -1,4 +1,3 @@
-
 package store.ws;
 
 import java.io.IOException;
