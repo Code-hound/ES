@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.sdid.id.cli;
+package pt.ulisboa.tecnico.sdis.id.cli;
 
 import java.util.List;
 import java.util.Map;
@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.xml.ws.*;
 
 import pt.ulisboa.tecnico.sdis.id.ws.*;
+import pt.ulisboa.tecnico.sdis.id.exception.IdClient_Exception;
 
 public class IdClient implements SDId {
 	/** WS service */
@@ -24,11 +25,11 @@ public class IdClient implements SDId {
         this.verbose = verbose;
     }
     
-    public IdClient() throws IdClientException {
+    public IdClient() throws IdClient_Exception {
     	createStub();
     }
     
-    public IdClient(String wsURL) throws IdClientException {
+    public IdClient(String wsURL) throws IdClient_Exception {
     	this.wsURL = wsURL;
         createStub();
     }

@@ -1,6 +1,12 @@
-package id.exception;
+package pt.ulisboa.tecnico.sdis.id.exception;
 
 public class EmailAlreadyExists_Exception extends Exception {
+	
+	/**
+	 * 
+	 */
+	
+	private static final long serialVersionUID = 1L;
 	
 	private String emailAddress;
 

@@ -8,7 +8,7 @@ public class IdMain {
 
     public static void main(String[] args) {
         // Check arguments
-        if (args.length < 5) {
+        if (args.length < 3) {
             System.err.println("Argument(s) missing!");
             System.err.printf("Usage: java %s uddiURL wsName wsURL%n", IdMain.class.getName());
             return;

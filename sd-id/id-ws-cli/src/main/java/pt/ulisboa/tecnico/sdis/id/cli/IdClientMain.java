@@ -1,11 +1,7 @@
-package pt.ulisboa.tecnico.sdid.id.cli;
+package pt.ulisboa.tecnico.sdis.id.cli;
 
-import sd-id.InvalidEmail_Exception;
-import sd-id.EmailAlreadyExists_Exception;
-import sd-id.InvalidUser_Exception;
-import sd-id.UserAlreadyExists_Exception;
-import sd-id.UserDoesNotExist_Exception;
-import sd-id.AuthReqFailed_Exception;
+import pt.ulisboa.tecnico.sdis.id.ws.*;
+import pt.ulisboa.tecnico.sdis.id.exception.IdClient_Exception;
 
 
 /**
@@ -28,13 +24,13 @@ public class IdClientMain {
 
         try {
             System.out.print("alice@");
-            System.out.println(client.createUser("alice" , "alice@"));
+            client.createUser("alice" , "alice@");
 
             System.out.print("@tecnico");
-            System.out.println(client.createUser("alice" , "@tecnico"));
+            client.createUser("alice" , "@tecnico");
 
             System.out.print("alice");
-            System.out.println(client.createUser("alice" , "alice"));
+            client.createUser("alice" , "alice");
 
         } catch(InvalidEmail_Exception e) {
             System.out.println("Caught expected invalid email exception.");
@@ -42,7 +38,7 @@ public class IdClientMain {
 
         try {
             System.out.print("alice@tecnico.pt");
-            System.out.println(client.createUser("alice" , "alice@tecnico.pt"));
+            client.createUser("alice" , "alice@tecnico.pt");
 
         } catch(EmailAlreadyExists_Exception e) {
             System.out.println("Caught expected email already exist exception.");
@@ -50,10 +46,10 @@ public class IdClientMain {
 
         try {
             System.out.print("alice@tecnico.pt");
-            System.out.println(client.createUser(" " , "alicealice@tecnico.pt"));
+            client.createUser(" " , "alicealice@tecnico.pt");
 
             System.out.print("alice@tecnico.pt");
-            System.out.println(client.createUser(null , "alicealice@tecnico.pt"));
+            client.createUser(null , "alicealice@tecnico.pt");
 
         } catch(InvalidUser_Exception e) {
             System.out.println("Caught expected invalid user exception.");

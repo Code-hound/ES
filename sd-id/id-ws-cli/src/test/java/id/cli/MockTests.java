@@ -16,6 +16,7 @@ import org.jdom2.Element;
 
 import java.util.List;
 
+import pt.ulisboa.tecnico.sdis.id.cli.IdClient;
 import pt.ulisboa.tecnico.sdis.id.ws.*;
 //import id.ws.IdImpl;
 
