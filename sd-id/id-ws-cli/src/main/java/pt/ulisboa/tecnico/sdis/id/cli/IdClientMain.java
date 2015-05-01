@@ -19,8 +19,49 @@ import pt.ulisboa.tecnico.sdis.id.exception.IdClient_Exception;
 public class IdClientMain {
 
     public static void main(String[] args) throws Exception {
-
-        IdClient client = new IdClient();
+        
+        String uddiURL = args[0];
+        String name = args[1];
+        
+        IdClient client = new IdClient(uddiURL, name);
+        
+        // Check args
+        
+        if ( args.length < 2) {
+        	System.err.println("No arguments");
+        	System.err.printf("The usage java %s uddiURL name %n", IdClientMain.class.getName());
+        	
+        	return ;
+        }
+        
+        try {
+        	String id = "alice";
+        	String email = "alice@tecnico.pt";
+        	
+        	byte[] pw = null;
+        	
+        	client.createUser(id,  email); //SUC
+        	client.createUser(id,  email); //FAIL
+        	client.renewPassword(id); //SUC
+        	
+        	/*
+        	 * NOTA: Nao e possivel testar açgumas funcionalidades
+        	 *       do Sistema dado que, por exemplo, no caso da
+        	 *       funcao requestAuthentication nao e possivel
+        	 *       retornar a password pedida.
+        	 * 
+        	 */
+        	
+        	client.requestAuthentication(id, pw); //FAIL
+        	
+        	client.removeUser(id); //SUC
+        	client.renewPassword(id); //FAIL
+        	client.removeUser(id); //FAIL
+        } catch (Exception e) {
+        	System.out.println(e.getMessage());
+        }
+        
+        /*
 
         try {
             System.out.print("alice@");
@@ -54,6 +95,7 @@ public class IdClientMain {
         } catch(InvalidUser_Exception e) {
             System.out.println("Caught expected invalid user exception.");
         }
+        */
 
         //TODO
         /*

@@ -127,7 +127,7 @@ public class IdImpl implements SDId {
 				oldPass = listData.get(i)[2];
 				listData.get(i)[2] = oldPass + oldPass.substring(3,4);
 				System.out.println(listData.get(i)[2]);
-				return;
+				return ;
 			}
 		}
 		throw new UserDoesNotExist_Exception
@@ -141,7 +141,7 @@ public class IdImpl implements SDId {
 		for(int i = 0; i < listData.size(); i++) {
 			if(userId.equals(listData.get(i)[0])) {
 				listData.remove(i);
-				return;
+				return ;
 			}
 		}
 		throw new UserDoesNotExist_Exception

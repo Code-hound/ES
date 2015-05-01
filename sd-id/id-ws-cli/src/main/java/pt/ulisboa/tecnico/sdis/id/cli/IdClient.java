@@ -8,6 +8,16 @@ import javax.xml.ws.*;
 import pt.ulisboa.tecnico.sdis.id.ws.*;
 import pt.ulisboa.tecnico.sdis.id.exception.IdClient_Exception;
 
+/**
+*
+*  ID CLIENT
+*  
+*  ID Client for the Client Service.
+*
+*  @author: Francisco Maria Calisto
+*
+*/
+
 public class IdClient implements SDId {
 	/** WS service */
 	private SDId_Service idService = null;
@@ -15,6 +25,8 @@ public class IdClient implements SDId {
 	private SDId idInterface = null;
 	/** WS endpoint address */
 	private String wsURL = null;
+	/** IdClient name */
+	private String name = null;
     /** output option **/
     private boolean verbose = false;
     
@@ -29,8 +41,10 @@ public class IdClient implements SDId {
     	createStub();
     }
     
-    public IdClient(String wsURL) throws IdClient_Exception {
+    public IdClient(String wsURL, String name) throws IdClient_Exception {
     	this.wsURL = wsURL;
+    	this.name = name;
+    	
         createStub();
     }
 	
