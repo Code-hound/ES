@@ -36,16 +36,13 @@ public class BubbleDocs extends BubbleDocs_Base {
 		return !getUsersSet().isEmpty();
 	}
 
-	public User createUser(String newUsername, String newPassword, String newName, String newEmail) throws BubbleDocsException {
-		//System.out.println("username:"+newUsername+" length:"+newUsername.length()+  
-		//		"   password:"+newPassword);
-		if (newUsername.length() < 3 || newUsername.length() > 8)
-			throw new InvalidUsernameException();
+	public User createUser(String newUsername, String newPassword, 
+			String newName, String newEmail) throws BubbleDocsException {
 		if (hasUserByUsername(newUsername))
 			throw new UserAlreadyExistsException(newUsername);
 		if (newEmail.length() == 0)
 			throw new EmptyEmailException();
-		User newUser = new User(newUsername, newPassword, newName, newEmail);
+		User newUser = User.createUser(newUsername, newPassword, newName, newEmail);
 		newUser.setUserToken("");
 		addUsers(newUser);
 		return newUser;

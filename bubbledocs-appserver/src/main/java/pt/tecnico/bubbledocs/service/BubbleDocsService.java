@@ -37,11 +37,7 @@ public abstract class BubbleDocsService {
 	}
 
 	public static User getUser(String username) {
-		User user = getBubbleDocs().getUserByUsername(username);
-		if (user == null) {
-			return null;
-		}
-		return user;
+		return getBubbleDocs().getUserByUsername(username);
 	}
 
 	public static SpreadSheet getSpreadSheet(int sheetId) {
