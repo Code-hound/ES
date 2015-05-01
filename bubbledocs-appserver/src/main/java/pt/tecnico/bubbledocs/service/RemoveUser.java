@@ -2,6 +2,7 @@ package pt.tecnico.bubbledocs.service;
 
 //the needed import declarations
 
+import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.domain.Access;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
@@ -35,32 +36,28 @@ public class RemoveUser extends BubbleDocsService {
 	protected void dispatch() throws BubbleDocsException {
 
 		IDRemoteServices service = new IDRemoteServices();
-		String username = resetUserLastAccess(userToken);
+		resetUserLastAccess(userToken);
 
 		//throws UserNotInSessionException
-		if (username == null)
-			throw new UserNotInSessionException(username);
-		
-		//throws UnauthorizedOperationException
-		if (!username.equals("root"))
-			throw new UnauthorizedOperationException(username);
-
 		//throws UnavailableServiceException
-		try {
-			service.removeUser(toDeleteUsername);
-		} catch (RemoteInvocationException e) {
-			throw new UnavailableServiceException();
+		if (checkIfRoot(userToken)){
+			try {
+				service.removeUser(toDeleteUsername);
+			} catch (RemoteInvocationException e) {
+				throw new UnavailableServiceException();
+			}
+			
+			//throws LoginBubbleDocsException
+			if (getUser(toDeleteUsername)==null)
+				throw new LoginBubbleDocsException(toDeleteUsername);
+	
+			for (Access access : getUser(toDeleteUsername).getAccessSet()) {
+				access.getDocument().removeDocAccess(access);
+				access = null;
+			}
+			BubbleDocs bd = getBubbleDocs();
+			bd.removeUserFromSession(getUser(toDeleteUsername));
+			bd.removeUsers(getUser(toDeleteUsername));
 		}
-		
-		//throws LoginBubbleDocsException
-		if (getUser(toDeleteUsername)==null)
-			throw new LoginBubbleDocsException(toDeleteUsername);
-
-		for (Access access : getUser(toDeleteUsername).getAccessSet()) {
-			access.getDocument().removeDocAccess(access);
-			access = null;
-		}
-		getBubbleDocs().removeUserFromSession(getUser(toDeleteUsername));
-		getBubbleDocs().removeUsers(getUser(toDeleteUsername));
 	}
 }

@@ -42,31 +42,23 @@ public class CreateUser extends BubbleDocsService {
 
 		IDRemoteServices service = new IDRemoteServices();
 		String username = resetUserLastAccess(userToken);
-
-		//throws InvalidUsernameException
-		if (this.newUsername.length() < 3 || this.newUsername.length() > 8)
-			throw new InvalidUsernameException();
-
-		//throws UserNotInSessionException
-		if (username == null)
-			throw new UserNotInSessionException(username);
 		
 		//throws UnauthorizedOperationException
-		if (!username.equals("root"))
-			throw new UnauthorizedOperationException(username);
+		if (checkIfRoot(userToken)){
 		
 		//throws UnavailableServiceException
-		try {
-			service.createUser(this.newUsername, this.email);
-		} catch (RemoteInvocationException e) {
-			throw new UnavailableServiceException();
+			try {
+				service.createUser(this.newUsername, this.email);
+			} catch (RemoteInvocationException e) {
+				throw new UnavailableServiceException();
+			}
+	
+			getBubbleDocs().createUser(this.newUsername, this.email, this.name, this.email);
+	
+			//throws UserAlreadyExistsException
+			if (getUser(this.newUsername) == null)
+				throw new UserAlreadyExistsException(this.newUsername);
 		}
-
-		getBubbleDocs().createUser(this.newUsername, this.email, this.name, this.email);
-
-		//throws UserAlreadyExistsException
-		if (getUser(this.newUsername) == null)
-			throw new UserAlreadyExistsException(this.newUsername);
 	}
 	
 	public String getUsername () {

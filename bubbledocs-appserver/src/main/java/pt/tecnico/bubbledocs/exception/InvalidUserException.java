@@ -25,7 +25,7 @@ public class InvalidUserException extends BubbleDocsException {
 
 	@Override
 	public String getMessage() {
-		return "This username " + this.userName + " is not valid";
+		return "The user " + this.userName + " does not exist";
 	}
 
 }

@@ -21,13 +21,13 @@ public class ExportDocumentTest extends BubbleDocsServiceTest {
 	private int sheetId;
 
 	//User-Owner
-	private final String USERNAME_OWNER = "username_owner";
+	private final String USERNAME_OWNER = "owner";
 	private final String PASSWORD_OWNER = "password_owner";
 	private final String NAMEUSER_OWNER = "nameuser_owner";
 	private final String EMAIL_OWNER = "email_owner";
 
 	//User-No-Access
-	private final String USERNAME_NO_ACCESS = "username_no_access";
+	private final String USERNAME_NO_ACCESS = "noaccess";
 	private final String PASSWORD_NO_ACCESS = "password_no_access";
 	private final String NAMEUSER_NO_ACCESS = "nameuser_no_access";
 	private final String EMAIL_NO_ACCESS = "email_no_access";

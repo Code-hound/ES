@@ -13,7 +13,7 @@ import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 public class RenewPasswordTest extends BubbleDocsServiceTest {
 
-	private static final String USERNAME = "jp";
+	private static final String USERNAME = "jpname";
 	private static final String PASSWORD = "jp#";
 	private String userToken;
 

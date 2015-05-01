@@ -6,6 +6,8 @@ import pt.tecnico.bubbledocs.domain.SpreadSheet;
 import pt.ist.fenixframework.Atomic;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
+import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
+import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 
 
 public abstract class BubbleDocsService {
@@ -17,6 +19,17 @@ public abstract class BubbleDocsService {
 
 	public static BubbleDocs getBubbleDocs() {
 		return BubbleDocs.getInstance();
+	}
+	
+	public static boolean checkIfRoot(String usertoken)
+			throws UnauthorizedOperationException, UserNotInSessionException {
+		BubbleDocs bd = getBubbleDocs();
+		User user = bd.getUserLoggedInByToken(usertoken);
+		if (user == null)
+			throw new UserNotInSessionException(usertoken);
+		if (!bd.isRoot(user))
+			throw new UnauthorizedOperationException(usertoken);
+		return true;
 	}
 	
 	public static String resetUserLastAccess(String userToken) {

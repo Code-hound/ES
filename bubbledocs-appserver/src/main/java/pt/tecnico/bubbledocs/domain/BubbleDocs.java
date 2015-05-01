@@ -19,6 +19,10 @@ public class BubbleDocs extends BubbleDocs_Base {
 		
 		return bubble;
 	}
+	
+	public boolean isRoot (User root) {
+		return (root.getUsername().equals("root"));
+	}
 
 	private BubbleDocs() {
 		//super();
@@ -32,11 +36,16 @@ public class BubbleDocs extends BubbleDocs_Base {
 		return !getUsersSet().isEmpty();
 	}
 
-	public User createUser(String newUserName, String newPassword, String newName, String newEmail) throws BubbleDocsException {
-		if (newUserName.length() == 0) throw new InvalidUsernameException();
-		if (hasUserByUsername(newUserName)) throw new UserAlreadyExistsException(newUserName);
-		if (newEmail.length() == 0) throw new EmptyEmailException();
-		User newUser = new User(newUserName, newPassword, newName, newEmail);
+	public User createUser(String newUsername, String newPassword, String newName, String newEmail) throws BubbleDocsException {
+		//System.out.println("username:"+newUsername+" length:"+newUsername.length()+  
+		//		"   password:"+newPassword);
+		if (newUsername.length() < 3 || newUsername.length() > 8)
+			throw new InvalidUsernameException();
+		if (hasUserByUsername(newUsername))
+			throw new UserAlreadyExistsException(newUsername);
+		if (newEmail.length() == 0)
+			throw new EmptyEmailException();
+		User newUser = new User(newUsername, newPassword, newName, newEmail);
 		newUser.setUserToken("");
 		addUsers(newUser);
 		return newUser;
@@ -99,7 +108,6 @@ public class BubbleDocs extends BubbleDocs_Base {
 	
 	public String resetUserLastAccess (String userToken) {
 		User user = getUserLoggedInByToken(userToken);
-		
 		if (user == null)
 			return null;
 		
@@ -148,13 +156,15 @@ public class BubbleDocs extends BubbleDocs_Base {
 		}
 		return null;
 	}
-
+	
+	/*
 	public String getUsernameLoggedInByToken(String userToken) {
 		User user = getUserLoggedInByToken(userToken);
 		if (user!=null)
 			return user.getUsername();
 		return null;
 	}
+	*/
 	
 	public boolean hasSpreadSheet() {
 		return !getDocsSet().isEmpty();
@@ -166,7 +176,7 @@ public class BubbleDocs extends BubbleDocs_Base {
 				return s;
 			}
 		}
-		throw new DocumentDoesNotExistException(id);
+		return null;
 	}
 
 	public List<SpreadSheet> getSpreadSheetByName(String sheetName) {
@@ -196,7 +206,7 @@ public class BubbleDocs extends BubbleDocs_Base {
 				return sheet;
 			}
 		}
-		throw new DocumentDoesNotExistException(owner.getUsername(), sheetName);
+		return null;
 	}
 	
 	public boolean hasSpreadSheetByOwnerAndName (User owner, String sheetName)
@@ -216,13 +226,13 @@ public class BubbleDocs extends BubbleDocs_Base {
 					&& s.getCreationDate().equals(date))
 				return s;
 		}
-		throw new DocumentDoesNotExistException(sheetName, date);
+		return null;
 	}
 
 	public SpreadSheet createSpreadSheet(User owner, String sheetName, int rows, int columns) {
 		
 		if (hasSpreadSheetByOwnerAndName(owner, sheetName))
-			return null;
+			throw new UserAlreadyHasThisDocumentException(owner.getUsername(), sheetName);
 			
 		SpreadSheet newSpreadSheet = new SpreadSheet(owner.getUsername(), getNextDocumentId(),
 				sheetName, rows, columns);

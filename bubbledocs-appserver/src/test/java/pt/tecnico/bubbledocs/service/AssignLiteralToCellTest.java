@@ -26,7 +26,7 @@ import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
 public class AssignLiteralToCellTest extends BubbleDocsServiceTest {
 
 	// User-Owner
-	private final String USERNAME_OWNER = "username_owner";
+	private final String USERNAME_OWNER = "owner";
 	private final String PASSWORD_OWNER = "password_owner";
 	private final String NAMEUSER_OWNER = "nameuser_owner";
 	private final String EMAIL_OWNER = "email_owner";
@@ -34,7 +34,7 @@ public class AssignLiteralToCellTest extends BubbleDocsServiceTest {
 	private String OWNER_TOKEN;
 
 	// User-Write
-	private final String USERNAME_WRITE = "username_write";
+	private final String USERNAME_WRITE = "write";
 	private final String PASSWORD_WRITE = "password_write";
 	private final String NAMEUSER_WRITE = "nameuser_write";
 	private final String EMAIL_WRITE = "email_write";
@@ -42,7 +42,7 @@ public class AssignLiteralToCellTest extends BubbleDocsServiceTest {
 	private String WRITE_TOKEN;
 
 	// User-Read
-	private final String USERNAME_READ = "username_read";
+	private final String USERNAME_READ = "read";
 	private final String PASSWORD_READ = "password_read";
 	private final String NAMEUSER_READ = "nameuser_read";
 	private final String EMAIL_READ = "email_read";
@@ -50,7 +50,7 @@ public class AssignLiteralToCellTest extends BubbleDocsServiceTest {
 	private String READ_TOKEN;
 
 	// User-No-Access
-	private final String USERNAME_NO_ACCESS = "username_no_access";
+	private final String USERNAME_NO_ACCESS = "noaccess";
 	private final String PASSWORD_NO_ACCESS = "password_no_access";
 	private final String NAMEUSER_NO_ACCESS = "nameuser_no_access";
 	private final String EMAIL_NO_ACCESS = "email_no_access";

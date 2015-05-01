@@ -13,6 +13,7 @@ import org.joda.time.Seconds;
 import pt.tecnico.bubbledocs.domain.Session;
 import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
+import pt.tecnico.bubbledocs.exception.InvalidUserException;
 import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
@@ -21,7 +22,7 @@ import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 public class LoginUserTest extends BubbleDocsServiceTest {
 
-	private static final String USERNAME = "jp";
+	private static final String USERNAME = "jpname";
 	private static final String PASSWORD = "jp#";
 
 	@Override
@@ -71,8 +72,9 @@ public class LoginUserTest extends BubbleDocsServiceTest {
 		assertEquals(USERNAME, user.getUsername());
 	}
 
-	@Test (expected = UnavailableServiceException.class)
+	@Test (expected = InvalidUserException.class)
 	public void InvalidUser() {
+		/*
 		new MockUp<IDRemoteServices>() {
 			@Mock
 			public void loginUser(String username, String password)
@@ -80,6 +82,7 @@ public class LoginUserTest extends BubbleDocsServiceTest {
 				throw new RemoteInvocationException();
 			}
 		};
+		*/
 		LoginUser service = new LoginUser("error", PASSWORD);
 		service.execute();
 	}
