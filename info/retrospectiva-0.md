@@ -1,3 +1,7 @@
+# First Week
+
+## Week Plan
+
 Project planing and execution of first week:
 
 | **Group Member**   | **Monday** | **Tuesday** | Wednesday | Thursday | Friday | Saturday | Sunday | Planned tasks | Implemented tasks |
@@ -8,11 +12,16 @@ Project planing and execution of first week:
 | Aline Caliente     | | | 1 | 0 |  |  |  |  |  |
 | João Zeferino      | | | 1 | 0 |  |  |  |  |  |
 
+## Restrospectiva
+
 Nesta semana conseguios cumprir os objectivos estabelicidos:
 
 1) Colocar o SD-ID a funcionar;
+
 1.1) Colocar o Cliente a comunicar com o Servidor;
 
+
 2) Adicionar alguns casos de Teste ao projecto de SD;
+
 
 3) Compreender e discutir entre todos os aspectos fundamentais das próximas entregas;
