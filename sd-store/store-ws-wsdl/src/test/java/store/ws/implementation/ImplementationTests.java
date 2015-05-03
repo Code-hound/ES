@@ -1,11 +1,10 @@
-package store.ws;
+package store.ws.implementation;
 
 import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.jdom2.Element;
 
 import java.util.List;
 
@@ -36,8 +35,8 @@ public class ImplementationTests {
 	}
 	
 	@After
-	public void tearDownAfterClass() throws Exception {
-		store.destroyFile(SHEET_ID);
+	public void tearDown() throws Exception {
+		store.destroyFile(pair);
 		store.destroyRepository(USERNAME);
 	}
 	

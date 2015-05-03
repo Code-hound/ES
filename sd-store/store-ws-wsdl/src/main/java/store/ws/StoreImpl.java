@@ -30,10 +30,6 @@ import pt.ulisboa.tecnico.sdis.store.ws.*;
 	serviceName="SDStore"
 )
 
-/*
- * Luis: acrescentei esta anotacao, tal como descrito no lab:
- * http://disciplinas.tecnico.ulisboa.pt/leic-sod/2014-2015/labs/10-ws4/index.html
- */
 @HandlerChain(
 	file="/handler-chain.xml"
 )
@@ -42,6 +38,7 @@ public class StoreImpl implements SDStore {
 	private static final String STORED = "stored_files";
 	private static final String TERMINATOR = ".txt";
 	private static final String SEPARATOR = Character.toString(File.separatorChar);
+	private static final int MAX_SIZE_IN_BYTES = 10000000;
 	 
 	/*
 	 *  Creates a new document in the provided user's repository.
@@ -49,15 +46,30 @@ public class StoreImpl implements SDStore {
      *	a new repository is created for the new user.
      *	Faults: a document already exists with the same id
 	 */
-	public void createDoc(DocUserPair docUser) throws DocAlreadyExists_Exception {
-		String path = getFilePath(docUser);
+	public void createDoc(DocUserPair docUser) 
+			throws DocAlreadyExists_Exception {
 		
+		String path = getFilePath(docUser);
 		try {
 			File file = new File(path);
-			//If the user repository does not yet exist, create it
+			
+			//If the file already exists, throw an exception
+			checkFileAlreadyExists(file, docUser.getUserId(), docUser.getDocumentId());
+			/*
+			if (file.exists()) {
+				throw new DocAlreadyExists_Exception(("User \"" +
+						docUser.getUserId() + 
+						"\" already has a document called \"" +
+						docUser.getDocumentId() + "\"."),
+						new DocAlreadyExists());
+			}
+			*/
+			
+			//If the repository does not exist, create it
 			if (!file.getParentFile().exists()) {
 				file.getParentFile().mkdirs();
 			}
+			
 			// Create the new file
 			file.createNewFile();
 		} catch (IOException ex) {
@@ -69,9 +81,22 @@ public class StoreImpl implements SDStore {
 	 * 	Lists the document ids of the user's repository.
      *	Faults: user does not exist
 	 */
-    public List<String> listDocs(String userId) throws UserDoesNotExist_Exception {
+    public List<String> listDocs(String userId) 
+    		throws UserDoesNotExist_Exception {
+    	
     	String path = getUserPath(userId);
-    	File[] files = new File(path).listFiles();
+    	File repository = new File(path);
+    	
+    	checkUserExists(repository, userId);
+    	/*
+    	if (!repository.exists()) {
+    		throw new UserDoesNotExist_Exception(("User \"" +
+    				userId +"\" does not exist."),
+    				new UserDoesNotExist());
+    	}
+    	*/
+    	
+    	File[] files = repository.listFiles();
     	List<String> fileList = new ArrayList<String>();
     	
     	for (File file : files) {
@@ -81,12 +106,35 @@ public class StoreImpl implements SDStore {
     	return fileList;
     }
 
-    public void store(DocUserPair docUserPair, byte[] contents)
-    		throws CapacityExceeded_Exception, DocDoesNotExist_Exception, 
+    public void store(DocUserPair docUser, byte[] contents)
+    		throws CapacityExceeded_Exception,
+    		DocDoesNotExist_Exception, 
     		UserDoesNotExist_Exception
     {
-    	String path = getFilePath(docUserPair);
+    	if (contents.length > MAX_SIZE_IN_BYTES) {
+    		throw new CapacityExceeded_Exception(("The max size of " +
+    				(MAX_SIZE_IN_BYTES/1000000) + 
+    				" Megabytes was exceeded."),
+    				new CapacityExceeded());
+    	}
+    	String path = getFilePath(docUser);
     	File file = new File(path);
+    	
+    	checkUserExists(file.getParentFile(), docUser.getUserId());
+    	checkFileExists(file, docUser.getDocumentId());
+    	/*
+    	if (!file.getParentFile().exists()) {
+    		throw new UserDoesNotExist_Exception(("User \"" +
+    				docUser.getUserId() +"\" does not exist."),
+    				new UserDoesNotExist());
+    	}
+    	if (!file.exists()) {
+    		throw new DocDoesNotExist_Exception (("Document \"" +
+    				docUser.getDocumentId() +"\" does not exist."),
+    				new DocDoesNotExist());
+    	}
+    	*/
+    	
     	FileOutputStream writer;
     	BufferedOutputStream bufferedWriter = null;
     	
@@ -110,9 +158,15 @@ public class StoreImpl implements SDStore {
     	}
     }
 
-    public byte[] load(DocUserPair docUser) {
+    public byte[] load(DocUserPair docUser)
+    		throws UserDoesNotExist_Exception,
+    		DocDoesNotExist_Exception
+    {
     	String path = getFilePath(docUser);
     	File file = new File(path);
+    	checkUserExists(file.getParentFile(), docUser.getUserId());
+    	checkFileExists(file, docUser.getDocumentId());
+    	
     	float fileSize = file.length();
     	//WARNING: casting float as int may not be safe
     	byte[] content = new byte[(int)fileSize];
@@ -133,32 +187,30 @@ public class StoreImpl implements SDStore {
     
     // ========== END OF INTERFACE METHODS ==========
     
-   
-	
-	public void destroyFile (String docId) {
-		String path = STORED;
-		destroyFile(docId, path);
+    public void destroyRepository (String username) {
+		String path = getUserPath(username);
+		File repository = new File (path);
+		File[] userFiles = repository.listFiles();
+		for (File file : userFiles) {
+			file.delete();
+		}
+		repository.delete();
 	}
+
+	public void destroyFile (DocUserPair docUser) {
+    	destroyFile(docUser.getUserId(), docUser.getDocumentId());
+   	}
 	
-	private void destroyFile (String id, String path) {
-		File[] files = new File(path).listFiles();
+	private void destroyFile (String repository, String docId) {
+		File[] files = new File(getUserPath(repository)).listFiles();
 		for (File file : files) {
-			if (file.getName().equals(id+TERMINATOR)) {
+			if (file.getName().equals(docId+TERMINATOR)) {
 				file.delete();
-				break;
-			}
-			else if (file.isDirectory()) {
-				destroyFile(id, file.getPath());
+				return;
 			}
 		}
 	}
 	
-	public void destroyRepository (String username) {
-		String path = getUserPath(username);
-		File repository = new File (path);
-		repository.delete();
-	}
-
 	private String getFilePath (DocUserPair docUser) {
     	return (String) getUserPath(docUser.getUserId())
 				+ SEPARATOR + docUser.getDocumentId() + TERMINATOR;
@@ -166,5 +218,32 @@ public class StoreImpl implements SDStore {
 	
 	private String getUserPath (String username) {
 		return (String) STORED + SEPARATOR + username;
+	}
+	
+	private void checkUserExists (File repository, String userId) 
+			throws UserDoesNotExist_Exception {
+		if (!repository.exists()) {
+    		throw new UserDoesNotExist_Exception(("User \"" +
+    				 userId + "\" does not exist."),
+    				new UserDoesNotExist());
+		}
+	}
+	
+	private void checkFileExists (File file, String docId) 
+			throws DocDoesNotExist_Exception {
+		if (!file.exists()) {
+    		throw new DocDoesNotExist_Exception (("Document \"" +
+    				docId +"\" does not exist."),
+    				new DocDoesNotExist());
+    	}
+	}
+	
+	private void checkFileAlreadyExists (File file, String userId, String docId) 
+			throws DocAlreadyExists_Exception {
+		if (file.exists()) {
+			throw new DocAlreadyExists_Exception(("User \"" + userId + 
+					"\" already has a document called \"" + docId + "\"."),
+					new DocAlreadyExists());
+		}
 	}
 }
