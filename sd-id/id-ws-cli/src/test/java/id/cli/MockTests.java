@@ -20,6 +20,14 @@ import pt.ulisboa.tecnico.sdis.id.cli.IdClient;
 import pt.ulisboa.tecnico.sdis.id.ws.*;
 //import id.ws.IdImpl;
 
+/**
+ * 
+ * SD-ID MOCK TESTS
+ *
+ * @author: Aline Caliente
+ * 
+ */
+
 @RunWith(JMockit.class)
 public class MockTests {
 	

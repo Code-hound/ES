@@ -12,9 +12,30 @@ import java.util.List;
 import pt.ulisboa.tecnico.sdis.id.ws.*;
 import id.ws.IdImpl;
 
+/**
+ * 
+ * SD-ID EMAIL IMPLEMENTATION TESTS
+ *
+ * @author: Aline Caliente
+ * @author: Francisco Maria Calisto
+ * 
+ */
+
 public class EmailImplTests {
 	private static final String ALICE_USERNAME = "alice";
 	private static final String ALICE_EMAIL = "alice@tecnico.pt";
+
+	private static final String ALICE_USERNAME = "bruno";
+	private static final String ALICE_EMAIL = "bruno@tecnico.pt";
+
+	private static final String ALICE_USERNAME = "carla";
+	private static final String ALICE_EMAIL = "carla@tecnico.pt";
+
+	private static final String ALICE_USERNAME = "duarte";
+	private static final String ALICE_EMAIL = "duarte@tecnico.pt";
+
+	private static final String ALICE_USERNAME = "eduardo";
+	private static final String ALICE_EMAIL = "eduardo@tecnico.pt";
 	
 	private static final String INVALID_USERNAME = "";
 	private static final String INVALID_EMAIL = "@b";
