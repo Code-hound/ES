@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.sdis.store.cli;
+package store.cli;
 
 import java.util.List;
 import java.util.Map;

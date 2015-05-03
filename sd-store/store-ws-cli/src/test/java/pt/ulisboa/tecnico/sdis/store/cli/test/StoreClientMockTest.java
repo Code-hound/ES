@@ -1,7 +1,6 @@
 package pt.ulisboa.tecnico.sdis.store.cli.test;
 
 import static org.junit.Assert.*;
-import pt.ulisboa.tecnico.sdis.store.cli.*;
 
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -12,6 +11,7 @@ import mockit.integration.junit4.JMockit;
 import javax.xml.ws.WebServiceException;
 
 import pt.ulisboa.tecnico.sdis.store.ws.*;
+import store.cli.*;
 
 @RunWith(JMockit.class)
 public class StoreClientMockTest {

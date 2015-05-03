@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.sdis.store.cli;
+package store.cli;
 
 public class StoreClientException extends Exception {
 	
