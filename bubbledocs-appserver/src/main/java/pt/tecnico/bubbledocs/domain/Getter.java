@@ -6,8 +6,10 @@ import pt.tecnico.bubbledocs.exception.InvalidValueException;;
 public class Getter {
 	public static int use(Cell cell) throws InvalidValueException {
 		Content c = cell.getContent();
-		if (c == null)
-			throw new InvalidValueException();
+		
+		//if (c == null)
+			//throw new InvalidValueException(cell);
+			//return (Integer) null;
 		return c.getContentValue();
 	}
 

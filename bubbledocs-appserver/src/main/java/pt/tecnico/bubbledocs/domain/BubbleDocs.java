@@ -28,7 +28,7 @@ public class BubbleDocs extends BubbleDocs_Base {
 		//super();
 		FenixFramework.getDomainRoot().setBubbleDocs(this);
 		
-		setNextDocumentId(0);
+		setNextDocumentId(1);
 		addUsers(new User("root", "root", "rootroot", "email@email.email"));
 	}
 

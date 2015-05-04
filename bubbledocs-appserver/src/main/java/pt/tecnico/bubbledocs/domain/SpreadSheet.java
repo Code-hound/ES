@@ -27,8 +27,8 @@ public class SpreadSheet extends SpreadSheet_Base {
 		setCreationDate(new LocalDate());
 		setNumberRows(rows);
 		setNumberColumns(columns);
-		for (int row = 1; row < rows; row++) {
-			for (int column = 1; column < columns; column++) {
+		for (int row = 1; row <= rows; row++) {
+			for (int column = 1; column <= columns; column++) {
 				addCells(new Cell(row, column));
 			}
 		}

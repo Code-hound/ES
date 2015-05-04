@@ -57,8 +57,9 @@ public class AssignReferenceToCell extends BubbleDocsService {
 		int rowCellReference    = Integer.parseInt(rowAndColumnContent[0]);
 		int columnCellReference = Integer.parseInt(rowAndColumnContent[1]);
 
-		int rowSpreadSheet    = sheet.getNumberColumns();
-		int columnSpreadSheet = sheet.getNumberRows();
+		int rowSpreadSheet    = sheet.getNumberRows();
+		int columnSpreadSheet = sheet.getNumberColumns();
+		//System.out.println("Rows:"+rowSpreadSheet+" Columns:"+columnSpreadSheet);
 
 		// testa se a celula existe nas dimensoes da spreadsheet
 		if (!(rowCellReference    >= 0) ||

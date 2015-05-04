@@ -1,5 +1,7 @@
 package pt.tecnico.bubbledocs.exception;
 
+import pt.tecnico.bubbledocs.domain.Cell;
+
 public class InvalidValueException extends BubbleDocsException {
 
 	/*
@@ -11,14 +13,19 @@ public class InvalidValueException extends BubbleDocsException {
 	 */
 
 	private static final long serialVersionUID = 1L;
+	private int row;
+	private int column;
 
 	public InvalidValueException() {
 		super();
+		//this.row = cell.getCellRow();
+		//this.column = cell.getCellColumn();
+		
 	}
 
 	@Override
 	public String getMessage() {
-		return "Invalid Value";
+		return "Invalid value.";
 	}
 
 }

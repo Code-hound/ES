@@ -29,12 +29,12 @@ public class AssignLiteralToCell extends BubbleDocsService {
 	protected void dispatch() throws BubbleDocsException {
 
 		String username = resetUserLastAccess(userToken);
-
-		//throws UserNotInSessionException
+		
 		if (username == null)
 			throw new UserNotInSessionException(username);
 		
 		this.sheet = getSpreadSheet(docId);
+		
 		if(!canBeWrittenBy(sheet, username)){
 			throw new UserCantWriteException(username, docId);
 		}
@@ -43,6 +43,7 @@ public class AssignLiteralToCell extends BubbleDocsService {
 		int row = Integer.parseInt(rowAndColumn[0]);
 		int column = Integer.parseInt(rowAndColumn[1]);
 		Cell cell = sheet.getCell(row, column);
+		//System.out.println("Rows:"+row+" Columns:"+column);
 		
 		if (cell.getProtect())
 			throw new ProtectedCellException(row, column);

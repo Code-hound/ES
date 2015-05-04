@@ -26,7 +26,6 @@ import pt.tecnico.bubbledocs.service.remote.StoreRemoteServices;
  * and exports it to XML if the User has access permissions.
  * 
  * @author: Luis Ribeiro Gomes
- * 
  */
 
 public class ExportDocument extends BubbleDocsService {
@@ -38,9 +37,9 @@ public class ExportDocument extends BubbleDocsService {
 	private int docId;
 	private byte[] result;
 
-	public ExportDocument(String userToken, int sheetId) {
+	public ExportDocument(String userToken, int docId) {
 		this.userToken = userToken;
-		this.docId = sheetId;
+		this.docId = docId;
 	}
 
 	@Override
