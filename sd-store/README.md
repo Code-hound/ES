@@ -15,8 +15,6 @@ Francisco de Matos Silveira
 
 Repositório:
 [tecnico-softeng-distsys-2015/A_29_59_63-project](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/)
-//FALTA ESPECIFICAR AS VERSOES DO JAVA AO MAVEN
-//CASO CONTRÁRIO PENSA QUE É A 1.3
 
 -------------------------------------------------------------------------------
 
