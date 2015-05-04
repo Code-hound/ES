@@ -36,7 +36,9 @@ Temporário:
 
 **ou** Permanente:
 
-> export SD_STORE=\`mkdir PROJECTO_ES_SD\`
+> mkdir $HOME/PROJECTO_ES_SD
+
+> export SD_STORE=$HOME/PROJECTO_ES_SD
 
 [3] Iniciar servidores de apoio
 
