@@ -111,12 +111,14 @@ public class StoreImpl implements SDStore {
     		DocDoesNotExist_Exception, 
     		UserDoesNotExist_Exception
     {
+    	/*
     	if (contents.length > MAX_SIZE_IN_BYTES) {
     		throw new CapacityExceeded_Exception(("The max size of " +
     				(MAX_SIZE_IN_BYTES/1000000) + 
     				" Megabytes was exceeded."),
     				new CapacityExceeded());
     	}
+    	*/
     	String path = getFilePath(docUser);
     	File file = new File(path);
     	
@@ -142,7 +144,6 @@ public class StoreImpl implements SDStore {
     		writer = new FileOutputStream(file);
     		bufferedWriter = new BufferedOutputStream(writer);
     		
-    		//System.out.println(contents);
     		bufferedWriter.write(contents);
     		bufferedWriter.flush();
     		bufferedWriter.close();

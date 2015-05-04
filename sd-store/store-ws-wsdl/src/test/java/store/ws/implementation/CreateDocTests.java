@@ -6,14 +6,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-
-
-
-
-//import pt.ulisboa.tecnico.sdis.store.ws.CapacityExceeded_Exception;
-//import pt.ulisboa.tecnico.sdis.store.ws.DocDoesNotExist_Exception;
-//import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
-//import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
 import pt.ulisboa.tecnico.sdis.store.ws.DocAlreadyExists_Exception;
 import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
 import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
@@ -25,7 +17,6 @@ public class CreateDocTests {
 	private static final String SHEET_ID = "2205";
 	private static DocUserPair pair = new DocUserPair();
 	private static StoreImpl store = new StoreImpl();
-	private static final String CONTENT = "This project is getting really hard";
 	
 	@Before
 	public void setup() throws Exception {
