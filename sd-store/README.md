@@ -24,98 +24,108 @@ Repositório:
 
 [1] Iniciar sistema operativo
 
-> (Escolher o sistema operativo baseado em linux)
+> Escolher o sistema operativo baseado em linux
 
-> (Abrir terminal)
+> Abrir terminal
 
 [2] criar ambiente
 
 Temporário:
 
-> export SD_STORE=\`mktemp -d --tmpdir\`
+```
+export SD_STORE=`mktemp -d --tmpdir`
+```
 
 **ou** Permanente:
 
-> mkdir $HOME/PROJECTO_ES_SD
-
-> export SD_STORE=$HOME/PROJECTO_ES_SD
+```
+mkdir $HOME/PROJECTO_ES_SD && \
+export SD_STORE=$HOME/PROJECTO_ES_SD
+```
 
 [3] Iniciar servidores de apoio
 
 JUDDI:
 
-> cd $SD_STORE
-
-> wget http://disciplinas.tecnico.ulisboa.pt/leic-sod/2014-2015/download/juddi-3.2.1_tomcat-7.0.57_port-8081.zip
-
-> unzip juddi-3.2.1_tomcat-7.0.57_port-8081
-
-> export CATALINA_HOME=$SD_STORE/juddi-3.2.1_tomcat-7.0.57_port-8081
-
-> cd juddi-3.2.1_tomcat-7.0.57_port-8081/bin
-
-> chmod +x startup.sh catalina.sh
-
-> ./startup.sh
+```
+cd $SD_STORE && \
+wget http://disciplinas.tecnico.ulisboa.pt/leic-sod/2014-2015/download/juddi-3.2.1_tomcat-7.0.57_port-8081.zip && \
+unzip juddi-3.2.1_tomcat-7.0.57_port-8081 && \
+export CATALINA_HOME=$SD_STORE/juddi-3.2.1_tomcat-7.0.57_port-8081 && \
+cd juddi-3.2.1_tomcat-7.0.57_port-8081/bin && \
+chmod +x startup.sh catalina.sh && \
+./startup.sh
+```
 
 [4] Obter versão entregue
 
-> cd $SD_STORE
-
-> git clone -b R_3 https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/ project
+```
+cd $SD_STORE && \
+git clone -b R_3 https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/ project
+```
 
 [5] Instalar o módulo de Juddi do projecto
 
-> cd project/sd-store/uddi
-
-> mvn clean package install
+```
+cd project/sd-store/uddi && \
+mvn clean package install
+```
 
 [6] Construir e executar **servidor**
 
-> (O servidor Juddi deve ter sido inicializado há cerca de 1 minuto)
+>  O servidor Juddi deve ter sido inicializado há cerca de 1 minuto
 
-> cd ../store-ws-wsdl
-
-> mvn clean package exec:java
+```
+cd ../store-ws-wsdl && \
+mvn clean package exec:java
+```
 
 [7] Construir **cliente**
 
 > Fazer um fork no terminal (aka abrir outra janela de terminal, usando `Ctrl+Shift+N`)
 
-> cd ../store-ws-cli
-
-> mvn clean package install
+```
+cd ../store-ws-cli && \
+mvn clean package install
+```
 
 -------------------------------------------------------------------------------
 
 ### Instruções de teste: ###
 [1]
-> cd ~/Documents/ES-SD_Project/A_29_59_63-project/sd-store/uddi
 
-> mvn clean package install
+```
+cd ../uddi && \
+mvn clean package install
+```
 
 [1] Executar testes de implementação **servidor**
-> cd ~/Documents/ES-SD_Project/A_29_59_63-project/sd-store/store-ws-wsdl
 
-> mvn -Dtest=ImplementationTests test
+```
+cd ../store-ws-wsdl && \
+mvn -Dtest=ImplementationTests test
+```
 
 [2] Executar testes mocked **cliente**
-> cd ~/Documents/ES-SD_Project/A_29_59_63-project/sd-store/store-ws-cli
 
-> mvn -Dtest=StoreClientMockTest test
+```
+cd ../store-ws-cli && \
+mvn -Dtest=StoreClientMockTest test
+```
 
 [2] Executar testes de comunicação **cliente**
-> cd ~/Documents/ES-SD_Project/A_29_59_63-project/sd-store/store-ws-wsdl
 
-> mvn exec:java
+```
+cd ../store-ws-wsdl && \
+mvn exec:java
+```
 
-> Abrir outra janela de terminal
+> Fazer um fork no terminal (aka abrir outra janela de terminal, usando `Ctrl+Shift+N`)
 
-> cd ~/Documents/ES-SD_Project/A_29_59_63-project/sd-store/store-ws-cli
-
-> mvn -Dtest=StoreClientRealTest test
-
-
+```
+cd ../store-ws-cli && \
+mvn -Dtest=StoreClientRealTest test
+```
 
 -------------------------------------------------------------------------------
 
