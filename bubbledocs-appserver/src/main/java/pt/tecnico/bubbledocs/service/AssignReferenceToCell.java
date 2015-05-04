@@ -2,6 +2,7 @@
 package pt.tecnico.bubbledocs.service;
 
 import pt.tecnico.bubbledocs.domain.Reference;
+import pt.tecnico.bubbledocs.domain.SpreadSheet;
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
 import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 import pt.tecnico.bubbledocs.exception.UserCantWriteException;
@@ -36,13 +37,17 @@ public class AssignReferenceToCell extends BubbleDocsService {
 	protected void dispatch() {
 
 		String username = resetUserLastAccess(userToken);
-
-		//throws UserNotInSessionException
+		
 		if (username == null)
 			throw new UserNotInSessionException(username);
-
+		/*
 		if(!getSpreadSheet(docId).canBeWrittenBy(username))
 			throw new UserCantWriteException(username, docId);
+		*/
+		SpreadSheet sheet = getSpreadSheet(docId);
+		if (!canBeWrittenBy(sheet, username)) {
+			throw new UserCantWriteException(username, docId);
+		}
 
 		String[] rowAndColumnCell = cellId.split(";");
 		int rowCell    = Integer.parseInt(rowAndColumnCell[0]);
@@ -52,8 +57,8 @@ public class AssignReferenceToCell extends BubbleDocsService {
 		int rowCellReference    = Integer.parseInt(rowAndColumnContent[0]);
 		int columnCellReference = Integer.parseInt(rowAndColumnContent[1]);
 
-		int rowSpreadSheet    = getSpreadSheet(docId).getNumberColumns();
-		int columnSpreadSheet = getSpreadSheet(docId).getNumberRows();
+		int rowSpreadSheet    = sheet.getNumberColumns();
+		int columnSpreadSheet = sheet.getNumberRows();
 
 		// testa se a celula existe nas dimensoes da spreadsheet
 		if (!(rowCellReference    >= 0) ||
@@ -63,12 +68,12 @@ public class AssignReferenceToCell extends BubbleDocsService {
 			throw new CellNotInSpreadSheetException(rowCellReference, columnCellReference, docId);
 
 		Reference referenceAux = new Reference
-				(getSpreadSheet(docId), rowCellReference, columnCellReference);
+				(sheet, rowCellReference, columnCellReference);
 
 		if (referenceAux.getCellReference().getProtect())
 			throw new ProtectedCellException(rowCell, columnCell);
 
-		getSpreadSheet(docId).addContent(referenceAux, rowCell, columnCell);
+		sheet.addContent(referenceAux, rowCell, columnCell);
 		//Cell rowCell;columnCell now has Content of type Reference
 	}
 

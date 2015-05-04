@@ -35,21 +35,21 @@ public class AssignLiteralToCell extends BubbleDocsService {
 			throw new UserNotInSessionException(username);
 		
 		this.sheet = getSpreadSheet(docId);
-		if(sheet.canBeWrittenBy(username)){
-			String[] rowAndColumn = cellId.split(";");
-			int row = Integer.parseInt(rowAndColumn[0]);
-			int column = Integer.parseInt(rowAndColumn[1]);
-			Cell cell = sheet.getCell(row, column);
-			
-			if (cell.getProtect())
-				throw new ProtectedCellException(row, column);
-			else {
-				sheet.addContent(new Literal
-						(Integer.parseInt(literal)),row, column);
-			}
-			
+		if(!canBeWrittenBy(sheet, username)){
+			throw new UserCantWriteException(username, docId);
 		}
-		else throw new UserCantWriteException(username, docId);
+			
+		String[] rowAndColumn = cellId.split(";");
+		int row = Integer.parseInt(rowAndColumn[0]);
+		int column = Integer.parseInt(rowAndColumn[1]);
+		Cell cell = sheet.getCell(row, column);
+		
+		if (cell.getProtect())
+			throw new ProtectedCellException(row, column);
+		else {
+			sheet.addContent(new Literal
+					(Integer.parseInt(literal)),row, column);
+		}
 	}
 
 	public String getResult() {

@@ -62,7 +62,9 @@ public class SpreadSheet extends SpreadSheet_Base {
 		}
 		return 0;
 	}
-	
+	/*
+	 * DEPRECATED
+	 * Permissions are now checked at Service-level
 	public boolean canBeWrittenBy(String username) {
 		//System.out.println("CanBeWrittenBy\nUser "+username+" has permission level "+getUserPermissionLevel(username));
 		return this.getUserPermissionLevel(username) == 2;
@@ -75,7 +77,7 @@ public class SpreadSheet extends SpreadSheet_Base {
 	public boolean isOwnedBy(String username) {
 		return this.getOwnerUsername() == username;
 	}
-
+	*/
 	public void addContent(Content c, int row, int column) throws CellNotInSpreadSheetException {
 		for (Cell cell : getCellsSet()) {
 			if (cell.getCellRow() == row && cell.getCellColumn() == column) {

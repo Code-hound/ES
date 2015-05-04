@@ -47,6 +47,22 @@ public abstract class BubbleDocsService {
 		}
 		return sheet;
 	}
+	
+	public static boolean canBeWrittenBy
+			(SpreadSheet spreadsheet, String username) {
+		return (spreadsheet.getUserPermissionLevel(username) == 2);
+	}
+	
+	public static boolean canBeReadBy
+			(SpreadSheet spreadsheet, String username) {
+		return (spreadsheet.getUserPermissionLevel(username) == 2 ||
+				spreadsheet.getUserPermissionLevel(username) == 1);
+	}
+	
+	public static boolean isOwnedBy
+		(SpreadSheet spreadsheet, String username) {
+		return (spreadsheet.getOwnerUsername().equals(username));
+}
 
 	protected abstract void dispatch() throws BubbleDocsException;
 }

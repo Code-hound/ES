@@ -6,9 +6,11 @@ import org.jdom2.output.XMLOutputter;
 
 import java.io.UnsupportedEncodingException;
 
+import pt.tecnico.bubbledocs.domain.SpreadSheet;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.ExportDocumentException;
+import pt.tecnico.bubbledocs.exception.UserCantWriteException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
@@ -33,12 +35,12 @@ public class ExportDocument extends BubbleDocsService {
 	
     // the tokens
 	private String userToken;
-	private int sheetId;
+	private int docId;
 	private byte[] result;
 
 	public ExportDocument(String userToken, int sheetId) {
 		this.userToken = userToken;
-		this.sheetId = sheetId;
+		this.docId = sheetId;
 	}
 
 	@Override
@@ -49,14 +51,20 @@ public class ExportDocument extends BubbleDocsService {
 		String username = resetUserLastAccess(userToken);
 
 		//throws UserNotInSessionException
-		if (username == null)
+		if (username == null) {
 			throw new UserNotInSessionException(username);
-
+		}
+		
+		SpreadSheet sheet = getSpreadSheet(docId);
+		if (!canBeWrittenBy(sheet, username) && !isOwnedBy(sheet, username)) {
+			throw new InvalidAccessException(username, docId);
+		}
+		/*
 		//throws InvalidAccessException
-		if ( !getSpreadSheet(sheetId).isOwnedBy(username) && !getSpreadSheet(sheetId).canBeReadBy(username) )
+		if (!getSpreadSheet(sheetId).isOwnedBy(username) && !getSpreadSheet(sheetId).canBeReadBy(username) )
 			throw new InvalidAccessException(username, sheetId);
-
-		jdomDoc.setRootElement(getSpreadSheet(sheetId).exportToXML());
+		 */
+		jdomDoc.setRootElement(getSpreadSheet(docId).exportToXML());
 		//throws ExportDocumentException
 		try {
 			result = xml.outputString(jdomDoc).getBytes("UTF-8");
@@ -67,7 +75,7 @@ public class ExportDocument extends BubbleDocsService {
 
 		//throws UnavailableServiceException
 		try {
-			service.storeDocument(username, getSpreadSheet(sheetId).getSpreadSheetName(), result);
+			service.storeDocument(username, getSpreadSheet(docId).getSpreadSheetName(), result);
 		} catch(RemoteInvocationException e) {
 			throw new UnavailableServiceException();
 		}
