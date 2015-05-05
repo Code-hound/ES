@@ -10,7 +10,6 @@ import pt.tecnico.bubbledocs.domain.SpreadSheet;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.ExportDocumentException;
-import pt.tecnico.bubbledocs.exception.UserCantWriteException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
@@ -56,7 +55,7 @@ public class ExportDocument extends BubbleDocsService {
 		
 		SpreadSheet sheet = getSpreadSheet(docId);
 		if (!canBeWrittenBy(sheet, username) && !isOwnedBy(sheet, username)) {
-			throw new InvalidAccessException(username, docId);
+			throw new InvalidAccessException(username, docId, "READ");
 		}
 		/*
 		//throws InvalidAccessException

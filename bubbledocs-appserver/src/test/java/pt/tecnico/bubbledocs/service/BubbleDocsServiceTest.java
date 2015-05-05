@@ -115,5 +115,10 @@ public class BubbleDocsServiceTest {
 		User user = bd.getUserLoggedInByToken(token);
 		return user;
 	}
+	
+	void addAccess(User user, SpreadSheet spreadsheet, String permission) {
+		BubbleDocs bd = BubbleDocs.getInstance();
+		bd.addAccessToSpreadSheet(user, spreadsheet, permission);
+	}
 
 }

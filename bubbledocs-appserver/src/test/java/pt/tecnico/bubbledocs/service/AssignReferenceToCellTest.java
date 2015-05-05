@@ -7,8 +7,7 @@ import org.junit.Test;
 import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
-
-import pt.tecnico.bubbledocs.exception.UserCantWriteException;
+import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
 import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
@@ -110,14 +109,14 @@ public class AssignReferenceToCellTest extends BubbleDocsServiceTest {
 		assertEquals(DOC.getCell(2,2).getValue(), 4);
 	}
 	
-	@Test (expected = UserCantWriteException.class)
+	@Test (expected = InvalidAccessException.class)
 	public void assignWithuNoAccessUser() {
 		AssignReferenceToCell service_unauthorized = new AssignReferenceToCell
 				(NO_ACCESS_TOKEN, DOC.getId(), "1;1", "1;2");
 		service_unauthorized.execute();
 	}
 	
-	@Test (expected = UserCantWriteException.class)
+	@Test (expected = InvalidAccessException.class)
 	public void assignWithReader() {
 		AssignReferenceToCell service_reader = new AssignReferenceToCell
 				(READ_TOKEN, DOC.getId(), "1;1", "1;2");

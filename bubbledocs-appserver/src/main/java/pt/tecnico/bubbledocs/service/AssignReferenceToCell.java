@@ -4,8 +4,8 @@ package pt.tecnico.bubbledocs.service;
 import pt.tecnico.bubbledocs.domain.Reference;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
+import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.ProtectedCellException;
-import pt.tecnico.bubbledocs.exception.UserCantWriteException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 
 /*
@@ -46,7 +46,7 @@ public class AssignReferenceToCell extends BubbleDocsService {
 		*/
 		SpreadSheet sheet = getSpreadSheet(docId);
 		if (!canBeWrittenBy(sheet, username)) {
-			throw new UserCantWriteException(username, docId);
+			throw new InvalidAccessException(username, docId, "WRITE");
 		}
 
 		String[] rowAndColumnCell = cellId.split(";");

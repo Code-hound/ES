@@ -14,11 +14,13 @@ public class InvalidAccessException extends BubbleDocsException {
 
 	private String username;       //userToken
 	private int sheetId; //spreadSheetName
+	private String access;
 
-	public InvalidAccessException(String username, int sheetId)
+	public InvalidAccessException(String username, int sheetId, String access)
 	{
 		this.username       = username;
 		this.sheetId = sheetId;
+		this.access = access;
 	}
 	
 	public String getUsername ()
@@ -34,7 +36,9 @@ public class InvalidAccessException extends BubbleDocsException {
 	@Override
 	public String getMessage()
 	{
-		return "Access exception : the User \"" + this.username + "\" has no access to Document \"" + this.sheetId + "\".";
+		return "Access exception : the User \"" + this.username +
+				"\" does not have access of type \"" + this.access+
+				"\" to Document \"" + this.sheetId + "\".";
 	}
 
 }
