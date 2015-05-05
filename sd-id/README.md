@@ -53,7 +53,7 @@ export SD_ID=$HOME/PROJECTO_ES_SD
 JUDDI:
 
 ```
-cd $SD_STORE && \
+cd $SD_ID && \
 wget http://disciplinas.tecnico.ulisboa.pt/leic-sod/2014-2015/download/juddi-3.2.1_tomcat-7.0.57_port-8081.zip && \
 unzip juddi-3.2.1_tomcat-7.0.57_port-8081 && \
 export CATALINA_HOME=$SD_ID/juddi-3.2.1_tomcat-7.0.57_port-8081 && \
