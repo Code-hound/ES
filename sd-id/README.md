@@ -27,49 +27,72 @@ Repositório:
 
 ### Instruções de instalação 
 
-[0] Iniciar sistema operativo
+[1] Iniciar sistema operativo
 
-> (Escolher o sistema operativo baseado em linux)
+> Escolher o sistema operativo baseado em linux
 
+> Abrir terminal
 
-[1] Iniciar servidores de apoio
+[2] criar ambiente
+
+Temporário:
+
+```
+export SD_ID=`mktemp -d --tmpdir`
+```
+
+**ou** Permanente:
+
+```
+mkdir $HOME/PROJECTO_ES_SD && \
+export SD_ID=$HOME/PROJECTO_ES_SD
+```
+
+[3] Iniciar servidores de apoio
+
 JUDDI:
-> $CATALINA_HOME/bin/startup.sh
 
-> chmod +x startup.sh
+```
+cd $SD_STORE && \
+wget http://disciplinas.tecnico.ulisboa.pt/leic-sod/2014-2015/download/juddi-3.2.1_tomcat-7.0.57_port-8081.zip && \
+unzip juddi-3.2.1_tomcat-7.0.57_port-8081 && \
+export CATALINA_HOME=$SD_ID/juddi-3.2.1_tomcat-7.0.57_port-8081 && \
+cd juddi-3.2.1_tomcat-7.0.57_port-8081/bin && \
+chmod +x startup.sh catalina.sh && \
+./startup.sh
+```
 
-> ./startup.sh
+[4] Obter versão entregue
 
+```
+cd $SD_ID && \
+git clone -b R_4 https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/ project
+```
 
-[2] Criar pasta temporária
-> cd ~/Documents
+[5] Instalar o módulo de Juddi do projecto
 
-> mkdir ES-SD_Project
+```
+cd project/sd-id/uddi && \
+mvn clean package install
+```
 
-> cd ~/Documents
+[6] Construir e executar **servidor**
 
+>  O servidor Juddi deve ter sido inicializado há cerca de 1 minuto
 
-[3] Obter versão entregue
-> git clone https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/R_3
+```
+cd ../id-ws-wsdl && \
+mvn clean package exec:java
+```
 
-> (falta indicar a tag)
+[7] Construir **cliente**
 
+> Fazer um fork no terminal (aka abrir outra janela de terminal, usando `Ctrl+Shift+N`)
 
-[4] Construir e executar **servidor**
-O servidor Juddi deve ter sido inicializado há cerca de 1 minuto
-> cd A_29_59_63-project/sd-id/id-ws-wsdl
-
-> mvn clean package 
-
-> mvn exec:java
-
-
-[5] Construir **cliente**
-Abrir outra janela de terminal
-> cd ~/Documents/A_29_59_63-project/sd-id/id-ws-cli
-
-> mvn clean package install
-
+```
+cd ../id-ws-cli && \
+mvn clean package install
+```
 
 -------------------------------------------------------------------------------
 
