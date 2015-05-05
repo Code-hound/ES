@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.sdis.store.cli.test;
 
+import static org.junit.Assert.*;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +21,7 @@ public class StoreClientRealTest {
 	
 	@Before
     public void setUp() throws Exception {
-		client = new StoreClient();
+		client = new StoreClient("http://localhost:8081", "SD-Store");
 		pair = new DocUserPair();
 		pair.setDocumentId("docId");
 		pair.setUserId("username");
@@ -32,6 +34,15 @@ public class StoreClientRealTest {
 	     pair.setDocumentId("docId");
 	     */
     }
+	
+	@Test
+	public void atLeastThreeEndpoints() {
+		String[] endpoints = client.getEndpointAddresses();
+		assertTrue (endpoints.length == 3);
+		for (String endpoint : endpoints) {
+			System.out.println(endpoint);
+		}
+	}
 
     @After
     public void tearDown() {
@@ -44,4 +55,6 @@ public class StoreClientRealTest {
     	client.createDoc(pair);
     }
 	*/
+    
+    
 }

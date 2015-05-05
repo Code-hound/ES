@@ -37,7 +37,7 @@ public class StoreClientMockTest {
         }};
 
         // Unit under test is created and makes a call to the mocked server
-        StoreClient client = new StoreClient();
+        StoreClient client = new StoreClient("http://localhost:8081", "Store");
         try {
         	client.load(pair);
         } catch (WebServiceException e) {
@@ -111,11 +111,12 @@ public class StoreClientMockTest {
         }};
 
         // Unit under test is created and makes a call to the mocked server
-        StoreClient client = new StoreClient();
+        StoreClient client = new StoreClient("http://localhost:8081", "Store");
         try {
         	client.store(pair1, byteArray);
         } catch (CapacityExceeded_Exception e) {
         	assertEquals("The repository has no further capacity", e.getMessage());
         }
+        
     }
 }

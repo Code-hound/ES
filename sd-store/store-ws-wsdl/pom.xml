@@ -102,7 +102,10 @@
             <arguments>
               <argument>${uddi.url}</argument>
               <argument>${ws.name}</argument>
-              <argument>${ws.url}</argument>
+              <argument>3</argument>
+              <argument>http://localhost:8080/store-ws/endpoint</argument>
+              <argument>http://localhost:8079/store-ws/endpoint</argument>
+              <argument>http://localhost:8078/store-ws/endpoint</argument>
             </arguments>
           </configuration>
       </plugin>

@@ -8,30 +8,43 @@ import uddi.UDDINaming;
 // http://localhost:8080/sd-store-ws/endpoint?WSDL
 
 public class StoreMain {
+	private static int numberServers;
+	private static String uddiURL;
+    private static String name;
+	private static String[] urls;
+    
 	public static void main (String[] args) {
-		if (args.length < 3) {
-            System.err.println("Argument(s) missing!");
-            System.err.printf("Usage: java %s uddiURL wsName wsURL%n", StoreMain.class.getName());
-            return;
+		
+		if (!checkArguments(args)) {
+			printError();
+			return;
+		}
+        
+        Endpoint[] endpoints = new Endpoint[numberServers];
+        /*
+        System.out.println("Number of servers: "+numberServers);
+        System.out.println("URLs:");
+        for (String s : urls) {
+        	System.out.printf("%s", s);
         }
-
-        String uddiURL = args[0];
-        String name = args[1];
-        String url = args[2];
-
-        Endpoint endpoint = null;
+        */
+        //Endpoint endpoint = null;
         UDDINaming uddiNaming = null;
         try {
-            endpoint = Endpoint.create(new StoreImpl());
-
-            // publish endpoint
-            System.out.printf("Starting %s%n", url);
-            endpoint.publish(url);
-
+        	
+        	for (int i=0; i<numberServers; i++) {
+        		System.out.printf("Creating replica #%d%n", i+1);
+        		endpoints[i] = Endpoint.create(new StoreImpl());
+        		System.out.printf("Publishing replica #%d to %s%n", i+1, urls[i]);
+        		endpoints[i].publish(urls[i]);
+        	}
+            
             // publish to UDDI
             System.out.printf("Publishing '%s' to UDDI at %s%n", name, uddiURL);
             uddiNaming = new UDDINaming(uddiURL);
-            uddiNaming.rebind(name, url);
+            for (int i=0; i<numberServers; i++) {
+            	uddiNaming.bind(name, urls[i]);
+            }
 
             // wait
             System.out.println("Awaiting connections");
@@ -44,10 +57,13 @@ public class StoreMain {
 
         } finally {
             try {
-                if (endpoint != null) {
+                if (endpoints[0] != null) {
                     // stop endpoint
-                    endpoint.stop();
-                    System.out.printf("Stopped %s%n", url);
+                    for (int i=0; i<numberServers; i++) {
+                    	endpoints[i].stop();
+                    	System.out.printf("Stopped %s%n", urls[i]);
+                    }
+                    
                 }
             } catch(Exception e) {
                 System.out.printf("Caught exception when stopping: %s%n", e);
@@ -64,5 +80,42 @@ public class StoreMain {
         }
 
     }
-
+	
+	//Despite what it may seem at first
+	//these condition checks are not possible to group together
+	private static boolean checkArguments (String[] args) {
+		if (args.length<4) {
+			return false;
+		}
+		try {
+			numberServers = Integer.parseInt(args[2]);
+		} catch (NumberFormatException ex) {
+			return false;
+		}
+		
+		if (args.length != numberServers+3) {
+            return false;
+        }
+		
+		uddiURL = args[0];
+		name = args[1];
+		
+        urls = new String[numberServers];
+        for (int i=0, arg=3; i<numberServers; i++, arg++) {
+        	if (!args[arg].startsWith("http")) {
+        		return false;
+        	}
+        	urls[i] = args[arg];
+        }
+        return true;
+	}
+	
+	private static void printError() {
+		 System.err.println("Incorrect number or type of arguments");
+         System.err.println("Make sure the number of wsURLs matches "
+         		+ "the number of desired replicas and that they are "
+        		+ "in the proper URL format");
+         System.err.printf("Usage: java %s uddiURL wsName "
+          		+ "numberOfReplicas [wsURLs]%n", StoreMain.class.getName());
+	}
 }

@@ -1,11 +1,16 @@
 package store.cli;
 
+//import java.util.Collection;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.registry.JAXRException;
 import javax.xml.ws.*;
 
+import uddi.UDDINaming;
 import pt.ulisboa.tecnico.sdis.store.ws.*;
+
 
 public class StoreClient implements SDStore {
 	
@@ -35,12 +40,16 @@ public class StoreClient implements SDStore {
 	/** WS service */
 	private SDStore_Service storeService = null;
 	/** WS port (interface) */
+	//Where the magic happens
 	private SDStore storeInterface = null;
-	/** WS endpoint address */
-    // default value is defined by WSDL
-    private String wsURL = null;
+	/** Webservice name **/
+	private String wsName;
+    private String uddiURL;
     /** output option **/
     private boolean verbose = false;
+    
+    private UDDINaming uddiNaming;
+    String[] endpointAddresses = null;
     
     public boolean isVerbose() {
         return verbose;
@@ -48,28 +57,56 @@ public class StoreClient implements SDStore {
     public void setVerbose(boolean verbose) {
         this.verbose = verbose;
     }
-    
+    /*
     public StoreClient() throws StoreClientException {
     	createStub();
     }
-    
-    public StoreClient(String wsURL) throws StoreClientException {
-    	this.wsURL = wsURL;
-        createStub();
+    */
+    public StoreClient(String uddiURL, String wsName) 
+    		throws StoreClientException {
+    	this.uddiURL = uddiURL;
+    	this.wsName = wsName;
+    	try {
+    		uddiLookup();
+    		//createStub();
+    	} catch (JAXRException ex) {
+    		System.err.println("Failed UDDI lookup");
+    		return;
+    	}
+    	if (endpointAddresses[0].equals("")) {
+    		System.out.printf("Could not find endpoints for service %s%n", wsName);
+    		return;
+    	}
     }
     
-    public void createStub() {
+    private void uddiLookup() throws JAXRException {
+    	System.out.printf("Contacting UDDI at %s%n", uddiURL);
+    	uddiNaming = new UDDINaming(this.uddiURL);
+    	
+    	System.out.printf("Looking for '%s'%n", wsName);
+    	Collection<String> addresses = uddiNaming.list(wsName);
+    	//System.out.println("Size: "+endpointAddresses.length);
+    	//for (String s : endpointAddresses) System.out.println(s);
+        endpointAddresses = addresses.toArray(new String[addresses.size()]);
+    }
+    
+    private void createStub() {
     	if (verbose)
             System.out.println("Creating stub ...");
-        storeService = new SDStore_Service();
+    	storeService = new SDStore_Service();
         storeInterface = storeService.getSDStoreImplPort();
 
-        if (wsURL != null) {
+        if (uddiURL != null) {
             if (verbose)
                 System.out.println("Setting endpoint address ...");
             BindingProvider bindingProvider = (BindingProvider) storeInterface;
             Map<String, Object> requestContext = bindingProvider.getRequestContext();
-            requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, wsURL);
+            requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
+            		endpointAddresses[0]);
         }
+    }
+    
+    public String[] getEndpointAddresses() {
+    	return endpointAddresses;
     }
 }

@@ -50,7 +50,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <ws.name>SDStore</ws.name>
-    <ws.url>http://localhost:8080/sd-store-ws/endpoint?wsdl</ws.url>
+    <ws.url>http://localhost:8080/store-ws/endpoint</ws.url>
+    <wsdl.url>${ws.url}?wsdl</wsdl.url>
     <uddi.url>http://localhost:8081</uddi.url>
   </properties>
   
@@ -78,7 +79,10 @@
         </executions>
         <configuration>
           <!-- https://jax-ws-commons.java.net/jaxws-maven-plugin/wsimport-mojo.html -->
-          <wsdlDirectory>${basedir}/src/main/resources</wsdlDirectory>
+          <!--  >wsdlDirectory>${basedir}/src/main/resources</wsdlDirectory-->
+          <wsdlUrls>
+          	<wsdlUrl>${wsdl.url}</wsdlUrl>
+          </wsdlUrls>
         </configuration>
         <dependencies>
           <dependency>
