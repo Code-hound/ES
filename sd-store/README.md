@@ -73,9 +73,8 @@ mvn clean package install
 
 [6] Construir e executar **servidor**
 
->  O servidor Juddi deve ter sido inicializado há cerca de 1 minuto
-
 ```
+sleep 60s && \
 cd ../store-ws-wsdl && \
 mvn clean package exec:java
 ```
