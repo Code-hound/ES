@@ -79,7 +79,7 @@ mvn clean package install
 [6] Construir e executar **servidor**
 
 ```
-sleep 60s && \
+sleep 1m && \
 cd ../id-ws-wsdl && \
 mvn clean package exec:java
 ```
