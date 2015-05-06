@@ -37,74 +37,84 @@ public class StoreClient implements SDStore {
 	}
 	
 	// WEBSERVICE COMMUNICATION FUNCTIONALITIES
+	private int ID;
 	/** WS service */
 	private SDStore_Service storeService = null;
 	/** WS port (interface) */
 	//Where the magic happens
 	private SDStore storeInterface = null;
-	/** Webservice name **/
-	private String wsName;
-    private String uddiURL;
+	
     /** output option **/
     private boolean verbose = false;
     
-    private UDDINaming uddiNaming;
-    private String[] endpointAddresses = null;
+    private static UDDINaming uddiNaming;
+    private String endpointAddress = null;
+    private static String[] endpoints = null;
     
-    public boolean isVerbose() {
+    
+    
+    
+    public StoreClient(String endpoint, int ID) 
+			throws JAXRException, StoreClientException {
+		this.ID = ID;
+		this.endpointAddress = endpoint;
+		//uddiLookup();
+		//System.out.println("Size: "+endpointAddresses.length);
+		//for (String s : endpointAddresses) System.out.println(s);
+		createStubs();
+	}
+
+	public boolean isVerbose() {
         return verbose;
     }
     public void setVerbose(boolean verbose) {
         this.verbose = verbose;
     }
-    /*
-    public StoreClient() throws StoreClientException {
-    	createStub();
-    }
-    */
-    public StoreClient(String uddiURL, String wsName) 
-    		throws StoreClientException {
-    	this.uddiURL = uddiURL;
-    	this.wsName = wsName;
+    
+    public static String[] uddiLookup
+    		(String uddiURL, String wsName, int multiplicity)
+    		throws JAXRException, StoreClientException {
     	try {
-    		uddiLookup();
-    		//System.out.println("Size: "+endpointAddresses.length);
-    		//for (String s : endpointAddresses) System.out.println(s);
-    	} catch (JAXRException | IllegalArgumentException ex) {
-    		throw new StoreClientException("Failed UDDI lookup at "+uddiURL);
-    	}
-    	if (endpointAddresses.length == 0 || endpointAddresses[0].equals("")) {
-    		throw new StoreClientException("Could not find endpoints for service "+wsName);
-    	}
-    	createStub();
-    }
-    
-    private void uddiLookup() throws JAXRException {
-    	System.out.printf("Contacting UDDI at %s%n", uddiURL);
-    	uddiNaming = new UDDINaming(this.uddiURL);
+	    	System.out.printf("Contacting UDDI at %s%n", uddiURL);
+	    	uddiNaming = new UDDINaming(uddiURL);
+	    	
+	    	System.out.printf("Looking for '%s'%n", wsName);
+	    	Collection<String> addresses = uddiNaming.list(wsName);
+	    	endpoints = addresses.toArray(new String[addresses.size()]);
+	    	
+	    	//Checks if any endpoints were found
+	    	if (endpoints.length == 0 || endpoints[0].equals("")) {
+	    		throw new StoreClientException("Could not find endpoints for service "
+	    				+wsName);
+	    	}
+	    	// Checks if the number of required clients isn't larger than
+	    	// the number of servers
+	    	if (endpoints.length < multiplicity) {
+	    		throw new StoreClientException("The multiplicity for the "
+	    				+wsName+" service currently can be no larger than "
+	    				+endpoints.length);
+	    	}
+	    	
+	    	return endpoints;
+	    } catch (JAXRException | IllegalArgumentException ex) {
+			throw new StoreClientException("Failed UDDI lookup at "+uddiURL);
+		}
     	
-    	System.out.printf("Looking for '%s'%n", wsName);
-    	Collection<String> addresses = uddiNaming.list(wsName);
-        endpointAddresses = addresses.toArray(new String[addresses.size()]);
     }
     
-    private void createStub() {
+    private void createStubs() {
     	if (verbose)
             System.out.println("Creating stub ...");
     	storeService = new SDStore_Service();
         storeInterface = storeService.getSDStoreImplPort();
 
-        if (uddiURL != null) {
+        //if (uddiURL != null) {
             if (verbose)
                 System.out.println("Setting endpoint address ...");
             BindingProvider bindingProvider = (BindingProvider) storeInterface;
             Map<String, Object> requestContext = bindingProvider.getRequestContext();
             requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-            		endpointAddresses[0]);
-        }
-    }
-    
-    public String[] getEndpointAddresses() {
-    	return endpointAddresses;
+            		this.endpointAddress);
+        //}   
     }
 }

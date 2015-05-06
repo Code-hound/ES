@@ -9,6 +9,8 @@ import org.junit.Test;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import javax.xml.registry.JAXRException;
+
 import pt.ulisboa.tecnico.sdis.store.ws.CapacityExceeded_Exception;
 import pt.ulisboa.tecnico.sdis.store.ws.DocAlreadyExists;
 import pt.ulisboa.tecnico.sdis.store.ws.DocAlreadyExists_Exception;
@@ -18,51 +20,43 @@ import pt.ulisboa.tecnico.sdis.store.ws.SDStore;
 import pt.ulisboa.tecnico.sdis.store.ws.SDStore_Service;
 import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
 import store.cli.StoreClient;
+import store.cli.StoreFrontend;
 import store.cli.StoreClientException;
 
 public class StoreClientRealTest {
 	
 	//private static SDStore port;
 	//private static DocUserPair pair;
+	
 	private static StoreClient client;
 	private static DocUserPair pair;
+	private static String ENDPOINT_URL;
+	private static final String UDDI_URL = "http://localhost:8081";
+	private static final String WS_NAME = "SD-Store";
 	private static final String USERNAME = "orwell";
 	private static final String DOC_ID1 = "1984";
 	private static final String DOC_ID2 = "Animal Farm";
-	private static final String DOC_ID3 = "Home To Catalonia";
+	private static final String DOC_ID3 = "Homage To Catalonia";
+	private static final String DOC_ID4 = "Coming Up For Air";
 	private static final String CONTENT = 
 			"Word had gone round during the day that old Major, the prize Middle White"
 			+ " boar, had had a strange dream on the previous night and wished to "
 			+ "communicate it to the other animals.";
 	
-	
-	
 	@Before
     public void setUp() throws Exception {
-		client = new StoreClient("http://localhost:8081", "SD-Store");
+		ENDPOINT_URL = StoreClient.uddiLookup(UDDI_URL, WS_NAME, 1)[0];
+		client = new StoreClient(ENDPOINT_URL, 1);
 		pair = new DocUserPair();
 		pair.setUserId(USERNAME);
-		/*
-		 SDStore_Service service = new SDStore_Service();
-	     port = service.getSDStoreImplPort();
-	     
-	     pair = new DocUserPair();
-	     pair.setUserId("username");
-	     pair.setDocumentId("docId");
-	     */
     }
 	
-	@Test
-	public void checkIfThreeEndpoints() {
-		String[] endpoints = client.getEndpointAddresses();
-		assertTrue (endpoints.length == 3);
-		/*
-		for (String endpoint : endpoints) {
-			System.out.println(endpoint);
-		}
-		*/
+	@After
+	public void tearDown() {
+		client = null;
+		pair = null;
 	}
-	
+
 	@Test
 	public void createAndList() 
 			throws DocAlreadyExists_Exception, UserDoesNotExist_Exception {
@@ -90,20 +84,23 @@ public class StoreClientRealTest {
 		assertEquals(CONTENT, loadedContent);
 	}
 	
+	/*
 	@Test (expected = StoreClientException.class)
-	public void wrongUDDIUrl() 
+	public void wrongEndpointUrl() 
 			throws DocAlreadyExists_Exception, UserDoesNotExist_Exception, 
-			StoreClientException {
-		client = new StoreClient("www.4chan.org/mlp", "SD-Store");
+			StoreClientException, JAXRException {
+		client = new StoreClient("www.4chan.org/mlp", 1);
 		pair.setDocumentId(DOC_ID3);
 		client.createDoc(pair);
 	}
+	*/
 	
 	@Test (expected = StoreClientException.class)
-	public void wrongServiceName() 
-			throws StoreClientException, DocAlreadyExists_Exception {
-		client = new StoreClient("http://localhost:8081", "UberCarReserve");
-		pair.setDocumentId(DOC_ID3);
+	public void wrongMultiplicity() 
+			throws StoreClientException, DocAlreadyExists_Exception, JAXRException {
+		String ENDPOINT_URL2 = StoreClient.uddiLookup(UDDI_URL, WS_NAME, 100)[0];
+		client = new StoreClient(ENDPOINT_URL2, 1);
+		pair.setDocumentId(DOC_ID4);
 		client.createDoc(pair);
 	}
 	
@@ -118,24 +115,10 @@ public class StoreClientRealTest {
 	
 	@Test (expected = DocAlreadyExists_Exception.class)
 	public void createDuplicateDoc() 
-			throws StoreClientException, DocAlreadyExists_Exception {
-		client = new StoreClient("http://localhost:8081", "SD-Store");
+			throws StoreClientException, DocAlreadyExists_Exception, JAXRException {
+		client = new StoreClient(ENDPOINT_URL, 1);
 		pair.setDocumentId(DOC_ID3);
 		client.createDoc(pair);
 		client.createDoc(pair);
 	}
-
-    @After
-    public void tearDown() {
-    	client = null;
-    	pair = null;
-    }
-	/*
-    @Test
-    public void success() throws DocAlreadyExists_Exception {
-    	client.createDoc(pair);
-    }
-	*/
-    
-    
 }

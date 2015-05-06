@@ -48,7 +48,7 @@ public class StoreImpl implements SDStore {
      *	Faults: a document already exists with the same id
 	 */
 	
-	public void StoreImpl(int id) {
+	public StoreImpl(int id) {
 		this.ID = id;
 	}
 	
@@ -61,15 +61,6 @@ public class StoreImpl implements SDStore {
 			
 			//If the file already exists, throw an exception
 			checkFileAlreadyExists(file, docUser.getUserId(), docUser.getDocumentId());
-			/*
-			if (file.exists()) {
-				throw new DocAlreadyExists_Exception(("User \"" +
-						docUser.getUserId() + 
-						"\" already has a document called \"" +
-						docUser.getDocumentId() + "\"."),
-						new DocAlreadyExists());
-			}
-			*/
 			
 			//If the repository does not exist, create it
 			if (!file.getParentFile().exists()) {
@@ -94,13 +85,6 @@ public class StoreImpl implements SDStore {
     	File repository = new File(path);
     	
     	checkUserExists(repository, userId);
-    	/*
-    	if (!repository.exists()) {
-    		throw new UserDoesNotExist_Exception(("User \"" +
-    				userId +"\" does not exist."),
-    				new UserDoesNotExist());
-    	}
-    	*/
     	
     	File[] files = repository.listFiles();
     	List<String> fileList = new ArrayList<String>();
@@ -108,40 +92,18 @@ public class StoreImpl implements SDStore {
     	for (File file : files) {
     		fileList.add(file.getName());
     	}
-    	
     	return fileList;
     }
 
     public void store(DocUserPair docUser, byte[] contents)
     		throws CapacityExceeded_Exception,
     		DocDoesNotExist_Exception, 
-    		UserDoesNotExist_Exception
-    {
-    	/*
-    	if (contents.length > MAX_SIZE_IN_BYTES) {
-    		throw new CapacityExceeded_Exception(("The max size of " +
-    				(MAX_SIZE_IN_BYTES/1000000) + 
-    				" Megabytes was exceeded."),
-    				new CapacityExceeded());
-    	}
-    	*/
+    		UserDoesNotExist_Exception {
     	String path = getFilePath(docUser);
     	File file = new File(path);
     	
     	checkUserExists(file.getParentFile(), docUser.getUserId());
     	checkFileExists(file, docUser.getDocumentId());
-    	/*
-    	if (!file.getParentFile().exists()) {
-    		throw new UserDoesNotExist_Exception(("User \"" +
-    				docUser.getUserId() +"\" does not exist."),
-    				new UserDoesNotExist());
-    	}
-    	if (!file.exists()) {
-    		throw new DocDoesNotExist_Exception (("Document \"" +
-    				docUser.getDocumentId() +"\" does not exist."),
-    				new DocDoesNotExist());
-    	}
-    	*/
     	
     	FileOutputStream writer;
     	BufferedOutputStream bufferedWriter = null;
@@ -154,13 +116,13 @@ public class StoreImpl implements SDStore {
     		bufferedWriter.flush();
     		bufferedWriter.close();
     	} catch (IOException ex) {
-    		System.out.println("Failed IO");//ex.getMessage());
+    		System.out.printf("Failed IO%n%s%n", ex.getMessage());
     	} finally {
     		try {
     			if (bufferedWriter != null)
     				bufferedWriter.close();	
     		} catch (IOException ex) {
-    			System.out.println("Failed IO");//ex.getMessage());
+    			System.out.printf("Failed IO%n%s%n", ex.getMessage());
     		}
     	}
     }

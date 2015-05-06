@@ -34,7 +34,7 @@ public class StoreMain {
         	
         	for (int i=0; i<numberServers; i++) {
         		System.out.printf("Creating replica #%d%n", i+1);
-        		endpoints[i] = Endpoint.create(new StoreImpl());
+        		endpoints[i] = Endpoint.create(new StoreImpl(i+1));
         		System.out.printf("Publishing replica #%d to %s%n", i+1, urls[i]);
         		endpoints[i].publish(urls[i]);
         	}
