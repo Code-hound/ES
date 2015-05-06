@@ -49,7 +49,7 @@ public class StoreClient implements SDStore {
     private boolean verbose = false;
     
     private UDDINaming uddiNaming;
-    String[] endpointAddresses = null;
+    private String[] endpointAddresses = null;
     
     public boolean isVerbose() {
         return verbose;
@@ -68,15 +68,15 @@ public class StoreClient implements SDStore {
     	this.wsName = wsName;
     	try {
     		uddiLookup();
-    		//createStub();
-    	} catch (JAXRException ex) {
-    		System.err.println("Failed UDDI lookup");
-    		return;
+    		//System.out.println("Size: "+endpointAddresses.length);
+    		//for (String s : endpointAddresses) System.out.println(s);
+    	} catch (JAXRException | IllegalArgumentException ex) {
+    		throw new StoreClientException("Failed UDDI lookup at "+uddiURL);
     	}
-    	if (endpointAddresses[0].equals("")) {
-    		System.out.printf("Could not find endpoints for service %s%n", wsName);
-    		return;
+    	if (endpointAddresses.length == 0 || endpointAddresses[0].equals("")) {
+    		throw new StoreClientException("Could not find endpoints for service "+wsName);
     	}
+    	createStub();
     }
     
     private void uddiLookup() throws JAXRException {
@@ -85,8 +85,6 @@ public class StoreClient implements SDStore {
     	
     	System.out.printf("Looking for '%s'%n", wsName);
     	Collection<String> addresses = uddiNaming.list(wsName);
-    	//System.out.println("Size: "+endpointAddresses.length);
-    	//for (String s : endpointAddresses) System.out.println(s);
         endpointAddresses = addresses.toArray(new String[addresses.size()]);
     }
     

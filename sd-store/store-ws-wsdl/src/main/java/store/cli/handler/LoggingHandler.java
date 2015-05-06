@@ -1,4 +1,4 @@
-package store.ws.handler;
+package store.cli.handler;
 
 import java.util.Set;
 

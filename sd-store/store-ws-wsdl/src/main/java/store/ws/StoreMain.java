@@ -40,7 +40,8 @@ public class StoreMain {
         	}
             
             // publish to UDDI
-            System.out.printf("Publishing '%s' to UDDI at %s%n", name, uddiURL);
+            System.out.printf("Publishing '%s' with %d replicas to UDDI at %s%n", 
+            		name, numberServers, uddiURL);
             uddiNaming = new UDDINaming(uddiURL);
             for (int i=0; i<numberServers; i++) {
             	uddiNaming.bind(name, urls[i]);
@@ -54,7 +55,6 @@ public class StoreMain {
         } catch(Exception e) {
             System.out.printf("Caught exception: %s%n", e);
             e.printStackTrace();
-
         } finally {
             try {
                 if (endpoints[0] != null) {
@@ -62,8 +62,7 @@ public class StoreMain {
                     for (int i=0; i<numberServers; i++) {
                     	endpoints[i].stop();
                     	System.out.printf("Stopped %s%n", urls[i]);
-                    }
-                    
+                    }   
                 }
             } catch(Exception e) {
                 System.out.printf("Caught exception when stopping: %s%n", e);

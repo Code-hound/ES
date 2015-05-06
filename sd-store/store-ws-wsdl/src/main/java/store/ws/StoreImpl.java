@@ -35,9 +35,10 @@ import pt.ulisboa.tecnico.sdis.store.ws.*;
 )
 
 public class StoreImpl implements SDStore {
-	private static final String STORED = "stored_files";
+	private int ID;
 	private static final String TERMINATOR = ".txt";
 	private static final String SEPARATOR = Character.toString(File.separatorChar);
+	private final String STORED = "stored_files"+SEPARATOR+this.ID;
 	private static final int MAX_SIZE_IN_BYTES = 10000000;
 	 
 	/*
@@ -46,6 +47,11 @@ public class StoreImpl implements SDStore {
      *	a new repository is created for the new user.
      *	Faults: a document already exists with the same id
 	 */
+	
+	public void StoreImpl(int id) {
+		this.ID = id;
+	}
+	
 	public void createDoc(DocUserPair docUser) 
 			throws DocAlreadyExists_Exception {
 		
