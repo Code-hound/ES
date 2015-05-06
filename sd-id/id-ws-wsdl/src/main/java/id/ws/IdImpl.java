@@ -21,6 +21,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.jws.*;
+import javax.naming.*;
+import javax.naming.directory.*;
+import javax.security.auth.login.*;
+import javax.security.auth.Subject;
+
+import java.util.Hashtable;
 
 import pt.ulisboa.tecnico.sdis.id.ws.*; // classes generated from WSDL
 
@@ -41,14 +47,15 @@ import pt.ulisboa.tecnico.sdis.id.ws.*; // classes generated from WSDL
     serviceName="SDId"
 )
 
-public class IdImpl implements SDId {
+public class IdImpl implements SDId, java.security.PrivilegedAction {
 	
     private static String idUsername;
     private static String idPassword;
     private static String idEmail;
+    
+    private String[] args;
 
     private ArrayList<String[]> listData = new ArrayList<String[]>();
-    
     
     /**
      * 
@@ -162,5 +169,61 @@ public class IdImpl implements SDId {
 		}
 		throw new AuthReqFailed_Exception("Autentication Failed", new AuthReqFailed());
 	}
+
+	/**
+	 * 
+	 * The application must supply a PrivilegedAction that is to be run
+	 * inside a Subject.doAs() or Subject.doAsPrivileged().
+	 * 
+	 */
 	
+	public IdImpl(String[] origArgs) {
+		this.args = (String[])origArgs.clone();
+	}
+	
+	public Object run() {
+		performIdImpl(args);
+		return null;
+	}
+	
+	private static void performIdImpl(String[] args) {
+		String dn;
+		
+		// Set up environment for creating initial context
+		Hashtable env = new Hashtable(11); //TODO
+		
+		env.put(Context.INITIAL_CONTEXT_FACTORY,
+				"com.sun.jndi.ldap.LdapCtxFactory");
+		
+		// Must use fully qualified hostname
+		env.put(Context.PROVIDER_URL, 
+		        "ldap://ldap.jnditutorial.org:389/o=JndiTutorial");
+	
+		// Request the use of the "SD-ID" mechanism
+		// Authenticate by using already established Kerberos credentials
+		env.put(Context.SECURITY_AUTHENTICATION, "SD-ID");
+		
+		// Optional first argument is comma-separated list of auth, auth-int, 
+		// auth-conf
+		if (args.length > 0) {
+		    env.put("javax.security.sasl.qop", args[0]);
+		    dn = args[1];
+		} else {
+		    dn = "";
+		}
+	    
+		try {
+		    /* Create initial context */
+		    DirContext ctx = new InitialDirContext(env);
+	
+		    System.out.println(ctx.getAttributes(dn));
+	
+		    // do something useful with ctx
+	
+		    // Close the context when we're done
+		    ctx.close();
+		} catch (NamingException e) {
+		    e.printStackTrace();
+		}
+	}
 }

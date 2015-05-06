@@ -1,6 +1,13 @@
 package id.ws;
 
 import javax.xml.ws.Endpoint;
+import javax.naming.*;
+import javax.naming.directory.*;
+import javax.security.auth.login.*;
+import javax.security.auth.Subject;
+
+import java.util.Hashtable;
+import javax.security.auth.callback.*;
 
 import uddi.UDDINaming;
 
@@ -22,7 +29,7 @@ public class IdMain {
         UDDINaming uddiNaming = null;
 
         try {
-            endpoint = Endpoint.create(new IdImpl());
+            endpoint = Endpoint.create(new IdImpl(args));
 
             // publish endpoint
             System.out.printf("Starting %s%n", url);
@@ -62,6 +69,36 @@ public class IdMain {
                 System.out.printf("Caught exception when deleting: %s%n", e);
             }
         }
+        
+        /**
+         * 
+         * Demonstrate how to create an initial context to the SD-ID Server
+         * using Kerberos V5.
+         * 
+         * @usage: java
+         * @version: 1.0.0
+         * @author: Francisco Maria Calisto
+         * 
+         */
+        
+        // 1. Log in (to Kerberos)
+        LoginContext lc = null;
+        
+        try {
+        	lc = new LoginContext(IdMain.class.getName()); //TODO
+        	
+        	// Attempt authentication
+    	    // We might want to do this in a "for" loop to give
+    	    // user more than one chance to enter correct username/password
+    	    lc.login(); //TODO
+    	    
+        } catch (LoginException le) {
+    	    System.err.println("Authentication attempt failed" + le);
+    	    System.exit(-1);
+    	}
+        
+        // 2. Perform JNDI work as logged in subject
+    	Subject.doAs(lc.getSubject(), new IdImpl(args));
 
     }
 
