@@ -12,7 +12,7 @@ import pt.tecnico.bubbledocs.exception.ExportDocumentException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
-import pt.tecnico.bubbledocs.integration.remote.StoreRemoteIntegrators;
+import pt.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
 
 /*
@@ -44,7 +44,7 @@ public class ExportDocumentIntegrator extends BubbleDocsIntegrator {
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 
-		StoreRemoteIntegrators integration = new StoreRemoteIntegrators();
+		StoreRemoteServices integration = new StoreRemoteServices();
 		org.jdom2.Document jdomDoc = new org.jdom2.Document();
 		String username = resetUserLastAccess(userToken);
 
