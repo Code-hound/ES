@@ -1,10 +1,11 @@
 
 package pt.tecnico.bubbledocs.integration;
 
+import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.domain.Reference;
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
 import pt.tecnico.bubbledocs.exception.ProtectedCellException;
-import pt.tecnico.bubbledocs.exception.UserCantWriteException;
+import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 
 /*
@@ -41,8 +42,8 @@ public class AssignReferenceToCellIntegrator extends BubbleDocsIntegrator {
 		if (username == null)
 			throw new UserNotInSessionException(username);
 
-		if(!getSpreadSheet(docId).canBeWrittenBy(username))
-			throw new UserCantWriteException(username, docId);
+		if(!BubbleDocs.hasAccessToSpreadSheet(userToken, docId,"WRITE")
+			throw new InvalidAccessException(username, docId, "WRITE");
 
 		String[] rowAndColumnCell = cellId.split(";");
 		int rowCell    = Integer.parseInt(rowAndColumnCell[0]);

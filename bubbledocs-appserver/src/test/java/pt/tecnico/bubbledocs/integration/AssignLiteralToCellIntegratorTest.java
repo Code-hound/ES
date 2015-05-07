@@ -8,7 +8,7 @@ import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
 
-import pt.tecnico.bubbledocs.exception.UserCantWriteException;
+import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
 import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
@@ -115,14 +115,14 @@ public class AssignLiteralToCellIntegratorTest extends BubbleDocsIntegratorTest 
 		assertEquals(DOC.getCell(2,2).getValue(), 7);
 	}
 	
-	@Test (expected = UserCantWriteException.class)
+	@Test (expected = InvalidAccessException.class)
 	public void assignWithuNoAccessUser() {
 		AssignLiteralToCellIntegrator integration_unauthorized = new AssignLiteralToCellIntegrator
 				(NO_ACCESS_TOKEN, DOC.getId(), "1;1", "5");
 		integration_unauthorized.execute();
 	}
 	
-	@Test (expected = UserCantWriteException.class)
+	@Test (expected = InvalidAccessException.class)
 	public void assignWithReader() {
 		AssignLiteralToCellIntegrator integration_reader = new AssignLiteralToCellIntegrator
 				(READ_TOKEN, DOC.getId(), "1;1", "5");

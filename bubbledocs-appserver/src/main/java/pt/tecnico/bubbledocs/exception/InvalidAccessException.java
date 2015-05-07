@@ -18,7 +18,7 @@ public class InvalidAccessException extends BubbleDocsException {
 
 	public InvalidAccessException(String username, int sheetId, String access)
 	{
-		this.username       = username;
+		this.username = username;
 		this.sheetId = sheetId;
 		this.access = access;
 	}

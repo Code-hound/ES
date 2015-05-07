@@ -258,6 +258,15 @@ public class BubbleDocs extends BubbleDocs_Base {
 		spreadsheet.addDocAccess(access);
 	}
 	
+	public static boolean hasAccessToSpreadSheet(String userToken, int spreadsheetId,
+			String permissionLevelWanted) {
+		//permissionLevelWanted -> e' para se saber a permissao pretendida, read write etc
+		//************************************************
+		//                  POR IMPLEMENTAR
+		//************************************************
+		return true;
+	}
+	
 	public void addAccessToSpreadSheet(User user, SpreadSheet spreadsheet,
 			String permission) {
 		Access access = new Access(user, permission);
