@@ -6,7 +6,6 @@ import java.util.List;
 import org.jdom2.Element;
 
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
-import pt.tecnico.bubbledocs.domain.User;
 
 import org.joda.time.LocalDate;
 
@@ -19,10 +18,8 @@ public class SpreadSheet extends SpreadSheet_Base {
 
 	public SpreadSheet(String owner, int id, String name, int rows, int columns) {
 		super();
-		// setBubbleDocs(BubbleDocs.getInstance());
-		setOwner(owner);
+		setOwnerUsername(owner);
 		setId(id);
-		// BubbleDocs.getInstance().
 		setSpreadSheetName(name);
 		setCreationDate(new LocalDate());
 		setNumberRows(rows);
@@ -32,12 +29,6 @@ public class SpreadSheet extends SpreadSheet_Base {
 				addCells(new Cell(row, column));
 			}
 		}
-	}
-
-	public void setOwner(String username) {
-		//Access a = new Access(username, "writer");
-		//addDocAccess(a);
-		setOwnerUsername(username);
 	}
 	
 	public List<User> getAccessUsers() {
@@ -62,22 +53,7 @@ public class SpreadSheet extends SpreadSheet_Base {
 		}
 		return 0;
 	}
-	/*
-	 * DEPRECATED
-	 * Permissions are now checked at Service-level
-	public boolean canBeWrittenBy(String username) {
-		//System.out.println("CanBeWrittenBy\nUser "+username+" has permission level "+getUserPermissionLevel(username));
-		return this.getUserPermissionLevel(username) == 2;
-	}
 
-	public boolean canBeReadBy(String username) {
-		return (getUserPermissionLevel(username) == 1 || getUserPermissionLevel(username) == 2);
-	}
-
-	public boolean isOwnedBy(String username) {
-		return this.getOwnerUsername() == username;
-	}
-	*/
 	public void addContent(Content c, int row, int column) throws CellNotInSpreadSheetException {
 		for (Cell cell : getCellsSet()) {
 			if (cell.getCellRow() == row && cell.getCellColumn() == column) {
@@ -109,11 +85,6 @@ public class SpreadSheet extends SpreadSheet_Base {
 	public String getCellDescription (int row, int column) throws CellNotInSpreadSheetException {
 		String description = "";
 		for (Cell cell : getCellsSet()) {
-			/*
-			if (!description.equals("")) {
-				description += "\n";
-			}
-			*/
 			if (cell.getCellRow() == row && cell.getCellColumn() == column) {
 				description += row + ";" + column + " ";
 				description += cell.toString();
