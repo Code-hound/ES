@@ -42,7 +42,7 @@ public class AssignReferenceToCellIntegrator extends BubbleDocsIntegrator {
 		if (username == null)
 			throw new UserNotInSessionException(username);
 
-		if(!BubbleDocs.hasAccessToSpreadSheet(userToken, docId,"WRITE")
+		if(!BubbleDocs.hasAccessToSpreadSheet(userToken, docId,"WRITE"))
 			throw new InvalidAccessException(username, docId, "WRITE");
 
 		String[] rowAndColumnCell = cellId.split(";");
