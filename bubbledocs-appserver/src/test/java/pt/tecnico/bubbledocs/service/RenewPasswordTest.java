@@ -34,16 +34,4 @@ public class RenewPasswordTest extends BubbleDocsServiceTest {
 		this.userToken = "error";
 		success();
     }
-	
-	@Test (expected = UnavailableServiceException.class)
-	public void InvalidService() {
-		new MockUp<IDRemoteServices>() {
-			@Mock
-			public void renewPassword(String username)
-					throws LoginBubbleDocsException, RemoteInvocationException {
-				throw new RemoteInvocationException();
-			}
-		};
-		success();
-	}
 }

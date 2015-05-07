@@ -70,16 +70,4 @@ public class ExportDocumentTest extends BubbleDocsServiceTest {
     	this.sheetId = -1;
     	success();
     }
-    
-    @Test(expected = UnavailableServiceException.class)
-    public void InvalidService() {
-    	new MockUp<StoreRemoteServices>() {
-    		@Mock
-    		public void storeDocument(String username, String SpreadSheetName, byte[] result)
-    				throws CannotStoreDocumentException, RemoteInvocationException {
-    			throw new RemoteInvocationException();
-    		}
-    	};
-    	success();
-    }
 }

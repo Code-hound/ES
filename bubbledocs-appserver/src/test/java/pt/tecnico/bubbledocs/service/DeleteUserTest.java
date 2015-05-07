@@ -75,17 +75,4 @@ public class DeleteUserTest extends BubbleDocsServiceTest {
     public void accessUserDoesNotExist() {
         new RemoveUserService(USERNAME_DOES_NOT_EXIST, USERNAME_TO_DELETE).execute();
     }
-
-    @Test(expected = UnavailableServiceException.class)
-    public void InvalidService() {
-    	new MockUp<IDRemoteServices>() {
-    		@Mock
-    		public void removeUser(String username)
-    				throws LoginBubbleDocsException, RemoteInvocationException {
-    			throw new RemoteInvocationException();
-    		}
-    	};
-    	success();
-    }
-
 }

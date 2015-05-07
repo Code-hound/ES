@@ -41,13 +41,6 @@ public class CreateUserTest extends BubbleDocsServiceTest {
 
 	@Test
 	public void success() {
-		new MockUp<IDRemoteServices>() {
-			@Mock
-			public void createUser(String username, String password)
-					throws LoginBubbleDocsException, RemoteInvocationException {
-			}
-		};
-
 		CreateUserService service = new CreateUserService (root, USERNAME_DOES_NOT_EXIST, "email@email.email", "José Ferreira");
 		service.execute();
 		
@@ -59,52 +52,24 @@ public class CreateUserTest extends BubbleDocsServiceTest {
 
 	@Test(expected = InvalidUsernameException.class)
 	public void InvalidShortUsername() {
-		new MockUp<IDRemoteServices>() {
-			@Mock
-			public void createUser(String username, String password)
-					throws LoginBubbleDocsException, RemoteInvocationException {
-			}
-		};
-
 		CreateUserService service = new CreateUserService(root, "", "jose", "José Ferreira");
 		service.execute();
 	}
 	
 	@Test(expected = InvalidUsernameException.class)
 	public void InvalidLongUsername() {
-		new MockUp<IDRemoteServices>() {
-			@Mock
-			public void createUser(String username, String password)
-					throws LoginBubbleDocsException, RemoteInvocationException {
-			}
-		};
-
 		CreateUserService service = new CreateUserService(root, "lookathowlongthisusernameis", "jose", "José Ferreira");
 		service.execute();
 	}
 	
 	@Test(expected = UnauthorizedOperationException.class)
 	public void unauthorizedUserCreation() {
-		new MockUp<IDRemoteServices>() {
-			@Mock
-			public void createUser(String username, String password)
-					throws LoginBubbleDocsException, RemoteInvocationException {
-			}
-		};
-
 		CreateUserService service = new CreateUserService(ars, USERNAME_DOES_NOT_EXIST, "jose", "José Ferreira");
 		service.execute();
 	}
 
 	@Test(expected = UserNotInSessionException.class)
 	public void InvalidUser() {
-		new MockUp<IDRemoteServices>() {
-			@Mock
-			public void createUser(String username, String password)
-					throws LoginBubbleDocsException, RemoteInvocationException {
-			}
-		};
-
 		removeUserFromSession(root);
 
 		CreateUserService service = new CreateUserService(root, USERNAME_DOES_NOT_EXIST, "jose", "José Ferreira");
@@ -113,29 +78,8 @@ public class CreateUserTest extends BubbleDocsServiceTest {
 	
 	@Test(expected = UserAlreadyExistsException.class)
 	public void InvalidCreate() {
-		new MockUp<IDRemoteServices>() {
-			@Mock
-			public void createUser(String username, String password)
-					throws LoginBubbleDocsException, RemoteInvocationException {
-			}
-		};
-
 		CreateUserService service = new CreateUserService (root, USERNAME_DOES_NOT_EXIST, "email@email.email", "José Ferreira");
 		service.execute();
-		service.execute();
-	}
-	
-	@Test(expected = UnavailableServiceException.class)
-	public void InvalidService() {
-		new MockUp<IDRemoteServices>() {
-			@Mock
-			public void createUser(String username, String password)
-					throws LoginBubbleDocsException, RemoteInvocationException {
-				throw new RemoteInvocationException();
-			}
-		};
-		
-		CreateUserService service = new CreateUserService (root, USERNAME_DOES_NOT_EXIST, "email@email.email", "José Ferreira");
 		service.execute();
 	}
 }

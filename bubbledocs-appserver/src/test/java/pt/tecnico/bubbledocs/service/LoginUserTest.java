@@ -74,28 +74,12 @@ public class LoginUserTest extends BubbleDocsServiceTest {
 
 	@Test (expected = InvalidUserException.class)
 	public void InvalidUser() {
-		/*
-		new MockUp<IDRemoteServices>() {
-			@Mock
-			public void loginUser(String username, String password)
-					throws LoginBubbleDocsException, RemoteInvocationException {
-				throw new RemoteInvocationException();
-			}
-		};
-		*/
 		LoginUserService service = new LoginUserService("error", PASSWORD);
 		service.execute();
 	}
 	
 	@Test(expected = UnavailableServiceException.class)
 	public void InvalidPassword() {
-		new MockUp<IDRemoteServices>() {
-			@Mock
-			public void loginUser(String username, String password)
-					throws LoginBubbleDocsException, RemoteInvocationException {
-				throw new RemoteInvocationException();
-			}
-		};
 		LoginUserService service = new LoginUserService(USERNAME, "error");
 		service.execute();
 	}
