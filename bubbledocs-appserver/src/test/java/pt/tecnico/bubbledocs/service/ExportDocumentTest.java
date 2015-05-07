@@ -48,7 +48,7 @@ public class ExportDocumentTest extends BubbleDocsServiceTest {
 
     @Test
     public void success() {
-        ExportDocument service = new ExportDocument(this.userToken, this.sheetId);
+        ExportDocumentService service = new ExportDocumentService(this.userToken, this.sheetId);
         service.execute();
         assertNotNull(service.getResult());
     }

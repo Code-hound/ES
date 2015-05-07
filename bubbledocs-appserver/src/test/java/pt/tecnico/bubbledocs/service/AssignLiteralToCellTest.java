@@ -7,7 +7,7 @@ import org.junit.Test;
 import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
-import pt.tecnico.bubbledocs.service.AssignLiteralToCell;
+import pt.tecnico.bubbledocs.service.AssignLiteralToCellService;
 import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
@@ -100,12 +100,12 @@ public class AssignLiteralToCellTest extends BubbleDocsServiceTest {
 	@Test 
 	public void success() {
 		//Owner assigns the value 5 to cell A "1;1"
-		AssignLiteralToCell service_owner = new AssignLiteralToCell
+		AssignLiteralToCellService service_owner = new AssignLiteralToCellService
 				(OWNER_TOKEN, DOC.getId(), "1;1", "5");
 		service_owner.execute();
 		
 		//Writer assigns the value 7 to cell B "2;2"
-		AssignLiteralToCell service_writer = new AssignLiteralToCell
+		AssignLiteralToCellService service_writer = new AssignLiteralToCellService
 				(WRITE_TOKEN, DOC.getId(), "2;2", "7");
 		service_writer.execute();
 		
@@ -117,35 +117,35 @@ public class AssignLiteralToCellTest extends BubbleDocsServiceTest {
 	
 	@Test (expected = InvalidAccessException.class)
 	public void assignWithuNoAccessUser() {
-		AssignLiteralToCell service_unauthorized = new AssignLiteralToCell
+		AssignLiteralToCellService service_unauthorized = new AssignLiteralToCellService
 				(NO_ACCESS_TOKEN, DOC.getId(), "1;1", "5");
 		service_unauthorized.execute();
 	}
 	
 	@Test (expected = InvalidAccessException.class)
 	public void assignWithReader() {
-		AssignLiteralToCell service_reader = new AssignLiteralToCell
+		AssignLiteralToCellService service_reader = new AssignLiteralToCellService
 				(READ_TOKEN, DOC.getId(), "1;1", "5");
 		service_reader.execute();
 	}
 	
 	@Test (expected = UserNotInSessionException.class)
 	public void assignWithInvalidUser() {
-		AssignLiteralToCell service_invalid = new AssignLiteralToCell
+		AssignLiteralToCellService service_invalid = new AssignLiteralToCellService
 				(INVALID_TOKEN, DOC.getId(), "1;1", "5");
 		service_invalid.execute();
 	}
 	
 	@Test (expected = DocumentDoesNotExistException.class)
 	public void assignToInvalidSpreadSheet() {
-		AssignLiteralToCell service_invalid_sheet = new AssignLiteralToCell 
+		AssignLiteralToCellService service_invalid_sheet = new AssignLiteralToCellService 
 				(OWNER_TOKEN, 17000, "1;1", "5");
 		service_invalid_sheet.execute();
 	}
 	
 	@Test (expected = CellNotInSpreadSheetException.class)
 	public void assignToOutOfRangeCell() {
-		AssignLiteralToCell service_invalid_cell = new AssignLiteralToCell 
+		AssignLiteralToCellService service_invalid_cell = new AssignLiteralToCellService 
 				(OWNER_TOKEN, DOC.getId(), "20;40", "5");
 		service_invalid_cell.execute();
 	}

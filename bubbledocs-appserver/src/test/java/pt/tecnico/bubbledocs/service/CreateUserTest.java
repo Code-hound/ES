@@ -48,7 +48,7 @@ public class CreateUserTest extends BubbleDocsServiceTest {
 			}
 		};
 
-		CreateUser service = new CreateUser (root, USERNAME_DOES_NOT_EXIST, "email@email.email", "José Ferreira");
+		CreateUserService service = new CreateUserService (root, USERNAME_DOES_NOT_EXIST, "email@email.email", "José Ferreira");
 		service.execute();
 		
 		User user = getUserFromUsername(USERNAME_DOES_NOT_EXIST);
@@ -66,7 +66,7 @@ public class CreateUserTest extends BubbleDocsServiceTest {
 			}
 		};
 
-		CreateUser service = new CreateUser(root, "", "jose", "José Ferreira");
+		CreateUserService service = new CreateUserService(root, "", "jose", "José Ferreira");
 		service.execute();
 	}
 	
@@ -79,7 +79,7 @@ public class CreateUserTest extends BubbleDocsServiceTest {
 			}
 		};
 
-		CreateUser service = new CreateUser(root, "lookathowlongthisusernameis", "jose", "José Ferreira");
+		CreateUserService service = new CreateUserService(root, "lookathowlongthisusernameis", "jose", "José Ferreira");
 		service.execute();
 	}
 	
@@ -92,7 +92,7 @@ public class CreateUserTest extends BubbleDocsServiceTest {
 			}
 		};
 
-		CreateUser service = new CreateUser(ars, USERNAME_DOES_NOT_EXIST, "jose", "José Ferreira");
+		CreateUserService service = new CreateUserService(ars, USERNAME_DOES_NOT_EXIST, "jose", "José Ferreira");
 		service.execute();
 	}
 
@@ -107,7 +107,7 @@ public class CreateUserTest extends BubbleDocsServiceTest {
 
 		removeUserFromSession(root);
 
-		CreateUser service = new CreateUser(root, USERNAME_DOES_NOT_EXIST, "jose", "José Ferreira");
+		CreateUserService service = new CreateUserService(root, USERNAME_DOES_NOT_EXIST, "jose", "José Ferreira");
 		service.execute();
 	}
 	
@@ -120,7 +120,7 @@ public class CreateUserTest extends BubbleDocsServiceTest {
 			}
 		};
 
-		CreateUser service = new CreateUser (root, USERNAME_DOES_NOT_EXIST, "email@email.email", "José Ferreira");
+		CreateUserService service = new CreateUserService (root, USERNAME_DOES_NOT_EXIST, "email@email.email", "José Ferreira");
 		service.execute();
 		service.execute();
 	}
@@ -135,7 +135,7 @@ public class CreateUserTest extends BubbleDocsServiceTest {
 			}
 		};
 		
-		CreateUser service = new CreateUser (root, USERNAME_DOES_NOT_EXIST, "email@email.email", "José Ferreira");
+		CreateUserService service = new CreateUserService (root, USERNAME_DOES_NOT_EXIST, "email@email.email", "José Ferreira");
 		service.execute();
 	}
 }

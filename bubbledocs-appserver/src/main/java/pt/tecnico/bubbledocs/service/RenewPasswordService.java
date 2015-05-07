@@ -6,11 +6,11 @@ import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
-public class RenewPassword extends BubbleDocsService {
+public class RenewPasswordService extends BubbleDocsService {
 	
 	private String userToken;
 
-	public RenewPassword (String userToken) {
+	public RenewPasswordService (String userToken) {
 		this.userToken = userToken;
 	}
 

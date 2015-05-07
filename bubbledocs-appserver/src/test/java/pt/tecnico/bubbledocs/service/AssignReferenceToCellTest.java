@@ -88,15 +88,15 @@ public class AssignReferenceToCellTest extends BubbleDocsServiceTest {
 	@Test 
 	public void success() {
 		//Owner assigns to cell A "1;1" a reference to cell "1;2" 
-		AssignReferenceToCell service_owner = new AssignReferenceToCell
+		AssignReferenceToCellService service_owner = new AssignReferenceToCellService
 				(OWNER_TOKEN, DOC.getId(), "1;1", "1;2");
-		AssignLiteralToCell service_aux = new AssignLiteralToCell
+		AssignLiteralToCellService service_aux = new AssignLiteralToCellService
 				(OWNER_TOKEN, DOC.getId(), "1;2", "4");
 		service_owner.execute();
 		service_aux.execute();
 		
 		//Writer assigns the reference "1;1" to cell B "2;2"
-		AssignReferenceToCell service_writer = new AssignReferenceToCell
+		AssignReferenceToCellService service_writer = new AssignReferenceToCellService
 				(WRITE_TOKEN, DOC.getId(), "2;2", "1;1");
 		service_writer.execute();
 		
@@ -111,35 +111,35 @@ public class AssignReferenceToCellTest extends BubbleDocsServiceTest {
 	
 	@Test (expected = InvalidAccessException.class)
 	public void assignWithuNoAccessUser() {
-		AssignReferenceToCell service_unauthorized = new AssignReferenceToCell
+		AssignReferenceToCellService service_unauthorized = new AssignReferenceToCellService
 				(NO_ACCESS_TOKEN, DOC.getId(), "1;1", "1;2");
 		service_unauthorized.execute();
 	}
 	
 	@Test (expected = InvalidAccessException.class)
 	public void assignWithReader() {
-		AssignReferenceToCell service_reader = new AssignReferenceToCell
+		AssignReferenceToCellService service_reader = new AssignReferenceToCellService
 				(READ_TOKEN, DOC.getId(), "1;1", "1;2");
 		service_reader.execute();
 	}
 	
 	@Test (expected = UserNotInSessionException.class)
 	public void assignWithInvalidUser() {
-		AssignReferenceToCell service_invalid = new AssignReferenceToCell
+		AssignReferenceToCellService service_invalid = new AssignReferenceToCellService
 				(INVALID_TOKEN, DOC.getId(), "1;1", "1;2");
 		service_invalid.execute();
 	}
 	
 	@Test (expected = DocumentDoesNotExistException.class)
 	public void assignToInvalidSpreadSheet() {
-		AssignReferenceToCell service_invalid_sheet = new AssignReferenceToCell 
+		AssignReferenceToCellService service_invalid_sheet = new AssignReferenceToCellService 
 				(OWNER_TOKEN, 17000, "1;1", "1;2");
 		service_invalid_sheet.execute();
 	}
 	
 	@Test (expected = CellNotInSpreadSheetException.class)
 	public void assignToOutOfRangeCell() {
-		AssignReferenceToCell service_invalid_cell = new AssignReferenceToCell 
+		AssignReferenceToCellService service_invalid_cell = new AssignReferenceToCellService 
 				(OWNER_TOKEN, DOC.getId(),"1;2" , "20;40");
 		service_invalid_cell.execute();
 	}

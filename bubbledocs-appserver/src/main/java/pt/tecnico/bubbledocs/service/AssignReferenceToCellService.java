@@ -18,14 +18,14 @@ import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
  * 
  */
 
-public class AssignReferenceToCell extends BubbleDocsService {
+public class AssignReferenceToCellService extends BubbleDocsService {
 
 	private String userToken;
 	private int docId;
 	private String cellId;
 	private String reference;
 
-	public AssignReferenceToCell(String userToken, int docId, String cellId,
+	public AssignReferenceToCellService(String userToken, int docId, String cellId,
 			String reference) {
 		this.userToken = userToken;
 		this.docId = docId;

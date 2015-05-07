@@ -16,7 +16,7 @@ import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
  * 
  */
 
-public class CreateSpreadSheet extends BubbleDocsService {
+public class CreateSpreadSheetService extends BubbleDocsService {
 
 	private int numRows;
 	private int numColumns;
@@ -24,7 +24,7 @@ public class CreateSpreadSheet extends BubbleDocsService {
 	private String userToken;
 	private int id;
 
-	public CreateSpreadSheet(String userToken, String name, int rows, int columns) {
+	public CreateSpreadSheetService(String userToken, String name, int rows, int columns) {
 		this.numRows = rows;
 		this.numColumns = columns;
 		this.spreadsheetName = name;

@@ -8,14 +8,14 @@ import pt.tecnico.bubbledocs.domain.SpreadSheet;
 import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 
-public class GetSpreadSheetContent extends BubbleDocsService {
+public class GetSpreadSheetContentService extends BubbleDocsService {
 	private String userToken;
 	private int docId;
 	private String[][] grid;
 	private int rowNumber;
 	private int columnNumber;
 
-	public GetSpreadSheetContent(String userToken, int docId) {
+	public GetSpreadSheetContentService(String userToken, int docId) {
 		this.userToken = userToken;
 		this.docId = docId;
 	}

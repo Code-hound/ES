@@ -76,39 +76,39 @@ public class BubbleApplication {
 			                            HeuristicMixedException,
 			                            HeuristicRollbackException {
 		
-		LoginUser loginRootService = new LoginUser(ROOT_USERNAME, ROOT_PASSWORD);
+		LoginUserService loginRootService = new LoginUserService(ROOT_USERNAME, ROOT_PASSWORD);
 		loginRootService.execute();
 		ROOT_TOKEN = loginRootService.getUserToken();
 		
-		CreateUser createUserService_user1 = new CreateUser(ROOT_TOKEN, USER1_USERNAME, USER1_EMAIL, USER1_NAME);
+		CreateUserService createUserService_user1 = new CreateUserService(ROOT_TOKEN, USER1_USERNAME, USER1_EMAIL, USER1_NAME);
 		createUserService_user1.execute();
 		
 		
-		CreateUser createUserService_user2 = new CreateUser(ROOT_TOKEN, USER2_USERNAME, USER2_EMAIL, USER2_NAME);
+		CreateUserService createUserService_user2 = new CreateUserService(ROOT_TOKEN, USER2_USERNAME, USER2_EMAIL, USER2_NAME);
 		createUserService_user2.execute();
 		
-		LoginUser loginUserService_user1 = new LoginUser(USER1_USERNAME, USER1_EMAIL);
+		LoginUserService loginUserService_user1 = new LoginUserService(USER1_USERNAME, USER1_EMAIL);
 		loginUserService_user1.execute();
 
-		LoginUser loginUserService_user2 = new LoginUser(USER2_USERNAME, USER2_EMAIL);
+		LoginUserService loginUserService_user2 = new LoginUserService(USER2_USERNAME, USER2_EMAIL);
 		loginUserService_user2.execute();
 		
 		USER1_TOKEN = loginUserService_user1.getUserToken();
 		
-		CreateSpreadSheet createSpreadSheetService_user1 = new CreateSpreadSheet
+		CreateSpreadSheetService createSpreadSheetService_user1 = new CreateSpreadSheetService
 				(USER1_TOKEN, SPREADSHEET_NAME, SPREADSHEET_ROWS, SPREADSHEET_COLUMNS);
 		createSpreadSheetService_user1.execute();
 		SPREADSHEET_ID = createSpreadSheetService_user1.getId();
 		
-		AssignLiteralToCell assignLiteralToCellService = new AssignLiteralToCell
+		AssignLiteralToCellService assignLiteralToCellService = new AssignLiteralToCellService
 				(USER1_TOKEN, SPREADSHEET_ID, "3;4", "5");
 		assignLiteralToCellService.execute();
 		
-		AssignReferenceToCell assignReferenceToCellService = new AssignReferenceToCell
+		AssignReferenceToCellService assignReferenceToCellService = new AssignReferenceToCellService
 				(USER1_TOKEN, SPREADSHEET_ID, "1;1", "5;6");
 		assignReferenceToCellService.execute();
 		
-		SpreadSheet sheet1 = CreateSpreadSheet.getSpreadSheet(SPREADSHEET_ID) ;
+		SpreadSheet sheet1 = CreateSpreadSheetService.getSpreadSheet(SPREADSHEET_ID) ;
 		
 		Content content3 = new ADD(new Literal(2), new Reference(sheet1, 3, 4));
 		sheet1.addContent(content3, 5, 6);

@@ -39,7 +39,7 @@ public class DeleteUserTest extends BubbleDocsServiceTest {
 
     @Test
     public void success() {
-        RemoveUser service = new RemoveUser(root, USERNAME_TO_DELETE);
+        RemoveUserService service = new RemoveUserService(root, USERNAME_TO_DELETE);
         service.execute();
 
         boolean deleted = getUserFromUsername(USERNAME_TO_DELETE) == null;
@@ -53,14 +53,14 @@ public class DeleteUserTest extends BubbleDocsServiceTest {
     @Test(expected = UnauthorizedOperationException.class)
     public void notRootUser() {
         String ars = addUserToSession(USERNAME);
-        new RemoveUser(ars, USERNAME_TO_DELETE).execute();
+        new RemoveUserService(ars, USERNAME_TO_DELETE).execute();
     }
 
     @Test(expected = UserNotInSessionException.class)
     public void rootNotInSession() {
         removeUserFromSession(root);
 
-        new RemoveUser(root, USERNAME_TO_DELETE).execute();
+        new RemoveUserService(root, USERNAME_TO_DELETE).execute();
     }
 
     @Test(expected = UserNotInSessionException.class)
@@ -68,12 +68,12 @@ public class DeleteUserTest extends BubbleDocsServiceTest {
         String ars = addUserToSession(USERNAME);
         removeUserFromSession(ars);
 
-        new RemoveUser(ars, USERNAME_TO_DELETE).execute();
+        new RemoveUserService(ars, USERNAME_TO_DELETE).execute();
     }
 
     @Test(expected = UserNotInSessionException.class)
     public void accessUserDoesNotExist() {
-        new RemoveUser(USERNAME_DOES_NOT_EXIST, USERNAME_TO_DELETE).execute();
+        new RemoveUserService(USERNAME_DOES_NOT_EXIST, USERNAME_TO_DELETE).execute();
     }
 
     @Test(expected = UnavailableServiceException.class)

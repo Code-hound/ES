@@ -23,14 +23,14 @@ import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
  * 
  */
 
-public class CreateUser extends BubbleDocsService {
+public class CreateUserService extends BubbleDocsService {
 
 	private String userToken;
 	private String newUsername;
 	private String email;
 	private String name;
 
-	public CreateUser(String userToken, String newUsername, String email, String name) {
+	public CreateUserService(String userToken, String newUsername, String email, String name) {
 		this.userToken = userToken;
 		this.newUsername = newUsername;
 		this.email = email;

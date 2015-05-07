@@ -22,12 +22,12 @@ import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
  * 
  */
 
-public class RemoveUser extends BubbleDocsService {
+public class RemoveUserService extends BubbleDocsService {
 
 	private String userToken;
 	private String toDeleteUsername;
 
-	public RemoveUser(String userToken, String toDeleteUsername) {
+	public RemoveUserService(String userToken, String toDeleteUsername) {
 		this.userToken = userToken;
 		this.toDeleteUsername = toDeleteUsername;
 	}

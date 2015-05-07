@@ -22,13 +22,13 @@ import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
  * 
  */
 
-public class LoginUser extends BubbleDocsService {
+public class LoginUserService extends BubbleDocsService {
 	
 	private String username;
 	private String password;
 	private String userToken;
 	
-	public LoginUser (String username, String password) {
+	public LoginUserService (String username, String password) {
 		this.username = username;
 		this.password = password;
 	}

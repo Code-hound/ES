@@ -25,7 +25,7 @@ public class RenewPasswordTest extends BubbleDocsServiceTest {
 
 	@Test
 	public void success() {
-		RenewPassword service = new RenewPassword(this.userToken);
+		RenewPasswordService service = new RenewPasswordService(this.userToken);
 		service.execute();
 	}
 

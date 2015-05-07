@@ -9,7 +9,7 @@ import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 
-public class AssignLiteralToCell extends BubbleDocsService {
+public class AssignLiteralToCellService extends BubbleDocsService {
 	
 	private int docId;
 	private String cellId;
@@ -17,7 +17,7 @@ public class AssignLiteralToCell extends BubbleDocsService {
 	private String userToken;
 	private SpreadSheet sheet;
 	
-	public AssignLiteralToCell(String userToken, int docId, String cellId, String literal) {
+	public AssignLiteralToCellService(String userToken, int docId, String cellId, String literal) {
 
 		this.docId = docId;
 		this.cellId = cellId;

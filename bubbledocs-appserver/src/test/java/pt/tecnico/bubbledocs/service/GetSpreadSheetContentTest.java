@@ -10,7 +10,7 @@ import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
 import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
-import pt.tecnico.bubbledocs.service.GetSpreadSheetContent;
+import pt.tecnico.bubbledocs.service.GetSpreadSheetContentService;
 
 public class GetSpreadSheetContentTest extends BubbleDocsServiceTest {
 	
@@ -71,41 +71,41 @@ public class GetSpreadSheetContentTest extends BubbleDocsServiceTest {
 		this.TOKEN_NO_ACCESS = addUserToSession(USERNAME_NO_ACCESS);
 		this.TOKEN_READER= addUserToSession(USERNAME_READER);
 		
-		AssignLiteralToCell serviceAssignLiteral;
-		AssignReferenceToCell serviceAssignReference;
+		AssignLiteralToCellService serviceAssignLiteral;
+		AssignReferenceToCellService serviceAssignReference;
 		
 		try {
-			serviceAssignLiteral = new AssignLiteralToCell
+			serviceAssignLiteral = new AssignLiteralToCellService
 					(TOKEN_OWNER, docId, "1;1", "1");
 					serviceAssignLiteral.execute();
-			serviceAssignLiteral = new AssignLiteralToCell
+			serviceAssignLiteral = new AssignLiteralToCellService
 					(TOKEN_OWNER, docId, "1;3", "6");
 					serviceAssignLiteral.execute();
-			serviceAssignLiteral = new AssignLiteralToCell
+			serviceAssignLiteral = new AssignLiteralToCellService
 					(TOKEN_OWNER, docId, "1;6", "10");
 					serviceAssignLiteral.execute();
-			serviceAssignLiteral = new AssignLiteralToCell
+			serviceAssignLiteral = new AssignLiteralToCellService
 					(TOKEN_OWNER, docId, "2;2", "17");
 					serviceAssignLiteral.execute();
-			serviceAssignLiteral = new AssignLiteralToCell
+			serviceAssignLiteral = new AssignLiteralToCellService
 					(TOKEN_OWNER, docId, "2;3", "2");
 					serviceAssignLiteral.execute();
-			serviceAssignLiteral = new AssignLiteralToCell
+			serviceAssignLiteral = new AssignLiteralToCellService
 					(TOKEN_OWNER, docId, "2;4", "9");
 					serviceAssignLiteral.execute();
-			serviceAssignLiteral = new AssignLiteralToCell
+			serviceAssignLiteral = new AssignLiteralToCellService
 					(TOKEN_OWNER, docId, "3;3", "0");
 					serviceAssignLiteral.execute();
-			serviceAssignLiteral = new AssignLiteralToCell
+			serviceAssignLiteral = new AssignLiteralToCellService
 					(TOKEN_OWNER, docId, "2;6", "276");
 					serviceAssignLiteral.execute();
-			serviceAssignReference = new AssignReferenceToCell
+			serviceAssignReference = new AssignReferenceToCellService
 					(TOKEN_OWNER, docId, "2;1", "1;3");
 					serviceAssignReference.execute();
-			serviceAssignReference = new AssignReferenceToCell
+			serviceAssignReference = new AssignReferenceToCellService
 					(TOKEN_OWNER, docId, "2;5", "1;6");
 					serviceAssignReference.execute();
-			serviceAssignReference = new AssignReferenceToCell
+			serviceAssignReference = new AssignReferenceToCellService
 					(TOKEN_OWNER, docId, "3;4", "3;3");
 					serviceAssignReference.execute();
 		} catch (BubbleDocsException ex) {
@@ -115,7 +115,7 @@ public class GetSpreadSheetContentTest extends BubbleDocsServiceTest {
 	
 	@Test
 	public void successOwner() {
-		GetSpreadSheetContent service = new GetSpreadSheetContent(TOKEN_OWNER, docId);
+		GetSpreadSheetContentService service = new GetSpreadSheetContentService(TOKEN_OWNER, docId);
 		service.execute();
 		content = service.getResult();
 		
@@ -130,7 +130,7 @@ public class GetSpreadSheetContentTest extends BubbleDocsServiceTest {
 	
 	@Test
 	public void successReader() {
-		GetSpreadSheetContent service = new GetSpreadSheetContent(TOKEN_READER, docId);
+		GetSpreadSheetContentService service = new GetSpreadSheetContentService(TOKEN_READER, docId);
 		service.execute();
 		content = service.getResult();
 		
@@ -145,21 +145,21 @@ public class GetSpreadSheetContentTest extends BubbleDocsServiceTest {
 	
 	@Test (expected = InvalidAccessException.class)
 	public void invalidAccess() {
-		GetSpreadSheetContent service = new GetSpreadSheetContent
+		GetSpreadSheetContentService service = new GetSpreadSheetContentService
 				(TOKEN_NO_ACCESS, docId);
 		service.execute();
 	}
 	
 	@Test (expected = UserNotInSessionException.class)
 	public void invalidUser() {
-		GetSpreadSheetContent service = new GetSpreadSheetContent
+		GetSpreadSheetContentService service = new GetSpreadSheetContentService
 				("", docId);
 		service.execute();
 	}
 	
 	@Test (expected = DocumentDoesNotExistException.class)
 	public void invalidDocument() {
-		GetSpreadSheetContent service = new GetSpreadSheetContent
+		GetSpreadSheetContentService service = new GetSpreadSheetContentService
 				(TOKEN_OWNER, -1);
 		service.execute();
 	}

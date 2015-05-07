@@ -27,7 +27,7 @@ import pt.tecnico.bubbledocs.service.remote.StoreRemoteServices;
  * @author: Luis Ribeiro Gomes
  */
 
-public class ExportDocument extends BubbleDocsService {
+public class ExportDocumentService extends BubbleDocsService {
 
 	private static XMLOutputter xml = new XMLOutputter();
 	
@@ -36,7 +36,7 @@ public class ExportDocument extends BubbleDocsService {
 	private int docId;
 	private byte[] result;
 
-	public ExportDocument(String userToken, int docId) {
+	public ExportDocumentService(String userToken, int docId) {
 		this.userToken = userToken;
 		this.docId = docId;
 	}

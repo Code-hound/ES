@@ -40,7 +40,7 @@ public class LoginUserTest extends BubbleDocsServiceTest {
 
 	@Test
 	public void success() {
-		LoginUser service = new LoginUser(USERNAME, PASSWORD);
+		LoginUserService service = new LoginUserService(USERNAME, PASSWORD);
 		service.execute();
 		LocalTime currentTime = new LocalTime();
 
@@ -58,7 +58,7 @@ public class LoginUserTest extends BubbleDocsServiceTest {
 
 	@Test
 	public void successLoginTwice() {
-		LoginUser service = new LoginUser(USERNAME, PASSWORD);
+		LoginUserService service = new LoginUserService(USERNAME, PASSWORD);
 
 		service.execute();
 		String token1 = service.getUserToken();
@@ -83,7 +83,7 @@ public class LoginUserTest extends BubbleDocsServiceTest {
 			}
 		};
 		*/
-		LoginUser service = new LoginUser("error", PASSWORD);
+		LoginUserService service = new LoginUserService("error", PASSWORD);
 		service.execute();
 	}
 	
@@ -96,7 +96,7 @@ public class LoginUserTest extends BubbleDocsServiceTest {
 				throw new RemoteInvocationException();
 			}
 		};
-		LoginUser service = new LoginUser(USERNAME, "error");
+		LoginUserService service = new LoginUserService(USERNAME, "error");
 		service.execute();
 	}
 }
