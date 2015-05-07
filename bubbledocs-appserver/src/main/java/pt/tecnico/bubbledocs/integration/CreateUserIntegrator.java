@@ -9,7 +9,7 @@ import pt.tecnico.bubbledocs.exception.InvalidUsernameException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.UserAlreadyExistsException;
-import pt.tecnico.bubbledocs.integration.remote.IDRemoteIntegrators;
+import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 /*
  * CREATE USER
@@ -40,7 +40,7 @@ public class CreateUserIntegrator extends BubbleDocsIntegrator {
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 
-		IDRemoteIntegrators integration = new IDRemoteIntegrators();
+		IDRemoteServices integration = new IDRemoteServices();
 		String username = resetUserLastAccess(userToken);
 		
 		//throws UnauthorizedOperationException

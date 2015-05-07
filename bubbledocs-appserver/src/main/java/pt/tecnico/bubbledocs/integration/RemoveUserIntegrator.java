@@ -10,7 +10,7 @@ import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
 import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
-import pt.tecnico.bubbledocs.integration.remote.IDRemoteIntegrators;
+import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 /*
  * DELETE USER
@@ -35,7 +35,7 @@ public class RemoveUserIntegrator extends BubbleDocsIntegrator {
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 
-		IDRemoteIntegrators integration = new IDRemoteIntegrators();
+		IDRemoteServices integration = new IDRemoteServices();
 		resetUserLastAccess(userToken);
 
 		//throws UserNotInSessionException

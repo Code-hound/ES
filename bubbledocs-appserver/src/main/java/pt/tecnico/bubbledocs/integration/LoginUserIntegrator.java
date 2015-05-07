@@ -8,7 +8,7 @@ import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.InvalidUserException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
-import pt.tecnico.bubbledocs.integration.remote.IDRemoteIntegrators;
+import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 /*
  * LOG IN USER
@@ -66,7 +66,7 @@ public class LoginUserIntegrator extends BubbleDocsIntegrator {
 			this.userToken = getBubbleDocs().addUserToSession(user);
 		}
 		
-		IDRemoteIntegrators integration = new IDRemoteIntegrators();
+		IDRemoteServices integration = new IDRemoteServices();
 		try {
 			integration.loginUser(this.username, this.password);
 		} catch (RemoteInvocationException e) {

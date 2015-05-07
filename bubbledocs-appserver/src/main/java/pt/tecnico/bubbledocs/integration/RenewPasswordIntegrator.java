@@ -4,7 +4,7 @@ import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
-import pt.tecnico.bubbledocs.integration.remote.IDRemoteIntegrators;
+import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 public class RenewPasswordIntegrator extends BubbleDocsIntegrator {
 	
@@ -21,7 +21,7 @@ public class RenewPasswordIntegrator extends BubbleDocsIntegrator {
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 
-		IDRemoteIntegrators integration = new IDRemoteIntegrators();
+		IDRemoteServices integration = new IDRemoteServices();
 		String username = resetUserLastAccess(userToken);
 
 		//throws UserNotInSessionException
