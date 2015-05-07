@@ -44,19 +44,21 @@ public class ExportDocumentIntegrator extends BubbleDocsIntegrator {
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 
-		StoreRemoteServices integration = new StoreRemoteServices();
-		org.jdom2.Document jdomDoc = new org.jdom2.Document();
-		String username = resetUserLastAccess(userToken);
+		StoreRemoteServices service  = new StoreRemoteServices();
+		String              username = resetUserLastAccess(userToken);
 
 		//throws UserNotInSessionException
 		if (username == null)
 			throw new UserNotInSessionException(username);
 
 		//throws InvalidAccessException
-		if ( !getSpreadSheet(sheetId).isOwnedBy(username) && !getSpreadSheet(sheetId).canBeReadBy(username) )
-			throw new InvalidAccessException(username, sheetId);
+		if (!getSpreadSheet(sheetId).getOwnerUsername().equals(username) &&
+		     getSpreadSheet(sheetId).getUserPermissionLevel(username) == 0)
+			throw new InvalidAccessException(username, sheetId, "Read or Write");
 
+		org.jdom2.Document jdomDoc  = new org.jdom2.Document();
 		jdomDoc.setRootElement(getSpreadSheet(sheetId).exportToXML());
+
 		//throws ExportDocumentException
 		try {
 			result = xml.outputString(jdomDoc).getBytes("UTF-8");
@@ -67,7 +69,7 @@ public class ExportDocumentIntegrator extends BubbleDocsIntegrator {
 
 		//throws UnavailableServiceException
 		try {
-			integration.storeDocument(username, getSpreadSheet(sheetId).getSpreadSheetName(), result);
+			service.storeDocument(username, getSpreadSheet(sheetId).getSpreadSheetName(), result);
 		} catch(RemoteInvocationException e) {
 			throw new UnavailableServiceException();
 		}

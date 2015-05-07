@@ -1,14 +1,9 @@
 
 package pt.tecnico.bubbledocs.integration;
-/*
-import pt.tecnico.bubbledocs.domain.SpreadSheet;
-import pt.tecnico.bubbledocs.domain.Cell;
-import pt.tecnico.bubbledocs.domain.Literal;
-*/
+
 import pt.tecnico.bubbledocs.service.AssignLiteralToCellService;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.ProtectedCellException;
-import pt.tecnico.bubbledocs.exception.UserCantWriteException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 
 public class AssignLiteralToCellIntegrator extends BubbleDocsIntegrator {
