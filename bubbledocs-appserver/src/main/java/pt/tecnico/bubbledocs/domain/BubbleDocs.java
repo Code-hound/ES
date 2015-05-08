@@ -54,7 +54,7 @@ public class BubbleDocs extends BubbleDocs_Base {
 		removeUsers(user);
 	}
 	*/
-	private boolean hasUserByUsername(String UserName) {
+	public boolean hasUserByUsername(String UserName) {
 		if (hasUsers()) {
 			for (User u : getUsersSet()) {
 				if (u.getUsername().equals(UserName)) {
