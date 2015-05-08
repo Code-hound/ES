@@ -81,4 +81,15 @@ public class IdClient implements SDId {
 			throws AuthReqFailed_Exception {
 		return idInterface.requestAuthentication(userId, reserved);
 	}
+	
+    static void reset() {
+        users.clear();
+        // as specified in:
+        // http://disciplinas.tecnico.ulisboa.pt/leic-sod/2014-2015/labs/proj/test.html
+        users.put("alice", "Aaa1".getBytes());
+        users.put("bruno", "Bbb2".getBytes());
+        users.put("carla", "Ccc3".getBytes());
+        users.put("duarte", "Ddd4".getBytes());
+        users.put("eduardo", "Eee5".getBytes());
+    }
 }
