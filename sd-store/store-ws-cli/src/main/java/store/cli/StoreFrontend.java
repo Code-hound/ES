@@ -19,16 +19,12 @@ public class StoreFrontend {
 
 	/** WS service */
 	private SDStore_Service storeService = null;
-	/** WS port (interface) */
-	//Where the magic happens
-	//private SDStore storeInterface = null;
 	/** Number of necessary clients **/
 	private int multiplicity;
 	/** Array of server URLs **/
 	private String[] endpointAddresses;
 	/** Replica managers **/
 	private ArrayList<SDStore> endpoints;
-	
 	
 	
 	public StoreFrontend(String[] addresses, int multiplicity) 
@@ -71,15 +67,6 @@ public class StoreFrontend {
 		return content.get(0);
 	}
 	
-	/*
-	private void createReplicaManagers() 
-			throws JAXRException, StoreClientException {
-		for (int i=0; i<numberOfClients; i++) {
-			//clients.add(new StoreClient(endpointAddresses[i], i+1));
-		}
-	}
-	*/
-	
 	private void setEndpointAddresses(String[] addresses) 
 			throws JAXRException, StoreClientException {
 		this.endpoints = new ArrayList<SDStore>();
@@ -87,15 +74,9 @@ public class StoreFrontend {
     }
 	
 	private void createStubs() {
-    	//if (verbose)
         System.out.println("Creating stub ...");
     	storeService = new SDStore_Service();
     	
-        //storeInterface = storeService.getSDStoreImplPort();
-
-        //if (uddiURL != null) {
-    	
-           // if (verbose)
         System.out.println("Setting endpoint addresses ...");
         for (int i=0; i<multiplicity; i++) {//(SDStore endpoint : endpoints) {
         	SDStore endpoint = storeService.getSDStoreImplPort();
@@ -105,6 +86,5 @@ public class StoreFrontend {
         		this.endpointAddresses[i]);
         	endpoints.add(endpoint);
         }
-        //}   
     }
 }
