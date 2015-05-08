@@ -38,7 +38,7 @@ public class StoreImpl implements SDStore {
 	private int ID;
 	private static final String TERMINATOR = ".txt";
 	private static final String SEPARATOR = Character.toString(File.separatorChar);
-	private final String STORED = "stored_files"+SEPARATOR+this.ID;
+	private String STORED = "stored_files";
 	private static final int MAX_SIZE_IN_BYTES = 10000000;
 	 
 	/*
@@ -50,6 +50,8 @@ public class StoreImpl implements SDStore {
 	
 	public StoreImpl(int id) {
 		this.ID = id;
+		this.STORED = STORED+SEPARATOR+this.ID;
+		//System.out.println("I store files in "+STORED);
 	}
 	
 	public void createDoc(DocUserPair docUser) 

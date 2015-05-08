@@ -23,8 +23,9 @@ public class StoreClient {
 			throws JAXRException, StoreClientException {
 		this.wsName = wsName;
 		this.uddiURL = uddiURL;
-		String[] addresses = uddiLookup(uddiURL, wsName, multiplicity);
-		frontend = new StoreFrontend(addresses, multiplicity);
+		
+		uddiLookup(uddiURL, wsName, multiplicity);
+		frontend = new StoreFrontend(endpointAddresses, multiplicity);
 		//System.out.println("Size: "+endpointAddresses.length);
 		//for (String s : endpointAddresses) System.out.println(s);
 	}
@@ -64,6 +65,8 @@ public class StoreClient {
     private UDDINaming uddiNaming;
     /** output option **/
     private boolean verbose = false;
+    /** Array of server URLs **/
+	private String[] endpointAddresses;
     
     /*
     public boolean isVerbose() {
@@ -74,31 +77,38 @@ public class StoreClient {
     }
     */
     
-    public String[] uddiLookup
+    private void uddiLookup
     		(String uddiURL, String wsName, int multiplicity)
     		throws JAXRException, StoreClientException {
     	try {
 	    	System.out.printf("Contacting UDDI at %s%n", uddiURL);
 	    	uddiNaming = new UDDINaming(uddiURL);
-	    	;
+	    	endpointAddresses = new String[multiplicity];
 	    	
 	    	System.out.printf("Looking for '%s'%n", wsName);
 	    	Collection<String> addresses = uddiNaming.list(wsName);
+	    	
+	    	if (endpointAddresses.length > addresses.size()) {
+	    		throw new StoreClientException("The multiplicity for the "
+	    				+wsName+" service currently can be no larger than "
+	    				+addresses.size());
+	    	}
+	    	
 	    	String[] addressesArray = addresses.toArray(new String[addresses.size()]);
+	    	for (int i=0; i<multiplicity; i++) {
+	    		endpointAddresses[i] = addressesArray[i];
+	    	} 
+	    	//Even though this looks excruciantingly bad, any other way can result in
+	    	//endpointAddresses having length>multiplicity
 	    	
 	    	//Checks if any endpoints were found
-	    	if (addressesArray.length == 0 || addressesArray[0].equals("")) {
+	    	if (endpointAddresses.length == 0 || endpointAddresses[0].equals("")) {
 	    		throw new StoreClientException("Could not find endpoints for service "
 	    				+wsName);
 	    	}
 	    	// Checks if the number of required clients isn't larger than
 	    	// the number of servers
-	    	if (addressesArray.length < multiplicity) {
-	    		throw new StoreClientException("The multiplicity for the "
-	    				+wsName+" service currently can be no larger than "
-	    				+addresses.size());
-	    	}
-	    	return addressesArray;
+	    	
 	    	//return endpointAddresses;
 	    } catch (JAXRException | IllegalArgumentException ex) {
 			throw new StoreClientException("Failed UDDI lookup at "+uddiURL);
@@ -111,4 +121,8 @@ public class StoreClient {
 		pair.setDocumentId(docID);
 		return pair;
 	}
+    
+    public String[] getEndpointAddresses() {
+    	return this.endpointAddresses;
+    }
 }

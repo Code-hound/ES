@@ -39,6 +39,7 @@ public class StoreClientRealTest {
 	private static final String DOC_ID2 = "Animal Farm";
 	private static final String DOC_ID3 = "Homage To Catalonia";
 	private static final String DOC_ID4 = "Coming Up For Air";
+	private static final String DOC_ID5 = "A Clergyman's Daughter";
 	private static final String CONTENT = 
 			"Word had gone round during the day that old Major, the prize Middle White"
 			+ " boar, had had a strange dream on the previous night and wished to "
@@ -52,11 +53,79 @@ public class StoreClientRealTest {
 	
 	@After
 	public void teardown() {
-		
+		client = null;
+	}
+	
+	private void printDocs(String USERNAME) throws UserDoesNotExist_Exception {
+		System.out.println("Printing "+USERNAME+"'s documents:");
+		for (String s : client.listDocs(USERNAME)){
+			System.out.println(s);
+		}
 	}
 	
 	@Test
-	public void printAddresses() {
+	public void numberOfAddresses() throws JAXRException, StoreClientException {
+		String[] addresses = client.getEndpointAddresses();
+		assertTrue(addresses.length == 3);
 		
+		client = new StoreClient(uddiURL, wsName, 1);
+		addresses = client.getEndpointAddresses();
+		assertTrue(addresses.length == 1);
+	}
+	
+	@Test
+	public void createAndList() 
+			throws DocAlreadyExists_Exception, UserDoesNotExist_Exception {
+		client.createDoc(USERNAME, DOC_ID1);
+		
+		List<String> files = client.listDocs(USERNAME);
+		//We can't be sure there aren't more files stored from previous tests
+		//So we check if there's AT LEAST 1 file stored
+		assertTrue(files.size() >= 1);
+		//assertEquals(DOC_ID1+".txt",files.get(0));
+	}
+	
+	@Test
+	public void createStoreAndLoad() 
+			throws DocAlreadyExists_Exception, UserDoesNotExist_Exception, 
+			CapacityExceeded_Exception, DocDoesNotExist_Exception, 
+			UnsupportedEncodingException {
+		client.createDoc(USERNAME, DOC_ID2);
+		
+		byte[] contentToBytes = CONTENT.getBytes();
+		client.store(USERNAME, DOC_ID2, contentToBytes);
+		
+		String loadedContent = new String (client.load(USERNAME, DOC_ID2), "UTF-8");
+		assertEquals(CONTENT, loadedContent);
+	}
+	
+	@Test (expected = StoreClientException.class)
+	public void wrongEndpointUrl() 
+			throws DocAlreadyExists_Exception, UserDoesNotExist_Exception, 
+			StoreClientException, JAXRException {
+		client = new StoreClient("www.4chan.org/mlp", wsName, 1);
+		client.createDoc(USERNAME, DOC_ID3);
+	}
+	
+	@Test (expected = StoreClientException.class)
+	public void wrongMultiplicity() 
+			throws StoreClientException, DocAlreadyExists_Exception, JAXRException {
+		client = new StoreClient(uddiURL,wsName, 100);
+		client.createDoc(USERNAME, DOC_ID3);
+	}
+	
+	@Test (expected = DocDoesNotExist_Exception.class)
+	public void storeWithWrongDocID() 
+			throws DocAlreadyExists_Exception, CapacityExceeded_Exception, 
+			DocDoesNotExist_Exception, UserDoesNotExist_Exception {
+		byte[] contentToBytes = CONTENT.getBytes();
+		client.store(USERNAME, DOC_ID4, contentToBytes); 
+	}
+	
+	@Test (expected = DocAlreadyExists_Exception.class)
+	public void createDuplicateDoc() 
+			throws StoreClientException, DocAlreadyExists_Exception, JAXRException {
+		client.createDoc(USERNAME, DOC_ID5);
+		client.createDoc(USERNAME, DOC_ID5);
 	}
 }
