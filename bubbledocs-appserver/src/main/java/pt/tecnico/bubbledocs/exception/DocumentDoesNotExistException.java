@@ -10,6 +10,7 @@ public class DocumentDoesNotExistException extends BubbleDocsException {
 	 * 
 	 * @author: Francisco Silveira
 	 */
+	private static final long serialVersionUID = 1L;
 	
 	private int documentId = 0;
 	private String documentName;

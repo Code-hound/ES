@@ -9,6 +9,8 @@ package pt.tecnico.bubbledocs.exception;
  */
 
 public class CellNotInSpreadSheetException extends BubbleDocsException {
+	private static final long serialVersionUID = 1L;
+	
 	private int row;
 	private int column;
 	private int docId;

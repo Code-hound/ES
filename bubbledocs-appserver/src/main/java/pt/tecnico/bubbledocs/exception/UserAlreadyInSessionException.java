@@ -1,7 +1,8 @@
 package pt.tecnico.bubbledocs.exception;
 
 public class UserAlreadyInSessionException extends BubbleDocsException {
-		
+	private static final long serialVersionUID = 1L;
+	
 	private String username;
 	
 	public UserAlreadyInSessionException(String username) {
