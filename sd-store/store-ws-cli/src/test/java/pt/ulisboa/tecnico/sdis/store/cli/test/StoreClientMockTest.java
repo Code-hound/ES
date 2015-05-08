@@ -91,6 +91,7 @@ public class StoreClientMockTest {
     /*
 	 * The mocked server fails on the second invocation
 	 */
+	/*
     @Test
     public void mockServerExceptionOnStoreCall(
     		@Mocked final SDStore_Service service,
@@ -118,6 +119,6 @@ public class StoreClientMockTest {
         } catch (CapacityExceeded_Exception e) {
         	assertEquals("The repository has no further capacity", e.getMessage());
         }
-        */
-    }
+        
+    }*/
 }
