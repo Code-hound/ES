@@ -1,4 +1,4 @@
-package example.ws.handler;
+package store.ws.handler.test;
 
 import java.io.*;
 import java.util.*;

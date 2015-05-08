@@ -1,4 +1,4 @@
-package example.ws.handler;
+package store.ws.handler.test;
 
 import java.io.*;
 import java.util.*;
@@ -12,6 +12,7 @@ import javax.xml.ws.handler.*;
 import javax.xml.ws.handler.MessageContext.Scope;
 import javax.xml.ws.handler.soap.*;
 
+import store.ws.handler.HeaderHandler;
 import org.w3c.dom.*;
 
 import org.junit.*;
