@@ -9,7 +9,7 @@ import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
-import pt.tecnico.bubbledocs.integration.remote.IDRemoteIntegrators;
+import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 public class RenewPasswordIntegratorTest extends BubbleDocsIntegratorTest {
 
@@ -37,7 +37,7 @@ public class RenewPasswordIntegratorTest extends BubbleDocsIntegratorTest {
 	
 	@Test (expected = UnavailableServiceException.class)
 	public void InvalidService() {
-		new MockUp<IDRemoteIntegrators>() {
+		new MockUp<IDRemoteServices>() {
 			@Mock
 			public void renewPassword(String username)
 					throws LoginBubbleDocsException, RemoteInvocationException {

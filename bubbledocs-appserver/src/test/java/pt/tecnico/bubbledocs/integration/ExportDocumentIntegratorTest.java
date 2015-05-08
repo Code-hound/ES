@@ -12,7 +12,7 @@ import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 import pt.tecnico.bubbledocs.exception.CannotStoreDocumentException;
 import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
-import pt.tecnico.bubbledocs.integration.remote.StoreRemoteIntegrators;
+import pt.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
 public class ExportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
 	
@@ -73,7 +73,7 @@ public class ExportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
     
     @Test(expected = UnavailableServiceException.class)
     public void InvalidService() {
-    	new MockUp<StoreRemoteIntegrators>() {
+    	new MockUp<StoreRemoteServices>() {
     		@Mock
     		public void storeDocument(String username, String SpreadSheetName, byte[] result)
     				throws CannotStoreDocumentException, RemoteInvocationException {

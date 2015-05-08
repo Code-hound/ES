@@ -17,7 +17,7 @@ import pt.tecnico.bubbledocs.exception.InvalidUserException;
 import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
-import pt.tecnico.bubbledocs.integration.remote.IDRemoteIntegrators;
+import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 
 public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
@@ -75,7 +75,7 @@ public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
 	@Test (expected = InvalidUserException.class)
 	public void InvalidUser() {
 		/*
-		new MockUp<IDRemoteIntegrators>() {
+		new MockUp<IDRemoteServices>() {
 			@Mock
 			public void loginUser(String username, String password)
 					throws LoginBubbleDocsException, RemoteInvocationException {
@@ -89,7 +89,7 @@ public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
 	
 	@Test(expected = UnavailableServiceException.class)
 	public void InvalidPassword() {
-		new MockUp<IDRemoteIntegrators>() {
+		new MockUp<IDRemoteServices>() {
 			@Mock
 			public void loginUser(String username, String password)
 					throws LoginBubbleDocsException, RemoteInvocationException {
