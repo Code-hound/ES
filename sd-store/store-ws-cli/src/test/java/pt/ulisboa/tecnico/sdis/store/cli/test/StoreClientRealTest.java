@@ -56,12 +56,14 @@ public class StoreClientRealTest {
 		client = null;
 	}
 	
+	/*
 	private void printDocs(String USERNAME) throws UserDoesNotExist_Exception {
 		System.out.println("Printing "+USERNAME+"'s documents:");
 		for (String s : client.listDocs(USERNAME)){
 			System.out.println(s);
 		}
 	}
+	*/
 	
 	@Test
 	public void numberOfAddresses() throws JAXRException, StoreClientException {
