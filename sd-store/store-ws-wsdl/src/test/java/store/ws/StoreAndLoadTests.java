@@ -1,4 +1,4 @@
-package store.ws.implementation;
+package store.ws;
 
 import static org.junit.Assert.*;
 
@@ -26,7 +26,7 @@ public class StoreAndLoadTests {
 	private static final String BAD_SHEET_ID = "1096";
 	private static DocUserPair pair = new DocUserPair();
 	private static DocUserPair bad_pair = new DocUserPair();
-	private static StoreImpl store = new StoreImpl();
+	private static StoreImpl store = new StoreImpl(0);
 	private static final String CONTENT = "This project is getting really hard";
 	private static final byte[] STORED_BYTES = CONTENT.getBytes();
 	private static final String CONTENT_NEW = "Oh look, it's getting easier";
@@ -36,15 +36,12 @@ public class StoreAndLoadTests {
 	public void setup() throws Exception {
 		pair.setUserId(USERNAME);
 		pair.setDocumentId(SHEET_ID);
-		
-		
-		
 		store.createDoc(pair);
 	}
 	
 	@After
 	public void tearDown() throws Exception {
-		store.destroyRepository(USERNAME);
+		store.reset();
 	}
 	
 	@Test

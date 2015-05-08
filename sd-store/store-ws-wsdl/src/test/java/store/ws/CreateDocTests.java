@@ -1,11 +1,13 @@
-package store.ws.implementation;
+package store.ws;
 
 import static org.junit.Assert.*;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.sdis.store.ws.DocAlreadyExists_Exception;
+import pt.ulisboa.tecnico.sdis.store.ws.DocDoesNotExist_Exception;
 import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
 import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
 import store.ws.StoreImpl;
@@ -15,7 +17,7 @@ public class CreateDocTests {
 	private static final String USERNAME = "test_username";
 	private static final String SHEET_ID = "2205";
 	private static DocUserPair pair = new DocUserPair();
-	private static StoreImpl store = new StoreImpl();
+	private static StoreImpl store = new StoreImpl(0);
 	
 	@Before
 	public void setup() throws Exception {
@@ -25,7 +27,7 @@ public class CreateDocTests {
 	
 	@After
 	public void tearDown() throws Exception {
-		store.destroyRepository(USERNAME);
+		store.reset();
 	}
 	
 	@Test
@@ -53,14 +55,14 @@ public class CreateDocTests {
 	
 	@Test
 	public void successCreateDeletedFile() 
-			throws DocAlreadyExists_Exception, UserDoesNotExist_Exception {
+			throws DocAlreadyExists_Exception, UserDoesNotExist_Exception, DocDoesNotExist_Exception {
 		DocUserPair pair2 = new DocUserPair();
 			pair2.setUserId(USERNAME);
 			pair2.setDocumentId("652");
 		
 		store.createDoc(pair);
 		assertTrue(store.listDocs(USERNAME).size()==1);
-		store.destroyFile(pair);
+		store.deleteFile(pair);
 		assertTrue(store.listDocs(USERNAME).size()==0);
 		store.createDoc(pair);
 		assertTrue(store.listDocs(USERNAME).size()==1);

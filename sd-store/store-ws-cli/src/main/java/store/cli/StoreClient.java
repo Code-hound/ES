@@ -18,12 +18,28 @@ import uddi.UDDINaming;
 import store.cli.*;
 
 public class StoreClient {
-
-	public StoreClient(String uddiURL, String wsName, int multiplicity) 
+	
+	/** Client identifier **/
+	private int clientID;
+	/** Service frontend to communicate with servers **/
+	private StoreFrontend frontend;
+	/** Webservice name **/
+	private String wsName;
+	/** URL of the UDDI Registry **/
+    private String uddiURL;
+    /** UDDI connector **/
+    private UDDINaming uddiNaming;
+    /** output option **/
+    private boolean verbose = false;
+    /** Array of server URLs **/
+	private String[] endpointAddresses;
+	
+	public StoreClient(String uddiURL, String wsName, int multiplicity, int ID) 
 			throws JAXRException, StoreClientException {
+		
 		this.wsName = wsName;
 		this.uddiURL = uddiURL;
-		
+		this.clientID = ID;
 		uddiLookup(uddiURL, wsName, multiplicity);
 		frontend = new StoreFrontend(endpointAddresses, multiplicity);
 		//System.out.println("Size: "+endpointAddresses.length);
@@ -55,28 +71,9 @@ public class StoreClient {
 		return frontend.load(docUser);
 	}
 	
+	
 	// WEBSERVICE COMMUNICATION FUNCTIONALITIES
-	private StoreFrontend frontend;
-	/** Webservice name **/
-	private String wsName;
-	/** URL of the UDDI Registry **/
-    private String uddiURL;
-    /** UDDI connector **/
-    private UDDINaming uddiNaming;
-    /** output option **/
-    private boolean verbose = false;
-    /** Array of server URLs **/
-	private String[] endpointAddresses;
-    
-    /*
-    public boolean isVerbose() {
-        return verbose;
-    }
-    public void setVerbose(boolean verbose) {
-        this.verbose = verbose;
-    }
-    */
-    
+	
     private void uddiLookup
     		(String uddiURL, String wsName, int multiplicity)
     		throws JAXRException, StoreClientException {

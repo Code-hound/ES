@@ -25,6 +25,7 @@ public class StoreFrontend {
 	private String[] endpointAddresses;
 	/** Replica managers **/
 	private ArrayList<SDStore> endpoints;
+	Map<String, Object> requestContext;
 	
 	
 	public StoreFrontend(String[] addresses, int multiplicity) 
@@ -81,7 +82,7 @@ public class StoreFrontend {
         for (int i=0; i<multiplicity; i++) {//(SDStore endpoint : endpoints) {
         	SDStore endpoint = storeService.getSDStoreImplPort();
         	BindingProvider bindingProvider = (BindingProvider) endpoint;
-        	Map<String, Object> requestContext = bindingProvider.getRequestContext();
+        	requestContext = bindingProvider.getRequestContext();
         	requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
         		this.endpointAddresses[i]);
         	endpoints.add(endpoint);
