@@ -3,7 +3,7 @@ package pt.tecnico.bubbledocs.service;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
-import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
+import pt.tecnico.bubbledocs.exception.InvalidUserException;
 
 public class GetUserInfoService extends BubbleDocsService {
 	
@@ -20,7 +20,7 @@ public class GetUserInfoService extends BubbleDocsService {
 		BubbleDocs bd = getBubbleDocs();
 		
 		if(!bd.hasUserByUsername(userName))
-			throw new UserNotInSessionException(userName);
+			throw new InvalidUserException(userName);
 		user = bd.getUserByUsername(userName);
 		
 		returnUser();
