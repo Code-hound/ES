@@ -8,7 +8,7 @@ import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
-import pt.tecnico.bubbledocs.integration.remote.IDRemoteIntegrators;
+import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 import mockit.Mock;
 import mockit.MockUp;
 
@@ -78,7 +78,7 @@ public class DeleteUserIntegratorTest extends BubbleDocsIntegratorTest {
 
     @Test(expected = UnavailableServiceException.class)
     public void InvalidService() {
-    	new MockUp<IDRemoteIntegrators>() {
+    	new MockUp<IDRemoteServices>() {
     		@Mock
     		public void removeUser(String username)
     				throws LoginBubbleDocsException, RemoteInvocationException {

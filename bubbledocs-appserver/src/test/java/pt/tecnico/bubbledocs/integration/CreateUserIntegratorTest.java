@@ -14,7 +14,7 @@ import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 import pt.tecnico.bubbledocs.exception.UserAlreadyExistsException;
 import pt.tecnico.bubbledocs.exception.InvalidUsernameException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
-import pt.tecnico.bubbledocs.integration.remote.IDRemoteIntegrators;
+import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 	
@@ -41,7 +41,7 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 
 	@Test
 	public void success() {
-		new MockUp<IDRemoteIntegrators>() {
+		new MockUp<IDRemoteServices>() {
 			@Mock
 			public void createUser(String username, String password)
 					throws LoginBubbleDocsException, RemoteInvocationException {
@@ -59,7 +59,7 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 
 	@Test(expected = InvalidUsernameException.class)
 	public void InvalidShortUsername() {
-		new MockUp<IDRemoteIntegrators>() {
+		new MockUp<IDRemoteServices>() {
 			@Mock
 			public void createUser(String username, String password)
 					throws LoginBubbleDocsException, RemoteInvocationException {
@@ -72,7 +72,7 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 	
 	@Test(expected = InvalidUsernameException.class)
 	public void InvalidLongUsername() {
-		new MockUp<IDRemoteIntegrators>() {
+		new MockUp<IDRemoteServices>() {
 			@Mock
 			public void createUser(String username, String password)
 					throws LoginBubbleDocsException, RemoteInvocationException {
@@ -85,7 +85,7 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 	
 	@Test(expected = UnauthorizedOperationException.class)
 	public void unauthorizedUserCreation() {
-		new MockUp<IDRemoteIntegrators>() {
+		new MockUp<IDRemoteServices>() {
 			@Mock
 			public void createUser(String username, String password)
 					throws LoginBubbleDocsException, RemoteInvocationException {
@@ -98,7 +98,7 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 
 	@Test(expected = UserNotInSessionException.class)
 	public void InvalidUser() {
-		new MockUp<IDRemoteIntegrators>() {
+		new MockUp<IDRemoteServices>() {
 			@Mock
 			public void createUser(String username, String password)
 					throws LoginBubbleDocsException, RemoteInvocationException {
@@ -113,7 +113,7 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 	
 	@Test(expected = UserAlreadyExistsException.class)
 	public void InvalidCreate() {
-		new MockUp<IDRemoteIntegrators>() {
+		new MockUp<IDRemoteServices>() {
 			@Mock
 			public void createUser(String username, String password)
 					throws LoginBubbleDocsException, RemoteInvocationException {
@@ -127,7 +127,7 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 	
 	@Test(expected = UnavailableServiceException.class)
 	public void InvalidService() {
-		new MockUp<IDRemoteIntegrators>() {
+		new MockUp<IDRemoteServices>() {
 			@Mock
 			public void createUser(String username, String password)
 					throws LoginBubbleDocsException, RemoteInvocationException {
