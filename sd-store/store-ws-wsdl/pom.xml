@@ -40,7 +40,6 @@
     <dependency>
     	<groupId>pt.tecnico.ulisboa.essd</groupId>
     	<artifactId>sd-store-ws-handlers</artifactId>
-    	<version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
   
@@ -130,4 +129,13 @@
     </plugins>
   </build>
 
+  <dependencyManagement>
+  	<dependencies>
+  		<dependency>
+  			<groupId>pt.tecnico.ulisboa.essd</groupId>
+  			<artifactId>sd-store-ws-handlers</artifactId>
+  			<version>1.0-SNAPSHOT</version>
+  		</dependency>
+  	</dependencies>
+  </dependencyManagement>
 </project>

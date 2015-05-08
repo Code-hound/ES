@@ -39,7 +39,6 @@ public class StoreImpl implements SDStore {
 	private static final String TERMINATOR = ".txt";
 	private static final String SEPARATOR = Character.toString(File.separatorChar);
 	private String STORED = "stored_files";
-	private static final int MAX_SIZE_IN_BYTES = 10000000;
 	 
 	/*
 	 *  Creates a new document in the provided user's repository.
