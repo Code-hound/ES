@@ -64,10 +64,19 @@ cd $SD_STORE && \
 git clone -b R_4 https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/ project
 ```
 
-[5] Instalar o módulo de Juddi do projecto
+[5] Instalar módulos de Juddi do projecto
+
+JUDDI
 
 ```
 cd project/sd-store/uddi && \
+mvn clean package install
+```
+
+ws-handlers
+
+```
+cd ../ws-handlers && \
 mvn clean package install
 ```
 
