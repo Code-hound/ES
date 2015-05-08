@@ -5,7 +5,7 @@ import javax.xml.ws.Endpoint;
 import uddi.UDDINaming;
 
 // To confirm correct service publication:
-// http://localhost:8080/sd-store-ws/endpoint?WSDL
+// http://localhost:8081/juddi-gui/businessBrowse.jsp
 
 public class StoreMain {
 	private static int numberServers;

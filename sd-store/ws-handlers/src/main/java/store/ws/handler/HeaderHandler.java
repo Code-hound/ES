@@ -29,7 +29,7 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
  */
 public class HeaderHandler implements SOAPHandler<SOAPMessageContext> {
 
-    public static String CONTEXT_PROPERTY = "my.property";
+    public static final String CONTEXT_PROPERTY = "my.property";
 
     //
     // Handler interface methods
@@ -83,7 +83,7 @@ public class HeaderHandler implements SOAPHandler<SOAPMessageContext> {
                 }
 
                 // get first header element
-                Name name = se.createName("myHeader", "d", "http://demo");
+                Name name = se.createName("myHeader", "d", "http://store.cli");
                 Iterator it = sh.getChildElements(name);
                 // check header element
                 if (!it.hasNext()) {

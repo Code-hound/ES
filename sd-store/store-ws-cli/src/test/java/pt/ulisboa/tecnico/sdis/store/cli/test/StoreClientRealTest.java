@@ -102,7 +102,7 @@ public class StoreClientRealTest {
 	}
 	
 	@Test (expected = StoreClientException.class)
-	public void wrongEndpointUrl() 
+	public void wrongUDDIUrl() 
 			throws DocAlreadyExists_Exception, UserDoesNotExist_Exception, 
 			StoreClientException, JAXRException {
 		client = new StoreClient("www.4chan.org/mlp", wsName, 1);

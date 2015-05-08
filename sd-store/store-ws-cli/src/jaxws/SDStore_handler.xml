@@ -1,10 +1,7 @@
 <handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
 	<handler-chain>
 		<handler>
-			<handler-class>store.ws.handler.RelayClientHandler</handler-class>
-		</handler>
-		<handler>
-			<handler-class>store.ws.handler.LoggingHandler</handler-class>
+			<handler-class>store.cli.handler.LoggingHandler</handler-class>
 		</handler>
 	</handler-chain>
-</handler-chains>   
+</handler-chains>

@@ -21,6 +21,8 @@ public class StoreClient {
 	
 	/** Client identifier **/
 	private int clientID;
+	/** Counter for Client identifiers **/
+	private static int nextClientID = 1;
 	/** Service frontend to communicate with servers **/
 	private StoreFrontend frontend;
 	/** Webservice name **/
@@ -40,8 +42,23 @@ public class StoreClient {
 		this.wsName = wsName;
 		this.uddiURL = uddiURL;
 		this.clientID = ID;
+		
 		uddiLookup(uddiURL, wsName, multiplicity);
-		frontend = new StoreFrontend(endpointAddresses, multiplicity);
+		frontend = new StoreFrontend(endpointAddresses, multiplicity, this.clientID);
+		//System.out.println("Size: "+endpointAddresses.length);
+		//for (String s : endpointAddresses) System.out.println(s);
+	}
+	
+	public StoreClient(String uddiURL, String wsName, int multiplicity) 
+			throws JAXRException, StoreClientException {
+		
+		this.wsName = wsName;
+		this.uddiURL = uddiURL;
+		this.clientID = nextClientID;
+		nextClientID = nextClientID+1;
+		
+		uddiLookup(uddiURL, wsName, multiplicity);
+		frontend = new StoreFrontend(endpointAddresses, multiplicity, this.clientID);
 		//System.out.println("Size: "+endpointAddresses.length);
 		//for (String s : endpointAddresses) System.out.println(s);
 	}

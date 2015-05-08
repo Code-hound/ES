@@ -14,23 +14,26 @@ import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
 import pt.ulisboa.tecnico.sdis.store.ws.SDStore;
 import pt.ulisboa.tecnico.sdis.store.ws.SDStore_Service;
 import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
+import store.ws.handler.HeaderHandler;
 
 public class StoreFrontend {
 
 	/** WS service */
 	private SDStore_Service storeService = null;
-	/** Number of necessary clients **/
+	/** Number of requested endpoints **/
 	private int multiplicity;
+	/** This frontend's ID **/
+	private int ID;
 	/** Array of server URLs **/
 	private String[] endpointAddresses;
 	/** Replica managers **/
 	private ArrayList<SDStore> endpoints;
-	Map<String, Object> requestContext;
 	
 	
-	public StoreFrontend(String[] addresses, int multiplicity) 
+	public StoreFrontend(String[] addresses, int multiplicity, int clientID) 
 			throws JAXRException, StoreClientException {
 		this.multiplicity = multiplicity;
+		this.ID = clientID;
 		setEndpointAddresses(addresses);
 		createStubs();
 	}
@@ -79,13 +82,17 @@ public class StoreFrontend {
     	storeService = new SDStore_Service();
     	
         System.out.println("Setting endpoint addresses ...");
-        for (int i=0; i<multiplicity; i++) {//(SDStore endpoint : endpoints) {
+        for (int i=0; i<multiplicity; i++) {
         	SDStore endpoint = storeService.getSDStoreImplPort();
         	BindingProvider bindingProvider = (BindingProvider) endpoint;
-        	requestContext = bindingProvider.getRequestContext();
+        	Map<String, Object> requestContext = bindingProvider.getRequestContext();
         	requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
         		this.endpointAddresses[i]);
         	endpoints.add(endpoint);
+        	requestContext.put(HeaderHandler.CONTEXT_PROPERTY, "This is my message");
+        }
+        for (SDStore endpoint : endpoints) {
+        	System.out.println(endpoint);
         }
     }
 }
