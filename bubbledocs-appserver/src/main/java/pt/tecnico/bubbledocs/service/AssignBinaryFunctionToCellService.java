@@ -23,14 +23,14 @@ public class AssignBinaryFunctionToCellService extends BubbleDocsService {
 	private String userToken;
 	private int docId;
 	private String cellId;
-	private String reference;
+	private String binaryFunction;
 
 	public AssignBinaryFunctionToCellService(String userToken, int docId, String cellId,
-			String reference) {
+			String binaryFunction) {
 		this.userToken = userToken;
 		this.docId = docId;
 		this.cellId = cellId;
-		this.reference = reference;
+		this.binaryFunction = binaryFunction;
 	}
 
 	@Override
@@ -53,16 +53,12 @@ public class AssignBinaryFunctionToCellService extends BubbleDocsService {
 		int rowCell    = Integer.parseInt(rowAndColumnCell[0]);
 		int columnCell = Integer.parseInt(rowAndColumnCell[1]);
 
-		String[] rowAndColumnContent = reference.split(";");
-		int rowCellReference    = Integer.parseInt(rowAndColumnContent[0]);
-		int columnCellReference = Integer.parseInt(rowAndColumnContent[1]);
-
 		int rowSpreadSheet    = sheet.getNumberRows();
 		int columnSpreadSheet = sheet.getNumberColumns();
 		//System.out.println("Rows:"+rowSpreadSheet+" Columns:"+columnSpreadSheet);
 
 		// testa se a celula existe nas dimensoes da spreadsheet
-		if (!(rowCellReference    >= 0) ||
+		/*if (!(rowCellReference    >= 0) ||
 			!(rowCellReference    <= rowSpreadSheet) ||
 			!(columnCellReference >= 0) ||
 			!(columnCellReference <= columnSpreadSheet))
@@ -73,12 +69,13 @@ public class AssignBinaryFunctionToCellService extends BubbleDocsService {
 
 		if (referenceAux.getCellReference().getProtect())
 			throw new ProtectedCellException(rowCell, columnCell);
-
+		
 		sheet.addContent(referenceAux, rowCell, columnCell);
 		//Cell rowCell;columnCell now has Content of type Reference
+		 */
 	}
 
 	public final String getResult() {
-		return this.reference;
+		return "1";
 	}
 }
