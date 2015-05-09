@@ -30,7 +30,7 @@ import pt.ulisboa.tecnico.sdis.store.ws.*;
 
 public class StoreImpl implements SDStore {
 	private int ID;
-	private static HashMap<String, Repository> userRepositories = 
+	private HashMap<String, Repository> userRepositories = 
 			new HashMap<String, Repository>();
 	
 	public StoreImpl(int id) {
