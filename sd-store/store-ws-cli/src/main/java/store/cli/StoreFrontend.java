@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.xml.registry.JAXRException;
 import javax.xml.ws.BindingProvider;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 
 import pt.ulisboa.tecnico.sdis.store.ws.CapacityExceeded_Exception;
@@ -17,6 +18,7 @@ import pt.ulisboa.tecnico.sdis.store.ws.SDStore;
 import pt.ulisboa.tecnico.sdis.store.ws.SDStore_Service;
 import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
 import store.ws.handler.HeaderHandler;
+import store.cli.result.*;
 
 public class StoreFrontend {
 
@@ -66,11 +68,19 @@ public class StoreFrontend {
 
 	public byte[] load(DocUserPair docUser)
 			throws DocDoesNotExist_Exception, UserDoesNotExist_Exception {
-		List<byte[]> content = new ArrayList<byte[]>();
+		//List<byte[], String> content = new ArrayList<byte[]>();
+		List<LoadResult> results = new ArrayList<LoadResult>();
 		for (SDStore endpoint : endpoints) {
-			content.add(endpoint.load(docUser));
+			byte[] content = endpoint.load(docUser);
+			
+			BindingProvider bindingProvider = (BindingProvider) endpoint;
+        	Map<String, Object> requestContext = bindingProvider.getResponseContext();
+        	
+        	String timestamp = (String) requestContext.get(HeaderHandler.getTimeProperty());
+        	String clientID = (String) requestContext.get(HeaderHandler.getIDProperty());
+        	results.add(new LoadResult(content, timestamp, clientID));
 		}
-		return content.get(0);
+		
 	}
 	
 	private void setEndpointAddresses(String[] addresses) 
@@ -92,10 +102,10 @@ public class StoreFrontend {
         		this.endpointAddresses[i]);
         	endpoints.add(endpoint);
         	
-        	requestContext.put(HeaderHandler.VALUE_PROPERTY, 
+        	requestContext.put(HeaderHandler.getIDProperty(), 
         			Integer.toString(this.ID));
-        	requestContext.put(HeaderHandler.TIME_PROPERTY,
-        			new LocalTime().toString());
+        	requestContext.put(HeaderHandler.getTimeProperty(),
+        			new DateTime().toString());
         }
         for (SDStore endpoint : endpoints) {
         	System.out.println(endpoint);

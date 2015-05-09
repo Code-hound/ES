@@ -11,13 +11,14 @@ public class Repository {
 	HashMap<String, Document> documents;
 	
 	public Repository() {
+		// Each repository is of type documentID:Document
         documents = new HashMap<String, Document>();
     }
 	
-	public boolean addNewDocument(String docId) {
+	public boolean addNewDocument(String docId, String clientID, String timestamp) {
         if (documents.get(docId) != null)
             return false;
-        documents.put(docId, new Document());
+        documents.put(docId, new Document(clientID, timestamp));
         return true;
     }
 
@@ -43,8 +44,18 @@ public class Repository {
         return sizeInBytes;
     }
 
-    public List<String> listDocs(String userId) {
+    public List<String> listDocs() {
         return new ArrayList<String>(documents.keySet());
+    }
+    
+    public List<String> listTimestamps() {
+    	Document document;
+    	List<String> timestamps = new ArrayList<String>();
+    	for (String docIdKey : documents.keySet()) {
+    		document = documents.get(docIdKey);
+    		timestamps.add(document.getLastTimeChanged().toString());
+    	}
+    	return timestamps;
     }
     
     public boolean delete(String docId) throws DocDoesNotExist_Exception {

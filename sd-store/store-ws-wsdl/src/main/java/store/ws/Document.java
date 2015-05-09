@@ -6,15 +6,20 @@ public class Document {
 	
 	private byte[] content;
 	//private String lastUserToWrite;
-	private LocalDate lastTimeChanged;
+	private DateTime lastTimeChanged;
+	private String clientID;
 	
-    public Document() {
+    public Document(String clientID, String timestamp) {
     	super();
+    	this.clientID = clientID;
+    	this.lastTimeChanged = new DateTime(timestamp);
     }
     
-    public void setNewContents(byte[] content) {
+    public void setNewContents(byte[] content, String clientID, String timestamp) {
     	this.content = content;
-    	lastTimeChanged = LocalDate.now();
+    	lastTimeChanged = DateTime.now();
+    	this.clientID = clientID;
+    	this.lastTimeChanged = new DateTime(timestamp);
     }
 
     public byte[] getContents() {
@@ -26,7 +31,7 @@ public class Document {
         return content.length;
     }
     
-    public LocalDate getLastChangedTime() {
+    public DateTime getLastTimeChanged() {
     	return this.lastTimeChanged;
     }
 }

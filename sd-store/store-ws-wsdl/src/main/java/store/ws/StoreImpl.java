@@ -1,18 +1,24 @@
 package store.ws;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.jws.*;
+import javax.annotation.Resource;
+import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.handler.MessageContext;
 
 import pt.ulisboa.tecnico.sdis.store.ws.*;
+import store.ws.handler.HeaderHandler;
+
 
 /*
  * Interface methods:
- * -createDoc
- * -listDocs
- * -store
- * -load
+ * -createDoc (nothing on return header)
+ * -listDocs (clientID+timestamp on return header)
+ * -store (nothing on return header)
+ * -load (clientID+timestamp on return header)
  */
 
 @WebService(
@@ -32,6 +38,8 @@ public class StoreImpl implements SDStore {
 	private int ID;
 	private HashMap<String, Repository> userRepositories = 
 			new HashMap<String, Repository>();
+	@Resource
+    private WebServiceContext webServiceContext;
 	
 	public StoreImpl(int id) {
 		this.ID = id;
@@ -45,7 +53,12 @@ public class StoreImpl implements SDStore {
      */
     public void createDoc(DocUserPair docUserPair)
             throws DocAlreadyExists_Exception {
-
+    	MessageContext messageContext = webServiceContext.getMessageContext();
+    	//System.out.println("[STOREIMPL] Message: "+messageContext.toString());
+    	String clientID = (String) messageContext.get(HeaderHandler.getIDProperty());
+    	String timestamp = (String) messageContext.get(HeaderHandler.getTimeProperty());
+    	//System.out.println("[STOREIMPL] ClientID:" + clientID+"   Timestamp: "+timestamp);
+    	
     	if(docUserPair.getUserId() != null || docUserPair.getUserId() != "" ||
     			docUserPair.getDocumentId() != null || docUserPair.getDocumentId() != "") {
     	
@@ -56,9 +69,8 @@ public class StoreImpl implements SDStore {
 	            userRepositories.put(docUserPair.getUserId(), rep);
 	        }
 	
-	        if (rep.addNewDocument(docUserPair.getDocumentId()) == false) {
+	        if (rep.addNewDocument(docUserPair.getDocumentId(), clientID, timestamp) == false) {
 	            DocAlreadyExists faultInfo = new DocAlreadyExists();
-	            // fi.setMessage("Document already exists");
 	            faultInfo.setDocId(docUserPair.getDocumentId());
 	            throw new DocAlreadyExists_Exception("Document already exists", faultInfo);
 	        }
@@ -71,16 +83,23 @@ public class StoreImpl implements SDStore {
      */
     public List<String> listDocs(String userId)
             throws UserDoesNotExist_Exception {
-
+    	MessageContext messageContext = webServiceContext.getMessageContext();
+    	
     	if(userId == null || userId.equalsIgnoreCase("") || userRepositories.get(userId) == null) {    	
             UserDoesNotExist faultInfo = new UserDoesNotExist();
             faultInfo.setUserId(userId);
             // fi.setMessage("User does not exist");
             throw new UserDoesNotExist_Exception("User does not exist **", faultInfo);    	
-    	}     	
-
-        Repository rep = userRepositories.get(userId); 
-        return rep.listDocs(userId);
+    	}
+    	//= document.getLastChangedTime().toString();
+    	//messageContext.put(HeaderHandler.getIDProperty(), etc);
+    	
+        Repository userRepository = userRepositories.get(userId);
+        List<String> documentIDs = userRepository.listDocs();
+        List<String> timestamps = userRepository.listTimestamps();
+       
+        messageContext.put(HeaderHandler.getTimeProperty(), timestamps);
+        return documentIDs;
     }
 
     /*
@@ -91,6 +110,10 @@ public class StoreImpl implements SDStore {
     public void store(DocUserPair docUserPair, byte[] newContents)
     		throws DocDoesNotExist_Exception,
             UserDoesNotExist_Exception {
+    	MessageContext messageContext = webServiceContext.getMessageContext();
+    	String clientID = (String) messageContext.get(HeaderHandler.getIDProperty());
+    	String timestamp = (String) messageContext.get(HeaderHandler.getTimeProperty());
+    	
     	String userId = docUserPair.getUserId();
     	String docId = docUserPair.getDocumentId();
     	
@@ -107,7 +130,7 @@ public class StoreImpl implements SDStore {
     				new DocDoesNotExist());
     	}
     	
-    	document.setNewContents(newContents);
+    	document.setNewContents(newContents, clientID, timestamp);
     }
 
     /*
@@ -116,6 +139,7 @@ public class StoreImpl implements SDStore {
      */
     public byte[] load(DocUserPair docUserPair)
             throws DocDoesNotExist_Exception, UserDoesNotExist_Exception {
+    	MessageContext messageContext = webServiceContext.getMessageContext();
     	String userId = docUserPair.getUserId();
     	String docId = docUserPair.getDocumentId();
     	
@@ -131,6 +155,11 @@ public class StoreImpl implements SDStore {
     				("User \""+userId+"\" has no document with ID \""+docId+"\"",
     				new DocDoesNotExist());
     	}
+    	
+    	String timestamp = document.getLastTimeChanged().toString();
+    	
+    	//messageContext.put(HeaderHandler.getIDProperty(), etc);
+    	messageContext.put(HeaderHandler.getTimeProperty(), timestamp);
     	
     	return document.getContents();
     }
@@ -175,5 +204,9 @@ public class StoreImpl implements SDStore {
             Repository rep = new Repository();
             userRepositories.put("dimas", rep);
         }
+    }
+    
+    private String[] getHeaderValues () {
+    	return null;
     }
 }
