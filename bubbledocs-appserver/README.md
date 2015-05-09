@@ -39,12 +39,9 @@ Repositório:
 
 > (Escolher o sistema operativo baseado em linux)
 
-
 [1] Obter versão entregue
-> git clone https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/
 
-> (falta indicar a tag)
-
+> git clone -b R_4 https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/
 
 -------------------------------------------------------------------------------
 
