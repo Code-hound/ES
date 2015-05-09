@@ -42,29 +42,53 @@ public class LoginUserService extends BubbleDocsService {
 	public String getUserToken() {
 		return this.userToken;
 	}
-	
-	public boolean checkPassword (User user, String password) {
-		return (user.getPassword().equals(password));
-	}
-	
-	@Override
-	protected void dispatch() throws BubbleDocsException {
+
+	private BubbleDocs removeIdleSessions () {
 
 		BubbleDocs bd = getBubbleDocs();
-
-		for (Session s : bd.getSessionsSet())
-			if(s.getLastAccess().plusHours(2).isBeforeNow()) {
+		
+		for ( Session s : bd.getSessionsSet() ) {
+			if( s.getLastAccess().plusHours(2).isBeforeNow() ) {
 				bd.removeUserFromSession(s.getUser());
 				bd.removeSessions(s);
 			}
-		
-		User user = getUser(this.username);
+		}
 
-		if (user == null)
+		return bd;
+
+	}
+
+	private boolean userIsNotValid (User user) {
+		return (user == null);
+	}
+	
+	private boolean passwordIsNotValid (User user, String password) {
+		return !(user.getPassword().equals(password));
+	}
+
+	public void revert() {
+
+		BubbleDocs bd = getBubbleDocs();
+
+		bd.removeSessions(bd.getSessionByToken(this.userToken));
+
+	}
+
+	@Override
+	protected void dispatch() throws BubbleDocsException {
+
+		BubbleDocs bd   = removeIdleSessions();
+		User       user = getUser(this.username);
+
+		//throws InvalidUserException
+		if ( userIsNotValid(user) ) {
 			throw new InvalidUserException(this.username);
+		}
 
-		if (!checkPassword (user, this.password))
+		//throws WrongPasswordException
+		if ( passwordIsNotValid(user, this.password) ) {
 			throw new WrongPasswordException(this.username);
+		}
 
 		this.userToken = bd.addUserToSession(user);
 

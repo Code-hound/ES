@@ -1,15 +1,13 @@
 package pt.tecnico.bubbledocs.integration;
 
 //import id.ws;
-import pt.tecnico.bubbledocs.domain.Session;
-import pt.tecnico.bubbledocs.domain.User;
-import pt.tecnico.bubbledocs.domain.BubbleDocs;
+import pt.tecnico.bubbledocs.service.LoginUserService;
+import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
+
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
-import pt.tecnico.bubbledocs.exception.InvalidUserException;
-import pt.tecnico.bubbledocs.exception.WrongPasswordException;
+import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
-import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 /*
 * LOG IN USER
@@ -46,36 +44,28 @@ public class LoginUserIntegrator extends BubbleDocsIntegrator {
 		return this.userToken;
 	}
 	
-	public boolean checkPassword (User user, String password) {
-		return (user.getPassword().equals(password));
-	}
-	
 	@Override
 	protected void dispatch() throws BubbleDocsException {
-		BubbleDocs bd = getBubbleDocs();
-		for (Session s : bd.getSessionsSet()) {
-			if(s.getLastAccess().plusHours(2).isBeforeNow()) {
-				bd.removeUserFromSession(s.getUser());
-				bd.removeSessions(s);
-			}
-		}
-		
-		User user = getUser(this.username);
 
-		if (user == null)
-			throw new InvalidUserException(this.username);
+		LoginUserService localService = new LoginUserService(this.username, this.password);
 
-		if (!checkPassword (user, this.password))
-			throw new WrongPasswordException(this.username);
+		//throws InvalidUserException
+		//throws WrongPasswordException
+		localService.execute();
 
-		this.userToken = bd.addUserToSession(user);
+		IDRemoteServices remoteService = new IDRemoteServices();
 
-		IDRemoteServices service = new IDRemoteServices();
+		//throws LoginBubbleDocsException
+		//throws RemoteInvocationException
 		try {
-			service.loginUser(this.username, this.password);
+			remoteService.loginUser(this.username, this.password);
 		} catch (RemoteInvocationException e) {
-			if (user == null || !user.getPassword().equals(this.password))
-				throw new UnavailableServiceException();
+			localService.revert();
+			throw new UnavailableServiceException();
+		} catch (LoginBubbleDocsException e) {
+			localService.revert();
 		}
+
+		this.userToken = localService.getUserToken();
 	}
 }
