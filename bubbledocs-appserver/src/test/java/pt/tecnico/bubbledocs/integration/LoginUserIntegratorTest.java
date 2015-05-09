@@ -43,7 +43,7 @@ public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
 	public void success() {
 		new MockUp<IDRemoteServices>() {
 			@Mock
-			public void loginUser(String username)
+			public void loginUser(String username, String password)
 					throws LoginBubbleDocsException, RemoteInvocationException {
 			}
 		};
@@ -67,7 +67,7 @@ public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
 	public void successLoginTwice() {
 		new MockUp<IDRemoteServices>() {
 			@Mock
-			public void loginUser(String username)
+			public void loginUser(String username, String password)
 					throws LoginBubbleDocsException, RemoteInvocationException {
 			}
 		};
@@ -89,7 +89,7 @@ public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
 	public void InvalidUser() {
 		new MockUp<IDRemoteServices>() {
 			@Mock
-			public void loginUser(String username)
+			public void loginUser(String username, String password)
 					throws LoginBubbleDocsException, RemoteInvocationException {
 			}
 		};
@@ -101,7 +101,7 @@ public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
 	public void WrongPassword() {
 		new MockUp<IDRemoteServices>() {
 			@Mock
-			public void loginUser(String username)
+			public void loginUser(String username, String password)
 					throws LoginBubbleDocsException, RemoteInvocationException {
 			}
 		};

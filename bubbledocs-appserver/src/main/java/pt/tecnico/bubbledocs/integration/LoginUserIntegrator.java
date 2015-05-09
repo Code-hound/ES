@@ -59,11 +59,12 @@ public class LoginUserIntegrator extends BubbleDocsIntegrator {
 		//throws RemoteInvocationException
 		try {
 			remoteService.loginUser(this.username, this.password);
+		} catch (LoginBubbleDocsException e) {
+			localService.revert();
+			throw new LoginBubbleDocsException(this.username);
 		} catch (RemoteInvocationException e) {
 			localService.revert();
 			throw new UnavailableServiceException();
-		} catch (LoginBubbleDocsException e) {
-			localService.revert();
 		}
 
 		this.userToken = localService.getUserToken();
