@@ -20,7 +20,7 @@ import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
  * Falhanço: utilizador com write/owner tenta fazer assign a uma cell inexistente
  */
 
-public class AssignReferenceToCellTest extends BubbleDocsServiceTest {
+public class AssignReferenceToCellServiceTest extends BubbleDocsServiceTest {
 
 	// User-Owner
 	private final String USERNAME_OWNER = "owner";

@@ -6,21 +6,22 @@ import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.InvalidUserException;
+import pt.tecnico.bubbledocs.exception.WrongPasswordException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 /*
- * LOG IN USER
- * 
- * Recebe o nome de utilizador e a password
- * Cria uma nova sessao para o utilizador caso a autenticacao
- * esteja correcta
- * 
- * @author: Francisco Silveira
- * @author: Aline Caliente
- * 
- */
+* LOG IN USER
+* 
+* Recebe o nome de utilizador e a password
+* Cria uma nova sessao para o utilizador caso a autenticacao
+* esteja correcta
+* 
+* @author: Francisco Silveira
+* @author: Aline Caliente
+* 
+*/
 
 public class LoginUserIntegrator extends BubbleDocsIntegrator {
 	
@@ -52,25 +53,28 @@ public class LoginUserIntegrator extends BubbleDocsIntegrator {
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 		BubbleDocs bd = getBubbleDocs();
-		for (Session s : getBubbleDocs().getSessionsSet()) {
+		for (Session s : bd.getSessionsSet()) {
 			if(s.getLastAccess().plusHours(2).isBeforeNow()) {
-				getBubbleDocs().removeUserFromSession(s.getUser());
-				getBubbleDocs().removeSessions(s);
+				bd.removeUserFromSession(s.getUser());
+				bd.removeSessions(s);
 			}
 		}
 		
 		User user = getUser(this.username);
+
 		if (user == null)
 			throw new InvalidUserException(this.username);
-		if (checkPassword (user, this.password)) {
-			this.userToken = getBubbleDocs().addUserToSession(user);
-		}
-		
-		IDRemoteServices integration = new IDRemoteServices();
+
+		if (!checkPassword (user, this.password))
+			throw new WrongPasswordException(this.username);
+
+		this.userToken = bd.addUserToSession(user);
+
+		IDRemoteServices service = new IDRemoteServices();
 		try {
-			integration.loginUser(this.username, this.password);
+			service.loginUser(this.username, this.password);
 		} catch (RemoteInvocationException e) {
-			if (getUser(this.username) == null || !getUser(username).getPassword().equals(this.password))
+			if (user == null || !user.getPassword().equals(this.password))
 				throw new UnavailableServiceException();
 		}
 	}

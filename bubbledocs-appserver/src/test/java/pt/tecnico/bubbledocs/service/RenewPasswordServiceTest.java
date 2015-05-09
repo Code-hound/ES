@@ -11,7 +11,7 @@ import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
-public class RenewPasswordTest extends BubbleDocsServiceTest {
+public class RenewPasswordServiceTest extends BubbleDocsServiceTest {
 
 	private static final String USERNAME = "jpname";
 	private static final String PASSWORD = "jp#";

@@ -12,7 +12,7 @@ import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.service.GetSpreadSheetContentService;
 
-public class GetSpreadSheetContentTest extends BubbleDocsServiceTest {
+public class GetSpreadSheetContentServiceTest extends BubbleDocsServiceTest {
 	
 	/*
 	 * Expected SpreadSheet

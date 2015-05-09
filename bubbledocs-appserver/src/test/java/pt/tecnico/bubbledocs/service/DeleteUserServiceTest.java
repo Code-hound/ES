@@ -16,7 +16,7 @@ import org.junit.Test;
 
 // add needed import declarations
 
-public class DeleteUserTest extends BubbleDocsServiceTest {
+public class DeleteUserServiceTest extends BubbleDocsServiceTest {
 
     private static final String USERNAME_TO_DELETE = "smf";
     private static final String USERNAME = "ars";

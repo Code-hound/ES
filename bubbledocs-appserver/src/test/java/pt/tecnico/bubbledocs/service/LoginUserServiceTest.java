@@ -3,24 +3,18 @@ package pt.tecnico.bubbledocs.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import mockit.Mock;
-import mockit.MockUp;
 
 import org.junit.Test;
 import org.joda.time.LocalTime;
 import org.joda.time.Seconds;
 
-import pt.tecnico.bubbledocs.domain.Session;
 import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.exception.InvalidUserException;
-import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
-import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
-import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
-import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
+import pt.tecnico.bubbledocs.exception.WrongPasswordException;
 
 
-public class LoginUserTest extends BubbleDocsServiceTest {
+public class LoginUserServiceTest extends BubbleDocsServiceTest {
 
 	private static final String USERNAME = "jpname";
 	private static final String PASSWORD = "jp#";
@@ -34,8 +28,7 @@ public class LoginUserTest extends BubbleDocsServiceTest {
 	// It must get this data from the session object of the application
 	private LocalTime getLastAccessTimeInSession(String userToken) {
 		BubbleDocs bd = BubbleDocs.getInstance();
-		Session session = bd.getSessionByToken(userToken);
-		return session.getLastAccess().toLocalTime();
+		return bd.getSessionByToken(userToken).getLastAccess().toLocalTime();
 	}
 
 	@Test
@@ -77,9 +70,9 @@ public class LoginUserTest extends BubbleDocsServiceTest {
 		LoginUserService service = new LoginUserService("error", PASSWORD);
 		service.execute();
 	}
-	
-	@Test(expected = UnavailableServiceException.class)
-	public void InvalidPassword() {
+
+	@Test(expected = WrongPasswordException.class)
+	public void WrongPassword() {
 		LoginUserService service = new LoginUserService(USERNAME, "error");
 		service.execute();
 	}

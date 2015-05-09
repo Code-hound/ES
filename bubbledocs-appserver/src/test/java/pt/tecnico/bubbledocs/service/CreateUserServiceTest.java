@@ -16,7 +16,7 @@ import pt.tecnico.bubbledocs.exception.InvalidUsernameException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
-public class CreateUserTest extends BubbleDocsServiceTest {
+public class CreateUserServiceTest extends BubbleDocsServiceTest {
 	
 	/*
 	 * @author: Francisco Maria Calisto

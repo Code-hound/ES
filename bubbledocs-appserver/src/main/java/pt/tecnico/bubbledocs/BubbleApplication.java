@@ -32,6 +32,7 @@ public class BubbleApplication {
 	private static String USER1_TOKEN;
 
 	public static void main(String[] args) {
+/*
 		TransactionManager tm = FenixFramework.getTransactionManager();
 		if (tm==null)
 			System.out.println("Transaction Manager null!");
@@ -64,7 +65,8 @@ public class BubbleApplication {
 			// TODO Auto-generated catch block
 			System.out.println("Caught transaction exception: " + ex);
 			ex.printStackTrace();
-		} 
+		}
+*/
 	}
 	
 	

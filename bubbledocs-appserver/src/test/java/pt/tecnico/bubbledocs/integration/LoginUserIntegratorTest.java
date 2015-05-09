@@ -17,8 +17,9 @@ import pt.tecnico.bubbledocs.exception.InvalidUserException;
 import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
+import pt.tecnico.bubbledocs.exception.WrongPasswordException;
+import pt.tecnico.bubbledocs.service.LoginUserService;
 import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
-
 
 public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
 
@@ -40,6 +41,12 @@ public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
 
 	@Test
 	public void success() {
+		new MockUp<IDRemoteServices>() {
+			@Mock
+			public void loginUser(String username)
+					throws LoginBubbleDocsException, RemoteInvocationException {
+			}
+		};
 		LoginUserIntegrator integration = new LoginUserIntegrator(USERNAME, PASSWORD);
 		integration.execute();
 		LocalTime currentTime = new LocalTime();
@@ -58,6 +65,12 @@ public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
 
 	@Test
 	public void successLoginTwice() {
+		new MockUp<IDRemoteServices>() {
+			@Mock
+			public void loginUser(String username)
+					throws LoginBubbleDocsException, RemoteInvocationException {
+			}
+		};
 		LoginUserIntegrator integration = new LoginUserIntegrator(USERNAME, PASSWORD);
 
 		integration.execute();
@@ -74,29 +87,51 @@ public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
 
 	@Test (expected = InvalidUserException.class)
 	public void InvalidUser() {
-		/*
 		new MockUp<IDRemoteServices>() {
 			@Mock
-			public void loginUser(String username, String password)
+			public void loginUser(String username)
 					throws LoginBubbleDocsException, RemoteInvocationException {
-				throw new RemoteInvocationException();
 			}
 		};
-		*/
-		LoginUserIntegrator integration = new LoginUserIntegrator("error", PASSWORD);
-		integration.execute();
+		LoginUserService service = new LoginUserService("error", PASSWORD);
+		service.execute();
+	}
+
+	@Test(expected = WrongPasswordException.class)
+	public void WrongPassword() {
+		new MockUp<IDRemoteServices>() {
+			@Mock
+			public void loginUser(String username)
+					throws LoginBubbleDocsException, RemoteInvocationException {
+			}
+		};
+		LoginUserService service = new LoginUserService(USERNAME, "error");
+		service.execute();
 	}
 	
-	@Test(expected = UnavailableServiceException.class)
+	@Test(expected =  LoginBubbleDocsException.class)
 	public void InvalidPassword() {
 		new MockUp<IDRemoteServices>() {
 			@Mock
 			public void loginUser(String username, String password)
 					throws LoginBubbleDocsException, RemoteInvocationException {
+				throw new LoginBubbleDocsException(username);
+			}
+		};
+		LoginUserIntegrator integration = new LoginUserIntegrator(USERNAME, PASSWORD);
+		integration.execute();
+	}
+
+	@Test (expected = UnavailableServiceException.class)
+	public void InvalidService() {
+		new MockUp<IDRemoteServices>() {
+			@Mock
+			public void loginUser(String username, String password)
+					throws LoginBubbleDocsException, RemoteInvocationException {
 				throw new RemoteInvocationException();
 			}
 		};
-		LoginUserIntegrator integration = new LoginUserIntegrator(USERNAME, "error");
+		LoginUserIntegrator integration = new LoginUserIntegrator(USERNAME, PASSWORD);
 		integration.execute();
 	}
 }

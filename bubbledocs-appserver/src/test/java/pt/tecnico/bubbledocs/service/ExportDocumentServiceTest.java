@@ -14,7 +14,7 @@ import pt.tecnico.bubbledocs.exception.CannotStoreDocumentException;
 import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
 import pt.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
-public class ExportDocumentTest extends BubbleDocsServiceTest {
+public class ExportDocumentServiceTest extends BubbleDocsServiceTest {
 	
     // the tokens
 	private String userToken;

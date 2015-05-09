@@ -1,14 +1,12 @@
 package pt.tecnico.bubbledocs.service;
 
 //import id.ws;
-import pt.tecnico.bubbledocs.domain.Session;
 import pt.tecnico.bubbledocs.domain.User;
+import pt.tecnico.bubbledocs.domain.Session;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.InvalidUserException;
-import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
-import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
-import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
+import pt.tecnico.bubbledocs.exception.WrongPasswordException;
 
 /*
  * LOG IN USER
@@ -51,27 +49,24 @@ public class LoginUserService extends BubbleDocsService {
 	
 	@Override
 	protected void dispatch() throws BubbleDocsException {
+
 		BubbleDocs bd = getBubbleDocs();
-		for (Session s : getBubbleDocs().getSessionsSet()) {
+
+		for (Session s : bd.getSessionsSet())
 			if(s.getLastAccess().plusHours(2).isBeforeNow()) {
-				getBubbleDocs().removeUserFromSession(s.getUser());
-				getBubbleDocs().removeSessions(s);
+				bd.removeUserFromSession(s.getUser());
+				bd.removeSessions(s);
 			}
-		}
 		
 		User user = getUser(this.username);
+
 		if (user == null)
 			throw new InvalidUserException(this.username);
-		if (checkPassword (user, this.password)) {
-			this.userToken = getBubbleDocs().addUserToSession(user);
-		}
-		
-		IDRemoteServices service = new IDRemoteServices();
-		try {
-			service.loginUser(this.username, this.password);
-		} catch (RemoteInvocationException e) {
-			if (getUser(this.username) == null || !getUser(username).getPassword().equals(this.password))
-				throw new UnavailableServiceException();
-		}
+
+		if (!checkPassword (user, this.password))
+			throw new WrongPasswordException(this.username);
+
+		this.userToken = bd.addUserToSession(user);
+
 	}
 }
