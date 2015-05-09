@@ -21,6 +21,8 @@ import javax.crypto.spec.IvParameterSpec;
  *   
  *   Any full AES implementation should be usable as Rijndael.
  *   
+ *   PROBLEM: Wrong keysize: must be equal to 128, 192 or 256 #92 SOLVED
+ *   
  */
 
 public class SymCrypto {
