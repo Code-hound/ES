@@ -1,19 +1,3 @@
-# First Week
-
-## Week Plan
-
-Project planing and execution of first week:
-
-Project planing and execution of first week:
-
-| **Group Member**   | **Monday** | **Tuesday** | Wednesday | Thursday | Friday | Saturday | Sunday | Planned tasks | Implemented tasks |
-|-------------|--------|---------|-----------|----------|--------|----------|--------|----|-------------------|
-| Francisco Silveira | | | 1 | 3 | 6 | 6 | 2 | [#64](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/64) [#56](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/56) [#55](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/55) [#71](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/71) | [#55](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/55)  [#56](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/56) [#71](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/71) |
-| Francisco Calisto  | | | 1 | 3 | 6 | 4 | 6 | [#67](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/67) [#68](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/68) [#64](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/64) [#69](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/69) | [#67](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/67) |
-| Luís Gomes         | | | 1 | 0 |  |  |  | [#57](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/57) [#58](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/58) |  |
-| Aline Caliente     | | | 1 | 0 |  |  |  |  |  |
-| João Zeferino      | | | 1 | 0 |  |  |  |  |  |
-
 ## Restrospectiva
 
 Nesta semana conseguios cumprir os objectivos estabelicidos:
