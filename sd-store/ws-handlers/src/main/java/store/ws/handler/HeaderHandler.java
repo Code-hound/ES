@@ -29,8 +29,13 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
  */
 public class HeaderHandler implements SOAPHandler<SOAPMessageContext> {
 
-    public static final String CONTEXT_PROPERTY = "my.property";
-
+    public static final String VALUE_PROPERTY = "value";
+    public static final String TIME_PROPERTY = "time";
+    private static String HEADER_NAME_ID = "clientID";
+    private static String HEADER_NAME_TIME = "messageTime";
+    private static String NAMESPACE = "pt.tecnico.ulisboa.essd";
+    //private static String NAMESPACE_SERVER = "http://ws.store.wsdl";
+    
     //
     // Handler interface methods
     //
@@ -49,6 +54,9 @@ public class HeaderHandler implements SOAPHandler<SOAPMessageContext> {
                 System.out.println("Writing header in outbound SOAP message...");
 
                 // get SOAP envelope
+                String valueToInsert = (String) smc.get(VALUE_PROPERTY);
+                String messageTime = (String) smc.get(TIME_PROPERTY);
+                //System.out.println("I'm to write "+propertyValue);
                 SOAPMessage msg = smc.getMessage();
                 SOAPPart sp = msg.getSOAPPart();
                 SOAPEnvelope se = sp.getEnvelope();
@@ -59,14 +67,23 @@ public class HeaderHandler implements SOAPHandler<SOAPMessageContext> {
                     sh = se.addHeader();
 
                 // add header element (name, namespace prefix, namespace)
-                Name name = se.createName("myHeader", "d", "http://demo");
-                SOAPHeaderElement element = sh.addHeaderElement(name);
-
+                Name nameID = se.createName(HEADER_NAME_ID, "d", NAMESPACE);
+                SOAPHeaderElement elementID = sh.addHeaderElement(nameID);
+                elementID.addTextNode(valueToInsert);
+                
+                // add another element 
+                Name nameTime = se.createName(HEADER_NAME_TIME, "d", NAMESPACE);
+                SOAPHeaderElement elementTime = sh.addHeaderElement(nameTime);
+                elementTime.addTextNode(messageTime);
+                
+                
+                /*
                 // add header element value
                 int value = 22;
                 String valueString = Integer.toString(value);
                 element.addTextNode(valueString);
-
+                */
+                
             } else {
                 System.out.println("Reading header in inbound SOAP message...");
 
@@ -100,9 +117,9 @@ public class HeaderHandler implements SOAPHandler<SOAPMessageContext> {
                 System.out.println("Header value is " + value);
 
                 // put header in a property context
-                smc.put(CONTEXT_PROPERTY, value);
+                smc.put(VALUE_PROPERTY, value);
                 // set property scope to application client/server class can access it
-                smc.setScope(CONTEXT_PROPERTY, Scope.APPLICATION);
+                smc.setScope(VALUE_PROPERTY, Scope.APPLICATION);
 
             }
         } catch (Exception e) {

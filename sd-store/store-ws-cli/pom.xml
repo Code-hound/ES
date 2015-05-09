@@ -48,6 +48,11 @@
     	<groupId>pt.tecnico.ulisboa.essd</groupId>
     	<artifactId>sd-store-ws-handlers</artifactId>
     </dependency>
+    <dependency>
+    	<groupId>joda-time</groupId>
+    	<artifactId>joda-time</artifactId>
+    	<version>2.2</version>
+    </dependency>
   </dependencies>
   
   <properties>

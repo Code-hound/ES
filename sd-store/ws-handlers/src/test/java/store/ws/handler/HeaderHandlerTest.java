@@ -100,8 +100,8 @@ public class HeaderHandlerTest extends AbstractHandlerTest {
             soapMessageContext.getMessage();
             result = soapMessage;
 
-            soapMessageContext.put(HeaderHandler.CONTEXT_PROPERTY, 22);
-            soapMessageContext.setScope(HeaderHandler.CONTEXT_PROPERTY, Scope.APPLICATION);
+            soapMessageContext.put(HeaderHandler.VALUE_PROPERTY, 22);
+            soapMessageContext.setScope(HeaderHandler.VALUE_PROPERTY, Scope.APPLICATION);
         }};
 
         // Unit under test is exercised.

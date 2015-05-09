@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.xml.registry.JAXRException;
 import javax.xml.ws.BindingProvider;
 
+import org.joda.time.LocalTime;
+
 import pt.ulisboa.tecnico.sdis.store.ws.CapacityExceeded_Exception;
 import pt.ulisboa.tecnico.sdis.store.ws.DocAlreadyExists_Exception;
 import pt.ulisboa.tecnico.sdis.store.ws.DocDoesNotExist_Exception;
@@ -89,7 +91,11 @@ public class StoreFrontend {
         	requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
         		this.endpointAddresses[i]);
         	endpoints.add(endpoint);
-        	requestContext.put(HeaderHandler.CONTEXT_PROPERTY, "This is my message");
+        	
+        	requestContext.put(HeaderHandler.VALUE_PROPERTY, 
+        			Integer.toString(this.ID));
+        	requestContext.put(HeaderHandler.TIME_PROPERTY,
+        			new LocalTime().toString());
         }
         for (SDStore endpoint : endpoints) {
         	System.out.println(endpoint);
