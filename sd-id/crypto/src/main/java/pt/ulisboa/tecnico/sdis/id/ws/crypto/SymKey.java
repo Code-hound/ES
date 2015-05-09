@@ -44,7 +44,7 @@ public class SymKey {
         // get a AES private key
         System.out.println("Generating AES key ..." );
         KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-        keyGen.init(32);
+        keyGen.init(128); //key = 128
         Key key = keyGen.generateKey();
         System.out.println( "Finish generating AES key" );
         byte[] encoded = key.getEncoded();
@@ -84,7 +84,7 @@ public class SymKey {
         
         SecretKeySpec keySpec = null;
         keySpec = new SecretKeySpec(key, "AES");
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         cipher.init(Cipher.ENCRYPT_MODE, keySpec);
         output = cipher.doFinal(input);
     }
