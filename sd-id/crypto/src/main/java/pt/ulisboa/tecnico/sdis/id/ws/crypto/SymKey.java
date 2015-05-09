@@ -8,14 +8,13 @@ import java.io.FileOutputStream;
 import java.security.Key;
 
 import javax.crypto.KeyGenerator;
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
 
 
 /**
  * 	Program to read and write symmetric key file
  */
-
 public class SymKey {
 
 
@@ -41,12 +40,12 @@ public class SymKey {
     }
 
     public static void write(String keyPath) throws Exception {
-        // get a AES private key
-        System.out.println("Generating AES key ..." );
-        KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-        keyGen.init(128); //key = 128
+        // get a DES private key
+        System.out.println("Generating DES key ..." );
+        KeyGenerator keyGen = KeyGenerator.getInstance("TripleDES");
+        keyGen.init(168);
         Key key = keyGen.generateKey();
-        System.out.println( "Finish generating AES key" );
+        System.out.println( "Finish generating DES key" );
         byte[] encoded = key.getEncoded();
         System.out.println("Key:");
         System.out.println(printHexBinary(encoded));
@@ -58,35 +57,17 @@ public class SymKey {
         fos.close();
     }
 
-    @SuppressWarnings("unused")
-    public static void read(String keyPath) throws Exception {
-    	
-        byte[] key = null; // TODO
-        byte[] input = null; // TODO
-		byte[] output = null;
-        
+    public static Key read(String keyPath) throws Exception {
         System.out.println("Reading key from file " + keyPath + " ...");
-        
         FileInputStream fis = new FileInputStream(keyPath);
-        
         byte[] encoded = new byte[fis.available()];
-        
         fis.read(encoded);
         fis.close();
-        
-        /*
+
 		DESKeySpec keySpec = new DESKeySpec(encoded);
-		SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
+		SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("TripleDES");
 		Key key = keyFactory.generateSecret(keySpec);
-		
 		return key;
-		*/
-        
-        SecretKeySpec keySpec = null;
-        keySpec = new SecretKeySpec(key, "AES");
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, keySpec);
-        output = cipher.doFinal(input);
     }
 
 }
