@@ -1,29 +1,55 @@
-# First Week
+# Restrospectiva
 
-## Week Plan
+## Desenvolvimento
 
-Project planing and execution of first week:
+Nesta semana conseguios cumprir os seguintes objectivos estabelicidos:
 
-Project planing and execution of first week:
+### ES
 
-| **Group Member**   | **Monday** | **Tuesday** | Wednesday | Thursday | Friday | Saturday | Sunday | Planned tasks | Implemented tasks |
-|-------------|--------|---------|-----------|----------|--------|----------|--------|----|-------------------|
-| Francisco Silveira | | | 1 | 3 | 6 | 6 | 2 | [#64](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/64) [#56](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/56) [#55](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/55) [#71](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/71) | [#55](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/55)  [#56](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/56) [#71](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/71) |
-| Francisco Calisto  | | | 1 | 3 | 6 | 4 | 6 | [#67](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/67) [#68](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/68) [#64](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/64) [#69](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/69) | [#67](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/67) |
-| Luís Gomes         | | | 1 | 0 |  |  |  | [#57](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/57) [#58](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/issues/58) |  |
-| Aline Caliente     | | | 1 | 0 |  |  |  |  |  |
-| João Zeferino      | | | 1 | 0 |  |  |  |  |  |
+1) Resolução de erros da parte da entrega anterior.
 
-## Restrospectiva
+2) Criação do Serviço **Get Spread Sheet Content** e dos seus testes.
 
-Nesta semana conseguios cumprir os objectivos estabelicidos:
+3) Criação da função assign para célula.
 
-1) Colocar o SD-ID a funcionar;
-
-1.1) Colocar o Cliente a comunicar com o Servidor;
+4) Criação dos Testes de Handlers.
 
 
-2) Adicionar alguns casos de Teste ao projecto de SD;
 
 
-3) Compreender e discutir entre todos os aspectos fundamentais das próximas entregas;
+### SD
+
+
+#### SD-ID
+
+1) Decidimos junto do Professor o Algoritmo e a Cifra a usar.
+
+2) Compreendemos o Projecto.
+
+3) Desenvolvemos o corpo do Kerberos no ``` IdImpl.java ```.
+
+4) Deixamos de usar o Algoritmo AES para usar o Algoritmo TripleDES por questões de simplificação, dado que não conseguimos implementar o primeiro.
+
+
+#### SD-Store
+
+1) Colocamos o SD-Store a lançar ``` N ``` Servidores.
+
+2) Criamos a Class Front-end para o Cliente do SD-Store.
+
+3) Refazer o serviço do SD-Store para ter uma versão sem persistência.
+
+4) Conseguimos enviar e obter valores através de Headers de mensagens SOAP.
+
+
+
+
+## Conclusões
+
+Cumprimos alguns (quase todos) os objectivos propostos no inicio da semana, no entanto a parte do ```SD-ID``` e o seu desenvolvimento atrasou-se um pouco devido ao facto de o problema ser complexo, exigir um grande nível de meditação e de compreensão sobre o assunto, assim como, fazer um bom esboço a mostrar ao professor nas aulas de Laboratório.
+
+O SD-Store também se atrasou um pouco dado a necessidade de dúvidas perante a aula de Laboratório, mas esta, o grupo do SD-Store tem aula às Segundas Feiras, enquanto que o SD-ID tem aula às Quintas Feiras, daí a diferença nos atrasos.
+
+A parte de ES não trouxe quaisquer problemas e ficou implementada consuante o previsto.
+
+Algo que correu mal foi alguma falta de comunicação directa entre o grupo, no inicio da semana, mas que tem vindo a melhor ao longo do trabalho.
