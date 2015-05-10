@@ -131,7 +131,12 @@ public class StoreImpl implements SDStore {
     				("User \""+userId+"\" has no document with ID \""+docId+"\"",
     				new DocDoesNotExist());
     	}
-    	if (document.getLastTimeChanged().isBefore(new DateTime(timestamp))) {
+    	DateTime lastChange = document.getLastTimeChanged();
+    	DateTime thisChange = new DateTime(timestamp);
+    	int lastClientID = Integer.parseInt(document.getLastClientChanging());
+    	int thisClientID = Integer.parseInt(clientID);
+    	if (lastChange.isBefore(new DateTime(timestamp))
+    			|| (lastChange.isEqual(thisChange) && lastClientID<thisClientID)) {
     		document.setNewContents(newContents, clientID, timestamp);
     	}
     }

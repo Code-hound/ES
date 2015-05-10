@@ -34,4 +34,8 @@ public class Document {
     public DateTime getLastTimeChanged() {
     	return this.lastTimeChanged;
     }
+    
+    public String getLastClientChanging() {
+    	return this.clientID;
+    }
 }
