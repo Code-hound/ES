@@ -1,31 +1,32 @@
 package pt.tecnico.bubbledocs.service;
 
+import static org.junit.Assert.assertNotNull;
+
 import org.junit.Test;
 
-import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
+import pt.tecnico.bubbledocs.exception.InvalidUserException;
 
 public class GetUserInfoServiceTest extends BubbleDocsServiceTest {
-
-    // the tokens
-	private String userToken;
 
 	@Override
 	public void populate4Test() {
 
 		createUser("jpname", "jp#", "João Pereira", "email@email.email");
-		this.userToken = addUserToSession("jpname");
+		addUserToSession("jpname");
 
 	}
 
 	@Test
 	public void success() {
 
-		GetUserInfoService service = new GetUserInfoService(userToken);
+		GetUserInfoService service = new GetUserInfoService("jpname");
 		service.execute();
+		
+		assertNotNull(service.getUser());
 
 	}
 
-	@Test (expected = UserNotInSessionException.class)
+	@Test (expected = InvalidUserException.class)
     public void InvalidUser() {
 
 		GetUserInfoService service = new GetUserInfoService("error");

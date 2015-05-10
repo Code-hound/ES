@@ -13,21 +13,23 @@ public class GetUserInfoService extends BubbleDocsService {
 	public GetUserInfoService(String userName) {
 		this.userName = userName;
 	}
-	
+
+	public User getUser() {
+		return user;		
+	}
+
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 		
 		BubbleDocs bd = getBubbleDocs();
 		
-		if(!bd.hasUserByUsername(userName))
+		// throws InvalidUserException
+		if(!bd.hasUserByUsername(userName)) {
 			throw new InvalidUserException(userName);
-		user = bd.getUserByUsername(userName);
-		
-		returnUser();
-	}
+		}
 
-	private User returnUser() {
-		return user;		
+		user = bd.getUserByUsername(userName);
+
 	}
 	
 }
