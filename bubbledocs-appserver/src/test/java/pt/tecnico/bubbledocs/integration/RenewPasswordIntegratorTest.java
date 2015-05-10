@@ -5,38 +5,59 @@ import mockit.MockUp;
 
 import org.junit.Test;
 
-import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
+import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
+
+import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
-import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
-import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
+import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
 
 public class RenewPasswordIntegratorTest extends BubbleDocsIntegratorTest {
 
-	private static final String USERNAME = "jpname";
-	private static final String PASSWORD = "jp#";
+    // the tokens
 	private String userToken;
 
 	@Override
 	public void populate4Test() {
-		createUser(USERNAME, PASSWORD, "João Pereira", "email@email.email");
-		this.userToken = addUserToSession(USERNAME);
+
+		createUser("jpname", "jp#", "João Pereira", "email@email.email");
+		this.userToken = addUserToSession("jpname");
+
 	}
 
 	@Test
 	public void success() {
-		RenewPasswordIntegrator integration = new RenewPasswordIntegrator(this.userToken);
+
+		new MockUp<IDRemoteServices>() {
+			@Mock
+			public void renewPassword(String username)
+					throws LoginBubbleDocsException, RemoteInvocationException {
+			}
+		};
+
+		RenewPasswordIntegrator integration = new RenewPasswordIntegrator(userToken);
 		integration.execute();
+
 	}
 
 	@Test (expected = UserNotInSessionException.class)
     public void InvalidUser() {
-		this.userToken = "error";
-		success();
+
+		new MockUp<IDRemoteServices>() {
+			@Mock
+			public void renewPassword(String username)
+					throws LoginBubbleDocsException, RemoteInvocationException {
+			}
+		};
+
+		RenewPasswordIntegrator integration = new RenewPasswordIntegrator("error");
+		integration.execute();
+
     }
 	
 	@Test (expected = UnavailableServiceException.class)
 	public void InvalidService() {
+
 		new MockUp<IDRemoteServices>() {
 			@Mock
 			public void renewPassword(String username)
@@ -44,6 +65,9 @@ public class RenewPasswordIntegratorTest extends BubbleDocsIntegratorTest {
 				throw new RemoteInvocationException();
 			}
 		};
-		success();
+
+		RenewPasswordIntegrator integration = new RenewPasswordIntegrator(userToken);
+		integration.execute();
+
 	}
 }
