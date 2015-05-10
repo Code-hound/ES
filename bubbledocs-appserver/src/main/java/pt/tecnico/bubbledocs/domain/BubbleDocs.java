@@ -47,13 +47,7 @@ public class BubbleDocs extends BubbleDocs_Base {
 		addUsers(newUser);
 		return newUser;
 	}
-	/*
-	public void deleteUser(User userToRemove)
-			throws UserDoesNotExistException {
-		User user = getUserByUsername (userToRemove);
-		removeUsers(user);
-	}
-	*/
+
 	public boolean hasUserByUsername(String UserName) {
 		if (hasUsers()) {
 			for (User u : getUsersSet()) {
@@ -154,15 +148,6 @@ public class BubbleDocs extends BubbleDocs_Base {
 		return null;
 	}
 	
-	/*
-	public String getUsernameLoggedInByToken(String userToken) {
-		User user = getUserLoggedInByToken(userToken);
-		if (user!=null)
-			return user.getUsername();
-		return null;
-	}
-	*/
-	
 	public boolean hasSpreadSheet() {
 		return !getDocsSet().isEmpty();
 	}
@@ -241,16 +226,6 @@ public class BubbleDocs extends BubbleDocs_Base {
 		}
 		return newSpreadSheet;
 	}
-	/*
-	public void addSpreadSheet(SpreadSheet spreadsheet) {
-		if (spreadsheet.getId() <= 0)
-			spreadsheet.setId(getNextDocumentId());
-		spreadsheet.addDocAccess(new Access(spreadsheet.getOwnerUsername(), "writer"));
-		addDocs(spreadsheet);
-
-		setNextDocumentId(getNextDocumentId() + 1);
-	}
-	*/
 
 	public void addAccessToSpreadSheet(User user, SpreadSheet spreadsheet,
 			int permissionLevel) {
@@ -266,7 +241,7 @@ public class BubbleDocs extends BubbleDocs_Base {
 		//************************************************
 		return true;
 	}
-	
+
 	public void addAccessToSpreadSheet(User user, SpreadSheet spreadsheet,
 			String permission) {
 		Access access = new Access(user, permission);

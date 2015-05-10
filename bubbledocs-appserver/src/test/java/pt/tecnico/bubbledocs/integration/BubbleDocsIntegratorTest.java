@@ -58,7 +58,7 @@ public class BubbleDocsIntegratorTest {
 	
 	// auxiliary methods that access the domain layer and are needed in the test
 	// classes
-	// for defining the iniital state and checking that the integration has the
+	// for defining the iniital state and checking that the service has the
 	// expected behavior
 	public User createUser(String username, String password, String name, String email) {
 		BubbleDocs bd = BubbleDocs.getInstance();
@@ -114,6 +114,11 @@ public class BubbleDocsIntegratorTest {
 		BubbleDocs bd = BubbleDocs.getInstance();
 		User user = bd.getUserLoggedInByToken(token);
 		return user;
+	}
+	
+	void addAccess(User user, SpreadSheet spreadsheet, String permission) {
+		BubbleDocs bd = BubbleDocs.getInstance();
+		bd.addAccessToSpreadSheet(user, spreadsheet, permission);
 	}
 
 }

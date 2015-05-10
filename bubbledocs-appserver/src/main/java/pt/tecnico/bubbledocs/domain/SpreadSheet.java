@@ -46,7 +46,6 @@ public class SpreadSheet extends SpreadSheet_Base {
 	 */
 	public int getUserPermissionLevel (String username) {
 		for (Access a : this.getDocAccessSet()) {
-			//System.out.println("User "+a.getUser().getUsername()+" has permission level "+a.getPermission());
 			if (a.getUser().getUsername().equals(username)) {
 				return a.getPermission();
 			}

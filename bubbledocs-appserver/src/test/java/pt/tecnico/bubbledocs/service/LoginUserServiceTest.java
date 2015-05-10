@@ -13,6 +13,14 @@ import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.exception.InvalidUserException;
 import pt.tecnico.bubbledocs.exception.WrongPasswordException;
 
+/*
+ * Login User Service Test
+ * 
+ * BubbleDocs Logging Service Test
+ * 
+ * @author: Luis Ribeiro Gomes
+ * 
+ */
 
 public class LoginUserServiceTest extends BubbleDocsServiceTest {
 

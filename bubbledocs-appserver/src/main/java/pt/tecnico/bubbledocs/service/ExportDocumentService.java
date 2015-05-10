@@ -18,7 +18,7 @@ import pt.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
 
 /*
- * Export Document
+ * Export Document Service
  * 
  * BubbleDocs Exporting Service
  * 

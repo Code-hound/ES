@@ -2,77 +2,169 @@ package pt.tecnico.bubbledocs.integration;
 
 import static org.junit.Assert.assertNotNull;
 
-import org.junit.Test;
-
 import mockit.Mock;
 import mockit.MockUp;
+
+import org.junit.Test;
+
 import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
+import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
+
+import pt.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 import pt.tecnico.bubbledocs.exception.CannotStoreDocumentException;
-import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
-import pt.tecnico.bubbledocs.service.remote.StoreRemoteServices;
+
+/*
+ * Export Document Integrator Test
+ * 
+ * BubbleDocs Exporting Integrator Test
+ * 
+ * @author: Luis Ribeiro Gomes
+ * 
+ */
 
 public class ExportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
 	
     // the tokens
+	private String ownerToken;
 	private String userToken;
-	private int sheetId;
-
-	//User-Owner
-	private final String USERNAME_OWNER = "owner";
-	private final String PASSWORD_OWNER = "password_owner";
-	private final String NAMEUSER_OWNER = "nameuser_owner";
-	private final String EMAIL_OWNER = "email_owner";
-
-	//User-No-Access
-	private final String USERNAME_NO_ACCESS = "noaccess";
-	private final String PASSWORD_NO_ACCESS = "password_no_access";
-	private final String NAMEUSER_NO_ACCESS = "nameuser_no_access";
-	private final String EMAIL_NO_ACCESS = "email_no_access";
-
-	//Document
-	private final String NAME = "sheet";
-	private final int ROW     = 10;
-	private final int COLUMN  = 10;
+	private int    docID;
+	private int    error;
 
     @Override
     public void populate4Test() {
-		createUser(USERNAME_NO_ACCESS, PASSWORD_NO_ACCESS, NAMEUSER_NO_ACCESS, EMAIL_NO_ACCESS);
+
+		createUser("admin"    , "password1", "nameowner da Costa" , "rnl@tecnico.ulisboa.pt"           );
+    	createUser("usrnm666" , "password" , "nameuser da Costa"  , "nameuser.costa@tecnico.ulisboa.pt");
 	
-		this.sheetId   = createSpreadSheet(createUser(USERNAME_OWNER, PASSWORD_OWNER, NAMEUSER_OWNER, EMAIL_OWNER),NAME, ROW, COLUMN).getId();
-		this.userToken = addUserToSession(USERNAME_OWNER);
+    	ownerToken = addUserToSession("admin");
+    	userToken  = addUserToSession("usrnm666");
+		docID      = createSpreadSheet(getUserFromSession(ownerToken) , "doc", 10, 10).getId();
+		error      = -1;
 
     }
 
     @Test
-    public void success() {
-        ExportDocumentIntegrator integration = new ExportDocumentIntegrator(this.userToken, this.sheetId);
+    public void successOwner() {
+
+    	new MockUp<StoreRemoteServices>() {
+    		@Mock
+    		public void storeDocument(String username, String SpreadSheetName, byte[] result)
+    				throws CannotStoreDocumentException, RemoteInvocationException {
+    		}
+    	};
+
+        ExportDocumentIntegrator integration = new ExportDocumentIntegrator(ownerToken, docID);
         integration.execute();
+
         assertNotNull(integration.getResult());
+
+    }
+
+    @Test
+    public void successReader() {
+
+    	new MockUp<StoreRemoteServices>() {
+    		@Mock
+    		public void storeDocument(String username, String SpreadSheetName, byte[] result)
+    				throws CannotStoreDocumentException, RemoteInvocationException {
+    		}
+    	};
+
+    	addAccess(getUserFromSession(userToken), getSpreadSheet("doc"), "reader");
+
+        ExportDocumentIntegrator integration = new ExportDocumentIntegrator(userToken, docID);
+        integration.execute();
+
+        assertNotNull(integration.getResult());
+
+    }
+
+    @Test
+    public void successWriter() {
+
+    	new MockUp<StoreRemoteServices>() {
+    		@Mock
+    		public void storeDocument(String username, String SpreadSheetName, byte[] result)
+    				throws CannotStoreDocumentException, RemoteInvocationException {
+    		}
+    	};
+
+    	addAccess(getUserFromSession(userToken), getSpreadSheet("doc"), "writer");
+
+        ExportDocumentIntegrator integration = new ExportDocumentIntegrator(userToken, docID);
+        integration.execute();
+
+        assertNotNull(integration.getResult());
+
     }
 
 	@Test (expected = UserNotInSessionException.class)
     public void InvalidUser() {
-		this.userToken = "error";
-		success();
+
+    	new MockUp<StoreRemoteServices>() {
+    		@Mock
+    		public void storeDocument(String username, String SpreadSheetName, byte[] result)
+    				throws CannotStoreDocumentException, RemoteInvocationException {
+    		}
+    	};
+
+		ExportDocumentIntegrator integration = new ExportDocumentIntegrator("error", docID);
+		integration.execute();
+
     }
 
     @Test(expected = InvalidAccessException.class)
     public void InvalidAccess() {
-    	this.userToken = addUserToSession(USERNAME_NO_ACCESS);
-    	success();
-    }	
+
+    	new MockUp<StoreRemoteServices>() {
+    		@Mock
+    		public void storeDocument(String username, String SpreadSheetName, byte[] result)
+    				throws CannotStoreDocumentException, RemoteInvocationException {
+    		}
+    	};
+
+		ExportDocumentIntegrator integration = new ExportDocumentIntegrator(userToken, docID);
+		integration.execute();
+
+    }
 	
     @Test(expected = DocumentDoesNotExistException.class)
     public void InvalidDocument() {
-    	this.sheetId = -1;
-    	success();
+
+    	new MockUp<StoreRemoteServices>() {
+    		@Mock
+    		public void storeDocument(String username, String SpreadSheetName, byte[] result)
+    				throws CannotStoreDocumentException, RemoteInvocationException {
+    		}
+    	};
+
+		ExportDocumentIntegrator integration = new ExportDocumentIntegrator(ownerToken, error);
+		integration.execute();
+
     }
-    
+
+    @Test(expected = CannotStoreDocumentException.class)
+    public void InvalidStorage() {
+
+    	new MockUp<StoreRemoteServices>() {
+    		@Mock
+    		public void storeDocument(String username, String SpreadSheetName, byte[] result)
+    				throws CannotStoreDocumentException, RemoteInvocationException {
+    			throw new CannotStoreDocumentException(SpreadSheetName);
+    		}
+    	};
+
+        ExportDocumentIntegrator integration = new ExportDocumentIntegrator(ownerToken, docID);
+        integration.execute();
+
+    }
+
     @Test(expected = UnavailableServiceException.class)
     public void InvalidService() {
+
     	new MockUp<StoreRemoteServices>() {
     		@Mock
     		public void storeDocument(String username, String SpreadSheetName, byte[] result)
@@ -80,6 +172,9 @@ public class ExportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
     			throw new RemoteInvocationException();
     		}
     	};
-    	success();
+
+        ExportDocumentIntegrator integration = new ExportDocumentIntegrator(ownerToken, docID);
+        integration.execute();
+
     }
 }
