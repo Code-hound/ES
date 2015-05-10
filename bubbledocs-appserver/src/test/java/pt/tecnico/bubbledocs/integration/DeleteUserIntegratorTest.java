@@ -9,6 +9,7 @@ import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
+import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
 import mockit.Mock;
 import mockit.MockUp;
 
@@ -30,54 +31,120 @@ public class DeleteUserIntegratorTest extends BubbleDocsIntegratorTest {
 
     @Override
     public void populate4Test() {
+
         createUser(USERNAME, PASSWORD, "António Rito Silva", "email@email.email");
         User smf = createUser(USERNAME_TO_DELETE, "smf", "Sérgio Fernandes", "email@email.email");
         createSpreadSheet(smf, USERNAME_TO_DELETE, 20, 20);
 
         root = addUserToSession(ROOT_USERNAME);
+
     };
 
     @Test
     public void success() {
-        RemoveUserIntegrator integration = new RemoveUserIntegrator(root, USERNAME_TO_DELETE);
+
+    	new MockUp<IDRemoteServices>() {
+    		@Mock
+    		public void removeUser(String username)
+    				throws LoginBubbleDocsException, RemoteInvocationException {
+    		}
+    	};
+
+    	RemoveUserIntegrator integration = new RemoveUserIntegrator(root, USERNAME_TO_DELETE);
         integration.execute();
 
         boolean deleted = getUserFromUsername(USERNAME_TO_DELETE) == null;
 
         assertTrue("user was not deleted", deleted);
+        assertNull("Spreadsheet was not deleted", getSpreadSheet(SPREADSHEET_NAME));
 
-        assertNull("Spreadsheet was not deleted",
-                getSpreadSheet(SPREADSHEET_NAME));
     }
 
     @Test(expected = UnauthorizedOperationException.class)
     public void notRootUser() {
-        String ars = addUserToSession(USERNAME);
-        new RemoveUserIntegrator(ars, USERNAME_TO_DELETE).execute();
+
+    	new MockUp<IDRemoteServices>() {
+    		@Mock
+    		public void removeUser(String username)
+    				throws LoginBubbleDocsException, RemoteInvocationException {
+    		}
+    	};
+
+    	String ars = addUserToSession(USERNAME);
+    	RemoveUserIntegrator integration = new RemoveUserIntegrator(ars, USERNAME_TO_DELETE);
+        integration.execute();
+
     }
 
     @Test(expected = UserNotInSessionException.class)
     public void rootNotInSession() {
-        removeUserFromSession(root);
 
-        new RemoveUserIntegrator(root, USERNAME_TO_DELETE).execute();
+    	new MockUp<IDRemoteServices>() {
+    		@Mock
+    		public void removeUser(String username)
+    				throws LoginBubbleDocsException, RemoteInvocationException {
+    		}
+    	};
+
+    	removeUserFromSession(root);
+
+    	RemoveUserIntegrator integration = new RemoveUserIntegrator(root, USERNAME_TO_DELETE);
+        integration.execute();
+
     }
 
     @Test(expected = UserNotInSessionException.class)
     public void notInSessionAndNotRoot() {
-        String ars = addUserToSession(USERNAME);
+
+    	new MockUp<IDRemoteServices>() {
+    		@Mock
+    		public void removeUser(String username)
+    				throws LoginBubbleDocsException, RemoteInvocationException {
+    		}
+    	};
+
+    	String ars = addUserToSession(USERNAME);
         removeUserFromSession(ars);
 
-        new RemoveUserIntegrator(ars, USERNAME_TO_DELETE).execute();
+        RemoveUserIntegrator integration = new RemoveUserIntegrator(ars, USERNAME_TO_DELETE);
+        integration.execute();
+
     }
 
     @Test(expected = UserNotInSessionException.class)
     public void accessUserDoesNotExist() {
-        new RemoveUserIntegrator(USERNAME_DOES_NOT_EXIST, USERNAME_TO_DELETE).execute();
+
+    	new MockUp<IDRemoteServices>() {
+    		@Mock
+    		public void removeUser(String username)
+    				throws LoginBubbleDocsException, RemoteInvocationException {
+    		}
+    	};
+
+    	RemoveUserIntegrator integration = new RemoveUserIntegrator(USERNAME_DOES_NOT_EXIST, USERNAME_TO_DELETE);
+        integration.execute();
+
+    }
+
+    @Test(expected = LoginBubbleDocsException.class)
+    public void InvalidLogin() {
+
+    	new MockUp<IDRemoteServices>() {
+    		@Mock
+    		public void removeUser(String username)
+    				throws LoginBubbleDocsException, RemoteInvocationException {
+    			throw new LoginBubbleDocsException(username);
+    		}
+    	};
+
+    	RemoveUserIntegrator integration = new RemoveUserIntegrator(root, USERNAME_TO_DELETE);
+        integration.execute();
+
     }
 
     @Test(expected = UnavailableServiceException.class)
     public void InvalidService() {
+
     	new MockUp<IDRemoteServices>() {
     		@Mock
     		public void removeUser(String username)
@@ -85,7 +152,10 @@ public class DeleteUserIntegratorTest extends BubbleDocsIntegratorTest {
     			throw new RemoteInvocationException();
     		}
     	};
-    	success();
+
+    	RemoveUserIntegrator integration = new RemoveUserIntegrator(root, USERNAME_TO_DELETE);
+        integration.execute();
+
     }
 
 }

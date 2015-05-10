@@ -75,4 +75,5 @@ public class DeleteUserServiceTest extends BubbleDocsServiceTest {
     public void accessUserDoesNotExist() {
         new RemoveUserService(USERNAME_DOES_NOT_EXIST, USERNAME_TO_DELETE).execute();
     }
+
 }

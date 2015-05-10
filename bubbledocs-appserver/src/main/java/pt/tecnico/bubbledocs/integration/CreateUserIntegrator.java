@@ -1,7 +1,5 @@
 package pt.tecnico.bubbledocs.integration;
 
-// the needed import declarations
-
 import pt.tecnico.bubbledocs.service.CreateUserService;
 import pt.tecnico.bubbledocs.service.RemoveUserService;
 import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
@@ -45,7 +43,7 @@ public class CreateUserIntegrator extends BubbleDocsIntegrator {
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 
-		CreateUserService createUserService = new CreateUserService(this.userToken, this.newUsername, this.email , this.name = name);
+		CreateUserService createUserService = new CreateUserService(this.userToken, this.newUsername, this.email , this.name);
 		RemoveUserService removeUserService = new RemoveUserService(this.userToken, this.newUsername);
 		IDRemoteServices  localService      = new IDRemoteServices();
 		

@@ -1,16 +1,19 @@
 package pt.tecnico.bubbledocs.integration;
 
-//the needed import declarations
-
-import pt.tecnico.bubbledocs.domain.BubbleDocs;
-import pt.tecnico.bubbledocs.domain.Access;
-import pt.tecnico.bubbledocs.exception.BubbleDocsException;
-import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
-import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
-import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
-import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
-import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
+import pt.tecnico.bubbledocs.service.CreateUserService;
+import pt.tecnico.bubbledocs.service.RemoveUserService;
+import pt.tecnico.bubbledocs.service.GetUserInfoService;
 import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
+
+import pt.tecnico.bubbledocs.exception.BubbleDocsException;
+import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
+import pt.tecnico.bubbledocs.exception.InvalidUsernameException;
+import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
+import pt.tecnico.bubbledocs.exception.UserAlreadyExistsException;
+
+import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
+import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
+import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 
 /*
  * DELETE USER
@@ -35,29 +38,34 @@ public class RemoveUserIntegrator extends BubbleDocsIntegrator {
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 
-		IDRemoteServices integration = new IDRemoteServices();
-		resetUserLastAccess(userToken);
-
+		GetUserInfoService getInfoService    = new GetUserInfoService(this.toDeleteUsername);
+		
+		//TODO: Fix GetUserInfoService!!!!
+		
+		
+		CreateUserService  createUserService = new CreateUserService("test", "test", "test", "test");
+		RemoveUserService  removeUserService = new RemoveUserService(this.userToken, this.toDeleteUsername);
+		IDRemoteServices   localService      = new IDRemoteServices();
+		
 		//throws UserNotInSessionException
 		//throws UnavailableServiceException
-		if (checkIfRoot(userToken)){
-			try {
-				integration.removeUser(toDeleteUsername);
-			} catch (RemoteInvocationException e) {
-				throw new UnavailableServiceException();
-			}
-			
-			//throws LoginBubbleDocsException
-			if (getUser(toDeleteUsername)==null)
-				throw new LoginBubbleDocsException(toDeleteUsername);
-	
-			for (Access access : getUser(toDeleteUsername).getAccessSet()) {
-				access.getDocument().removeDocAccess(access);
-				access = null;
-			}
-			BubbleDocs bd = getBubbleDocs();
-			bd.removeUserFromSession(getUser(toDeleteUsername));
-			bd.removeUsers(getUser(toDeleteUsername));
+		//throws LoginBubbleDocsException
+		removeUserService.execute();
+
+		//throws UnavailableServiceException
+		try {
+			localService.removeUser(this.toDeleteUsername);
+		} catch (RemoteInvocationException e) {
+			//throws UnauthorizedOperationException
+			//throws UserAlreadyExistsException
+			createUserService.execute();
+			throw new UnavailableServiceException();
+		} catch (LoginBubbleDocsException e) {
+			//throws UnauthorizedOperationException
+			//throws UserAlreadyExistsException
+			createUserService.execute();
+			throw new LoginBubbleDocsException(this.toDeleteUsername);
 		}
+		
 	}
 }
