@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
+import org.joda.time.DateTime;
+
 import pt.ulisboa.tecnico.sdis.store.ws.*;
 import store.ws.handler.HeaderHandler;
 
@@ -129,8 +131,9 @@ public class StoreImpl implements SDStore {
     				("User \""+userId+"\" has no document with ID \""+docId+"\"",
     				new DocDoesNotExist());
     	}
-    	
-    	document.setNewContents(newContents, clientID, timestamp);
+    	if (document.getLastTimeChanged().isBefore(new DateTime(timestamp))) {
+    		document.setNewContents(newContents, clientID, timestamp);
+    	}
     }
 
     /*

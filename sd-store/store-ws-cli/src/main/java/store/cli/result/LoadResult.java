@@ -1,28 +1,25 @@
 package store.cli.result;
 
+import java.util.List;
+
 import org.joda.time.DateTime;
 
-public class LoadResult {
+public class LoadResult extends Result {
 	
-	private DateTime timestamp;
-	private String clientID;
 	private byte[] content;
 	
 	public LoadResult(byte[] content, String timestamp, String clientID) {
-		this.timestamp = new DateTime(timestamp);
+		super(timestamp, clientID);
 		this.content = content;
-		this.clientID = clientID;
 	}
 	
 	public byte[] getContent() {
 		return this.content;
 	}
 	
-	public DateTime getTimestamp() {
-		return this.timestamp;
-	}
-	
-	public String getClientID() {
-		return this.clientID;
+	//@Override
+	public static byte[] quorumDecider(List<LoadResult> results) {
+		LoadResult finalResult = (LoadResult) Result.quorumDecider_Result( (List<Result>) (List<?>) results);
+		return finalResult.getContent();
 	}
 }

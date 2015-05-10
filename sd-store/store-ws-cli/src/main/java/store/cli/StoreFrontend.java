@@ -51,11 +51,19 @@ public class StoreFrontend {
 	
 	public List<String> listDocs(String username)
 			throws UserDoesNotExist_Exception {
-		List<List<String>> docs = new ArrayList<List<String>>();
+		//List<List<String>> docs = new ArrayList<List<String>>();
+		List<ListDocsResult> results = new ArrayList<ListDocsResult>();
 		for (SDStore endpoint : endpoints) {
-			docs.add(endpoint.listDocs(username)); //OBVIOUSLY WRONG
+			List<String> docs = endpoint.listDocs(username);
+			
+			BindingProvider bindingProvider = (BindingProvider) endpoint;
+        	Map<String, Object> requestContext = bindingProvider.getResponseContext();
+        	
+        	String timestamp = (String) requestContext.get(HeaderHandler.getTimeProperty());
+        	String clientID = (String) requestContext.get(HeaderHandler.getIDProperty());
+        	results.add(new ListDocsResult(docs, timestamp, clientID));
 		}
-		return docs.get(0);
+		return ListDocsResult.quorumDecider(results);
 	}
 
 	public void store(DocUserPair docUser, byte[] contents)
@@ -78,9 +86,9 @@ public class StoreFrontend {
         	
         	String timestamp = (String) requestContext.get(HeaderHandler.getTimeProperty());
         	String clientID = (String) requestContext.get(HeaderHandler.getIDProperty());
-        	results.add(new LoadResult(content, timestamp, clientID));
+        	results.add(new LoadResult(content, timestamp, clientID));	
 		}
-		
+		return LoadResult.quorumDecider(results);
 	}
 	
 	private void setEndpointAddresses(String[] addresses) 
