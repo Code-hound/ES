@@ -411,4 +411,63 @@ public class IdImpl implements SDId/*, java.security.PrivilegedAction*/ {
 	public static void setIdEmail(String idEmail) {
 		IdImpl.idEmail = idEmail;
 	}
+	
+	/*
+	 * 
+	 * This is a Java Web Service that supports asynchronous operations.
+     *
+     * The code is identical to other contract-first Web Services.
+     *
+     * The service is defined by the Java code with annotations
+     * (code-first approach, also called bottom-up approach).
+     *
+     * The service runs in a standalone HTTP server.
+	 * 
+	 */
+	
+	public String echo(String name) throws EchoException {
+		
+		// print current thread and object instance executing the operation
+        System.out.printf("%s %s>%n    ", Thread.currentThread(), this);
+        System.out.printf("echo(%s)%n", name);
+        
+        // very complicated task. Takes a long time...
+        nap(3);
+
+        if (name.length() == 0) {
+            throw new EchoException("Name is too short!");
+        } else {
+            return "Echo " + name;
+        }
+		
+	}
+	
+	public String fastEcho(String name) throws EchoException {
+        // print current thread and object instance executing the operation
+        System.out.printf("%s %s>%n    ", Thread.currentThread(), this);
+        System.out.printf("fastEcho(%s)%n", name);
+
+        if (name.length() == 0) {
+            throw new EchoException("Name is too short!");
+        } else {
+            return "Fast echo " + name;
+        }
+    }
+	
+	private void nap(int seconds) {
+        try {
+            System.out.printf("%s %s>%n    ", Thread.currentThread(), this);
+            System.out.printf("Sleeping for %d seconds...%n", seconds);
+
+            Thread.sleep(seconds*1000);
+
+            System.out.printf("%s %s>%n    ", Thread.currentThread(), this);
+            System.out.printf("Woke up!%n");
+
+        } catch(InterruptedException e) {
+            System.out.printf("%s %s>%n    ", Thread.currentThread(), this);
+            System.out.printf("Caught exception: %s%n", e);
+        }
+    }
+	
 }

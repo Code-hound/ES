@@ -144,5 +144,20 @@ public class IdMain {
     	//Subject.doAs(lc.getSubject(), new IdImpl(args));
 
     }
+    
+    /*
+	 * 
+	 * This is a Java Web Service that supports asynchronous operations.
+     *
+     * The code is identical to other contract-first Web Services.
+     *
+     * The service is defined by the Java code with annotations
+     * (code-first approach, also called bottom-up approach).
+     *
+     * The service runs in a standalone HTTP server.
+	 * 
+	 */
+    
+    
 
 }
