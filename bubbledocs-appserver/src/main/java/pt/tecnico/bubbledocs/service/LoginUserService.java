@@ -25,19 +25,12 @@ public class LoginUserService extends BubbleDocsService {
 	
 	private String username;
 	private String password;
+
 	private String userToken;
 	
 	public LoginUserService (String username, String password) {
 		this.username = username;
 		this.password = password;
-	}
-	
-	public String getUsername() {
-		return this.username;
-	}
-	
-	public String getPassword() {
-		return this.password;
 	}
 	
 	public String getUserToken() {
@@ -57,14 +50,6 @@ public class LoginUserService extends BubbleDocsService {
 
 		return bd;
 
-	}
-
-	private boolean userIsNotValid (User user) {
-		return (user == null);
-	}
-	
-	private boolean passwordIsNotValid (User user, String password) {
-		return !(user.getPassword().equals(password));
 	}
 
 	public void revert() {

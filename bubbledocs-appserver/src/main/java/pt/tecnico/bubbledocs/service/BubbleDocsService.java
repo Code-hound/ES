@@ -20,7 +20,27 @@ public abstract class BubbleDocsService {
 	public static BubbleDocs getBubbleDocs() {
 		return BubbleDocs.getInstance();
 	}
-	
+
+	protected boolean userIsNotValid (String username) {
+		return (username == null);
+	}
+
+	protected boolean userIsNotValid (User user) {
+		return (user == null);
+	}
+
+	protected boolean passwordIsNotValid (User user, String password) {
+		return !(user.getPassword().equals(password));
+	}
+
+	protected boolean userIsNotOwner (SpreadSheet doc, String username) {
+		return !(doc.getOwnerUsername().equals(username));
+	}
+
+	protected boolean userCannotRead (SpreadSheet doc, String username) {
+		return (doc.getUserPermissionLevel(username) == 0);
+	}
+
 	public static boolean checkIfRoot(String usertoken)
 			throws UnauthorizedOperationException, UserNotInSessionException {
 		BubbleDocs bd = getBubbleDocs();
@@ -31,7 +51,7 @@ public abstract class BubbleDocsService {
 			throw new UnauthorizedOperationException(usertoken);
 		return true;
 	}
-	
+
 	public static String resetUserLastAccess(String userToken) {
 		return getBubbleDocs().resetUserLastAccess(userToken);
 	}

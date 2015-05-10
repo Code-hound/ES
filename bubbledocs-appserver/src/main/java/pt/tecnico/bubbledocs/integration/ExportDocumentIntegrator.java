@@ -1,6 +1,7 @@
 package pt.tecnico.bubbledocs.integration;
 
 import pt.tecnico.bubbledocs.service.ExportDocumentService;
+import pt.tecnico.bubbledocs.service.GetUsername4TokenService;
 import pt.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
@@ -25,19 +26,12 @@ public class ExportDocumentIntegrator extends BubbleDocsIntegrator {
     // the tokens
 	private String userToken;
 	private int docId;
+
 	private byte[] result;
 
 	public ExportDocumentIntegrator(String userToken, int docId) {
 		this.userToken = userToken;
 		this.docId = docId;
-	}
-
-	public String getUserToken () {
-		return this.userToken;
-	}
-	
-	public int getDocId() {
-		return this.docId;
 	}
 	
 	public byte[] getResult() {
@@ -47,24 +41,28 @@ public class ExportDocumentIntegrator extends BubbleDocsIntegrator {
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 
-		ExportDocumentService localService = new ExportDocumentService(this.userToken, this.docId);
-
+		GetUsername4TokenService getUsernameService    = new GetUsername4TokenService(this.userToken);
+		ExportDocumentService    exportDocumentService = new ExportDocumentService(this.userToken, this.docId);
+		
 		//throws UserNotInSessionException
 		//throws InvalidAccessException
 		//throws ExportDocumentException
-		localService.execute();
+		getUsernameService.execute();
+		exportDocumentService.execute();
 
+		String username = getUsernameService.getUsername();
+		byte[] result   = exportDocumentService.getResult();
 		StoreRemoteServices remoteService = new StoreRemoteServices();
 		
 		//throws CannotStoreDocumentException
 		//throws UnavailableServiceException
 		try {
-			remoteService.storeDocument(localService.getUsername(), localService.getDocname(), localService.getResult());
+			remoteService.storeDocument(username, exportDocumentService.getDocname(), result);
 		} catch (RemoteInvocationException e) {
 			throw new UnavailableServiceException();
 		}
 		
-		this.result = localService.getResult();
+		this.result = result;
 
 	}
 

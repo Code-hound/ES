@@ -1,6 +1,7 @@
 package pt.tecnico.bubbledocs.integration;
 
 import pt.tecnico.bubbledocs.service.RenewPasswordService;
+import pt.tecnico.bubbledocs.service.GetUsername4TokenService;
 import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
@@ -14,24 +15,23 @@ public class RenewPasswordIntegrator extends BubbleDocsIntegrator {
 	public RenewPasswordIntegrator (String userToken) {
 		this.userToken = userToken;
 	}
-
-	public String getUserToken() {
-		return this.userToken;
-	}
 	
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 
-		RenewPasswordService localService = new RenewPasswordService(this.userToken);
+		GetUsername4TokenService getUsernameService    = new GetUsername4TokenService(this.userToken);
+		RenewPasswordService renewPasswordService = new RenewPasswordService(this.userToken);
 
 		//throws UserNotInSessionException
-		localService.execute();
+		getUsernameService.execute();
+		renewPasswordService.execute();
 
+		String username = getUsernameService.getUsername();
 		IDRemoteServices remoteService = new IDRemoteServices();
 
 		//throws UnavailableServiceException
 		try {
-			remoteService.renewPassword(localService.getUsername());
+			remoteService.renewPassword(username);
 		} catch (RemoteInvocationException e) {
 			throw new UnavailableServiceException();
 		}

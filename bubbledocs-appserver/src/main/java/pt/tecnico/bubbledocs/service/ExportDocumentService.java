@@ -32,17 +32,12 @@ public class ExportDocumentService extends BubbleDocsService {
 	private String userToken;
 	private int    docId;
 
-	private String username;
 	private String docname;
 	private byte[] result;
 
 	public ExportDocumentService(String userToken, int docId) {
 		this.userToken = userToken;
 		this.docId = docId;
-	}
-
-	public String getUsername () {
-		return this.username;
 	}
 
 	public String getDocname () {
@@ -53,25 +48,13 @@ public class ExportDocumentService extends BubbleDocsService {
 		return this.result;
 	}
 
-	private boolean userIsNotValid (String username) {
-		return (username == null);
-	}
-	
-	private boolean userIsNotOwner (SpreadSheet doc, String username) {
-		return !(doc.getOwnerUsername().equals(username));
-	}
-
-	private boolean userCannotRead (SpreadSheet doc, String username) {
-		return (doc.getUserPermissionLevel(username) == 0);
-	}
-
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 
-		this.username = resetUserLastAccess(userToken);
+		String username = resetUserLastAccess(userToken);
 
 		//throws UserNotInSessionException
-		if (userIsNotValid(this.username)) {
+		if (userIsNotValid(username)) {
 			throw new UserNotInSessionException(username);
 		}
 		
@@ -79,8 +62,8 @@ public class ExportDocumentService extends BubbleDocsService {
 		this.docname = doc.getSpreadSheetName();
 
 		//throws InvalidAccessException
-		if (userIsNotOwner(doc, this.username) && userCannotRead(doc, this.username)) {
-			throw new InvalidAccessException(this.username, this.docname, "Read or Write");
+		if (userIsNotOwner(doc, username) && userCannotRead(doc, username)) {
+			throw new InvalidAccessException(username, this.docname, "Read or Write");
 		}
 
 

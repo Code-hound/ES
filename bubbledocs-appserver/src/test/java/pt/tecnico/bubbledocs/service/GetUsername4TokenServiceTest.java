@@ -1,12 +1,12 @@
 package pt.tecnico.bubbledocs.service;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 
-public class RenewPasswordServiceTest extends BubbleDocsServiceTest {
+public class GetUsername4TokenServiceTest extends BubbleDocsServiceTest {
 
     // the tokens
 	private String userToken;
@@ -22,16 +22,19 @@ public class RenewPasswordServiceTest extends BubbleDocsServiceTest {
 	@Test
 	public void success() {
 
-		RenewPasswordService service = new RenewPasswordService(userToken);
+		GetUsername4TokenService service = new GetUsername4TokenService(userToken);
 		service.execute();
+
+		assertEquals(service.getUsername(), "jpname");
 
 	}
 
 	@Test (expected = UserNotInSessionException.class)
     public void InvalidUser() {
 
-		RenewPasswordService service = new RenewPasswordService("error");
+		GetUsername4TokenService service = new GetUsername4TokenService("error");
 		service.execute();
 
     }
+
 }

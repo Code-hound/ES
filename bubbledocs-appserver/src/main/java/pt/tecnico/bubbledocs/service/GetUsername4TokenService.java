@@ -1,31 +1,40 @@
 package pt.tecnico.bubbledocs.service;
 
+import pt.tecnico.bubbledocs.domain.Session;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
+
+import java.lang.NullPointerException;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 
 public class GetUsername4TokenService extends BubbleDocsService {
 
 	private String userToken;
-	private String userName;
+
+	private String username;
 	
 	public GetUsername4TokenService(String userToken) {
 		this.userToken = userToken;
 	}
-	
-	@Override
-	protected void dispatch() throws BubbleDocsException {
-		BubbleDocs bd = getBubbleDocs();
-		
-		if(!bd.hasUserLoggedInByToken(userToken))
-			throw new UserNotInSessionException(userToken);
-		userName = bd.getUserLoggedInByToken(userToken).getUsername();
-		
-		returnUsername();
+
+	public String getUsername() {
+		return this.username;
 	}
 
-	private String returnUsername() {
-		return userName;
+	@Override
+	protected void dispatch() throws BubbleDocsException {
+		
+		BubbleDocs bd = getBubbleDocs();
+		String username;
+
+		try {
+			username = bd.getUserLoggedInByToken(userToken).getUsername();
+		} catch (NullPointerException e) {
+			throw new UserNotInSessionException(this.username);
+		}
+		
+		this.username = username;
+
 	}
 
 }
