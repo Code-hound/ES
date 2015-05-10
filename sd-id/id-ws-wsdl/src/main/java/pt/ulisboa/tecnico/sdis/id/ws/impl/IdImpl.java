@@ -309,7 +309,7 @@ public class IdImpl implements SDId/*, java.security.PrivilegedAction*/ {
     */
     
 	public byte[] requestAuthentication(String userId, byte[] reserved)
-			throws AuthReqFailed_Exception {		
+			throws AuthReqFailed_Exception {
 		
 		for(int i = 0; i < listData.size(); i++) {
 			if(userId.equals(listData.get(i)[0]) 
