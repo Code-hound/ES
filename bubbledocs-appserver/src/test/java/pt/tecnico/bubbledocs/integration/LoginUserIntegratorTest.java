@@ -126,7 +126,7 @@ public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
 	}
 	
 	@Test(expected =  LoginBubbleDocsException.class)
-	public void InvalidPassword() {
+	public void InvalidLogin() {
 
 		new MockUp<IDRemoteServices>() {
 			@Mock

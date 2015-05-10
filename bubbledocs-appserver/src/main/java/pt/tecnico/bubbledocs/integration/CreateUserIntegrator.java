@@ -2,14 +2,19 @@ package pt.tecnico.bubbledocs.integration;
 
 // the needed import declarations
 
+import pt.tecnico.bubbledocs.service.CreateUserService;
+import pt.tecnico.bubbledocs.service.RemoveUserService;
+import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
+
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
-import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
 import pt.tecnico.bubbledocs.exception.InvalidUsernameException;
-import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.UserAlreadyExistsException;
-import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
+
+import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
+import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
+import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 
 /*
  * CREATE USER
@@ -40,28 +45,35 @@ public class CreateUserIntegrator extends BubbleDocsIntegrator {
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 
-		IDRemoteServices integration = new IDRemoteServices();
-		String username = resetUserLastAccess(userToken);
+		CreateUserService createUserService = new CreateUserService(this.userToken, this.newUsername, this.email , this.name = name);
+		RemoveUserService removeUserService = new RemoveUserService(this.userToken, this.newUsername);
+		IDRemoteServices  localService      = new IDRemoteServices();
 		
 		//throws UnauthorizedOperationException
-		if (checkIfRoot(userToken)){
+		//throws UserAlreadyExistsException
+		createUserService.execute();
 		
 		//throws UnavailableServiceException
-			try {
-				integration.createUser(this.newUsername, this.email);
-			} catch (RemoteInvocationException e) {
-				throw new UnavailableServiceException();
-			}
-	
-			getBubbleDocs().createUser(this.newUsername, this.email, this.name, this.email);
-	
-			//throws UserAlreadyExistsException
-			if (getUser(this.newUsername) == null)
-				throw new UserAlreadyExistsException(this.newUsername);
+		try {
+			localService.createUser(this.newUsername, this.email);
+		} catch (RemoteInvocationException e) {
+			//throws UserNotInSessionException
+			//throws UnavailableServiceException
+			//throws LoginBubbleDocsException
+			removeUserService.execute();
+			throw new UnavailableServiceException();
+		} catch (LoginBubbleDocsException e) {
+			//throws UserNotInSessionException
+			//throws UnavailableServiceException
+			//throws LoginBubbleDocsException
+			removeUserService.execute();
+			throw new LoginBubbleDocsException(this.newUsername);
 		}
+
 	}
 	
 	public String getUsername () {
 		return this.newUsername;
 	}
+
 }

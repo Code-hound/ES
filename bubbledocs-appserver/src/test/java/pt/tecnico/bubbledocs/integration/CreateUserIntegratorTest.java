@@ -15,6 +15,7 @@ import pt.tecnico.bubbledocs.exception.UserAlreadyExistsException;
 import pt.tecnico.bubbledocs.exception.InvalidUsernameException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
+import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
 
 public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 	
@@ -34,13 +35,16 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 
 	@Override
 	public void populate4Test() {
+
 		createUser(USERNAME, PASSWORD, "email@email.email", "António Rito Silva");
         root = addUserToSession("root");
         ars = addUserToSession("ars");
+
 	}
 
 	@Test
 	public void success() {
+
 		new MockUp<IDRemoteServices>() {
 			@Mock
 			public void createUser(String username, String password)
@@ -55,10 +59,12 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 		assertEquals(USERNAME_DOES_NOT_EXIST, user.getUsername());
 		assertEquals("email@email.email", user.getEmail());
 		assertEquals("José Ferreira", user.getName());
+
 	}
 
 	@Test(expected = InvalidUsernameException.class)
 	public void InvalidShortUsername() {
+
 		new MockUp<IDRemoteServices>() {
 			@Mock
 			public void createUser(String username, String password)
@@ -68,10 +74,12 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 
 		CreateUserIntegrator integration = new CreateUserIntegrator(root, "", "jose", "José Ferreira");
 		integration.execute();
+
 	}
 	
 	@Test(expected = InvalidUsernameException.class)
 	public void InvalidLongUsername() {
+
 		new MockUp<IDRemoteServices>() {
 			@Mock
 			public void createUser(String username, String password)
@@ -81,10 +89,12 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 
 		CreateUserIntegrator integration = new CreateUserIntegrator(root, "lookathowlongthisusernameis", "jose", "José Ferreira");
 		integration.execute();
+
 	}
 	
 	@Test(expected = UnauthorizedOperationException.class)
 	public void unauthorizedUserCreation() {
+
 		new MockUp<IDRemoteServices>() {
 			@Mock
 			public void createUser(String username, String password)
@@ -94,10 +104,12 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 
 		CreateUserIntegrator integration = new CreateUserIntegrator(ars, USERNAME_DOES_NOT_EXIST, "jose", "José Ferreira");
 		integration.execute();
+
 	}
 
 	@Test(expected = UserNotInSessionException.class)
 	public void InvalidUser() {
+
 		new MockUp<IDRemoteServices>() {
 			@Mock
 			public void createUser(String username, String password)
@@ -109,10 +121,12 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 
 		CreateUserIntegrator integration = new CreateUserIntegrator(root, USERNAME_DOES_NOT_EXIST, "jose", "José Ferreira");
 		integration.execute();
+
 	}
 	
 	@Test(expected = UserAlreadyExistsException.class)
 	public void InvalidCreate() {
+
 		new MockUp<IDRemoteServices>() {
 			@Mock
 			public void createUser(String username, String password)
@@ -123,10 +137,28 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 		CreateUserIntegrator integration = new CreateUserIntegrator (root, USERNAME_DOES_NOT_EXIST, "email@email.email", "José Ferreira");
 		integration.execute();
 		integration.execute();
+
 	}
-	
+
+	@Test(expected = LoginBubbleDocsException.class)
+	public void InvalidLogin() {
+
+		new MockUp<IDRemoteServices>() {
+			@Mock
+			public void createUser(String username, String password)
+					throws LoginBubbleDocsException, RemoteInvocationException {
+				throw new LoginBubbleDocsException(username);
+			}
+		};
+
+		CreateUserIntegrator integration = new CreateUserIntegrator (root, USERNAME_DOES_NOT_EXIST, "email@email.email", "José Ferreira");
+		integration.execute();
+
+	}
+
 	@Test(expected = UnavailableServiceException.class)
 	public void InvalidService() {
+
 		new MockUp<IDRemoteServices>() {
 			@Mock
 			public void createUser(String username, String password)
@@ -137,5 +169,6 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 		
 		CreateUserIntegrator integration = new CreateUserIntegrator (root, USERNAME_DOES_NOT_EXIST, "email@email.email", "José Ferreira");
 		integration.execute();
+
 	}
 }
