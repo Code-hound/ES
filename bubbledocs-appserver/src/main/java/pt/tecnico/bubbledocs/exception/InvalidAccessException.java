@@ -13,13 +13,13 @@ public class InvalidAccessException extends BubbleDocsException {
 	private static final long serialVersionUID = 1L;
 
 	private String username; //username
-	private int sheetId;     //sheetId
+	private String docname;  //docname
 	private String access;   //access
 
-	public InvalidAccessException(String username, int sheetId, String access)
+	public InvalidAccessException(String username, String docname, String access)
 	{
 		this.username = username;
-		this.sheetId  = sheetId;
+		this.docname  = docname;
 		this.access   = access;
 	}
 	
@@ -28,9 +28,9 @@ public class InvalidAccessException extends BubbleDocsException {
 		return this.username;
 	}
 	
-	public int getSheetId ()
+	public String getDocname ()
 	{
-		return this.sheetId;
+		return this.docname;
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class InvalidAccessException extends BubbleDocsException {
 	{
 		return "Access exception : the User \"" + this.username +
 				"\" does not have access of type \"" + this.access+
-				"\" to Document \"" + this.sheetId + "\".";
+				"\" to Document \"" + this.docname + "\".";
 	}
 
 }

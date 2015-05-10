@@ -15,6 +15,8 @@ public class GetSpreadSheetContentService extends BubbleDocsService {
 	private int rowNumber;
 	private int columnNumber;
 
+	private String docname;
+
 	public GetSpreadSheetContentService(String userToken, int docId) {
 		this.userToken = userToken;
 		this.docId = docId;
@@ -26,8 +28,10 @@ public class GetSpreadSheetContentService extends BubbleDocsService {
 			throw new UserNotInSessionException(username);
 		
 		SpreadSheet sheet = getSpreadSheet(docId);
+		this.docname = sheet.getSpreadSheetName();
+
 		if (!canBeReadBy(sheet, username) && !isOwnedBy(sheet, username)) {
-			throw new InvalidAccessException(username, docId, "READ");
+			throw new InvalidAccessException(username, this.docname, "READ");
 		}
 		
 		//System.out.println(sheet);

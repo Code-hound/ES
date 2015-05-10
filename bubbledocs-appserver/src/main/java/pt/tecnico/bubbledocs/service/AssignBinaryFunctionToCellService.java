@@ -25,6 +25,8 @@ public class AssignBinaryFunctionToCellService extends BubbleDocsService {
 	private String cellId;
 	private String binaryFunction;
 
+	private String docname;
+
 	public AssignBinaryFunctionToCellService(String userToken, int docId, String cellId,
 			String binaryFunction) {
 		this.userToken = userToken;
@@ -45,8 +47,10 @@ public class AssignBinaryFunctionToCellService extends BubbleDocsService {
 			throw new UserCantWriteException(username, docId);
 		*/
 		SpreadSheet sheet = getSpreadSheet(docId);
+		this.docname = sheet.getSpreadSheetName();
+
 		if (!canBeWrittenBy(sheet, username)) {
-			throw new InvalidAccessException(username, docId, "WRITE");
+			throw new InvalidAccessException(username, this.docname, "WRITE");
 		}
 
 		String[] rowAndColumnCell = cellId.split(";");

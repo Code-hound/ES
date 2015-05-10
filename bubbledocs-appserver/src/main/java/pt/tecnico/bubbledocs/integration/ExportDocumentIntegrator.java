@@ -1,19 +1,12 @@
 package pt.tecnico.bubbledocs.integration;
 
-//the needed import declarations
-
-import org.jdom2.output.XMLOutputter;
-
-import java.io.UnsupportedEncodingException;
-
-import pt.tecnico.bubbledocs.exception.BubbleDocsException;
-import pt.tecnico.bubbledocs.exception.InvalidAccessException;
-import pt.tecnico.bubbledocs.exception.ExportDocumentException;
-import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
-import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
-import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
+import pt.tecnico.bubbledocs.service.ExportDocumentService;
 import pt.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
+import pt.tecnico.bubbledocs.exception.BubbleDocsException;
+import pt.tecnico.bubbledocs.exception.CannotStoreDocumentException;
+import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
+import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 
 /*
  * Export Document Integrator
@@ -29,53 +22,50 @@ import pt.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
 public class ExportDocumentIntegrator extends BubbleDocsIntegrator {
 
-	private static XMLOutputter xml = new XMLOutputter();
-	
     // the tokens
 	private String userToken;
-	private int sheetId;
+	private int docId;
 	private byte[] result;
 
-	public ExportDocumentIntegrator(String userToken, int sheetId) {
+	public ExportDocumentIntegrator(String userToken, int docId) {
 		this.userToken = userToken;
-		this.sheetId = sheetId;
+		this.docId = docId;
+	}
+
+	public String getUserToken () {
+		return this.userToken;
+	}
+	
+	public int getDocId() {
+		return this.docId;
+	}
+	
+	public byte[] getResult() {
+		return this.result;
 	}
 
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 
-		StoreRemoteServices service  = new StoreRemoteServices();
-		String              username = resetUserLastAccess(userToken);
+		ExportDocumentService localService = new ExportDocumentService(this.userToken, this.docId);
 
 		//throws UserNotInSessionException
-		if (username == null)
-			throw new UserNotInSessionException(username);
-
 		//throws InvalidAccessException
-		if (!getSpreadSheet(sheetId).getOwnerUsername().equals(username) &&
-		     getSpreadSheet(sheetId).getUserPermissionLevel(username) == 0)
-			throw new InvalidAccessException(username, sheetId, "Read or Write");
-
-		org.jdom2.Document jdomDoc  = new org.jdom2.Document();
-		jdomDoc.setRootElement(getSpreadSheet(sheetId).exportToXML());
-
 		//throws ExportDocumentException
-		try {
-			result = xml.outputString(jdomDoc).getBytes("UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			throw new ExportDocumentException();
-		}
+		localService.execute();
 
+		StoreRemoteServices remoteService = new StoreRemoteServices();
+		
+		//throws CannotStoreDocumentException
 		//throws UnavailableServiceException
 		try {
-			service.storeDocument(username, getSpreadSheet(sheetId).getSpreadSheetName(), result);
-		} catch(RemoteInvocationException e) {
+			remoteService.storeDocument(localService.getUsername(), localService.getDocname(), localService.getResult());
+		} catch (RemoteInvocationException e) {
 			throw new UnavailableServiceException();
 		}
+		
+		this.result = localService.getResult();
+
 	}
 
-	public byte[] getResult () {
-		return this.result;
-	}
 }

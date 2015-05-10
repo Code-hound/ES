@@ -8,13 +8,11 @@ import org.jdom2.Document;
 import java.io.UnsupportedEncodingException;
 
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
+
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.ExportDocumentException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
-import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
-import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
-import pt.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
 
 /*
@@ -30,11 +28,12 @@ import pt.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
 public class ExportDocumentService extends BubbleDocsService {
 
-	private static XMLOutputter xml = new XMLOutputter();
-	
     // the tokens
 	private String userToken;
-	private int docId;
+	private int    docId;
+
+	private String username;
+	private String docname;
 	private byte[] result;
 
 	public ExportDocumentService(String userToken, int docId) {
@@ -42,34 +41,69 @@ public class ExportDocumentService extends BubbleDocsService {
 		this.docId = docId;
 	}
 
+	public String getUsername () {
+		return this.username;
+	}
+
+	public String getDocname () {
+		return this.docname;
+	}
+
+	public byte[] getResult() {
+		return this.result;
+	}
+
+	private boolean userIsNotValid (String username) {
+		return (username == null);
+	}
+	
+	private boolean userIsNotOwner (SpreadSheet doc, String username) {
+		return !(doc.getOwnerUsername().equals(username));
+	}
+
+	private boolean userCannotRead (SpreadSheet doc, String username) {
+		return (doc.getUserPermissionLevel(username) == 0);
+	}
+
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 
-		String username = resetUserLastAccess(userToken);
+		this.username = resetUserLastAccess(userToken);
 
 		//throws UserNotInSessionException
-		if (username == null)
+		if (userIsNotValid(this.username)) {
 			throw new UserNotInSessionException(username);
+		}
+		
+		SpreadSheet doc = getSpreadSheet(docId);
+		this.docname = doc.getSpreadSheetName();
 
 		//throws InvalidAccessException
-		if (!getSpreadSheet(docId).getOwnerUsername().equals(username) &&
-		     getSpreadSheet(docId).getUserPermissionLevel(username) == 0)
-			throw new InvalidAccessException(username, docId, "Read or Write");
+		if (userIsNotOwner(doc, this.username) && userCannotRead(doc, this.username)) {
+			throw new InvalidAccessException(this.username, this.docname, "Read or Write");
+		}
 
-		Document jdomDoc  = new Document();
-		jdomDoc.setRootElement(getSpreadSheet(docId).exportToXML());
+
+
+
+
+		XMLOutputter xml = new XMLOutputter();
+		Document jdomDoc = new Document();
+
+		jdomDoc.setRootElement(doc.exportToXML());
 
 		//throws ExportDocumentException
 		try {
-			result = xml.outputString(jdomDoc).getBytes("UTF-8");
+			this.result = xml.outputString(jdomDoc).getBytes("UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			throw new ExportDocumentException();
 		}
 
+
+
+
+
 	}
 
-	public byte[] getResult () {
-		return this.result;
-	}
 }

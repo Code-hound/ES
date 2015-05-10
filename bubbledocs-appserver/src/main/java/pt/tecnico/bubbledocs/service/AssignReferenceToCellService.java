@@ -24,6 +24,8 @@ public class AssignReferenceToCellService extends BubbleDocsService {
 	private int docId;
 	private String cellId;
 	private String reference;
+	
+	private String docname;
 
 	public AssignReferenceToCellService(String userToken, int docId, String cellId,
 			String reference) {
@@ -45,8 +47,10 @@ public class AssignReferenceToCellService extends BubbleDocsService {
 			throw new UserCantWriteException(username, docId);
 		*/
 		SpreadSheet sheet = getSpreadSheet(docId);
+		this.docname = sheet.getSpreadSheetName();
+		
 		if (!canBeWrittenBy(sheet, username)) {
-			throw new InvalidAccessException(username, docId, "WRITE");
+			throw new InvalidAccessException(username, this.docname, "WRITE");
 		}
 
 		String[] rowAndColumnCell = cellId.split(";");

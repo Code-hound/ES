@@ -16,7 +16,9 @@ public class AssignLiteralToCellService extends BubbleDocsService {
 	private String literal;
 	private String userToken;
 	private SpreadSheet sheet;
-	
+
+	private String docname;
+
 	public AssignLiteralToCellService(String userToken, int docId, String cellId, String literal) {
 
 		this.docId = docId;
@@ -34,9 +36,10 @@ public class AssignLiteralToCellService extends BubbleDocsService {
 			throw new UserNotInSessionException(username);
 		
 		this.sheet = getSpreadSheet(docId);
+		this.docname = this.sheet.getSpreadSheetName();
 		
 		if(!canBeWrittenBy(sheet, username)){
-			throw new InvalidAccessException(username, docId, "WRITE");
+			throw new InvalidAccessException(username, this.docname, "WRITE");
 		}
 			
 		String[] rowAndColumn = cellId.split(";");
