@@ -12,6 +12,9 @@ import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
 import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
+import pt.tecnico.bubbledocs.service.AssignBinaryFunctionToCellService;
+import pt.tecnico.bubbledocs.service.AssignLiteralToCellService;
+import pt.tecnico.bubbledocs.service.AssignReferenceToCellService;
 
 
 /* 
@@ -90,7 +93,7 @@ public class AssignBinaryFunctionToCellIntegratorTest extends BubbleDocsIntegrat
 	}
 	
 	@Test 
-	public void success() {
+	public void successADD() {
 		//Owner assigns a binaryFunction =ADD(1,1;2) to cell "1;1" 
 		AssignLiteralToCellIntegrator service_aux1 = new AssignLiteralToCellIntegrator
 				(OWNER_TOKEN, DOC.getId(), "1;2", "444");
@@ -102,19 +105,30 @@ public class AssignBinaryFunctionToCellIntegratorTest extends BubbleDocsIntegrat
 		assertEquals("445",service_owner1.getResult().toString());
 			//Checks if the value in cell 1;1 is the value in assigned
 		assertEquals(445,DOC.getCell(1,1).getValue());
+	}	
 		
+		
+		
+	@Test 
+	public void successSUB() {	
 		//Owner assigns a binaryFunction =SUB(1,1;6) to cell "5;5" 
 		AssignLiteralToCellIntegrator service_aux2 = new AssignLiteralToCellIntegrator
 				(OWNER_TOKEN, DOC.getId(), "1;6", "2");
 		AssignBinaryFunctionToCellIntegrator service_owner2 = new AssignBinaryFunctionToCellIntegrator
-				(OWNER_TOKEN, DOC.getId(), "5;5", "=SUB(-1,1;6)");
+				(OWNER_TOKEN, DOC.getId(), "5;5", "=SUB(7,1;6)");
 		service_aux2.execute();
 		service_owner2.execute();
 			//Checks if the value returned by the service is the value assigned
-		//assertEquals("3",service_owner2.getResult());
+
+		assertEquals("5",service_owner2.getResult());
 			//Checks if the value in cell 5;5 is the value in assigned
-		//assertEquals(3,DOC.getCell(5,5).getValue());
-			
+		assertEquals(5,DOC.getCell(5,5).getValue());
+	}
+		
+		
+		
+	@Test 
+	public void successMUL() {
 		//Writer assigns a binaryFunction =MUL(3,9;2) to cell "10;7"
 		AssignLiteralToCellIntegrator service_aux3 = new AssignLiteralToCellIntegrator
 				(OWNER_TOKEN, DOC.getId(), "9;2", "4");
@@ -123,21 +137,31 @@ public class AssignBinaryFunctionToCellIntegratorTest extends BubbleDocsIntegrat
 		service_aux3.execute();
 		service_writer3.execute();
 			//Checks if the value returned by the service is the value assigned
-		//assertEquals("12",service_writer3.getResult());
+
+		assertEquals("12",service_writer3.getResult());
 			//Checks if the value in cell 10;7 is the value in assigned
-		//assertEquals("12",DOC.getCell(10,7).getValue());
+		assertEquals(12,DOC.getCell(10,7).getValue());
+	}
 		
+		
+		
+		
+	@Test 
+	public void successDIV() {	
 		//Writer assigns a binaryFunction =DIV(2,10;10) to cell "7;10"
+		AssignLiteralToCellIntegrator service_aux5 = new AssignLiteralToCellIntegrator
+				(OWNER_TOKEN, DOC.getId(), "9;2", "4");
 		AssignReferenceToCellIntegrator service_aux4 = new AssignReferenceToCellIntegrator
 				(WRITE_TOKEN, DOC.getId(), "10;10", "9;2");
 		AssignBinaryFunctionToCellIntegrator service_writer4 = new AssignBinaryFunctionToCellIntegrator
-				(WRITE_TOKEN, DOC.getId(), "7;10", "=DIV(2,10;10)");
+				(WRITE_TOKEN, DOC.getId(), "7;10", "=DIV(4,10;10)");
+		service_aux5.execute();
 		service_aux4.execute();
 		service_writer4.execute();
 			//Checks if the value returned by the service is the value assigned
-		assertEquals("6",service_writer4.getResult());
+		assertEquals("1",service_writer4.getResult());
 			//Checks if the value in cell 7;10 is the value in assigned
-		assertEquals("6",DOC.getCell(7,10).getValue());
+		assertEquals(1,DOC.getCell(7,10).getValue());
 	}
 	
 	@Test (expected = InvalidAccessException.class)

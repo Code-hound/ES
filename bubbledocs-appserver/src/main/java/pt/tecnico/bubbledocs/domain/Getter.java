@@ -19,7 +19,12 @@ public class Getter {
 
 	public static int use(Reference reference) throws InvalidValueException {
 		Cell cell = reference.getCellReference();
+		
 		Content c = cell.getContent();
+		
+		if (c == null)
+			throw new InvalidValueException();
+
 		return c.getContentValue();
 	}
 
@@ -41,13 +46,17 @@ public class Getter {
 	}
 
 	private static int use(BinaryFunction function, String op) throws InvalidValueException {
-		int i = 0;
+		Integer i = null;
 
 		for (FunctionArguments content : function.getArgsSet()) {
 			if (content == null)
 				throw new InvalidValueException();
-
-			i = apply(op, i, content.getContentValue());
+			
+			if (i == null) {
+				i = content.getContentValue();
+			} else {
+				i = apply(op, i, content.getContentValue());
+			}
 		}
 
 		return i;
