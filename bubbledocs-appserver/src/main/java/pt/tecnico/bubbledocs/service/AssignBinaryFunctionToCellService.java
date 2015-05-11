@@ -1,12 +1,19 @@
 
 package pt.tecnico.bubbledocs.service;
 
+import pt.tecnico.bubbledocs.domain.ADD;
+import pt.tecnico.bubbledocs.domain.BinaryFunction;
 import pt.tecnico.bubbledocs.domain.Cell;
+import pt.tecnico.bubbledocs.domain.DIV;
+import pt.tecnico.bubbledocs.domain.FunctionArguments;
 import pt.tecnico.bubbledocs.domain.Literal;
+import pt.tecnico.bubbledocs.domain.MUL;
 import pt.tecnico.bubbledocs.domain.Reference;
+import pt.tecnico.bubbledocs.domain.SUB;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
 import pt.tecnico.bubbledocs.exception.InvalidAccessException;
+import pt.tecnico.bubbledocs.exception.InvalidValueException;
 import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 
@@ -67,7 +74,7 @@ public class AssignBinaryFunctionToCellService extends BubbleDocsService {
 		//getting operator
 		String delims = "[,;)]+";
 		String[] parseOpRef = auxOperator.split(delims);
-		int operator   = Integer.parseInt(parseOpRef[0]);
+		int opNumber   = Integer.parseInt(parseOpRef[0]);
 		//cellReference = celula referenciada dentro da funcao binaria
 		int rowCellReference    = Integer.parseInt(parseOpRef[1]);
 		int columnCellReference = Integer.parseInt(parseOpRef[2]);
@@ -76,23 +83,45 @@ public class AssignBinaryFunctionToCellService extends BubbleDocsService {
 		int rowSpreadSheet    = sheet.getNumberRows();
 		int columnSpreadSheet = sheet.getNumberColumns();
 	
+		//nao necessario so se verifica no calc value
 		// testa se a celula referenciada existe nas dimensoes da spreadsheet
-		if (!(rowCellReference    >= 0) ||
+		/*if (!(rowCellReference    >= 0) ||
 			!(rowCellReference    <= rowSpreadSheet) ||
 			!(columnCellReference >= 0) ||
 			!(columnCellReference <= columnSpreadSheet))
 			throw new CellNotInSpreadSheetException(rowCellReference, columnCellReference, docId);
-
+		*/
 		Reference referenceAux = new Reference
 				(sheet, rowCellReference, columnCellReference);
-
+		Literal literalAux = new Literal(opNumber);
+		
+		
 		if (referenceAux.getCellReference().getProtect())
 			throw new ProtectedCellException(rowCell, columnCell);
 		
-		//falta o caseof e escolher a funcao binaria, e atribui-la como conteúdo
-		
-		
-		
+		switch (binaryFunction) {
+		case "ADD":
+			ADD binaryFuncA = new ADD(literalAux,referenceAux);
+			sheet.addContent(binaryFuncA, rowCell, columnCell);
+			return; //binaryFuncA.getContentValue();
+		case "SUB":
+			SUB binaryFuncS = new SUB(literalAux,referenceAux);
+			sheet.addContent(binaryFuncS, rowCell, columnCell);
+			return; //binaryFuncS.getContentValue();
+		case "MUL":
+			MUL binaryFuncM = new MUL(literalAux,referenceAux);
+			sheet.addContent(binaryFuncM, rowCell, columnCell);
+			return; //binaryFuncM.getContentValue();
+		case "DIV":
+			DIV binaryFuncD = new DIV(literalAux,referenceAux);
+			sheet.addContent(binaryFuncD, rowCell, columnCell);
+			return; //binaryFuncD.getContentValue();
+		default:
+			throw new InvalidValueException();
+		}
+		//*********question*************
+		//posso igualar algo acima a result 
+		//e depois escrever no get result return result??
 		
 		//verifica se a celula a ser escrita por efectivamente ser escrita
 /////   sheet.addContent(BINARYFUNCTION, rowCell, columnCell);
