@@ -12,7 +12,7 @@ import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
 import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
-import pt.tecnico.bubbledocs.integration.*;
+
 
 /* 
  * A testar:
@@ -69,7 +69,7 @@ public class AssignBinaryFunctionToCellIntegratorTest extends BubbleDocsIntegrat
 
 	@Override
 	public void populate4Test() {
-		BubbleDocsIntegrator bd = BubbleDocsIntegrator.getInstance();
+		BubbleDocs bd = BubbleDocs.getInstance();
 		OWNER = createUser(USERNAME_OWNER, PASSWORD_OWNER, NAMEUSER_OWNER, EMAIL_OWNER);
 		WRITE = createUser(USERNAME_WRITE, PASSWORD_WRITE, NAMEUSER_WRITE, EMAIL_WRITE);
 		READ = createUser(USERNAME_READ, PASSWORD_READ, NAMEUSER_READ, EMAIL_READ);
@@ -142,9 +142,9 @@ public class AssignBinaryFunctionToCellIntegratorTest extends BubbleDocsIntegrat
 	
 	@Test (expected = InvalidAccessException.class)
 	public void assignWithuNoAccessUser() {
-		AssignLiteralToCellService service_error = new AssignLiteralToCellService
+		AssignLiteralToCellIntegrator service_error = new AssignLiteralToCellIntegrator
 				(OWNER_TOKEN, DOC.getId(), "3;2", "4");
-		AssignBinaryFunctionToCellService service_unauthorized = new AssignBinaryFunctionToCellService
+		AssignBinaryFunctionToCellIntegrator service_unauthorized = new AssignBinaryFunctionToCellIntegrator
 				(NO_ACCESS_TOKEN, DOC.getId(), "1;1", "=ADD(1,3;2)");
 		service_error.execute();
 		service_unauthorized.execute();
