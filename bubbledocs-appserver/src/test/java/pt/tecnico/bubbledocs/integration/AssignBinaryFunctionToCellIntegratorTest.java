@@ -1,4 +1,4 @@
-package pt.tecnico.bubbledocs.service;
+package pt.tecnico.bubbledocs.integration;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,6 +12,7 @@ import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
 import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
+import pt.tecnico.bubbledocs.integration.*;
 
 /* 
  * A testar:
@@ -23,8 +24,7 @@ import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
  * Falhanço: utilizador indica funcao binaria que nao existe
  */
 
-public class AssignBinaryFunctionToCellServiceTest extends BubbleDocsServiceTest {
-
+public class AssignBinaryFunctionToCellIntegratorTest extends BubbleDocsIntegratorTest {
 
 	// User-Owner
 	private final String USERNAME_OWNER = "owner";
@@ -67,10 +67,9 @@ public class AssignBinaryFunctionToCellServiceTest extends BubbleDocsServiceTest
 	private final int COLUMN_NUMBER = 10;
 	private SpreadSheet DOC;
 
-	
 	@Override
 	public void populate4Test() {
-		BubbleDocs bd = BubbleDocs.getInstance();
+		BubbleDocsIntegrator bd = BubbleDocsIntegrator.getInstance();
 		OWNER = createUser(USERNAME_OWNER, PASSWORD_OWNER, NAMEUSER_OWNER, EMAIL_OWNER);
 		WRITE = createUser(USERNAME_WRITE, PASSWORD_WRITE, NAMEUSER_WRITE, EMAIL_WRITE);
 		READ = createUser(USERNAME_READ, PASSWORD_READ, NAMEUSER_READ, EMAIL_READ);
@@ -93,9 +92,9 @@ public class AssignBinaryFunctionToCellServiceTest extends BubbleDocsServiceTest
 	@Test 
 	public void success() {
 		//Owner assigns a binaryFunction =ADD(1,1;2) to cell "1;1" 
-		AssignLiteralToCellService service_aux1 = new AssignLiteralToCellService
+		AssignLiteralToCellIntegrator service_aux1 = new AssignLiteralToCellIntegrator
 				(OWNER_TOKEN, DOC.getId(), "1;2", "444");
-		AssignBinaryFunctionToCellService service_owner1 = new AssignBinaryFunctionToCellService
+		AssignBinaryFunctionToCellIntegrator service_owner1 = new AssignBinaryFunctionToCellIntegrator
 				(OWNER_TOKEN, DOC.getId(), "1;1", "=ADD(1,1;2)");
 		service_aux1.execute();
 		service_owner1.execute();
@@ -105,37 +104,33 @@ public class AssignBinaryFunctionToCellServiceTest extends BubbleDocsServiceTest
 		assertEquals(445,DOC.getCell(1,1).getValue());
 		
 		//Owner assigns a binaryFunction =SUB(1,1;6) to cell "5;5" 
-		AssignLiteralToCellService service_aux2 = new AssignLiteralToCellService
+		AssignLiteralToCellIntegrator service_aux2 = new AssignLiteralToCellIntegrator
 				(OWNER_TOKEN, DOC.getId(), "1;6", "2");
-		AssignBinaryFunctionToCellService service_owner2 = new AssignBinaryFunctionToCellService
+		AssignBinaryFunctionToCellIntegrator service_owner2 = new AssignBinaryFunctionToCellIntegrator
 				(OWNER_TOKEN, DOC.getId(), "5;5", "=SUB(-1,1;6)");
 		service_aux2.execute();
 		service_owner2.execute();
 			//Checks if the value returned by the service is the value assigned
-
 		//assertEquals("3",service_owner2.getResult());
 			//Checks if the value in cell 5;5 is the value in assigned
 		//assertEquals(3,DOC.getCell(5,5).getValue());
-
 			
 		//Writer assigns a binaryFunction =MUL(3,9;2) to cell "10;7"
-		AssignLiteralToCellService service_aux3 = new AssignLiteralToCellService
+		AssignLiteralToCellIntegrator service_aux3 = new AssignLiteralToCellIntegrator
 				(OWNER_TOKEN, DOC.getId(), "9;2", "4");
-		AssignBinaryFunctionToCellService service_writer3 = new AssignBinaryFunctionToCellService
+		AssignBinaryFunctionToCellIntegrator service_writer3 = new AssignBinaryFunctionToCellIntegrator
 				(WRITE_TOKEN, DOC.getId(), "10;7", "=MUL(3,9;2)");
 		service_aux3.execute();
 		service_writer3.execute();
 			//Checks if the value returned by the service is the value assigned
-
 		//assertEquals("12",service_writer3.getResult());
 			//Checks if the value in cell 10;7 is the value in assigned
 		//assertEquals("12",DOC.getCell(10,7).getValue());
-
 		
 		//Writer assigns a binaryFunction =DIV(2,10;10) to cell "7;10"
-		AssignReferenceToCellService service_aux4 = new AssignReferenceToCellService
+		AssignReferenceToCellIntegrator service_aux4 = new AssignReferenceToCellIntegrator
 				(WRITE_TOKEN, DOC.getId(), "10;10", "9;2");
-		AssignBinaryFunctionToCellService service_writer4 = new AssignBinaryFunctionToCellService
+		AssignBinaryFunctionToCellIntegrator service_writer4 = new AssignBinaryFunctionToCellIntegrator
 				(WRITE_TOKEN, DOC.getId(), "7;10", "=DIV(2,10;10)");
 		service_aux4.execute();
 		service_writer4.execute();
@@ -157,9 +152,9 @@ public class AssignBinaryFunctionToCellServiceTest extends BubbleDocsServiceTest
 	
 	@Test (expected = InvalidAccessException.class)
 	public void assignWithReader() {
-		AssignLiteralToCellService service_error = new AssignLiteralToCellService
+		AssignLiteralToCellIntegrator service_error = new AssignLiteralToCellIntegrator
 				(OWNER_TOKEN, DOC.getId(), "3;2", "4");
-		AssignBinaryFunctionToCellService service_reader = new AssignBinaryFunctionToCellService
+		AssignBinaryFunctionToCellIntegrator service_reader = new AssignBinaryFunctionToCellIntegrator
 				(READ_TOKEN, DOC.getId(), "1;1", "=ADD(1,3;2)");
 		service_error.execute();
 		service_reader.execute();
@@ -167,9 +162,9 @@ public class AssignBinaryFunctionToCellServiceTest extends BubbleDocsServiceTest
 	
 	@Test (expected = UserNotInSessionException.class)
 	public void assignWithInvalidUser() {
-		AssignLiteralToCellService service_error = new AssignLiteralToCellService
+		AssignLiteralToCellIntegrator service_error = new AssignLiteralToCellIntegrator
 				(OWNER_TOKEN, DOC.getId(), "3;2", "4");
-		AssignBinaryFunctionToCellService service_invalid = new AssignBinaryFunctionToCellService
+		AssignBinaryFunctionToCellIntegrator service_invalid = new AssignBinaryFunctionToCellIntegrator
 				(INVALID_TOKEN, DOC.getId(), "1;1", "=ADD(1,3;2)");
 		service_error.execute();
 		service_invalid.execute();
@@ -177,9 +172,9 @@ public class AssignBinaryFunctionToCellServiceTest extends BubbleDocsServiceTest
 	
 	@Test (expected = DocumentDoesNotExistException.class)
 	public void assignToInvalidSpreadSheet() {
-		AssignLiteralToCellService service_error = new AssignLiteralToCellService
+		AssignLiteralToCellIntegrator service_error = new AssignLiteralToCellIntegrator
 				(OWNER_TOKEN, DOC.getId(), "3;2", "4");
-		AssignBinaryFunctionToCellService service_invalid_sheet = new AssignBinaryFunctionToCellService 
+		AssignBinaryFunctionToCellIntegrator service_invalid_sheet = new AssignBinaryFunctionToCellIntegrator 
 				(OWNER_TOKEN, 17000, "1;1", "=ADD(1,3;2)");
 		service_error.execute();
 		service_invalid_sheet.execute();
@@ -187,9 +182,9 @@ public class AssignBinaryFunctionToCellServiceTest extends BubbleDocsServiceTest
 	
 	@Test (expected = CellNotInSpreadSheetException.class)
 	public void assignToOutOfRangeCell() {
-		AssignLiteralToCellService service_error = new AssignLiteralToCellService
+		AssignLiteralToCellIntegrator service_error = new AssignLiteralToCellIntegrator
 				(OWNER_TOKEN, DOC.getId(), "3;2", "4");
-		AssignBinaryFunctionToCellService service_invalid_cell = new AssignBinaryFunctionToCellService 
+		AssignBinaryFunctionToCellIntegrator service_invalid_cell = new AssignBinaryFunctionToCellIntegrator 
 				(OWNER_TOKEN, DOC.getId(),"20;20" , "=ADD(1,3;2)");
 		service_error.execute();
 		service_invalid_cell.execute();
@@ -209,9 +204,9 @@ public class AssignBinaryFunctionToCellServiceTest extends BubbleDocsServiceTest
 	*/
 	@Test (expected = ProtectedCellException.class)
 	public void assignToCellProtected() {
-		AssignLiteralToCellService service_error = new AssignLiteralToCellService
+		AssignLiteralToCellIntegrator service_error = new AssignLiteralToCellIntegrator
 				(OWNER_TOKEN, DOC.getId(), "3;2", "4");
-		AssignBinaryFunctionToCellService service_invalid_cell = new AssignBinaryFunctionToCellService 
+		AssignBinaryFunctionToCellIntegrator service_invalid_cell = new AssignBinaryFunctionToCellIntegrator 
 				(OWNER_TOKEN, DOC.getId(),"4;4" , "=ADD(1,3;2)");
 		service_error.execute();
 		DOC.getCell(4,4).toogleProtection();
@@ -219,21 +214,4 @@ public class AssignBinaryFunctionToCellServiceTest extends BubbleDocsServiceTest
 	}
 	
 }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
