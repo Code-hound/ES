@@ -1,6 +1,6 @@
 package pt.tecnico.bubbledocs.service;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -22,7 +22,9 @@ public class GetUserInfoServiceTest extends BubbleDocsServiceTest {
 		GetUserInfoService service = new GetUserInfoService("jpname");
 		service.execute();
 		
-		assertNotNull(service.getUser());
+		assertEquals(service.getPassword(), "jp#");
+		assertEquals(service.getName()    , "João Pereira");
+		assertEquals(service.getEmail()   , "email@email.email");
 
 	}
 

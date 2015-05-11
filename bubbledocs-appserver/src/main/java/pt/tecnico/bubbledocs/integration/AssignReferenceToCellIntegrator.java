@@ -35,7 +35,7 @@ public class AssignReferenceToCellIntegrator extends BubbleDocsIntegrator {
 
 	@Override
 	protected void dispatch() {
-
+/*
 		String username = resetUserLastAccess(userToken);
 
 		//throws UserNotInSessionException
@@ -71,6 +71,7 @@ public class AssignReferenceToCellIntegrator extends BubbleDocsIntegrator {
 
 		getSpreadSheet(docId).addContent(referenceAux, rowCell, columnCell);
 		//Cell rowCell;columnCell now has Content of type Reference
+*/
 	}
 
 	public final String getResult() {

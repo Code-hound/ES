@@ -21,23 +21,23 @@ public abstract class BubbleDocsService {
 		return BubbleDocs.getInstance();
 	}
 
-	protected boolean userIsNotValid (String username) {
+	protected static boolean userIsNotValid (String username) {
 		return (username == null);
 	}
 
-	protected boolean userIsNotValid (User user) {
+	protected static boolean userIsNotValid (User user) {
 		return (user == null);
 	}
 
-	protected boolean passwordIsNotValid (User user, String password) {
+	protected static boolean passwordIsNotValid (User user, String password) {
 		return !(user.getPassword().equals(password));
 	}
 
-	protected boolean userIsNotOwner (SpreadSheet doc, String username) {
+	protected static boolean userIsNotOwner (SpreadSheet doc, String username) {
 		return !(doc.getOwnerUsername().equals(username));
 	}
 
-	protected boolean userCannotRead (SpreadSheet doc, String username) {
+	protected static boolean userCannotRead (SpreadSheet doc, String username) {
 		return (doc.getUserPermissionLevel(username) == 0);
 	}
 

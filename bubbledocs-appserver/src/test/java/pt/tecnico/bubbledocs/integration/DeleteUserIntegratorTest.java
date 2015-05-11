@@ -1,19 +1,22 @@
 package pt.tecnico.bubbledocs.integration;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import pt.tecnico.bubbledocs.domain.User;
-import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
-import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
-import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
-import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
-import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
-import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
-import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
 import mockit.Mock;
 import mockit.MockUp;
 
 import org.junit.Test;
+
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import pt.tecnico.bubbledocs.domain.User;
+
+import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
+import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
+import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
+import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
+
+import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
+import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
 
 // add needed import declarations
 

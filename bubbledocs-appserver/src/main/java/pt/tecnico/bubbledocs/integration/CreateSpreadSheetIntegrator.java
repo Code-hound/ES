@@ -33,7 +33,7 @@ public class CreateSpreadSheetIntegrator extends BubbleDocsIntegrator {
 
 	@Override
 	protected void dispatch() throws BubbleDocsException {
-
+/*
 		String username = resetUserLastAccess(userToken);
 
 		//throws UserNotInSessionException

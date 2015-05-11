@@ -16,12 +16,12 @@ import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 
 /*
- * DELETE USER
+ * Delete User Integrator
  * 
  * Esta classe permite ao user se caso este for
  * o "root" pode entao apagar o user.
  * 
- * @author: Francisco Maria Calisto
+ * @author: Luis Ribeiro Gomes
  * 
  */
 
@@ -40,13 +40,16 @@ public class RemoveUserIntegrator extends BubbleDocsIntegrator {
 
 		GetUserInfoService getInfoService    = new GetUserInfoService(this.toDeleteUsername);
 		
-		//TODO: Fix GetUserInfoService!!!!
-		
-		
-		CreateUserService  createUserService = new CreateUserService("test", "test", "test", "test");
+		// throws InvalidUserException
+		getInfoService.execute();
+
+		String password = getInfoService.getPassword();
+		String name     = getInfoService.getName();
+
+		CreateUserService  createUserService = new CreateUserService(this.userToken, this.toDeleteUsername, password, name);
 		RemoveUserService  removeUserService = new RemoveUserService(this.userToken, this.toDeleteUsername);
 		IDRemoteServices   localService      = new IDRemoteServices();
-		
+
 		//throws UserNotInSessionException
 		//throws UnavailableServiceException
 		//throws LoginBubbleDocsException

@@ -7,28 +7,41 @@ import pt.tecnico.bubbledocs.exception.InvalidUserException;
 
 public class GetUserInfoService extends BubbleDocsService {
 	
-	private String userName;
-	private User user;
+	private String username;
+
+	private String password;
+	private String name;
+	private String email;
 	
-	public GetUserInfoService(String userName) {
-		this.userName = userName;
+	public GetUserInfoService(String username) {
+		this.username = username;
 	}
 
-	public User getUser() {
-		return user;		
+	public String getPassword() {
+		return this.password;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public String getEmail() {
+		return this.email;
 	}
 
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 		
-		BubbleDocs bd = getBubbleDocs();
+		User user = getUser(this.username);
 		
 		// throws InvalidUserException
-		if(!bd.hasUserByUsername(userName)) {
-			throw new InvalidUserException(userName);
+		if(userIsNotValid(user)) {
+			throw new InvalidUserException(this.username);
 		}
-
-		user = bd.getUserByUsername(userName);
+		
+		this.password = user.getPassword();
+		this.name     = user.getName();
+		this.email    = user.getEmail();
 
 	}
 	

@@ -38,8 +38,9 @@ public class RemoveUserService extends BubbleDocsService {
 		if (checkIfRoot(userToken)){
 
 			//throws LoginBubbleDocsException
-			if (getUser(toDeleteUsername)==null)
+			if (getUser(toDeleteUsername)==null) {
 				throw new LoginBubbleDocsException(toDeleteUsername);
+			}
 	
 			for (Access access : getUser(toDeleteUsername).getAccessSet()) {
 				access.getDocument().removeDocAccess(access);
@@ -50,5 +51,7 @@ public class RemoveUserService extends BubbleDocsService {
 			bd.removeUsers(getUser(toDeleteUsername));
 
 		}
+
 	}
+
 }
