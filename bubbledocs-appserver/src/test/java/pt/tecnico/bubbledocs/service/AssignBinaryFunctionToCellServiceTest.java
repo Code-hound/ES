@@ -23,7 +23,7 @@ import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
  * Falhanço: utilizador indica funcao binaria que nao existe
  */
 
-public class AssignBinaryFunctionToCellTest extends BubbleDocsServiceTest {
+public class AssignBinaryFunctionToCellServiceTest extends BubbleDocsServiceTest {
 
 	// User-Owner
 	private final String USERNAME_OWNER = "owner";
