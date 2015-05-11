@@ -9,7 +9,7 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 
 /**
-* 	 Secret key cryptography using the DES algorithm.
+* 	 Secret key cryptography using the TripleDES algorithm.
 */
 public class SymCrypto {
 
@@ -29,15 +29,15 @@ public class SymCrypto {
      System.out.println(printHexBinary(plainBytes));
      
 
-     // get a DES private key
-     System.out.println("Generating DES key ...");
+     // get a TripleDES private key
+     System.out.println("Generating TripleDES key ...");
      KeyGenerator keyGen = KeyGenerator.getInstance("TripleDES");
      keyGen.init(168);
      Key key = keyGen.generateKey();
      System.out.println("Key:");
      System.out.println(printHexBinary(key.getEncoded()));
 
-     // get a DES cipher object and print the provider
+     // get a TripleDES cipher object and print the provider
      Cipher cipher = Cipher.getInstance("TripleDES/ECB/PKCS5Padding");
      System.out.println(cipher.getProvider().getInfo());
 

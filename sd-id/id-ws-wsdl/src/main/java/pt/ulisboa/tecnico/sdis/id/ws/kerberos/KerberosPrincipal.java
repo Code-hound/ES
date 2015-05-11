@@ -11,7 +11,7 @@ import sun.security.util.*;
  * This class encapsulates a Kerberos principal.
  *
  * @author Francisco Maria Calisto
- * @since 1.0
+ * @since 1.0.0
  */
 
 public final class KerberosPrincipal

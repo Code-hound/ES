@@ -1,13 +1,19 @@
 package pt.ulisboa.tecnico.sdis.id.ws.impl;
 
+import java.util.*;
+import java.security.Key;
+
 import javax.xml.ws.Endpoint;
 import javax.naming.*;
 import javax.naming.directory.*;
 import javax.security.auth.login.*;
 import javax.security.auth.callback.*;
 import javax.security.auth.Subject;
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
 
-import java.util.*;
+//provides helper methods to print byte[]
+import static javax.xml.bind.DatatypeConverter.printHexBinary;
 
 import uddi.UDDINaming;
 
@@ -18,23 +24,33 @@ public class IdMain {
     	
     	/*
     	 * 
-    	 * Minimal Implementation by Professor
+    	 * With Minimal Implementation by Professor
     	 * 
     	 */
-    	
-        // Check arguments
-		if (args.length == 0 || args.length == 2) {
-			System.err.println("Argument(s) missing!");
-			System.err.println("Usage: java " + IdMain.class.getName()
-					+ " wsURL OR uddiURL wsName wsURL");
-			return;
-		}
 		
 		String uddiURL = null;
 		String wsName = null;
 		String wsURL = null;
 		
 		IdImpl impl = null;
+        
+        Endpoint endpoint = null;
+        UDDINaming uddiNaming = null;
+
+        TestControl testImpl = null;
+    	
+    	final String plainText = args[0];
+        final byte[] plainBytes = plainText.getBytes();
+    	
+        // Check arguments and get plaintext
+		if (args.length == 0 || args.length == 2) {
+			System.err.println("Argument(s) missing!");
+			System.err.println("Usage: java " + IdMain.class.getName()
+					+ " wsURL OR uddiURL wsName wsURL");
+			System.err.println("args: (text)");
+			
+			return;
+		}
 		
 		if (args.length == 1) {
 			wsURL = args[0];
@@ -45,11 +61,6 @@ public class IdMain {
 			wsURL = args[2];
 			impl = new IdImpl(uddiURL, wsName, wsURL);
 		}
-        
-        Endpoint endpoint = null;
-        UDDINaming uddiNaming = null;
-
-        TestControl testImpl = null;
         
         try {
         	
@@ -78,7 +89,7 @@ public class IdMain {
             System.out.printf("Starting %s%n", wsURL);
             endpoint.publish(wsURL);
             
-            // publish to UDDI
+            // publish to UDDItype filter text
             System.out.printf("Publishing '%s' to UDDI at %s%n", wsName, uddiURL);
             uddiNaming = new UDDINaming(uddiURL);
             uddiNaming.rebind(wsName, wsURL);            
@@ -123,7 +134,9 @@ public class IdMain {
          * @author: Francisco Maria Calisto
          * 
          */
-        
+		
+		
+        /*
         // 1. Log in (to Kerberos)
         LoginContext lc = null;
         
@@ -142,22 +155,65 @@ public class IdMain {
         
         // 2. Perform JNDI work as logged in subject
     	//Subject.doAs(lc.getSubject(), new IdImpl(args));
+    
+	    */
+	    
+	    /*
+		 * 
+		 * This is a Java Web Service that supports asynchronous operations.
+	     *
+	     * The code is identical to other contract-first Web Services.
+	     *
+	     * The service is defined by the Java code with annotations
+	     * (code-first approach, also called bottom-up approach).
+	     *
+	     * The service runs in a standalone HTTP server.
+		 * 
+		 */
+	    
+	    /* ----- ATE AQUI TUDO BEM ----- */
+		
+		 System.out.println("Text:");
+	     System.out.println(plainText);
+	     System.out.println("Bytes:");
+	     System.out.println(printHexBinary(plainBytes));
+	     
 
+	     // get a DES private key
+	     System.out.println("Generating DES key ...");
+	     KeyGenerator keyGen = KeyGenerator.getInstance("TripleDES");
+	     keyGen.init(168);
+	     Key key = keyGen.generateKey();
+	     System.out.println("Key:");
+	     System.out.println(printHexBinary(key.getEncoded()));
+
+	     // get a DES cipher object and print the provider
+	     Cipher cipher = Cipher.getInstance("TripleDES/ECB/PKCS5Padding");
+	     System.out.println(cipher.getProvider().getInfo());
+
+	     // encrypt using the key and the plaintext
+	     System.out.println("Text:");
+	     System.out.println(plainText);
+	     System.out.println("Bytes:");
+	     System.out.println(printHexBinary(plainBytes));
+
+	     System.out.println("Ciphering ...");
+	     cipher.init(Cipher.ENCRYPT_MODE, key);
+	     byte[] cipherBytes = cipher.doFinal(plainBytes);
+	     System.out.println("Result:");
+	     System.out.println(printHexBinary(cipherBytes));
+
+	     // decrypt the ciphertext using the same key
+	     System.out.println("Deciphering..." );
+	     cipher.init(Cipher.DECRYPT_MODE, key);
+	     byte[] newPlainBytes = cipher.doFinal(cipherBytes);
+	     System.out.println("Result:");
+	     System.out.println(printHexBinary(newPlainBytes));
+
+	     System.out.println("Text:");
+	     String newPlainText = new String(newPlainBytes); 
+	     System.out.println(newPlainText);
+		
     }
-    
-    /*
-	 * 
-	 * This is a Java Web Service that supports asynchronous operations.
-     *
-     * The code is identical to other contract-first Web Services.
-     *
-     * The service is defined by the Java code with annotations
-     * (code-first approach, also called bottom-up approach).
-     *
-     * The service runs in a standalone HTTP server.
-	 * 
-	 */
-    
-    
 
 }

@@ -107,6 +107,8 @@ public class IdClientMain {
             System.out.println("Caught expected user already exists exception.");
         }
         */
+        
+        /* ----- ATE AQUI TUDO BEM ----- */
 
     }
 

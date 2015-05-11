@@ -5,7 +5,12 @@ import java.util.Map;
 
 import javax.xml.ws.*;
 
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+
 import pt.ulisboa.tecnico.sdis.id.ws.*;
+import pt.ulisboa.tecnico.sdis.id.ws.crypto.SymKey;
 import pt.ulisboa.tecnico.sdis.id.exception.IdClient_Exception;
 
 /**
@@ -29,6 +34,8 @@ public class IdClient implements SDId {
 	private String name = null;
     /** output option **/
     private boolean verbose = false;
+    /** Client key **/
+    private Key clientKey;
     
     public boolean isVerbose() {
         return verbose;
@@ -41,11 +48,12 @@ public class IdClient implements SDId {
     	createStub();
     }
     
-    public IdClient(String wsURL, String name) throws IdClient_Exception {
+    public IdClient(String wsURL, String name) throws IdClient_Exception, NoSuchAlgorithmException {
     	this.wsURL = wsURL;
     	this.name = name;
     	
         createStub();
+        generateKey();
     }
 	
     public void createStub() {
@@ -61,6 +69,11 @@ public class IdClient implements SDId {
             Map<String, Object> requestContext = bindingProvider.getRequestContext();
             requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, wsURL);
         }
+    }
+    
+    public void generateKey() throws NoSuchAlgorithmException {
+    	SecureRandom random = new SecureRandom();
+        this.clientKey = SymKey.getKey(random);
     }
 	
 	public void createUser(String userId, String emailAddress)

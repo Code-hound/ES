@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <!-- http://maven.apache.org/pom.html#Quick_Overview -->
 
-    <groupId>example</groupId>
+    <groupId>pt.tecnico.ulisboa.essd</groupId>
     <artifactId>crypto</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -71,7 +71,7 @@
             </build>
         </profile>
         <profile>
-            <!-- Asymmetric Cryptography example -->
+            <!-- Symmetric Cryptography example -->
             <id>asym-crypto</id>
             <build>
                 <plugins>
@@ -79,215 +79,9 @@
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
                         <configuration>
-                            <mainClass>example.crypto.AsymCrypto</mainClass>
+                            <mainClass>pt.ulisboa.tecnico.sdis.id.ws.crypto.SymCrypto</mainClass>
                             <arguments>
                                 <argument>cleartext</argument>
-                            </arguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <!-- Digest example -->
-            <id>digest</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <configuration>
-                            <mainClass>example.crypto.Digest</mainClass>
-                            <arguments>
-                                <argument>cleartext</argument>
-                            </arguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <!-- Secure Random Numbers example -->
-            <id>secure-random</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <configuration>
-                            <mainClass>example.crypto.SecureRandomNumber</mainClass>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <!-- Message Authentication Code example -->
-            <id>msg-authn</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <configuration>
-                            <mainClass>example.crypto.MessageAuthenticationCode</mainClass>
-                            <arguments>
-                                <argument>cleartext</argument>
-                            </arguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <!-- Message Authentication Code alternative example -->
-            <id>msg-authn-2</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <configuration>
-                            <mainClass>example.crypto.MessageAuthenticationCode2</mainClass>
-                            <arguments>
-                                <argument>cleartext</argument>
-                            </arguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <!-- Digital Signature example -->
-            <id>dig-sig</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <configuration>
-                            <mainClass>example.crypto.DigitalSignature</mainClass>
-                            <arguments>
-                                <argument>cleartext</argument>
-                            </arguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <!-- Digital Signature alternative example -->
-            <id>dig-sig-2</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <configuration>
-                            <mainClass>example.crypto.DigitalSignature2</mainClass>
-                            <arguments>
-                                <argument>cleartext</argument>
-                            </arguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <!-- Symmetric key writing example -->
-            <id>sym-key-write</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <configuration>
-                            <mainClass>example.crypto.SymKey</mainClass>
-                            <arguments>
-                                <argument>w</argument>
-                                <argument>${project.build.outputDirectory}/secret.key</argument>
-                            </arguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <!-- Symmetric key reading example -->
-            <id>sym-key-read</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <configuration>
-                            <mainClass>example.crypto.SymKey</mainClass>
-                            <arguments>
-                                <argument>r</argument>
-                                <argument>${project.build.outputDirectory}/secret.key</argument>
-                            </arguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <!-- Asymmetric key writing example -->
-            <id>asym-keys-write</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <configuration>
-                            <mainClass>example.crypto.AsymKeys</mainClass>
-                            <arguments>
-                                <argument>w</argument>
-                                <argument>${project.build.outputDirectory}/pub.key</argument>
-                                <argument>${project.build.outputDirectory}/priv.key</argument>
-                            </arguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <!-- Asymmetric key reading example -->
-            <id>asym-keys-read</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <configuration>
-                            <mainClass>example.crypto.AsymKeys</mainClass>
-                            <arguments>
-                                <argument>r</argument>
-                                <argument>${project.build.outputDirectory}/pub.key</argument>
-                                <argument>${project.build.outputDirectory}/priv.key</argument>
-                            </arguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <!-- XML Cryptography example -->
-            <id>xml-cipher</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <configuration>
-                            <mainClass>example.crypto.XmlCipher</mainClass>
-                            <arguments>
-                                <argument>cleartext</argument>
-                                <argument>${project.build.outputDirectory}/cipher.xml</argument>
                             </arguments>
                         </configuration>
                     </plugin>
