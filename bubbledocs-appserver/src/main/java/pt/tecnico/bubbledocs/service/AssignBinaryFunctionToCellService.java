@@ -34,6 +34,7 @@ public class AssignBinaryFunctionToCellService extends BubbleDocsService {
 	private String cellId;
 	private String auxBinaryFunction;
 	private String docname;
+	private String result;
 
 
 	public AssignBinaryFunctionToCellService(String userToken, int docId, 
@@ -79,13 +80,11 @@ public class AssignBinaryFunctionToCellService extends BubbleDocsService {
 		int rowCellReference    = Integer.parseInt(parseOpRef[1]);
 		int columnCellReference = Integer.parseInt(parseOpRef[2]);
 				
-		//getting 
-		int rowSpreadSheet    = sheet.getNumberRows();
-		int columnSpreadSheet = sheet.getNumberColumns();
-	
 		//nao necessario so se verifica no calc value
+		/*int rowSpreadSheet    = sheet.getNumberRows();
+		int columnSpreadSheet = sheet.getNumberColumns();
 		// testa se a celula referenciada existe nas dimensoes da spreadsheet
-		/*if (!(rowCellReference    >= 0) ||
+		if (!(rowCellReference    >= 0) ||
 			!(rowCellReference    <= rowSpreadSheet) ||
 			!(columnCellReference >= 0) ||
 			!(columnCellReference <= columnSpreadSheet))
@@ -99,36 +98,34 @@ public class AssignBinaryFunctionToCellService extends BubbleDocsService {
 		if (referenceAux.getCellReference().getProtect())
 			throw new ProtectedCellException(rowCell, columnCell);
 		
+
 		switch (binaryFunction) {
 		case "ADD":
 			ADD binaryFuncA = new ADD(literalAux,referenceAux);
 			sheet.addContent(binaryFuncA, rowCell, columnCell);
-			return; //binaryFuncA.getContentValue();
+			this.result = ""+binaryFuncA.getContentValue();
+			return;
 		case "SUB":
 			SUB binaryFuncS = new SUB(literalAux,referenceAux);
 			sheet.addContent(binaryFuncS, rowCell, columnCell);
-			return; //binaryFuncS.getContentValue();
+			this.result = ""+binaryFuncS.getContentValue();
+			return;
 		case "MUL":
 			MUL binaryFuncM = new MUL(literalAux,referenceAux);
 			sheet.addContent(binaryFuncM, rowCell, columnCell);
-			return; //binaryFuncM.getContentValue();
+			this.result = ""+binaryFuncM.getContentValue();
+			return;
 		case "DIV":
 			DIV binaryFuncD = new DIV(literalAux,referenceAux);
 			sheet.addContent(binaryFuncD, rowCell, columnCell);
-			return; //binaryFuncD.getContentValue();
+			this.result = ""+binaryFuncD.getContentValue();
+			return; 
 		default:
 			throw new InvalidValueException();
 		}
-		//*********question*************
-		//posso igualar algo acima a result 
-		//e depois escrever no get result return result??
-		
-		//verifica se a celula a ser escrita por efectivamente ser escrita
-/////   sheet.addContent(BINARYFUNCTION, rowCell, columnCell);
-		//Cell rowCell;columnCell now has Content of type BinaryFunction
 	}
 
 	public final String getResult() {
-		return "1";
+		return result+"";
 	}
 }

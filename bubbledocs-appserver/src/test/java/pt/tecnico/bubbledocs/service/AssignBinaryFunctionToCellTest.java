@@ -98,21 +98,21 @@ public class AssignBinaryFunctionToCellTest extends BubbleDocsServiceTest {
 		service_aux1.execute();
 		service_owner1.execute();
 			//Checks if the value returned by the service is the value assigned
-		assertEquals(service_owner1.getResult(),"445");
+		assertEquals("445",service_owner1.getResult().toString());
 			//Checks if the value in cell 1;1 is the value in assigned
-		assertEquals(DOC.getCell(1,1).getValue(), 445);
+		assertEquals(445,DOC.getCell(1,1).getValue());
 		
 		//Owner assigns a binaryFunction =SUB(1,1;6) to cell "5;5" 
 		AssignLiteralToCellService service_aux2 = new AssignLiteralToCellService
 				(OWNER_TOKEN, DOC.getId(), "1;6", "2");
 		AssignBinaryFunctionToCellService service_owner2 = new AssignBinaryFunctionToCellService
-				(OWNER_TOKEN, DOC.getId(), "5;5", "=SUB(4,1;6)");
+				(OWNER_TOKEN, DOC.getId(), "5;5", "=SUB(-1,1;6)");
 		service_aux2.execute();
 		service_owner2.execute();
 			//Checks if the value returned by the service is the value assigned
-		assertEquals(service_owner1.getResult(),"-2");
+		assertEquals("3",service_owner2.getResult());
 			//Checks if the value in cell 5;5 is the value in assigned
-		assertEquals(DOC.getCell(5,5).getValue(), -2);
+		assertEquals(3,DOC.getCell(5,5).getValue());
 			
 		//Writer assigns a binaryFunction =MUL(3,9;2) to cell "10;7"
 		AssignLiteralToCellService service_aux3 = new AssignLiteralToCellService
@@ -122,9 +122,9 @@ public class AssignBinaryFunctionToCellTest extends BubbleDocsServiceTest {
 		service_aux3.execute();
 		service_writer3.execute();
 			//Checks if the value returned by the service is the value assigned
-		assertEquals(service_writer3.getResult(),"12");
+		assertEquals("12",service_writer3.getResult());
 			//Checks if the value in cell 10;7 is the value in assigned
-		assertEquals(DOC.getCell(10,7).getValue(),12);
+		assertEquals("12",DOC.getCell(10,7).getValue());
 		
 		//Writer assigns a binaryFunction =DIV(2,10;10) to cell "7;10"
 		AssignReferenceToCellService service_aux4 = new AssignReferenceToCellService
@@ -134,9 +134,9 @@ public class AssignBinaryFunctionToCellTest extends BubbleDocsServiceTest {
 		service_aux4.execute();
 		service_writer4.execute();
 			//Checks if the value returned by the service is the value assigned
-		assertEquals(service_writer4.getResult(),"6");
+		assertEquals("6",service_writer4.getResult());
 			//Checks if the value in cell 7;10 is the value in assigned
-		assertEquals(DOC.getCell(7,10).getValue(),6);
+		assertEquals("6",DOC.getCell(7,10).getValue());
 	}
 	
 	@Test (expected = InvalidAccessException.class)
