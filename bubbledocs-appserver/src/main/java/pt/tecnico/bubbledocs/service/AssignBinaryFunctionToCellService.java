@@ -46,7 +46,7 @@ public class AssignBinaryFunctionToCellService extends BubbleDocsService {
 	}
 
 	@Override
-	protected void dispatch() {
+	protected void dispatch(){// throws BubbleDocsException{
 
 		String username = resetUserLastAccess(userToken);
 		

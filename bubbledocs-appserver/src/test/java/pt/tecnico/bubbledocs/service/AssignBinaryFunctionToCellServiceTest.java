@@ -65,7 +65,7 @@ public class AssignBinaryFunctionToCellServiceTest extends BubbleDocsServiceTest
 	private final int ROW_NUMBER = 10;
 	private final int COLUMN_NUMBER = 10;
 	private SpreadSheet DOC;
-
+/*
 	@Override
 	public void populate4Test() {
 		BubbleDocs bd = BubbleDocs.getInstance();
