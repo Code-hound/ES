@@ -13,13 +13,19 @@ public class User extends User_Base {
 		setPassword(password);
 		setName(name);
 		setEmail(email);
+		setUserToken("");
 	}
 
 	public static User createUser(String username, String password, 
 			String name, String email) {
-		if (username.length() < 3 || username.length() > 8)
+		
+		//throws InvalidUsernameException
+		if (username.length() < 3 || username.length() > 8) {
 			throw new InvalidUsernameException();
+		}
+
 		return new User(username, password, name, email);
+
 	}
 
 	public String toString() {

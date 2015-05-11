@@ -36,16 +36,15 @@ public class CreateUserService extends BubbleDocsService {
 		String username = resetUserLastAccess(userToken);
 		
 		//throws UnauthorizedOperationException
-		if (checkIfRoot(userToken)) {
-	
-			getBubbleDocs().createUser(this.newUsername, this.email, this.name, this.email);
-	
-			//throws UserAlreadyExistsException
-			if (getUser(this.newUsername) == null) {
-				throw new UserAlreadyExistsException(this.newUsername);
-			}
+		//throws UserNotInSessionException
+		checkIfRoot(userToken);
 
-		}
+		//throws UserAlreadyExistsException
+		//throws EmptyEmailException
+		//throws InvalidUsernameException
+		getBubbleDocs().createUser(this.newUsername, this.email, this.name, this.email);
+
+
 
 	}
 	

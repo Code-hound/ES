@@ -42,7 +42,7 @@ public abstract class BubbleDocsService {
 	}
 
 	public static boolean checkIfRoot(String usertoken)
-			throws UnauthorizedOperationException, UserNotInSessionException {
+			throws BubbleDocsException {
 		BubbleDocs bd = getBubbleDocs();
 		User user = bd.getUserLoggedInByToken(usertoken);
 		if (user == null)

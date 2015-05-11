@@ -8,21 +8,25 @@ import org.junit.Test;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.domain.User;
+
+import pt.tecnico.bubbledocs.exception.InvalidUserException;
+
+import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
+import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 
 import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 
-import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
-import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
-
 // add needed import declarations
 
 public class DeleteUserIntegratorTest extends BubbleDocsIntegratorTest {
 
     private static final String USERNAME_TO_DELETE = "smf";
+    
     private static final String USERNAME = "ars";
     private static final String PASSWORD = "ars";
     private static final String ROOT_USERNAME = "root";
@@ -31,15 +35,16 @@ public class DeleteUserIntegratorTest extends BubbleDocsIntegratorTest {
 
     // the tokens for user root
     private String root;
+    private String not_root;
 
     @Override
     public void populate4Test() {
 
         createUser(USERNAME, PASSWORD, "António Rito Silva", "email@email.email");
+        root = addUserToSession(ROOT_USERNAME);
+
         User smf = createUser(USERNAME_TO_DELETE, "smf", "Sérgio Fernandes", "email@email.email");
         createSpreadSheet(smf, USERNAME_TO_DELETE, 20, 20);
-
-        root = addUserToSession(ROOT_USERNAME);
 
     };
 
@@ -60,6 +65,21 @@ public class DeleteUserIntegratorTest extends BubbleDocsIntegratorTest {
 
         assertTrue("user was not deleted", deleted);
         assertNull("Spreadsheet was not deleted", getSpreadSheet(SPREADSHEET_NAME));
+
+    }
+
+	@Test (expected = InvalidUserException.class)
+    public void InvalidUser() {
+
+    	new MockUp<IDRemoteServices>() {
+    		@Mock
+    		public void removeUser(String username)
+    				throws LoginBubbleDocsException, RemoteInvocationException {
+    		}
+    	};
+
+		RemoveUserIntegrator integration = new RemoveUserIntegrator(root, USERNAME_DOES_NOT_EXIST);
+        integration.execute();
 
     }
 
@@ -92,39 +112,6 @@ public class DeleteUserIntegratorTest extends BubbleDocsIntegratorTest {
     	removeUserFromSession(root);
 
     	RemoveUserIntegrator integration = new RemoveUserIntegrator(root, USERNAME_TO_DELETE);
-        integration.execute();
-
-    }
-
-    @Test(expected = UserNotInSessionException.class)
-    public void notInSessionAndNotRoot() {
-
-    	new MockUp<IDRemoteServices>() {
-    		@Mock
-    		public void removeUser(String username)
-    				throws LoginBubbleDocsException, RemoteInvocationException {
-    		}
-    	};
-
-    	String ars = addUserToSession(USERNAME);
-        removeUserFromSession(ars);
-
-        RemoveUserIntegrator integration = new RemoveUserIntegrator(ars, USERNAME_TO_DELETE);
-        integration.execute();
-
-    }
-
-    @Test(expected = UserNotInSessionException.class)
-    public void accessUserDoesNotExist() {
-
-    	new MockUp<IDRemoteServices>() {
-    		@Mock
-    		public void removeUser(String username)
-    				throws LoginBubbleDocsException, RemoteInvocationException {
-    		}
-    	};
-
-    	RemoveUserIntegrator integration = new RemoveUserIntegrator(USERNAME_DOES_NOT_EXIST, USERNAME_TO_DELETE);
         integration.execute();
 
     }

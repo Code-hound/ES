@@ -38,6 +38,7 @@ public class RemoveUserIntegrator extends BubbleDocsIntegrator {
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 
+		// auxiliary services
 		GetUserInfoService getInfoService    = new GetUserInfoService(this.toDeleteUsername);
 		
 		// throws InvalidUserException
@@ -46,28 +47,41 @@ public class RemoveUserIntegrator extends BubbleDocsIntegrator {
 		String password = getInfoService.getPassword();
 		String name     = getInfoService.getName();
 
+		// service
 		CreateUserService  createUserService = new CreateUserService(this.userToken, this.toDeleteUsername, password, name);
 		RemoveUserService  removeUserService = new RemoveUserService(this.userToken, this.toDeleteUsername);
 		IDRemoteServices   localService      = new IDRemoteServices();
 
 		//throws UserNotInSessionException
-		//throws UnavailableServiceException
-		//throws LoginBubbleDocsException
+		//throws UnauthorizedOperationException
 		removeUserService.execute();
 
 		//throws UnavailableServiceException
+		//throws LoginBubbleDocsException
 		try {
+
+			//catches RemoteInvocationException
+			//catches LoginBubbleDocsException
 			localService.removeUser(this.toDeleteUsername);
+
 		} catch (RemoteInvocationException e) {
-			//throws UnauthorizedOperationException
-			//throws UserAlreadyExistsException
+
+			//doesn't throws UserNotInSessionException
+			//doesn't throws UnauthorizedOperationException
+			//doesn't throws EmptyEmailException
+			//doesn't throws InvalidUsernameException
 			createUserService.execute();
 			throw new UnavailableServiceException();
+
 		} catch (LoginBubbleDocsException e) {
-			//throws UnauthorizedOperationException
-			//throws UserAlreadyExistsException
+
+			//doesn't throw UnauthorizedOperationException
+			//doesn't throw UserAlreadyExistsException
+			//doesn't throws EmptyEmailException
+			//doesn't throws InvalidUsernameException
 			createUserService.execute();
 			throw new LoginBubbleDocsException(this.toDeleteUsername);
+
 		}
 		
 	}

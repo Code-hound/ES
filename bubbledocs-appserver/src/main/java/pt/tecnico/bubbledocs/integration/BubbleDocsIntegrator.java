@@ -5,7 +5,6 @@ import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 
 public abstract class BubbleDocsIntegrator {
 
-	@Atomic
 	public final void execute() throws BubbleDocsException {
 		dispatch();
 	}

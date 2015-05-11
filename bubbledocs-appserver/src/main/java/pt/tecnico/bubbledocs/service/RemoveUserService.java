@@ -33,24 +33,17 @@ public class RemoveUserService extends BubbleDocsService {
 
 		resetUserLastAccess(userToken);
 
+		//throws UnauthorizedOperationException
 		//throws UserNotInSessionException
-		//throws UnavailableServiceException
-		if (checkIfRoot(userToken)){
-
-			//throws LoginBubbleDocsException
-			if (getUser(toDeleteUsername)==null) {
-				throw new LoginBubbleDocsException(toDeleteUsername);
-			}
+		checkIfRoot(userToken);
 	
-			for (Access access : getUser(toDeleteUsername).getAccessSet()) {
-				access.getDocument().removeDocAccess(access);
-				access = null;
-			}
-			BubbleDocs bd = getBubbleDocs();
-			bd.removeUserFromSession(getUser(toDeleteUsername));
-			bd.removeUsers(getUser(toDeleteUsername));
-
+		for (Access access : getUser(toDeleteUsername).getAccessSet()) {
+			access.getDocument().removeDocAccess(access);
+			access = null;
 		}
+		BubbleDocs bd = getBubbleDocs();
+		bd.removeUserFromSession(getUser(toDeleteUsername));
+		bd.removeUsers(getUser(toDeleteUsername));
 
 	}
 
