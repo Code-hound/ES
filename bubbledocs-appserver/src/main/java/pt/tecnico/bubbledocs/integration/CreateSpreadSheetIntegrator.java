@@ -1,4 +1,4 @@
-package pt.tecnico.bubbledocs.integration.component;
+package pt.tecnico.bubbledocs.integration;
 
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;

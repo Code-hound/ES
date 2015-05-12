@@ -1,4 +1,4 @@
-package pt.tecnico.bubbledocs.integration;
+package pt.tecnico.bubbledocs.integration.component;
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,8 +11,8 @@ import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
 import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
-import pt.tecnico.bubbledocs.integration.component.AssignLiteralToCellIntegrator;
-import pt.tecnico.bubbledocs.integration.component.AssignReferenceToCellIntegrator;
+import pt.tecnico.bubbledocs.integration.AssignLiteralToCellIntegrator;
+import pt.tecnico.bubbledocs.integration.AssignReferenceToCellIntegrator;
 
 /* 
  * A testar:

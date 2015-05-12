@@ -1,4 +1,4 @@
-package pt.tecnico.bubbledocs.integration.component;
+package pt.tecnico.bubbledocs.integration;
 
 import pt.tecnico.bubbledocs.service.LoginUserService;
 import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;

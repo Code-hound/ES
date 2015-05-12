@@ -1,4 +1,4 @@
-package pt.tecnico.bubbledocs.integration;
+package pt.tecnico.bubbledocs.integration.component;
 
 import static org.junit.Assert.assertEquals;
 import mockit.Mock;
@@ -16,7 +16,7 @@ import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
-import pt.tecnico.bubbledocs.integration.component.CreateUserIntegrator;
+import pt.tecnico.bubbledocs.integration.CreateUserIntegrator;
 
 public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 	

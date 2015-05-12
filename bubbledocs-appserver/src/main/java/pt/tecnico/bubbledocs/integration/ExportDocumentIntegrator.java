@@ -1,4 +1,4 @@
-package pt.tecnico.bubbledocs.integration.component;
+package pt.tecnico.bubbledocs.integration;
 
 import pt.tecnico.bubbledocs.service.ExportDocumentService;
 import pt.tecnico.bubbledocs.service.GetUsername4TokenService;

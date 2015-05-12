@@ -1,4 +1,4 @@
-package pt.tecnico.bubbledocs.integration;
+package pt.tecnico.bubbledocs.integration.component;
 
 import static org.junit.Assert.assertNotNull;
 import mockit.Mock;
@@ -13,7 +13,7 @@ import pt.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 import pt.tecnico.bubbledocs.exception.CannotStoreDocumentException;
-import pt.tecnico.bubbledocs.integration.component.ExportDocumentIntegrator;
+import pt.tecnico.bubbledocs.integration.ExportDocumentIntegrator;
 
 /*
  * Export Document Integrator Test

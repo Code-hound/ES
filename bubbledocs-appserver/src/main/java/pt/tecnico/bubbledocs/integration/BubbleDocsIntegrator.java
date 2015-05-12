@@ -1,4 +1,4 @@
-package pt.tecnico.bubbledocs.integration.component;
+package pt.tecnico.bubbledocs.integration;
 
 import pt.ist.fenixframework.Atomic;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;

@@ -1,4 +1,4 @@
-package pt.tecnico.bubbledocs.integration;
+package pt.tecnico.bubbledocs.integration.component;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,9 +12,9 @@ import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
 import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
-import pt.tecnico.bubbledocs.integration.component.AssignBinaryFunctionToCellIntegrator;
-import pt.tecnico.bubbledocs.integration.component.AssignLiteralToCellIntegrator;
-import pt.tecnico.bubbledocs.integration.component.AssignReferenceToCellIntegrator;
+import pt.tecnico.bubbledocs.integration.AssignBinaryFunctionToCellIntegrator;
+import pt.tecnico.bubbledocs.integration.AssignLiteralToCellIntegrator;
+import pt.tecnico.bubbledocs.integration.AssignReferenceToCellIntegrator;
 import pt.tecnico.bubbledocs.service.AssignBinaryFunctionToCellService;
 import pt.tecnico.bubbledocs.service.AssignLiteralToCellService;
 import pt.tecnico.bubbledocs.service.AssignReferenceToCellService;
