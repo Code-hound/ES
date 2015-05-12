@@ -29,9 +29,14 @@ public class GetUsername4TokenService extends BubbleDocsService {
 
 		// throws UserNotInSessionException
 		try {
+
+			// catches NullPointerException
 			username = bd.getUserLoggedInByToken(this.userToken).getUsername();
+
 		} catch (NullPointerException e) {
+
 			throw new UserNotInSessionException(this.userToken);
+
 		}
 		
 		this.username = username;
