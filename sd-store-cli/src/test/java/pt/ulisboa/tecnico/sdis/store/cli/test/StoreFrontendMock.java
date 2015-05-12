@@ -18,7 +18,7 @@ import mockit.MockUp;
 import store.cli.StoreFrontend;
 import store.cli.result.ListDocsResult;
 import store.cli.result.LoadResult;
-import store.ws.handler.HeaderHandler;
+import ws.handler.HeaderHandler;
 
 public class StoreFrontendMock extends MockUp<StoreFrontend> {
 	

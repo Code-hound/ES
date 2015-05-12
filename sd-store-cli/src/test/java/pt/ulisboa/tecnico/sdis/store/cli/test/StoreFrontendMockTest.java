@@ -23,7 +23,7 @@ import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
 import pt.ulisboa.tecnico.sdis.store.ws.SDStore;
 import pt.ulisboa.tecnico.sdis.store.ws.SDStore_Service;
 import store.cli.StoreFrontend;
-import store.ws.handler.HeaderHandler;
+import ws.handler.HeaderHandler;
 
 @RunWith(JMockit.class)
 public class StoreFrontendMockTest {
@@ -50,7 +50,7 @@ public class StoreFrontendMockTest {
 		endpoints.add(endpoint);
 		endpoints.add(endpoint);
 		endpoints.add(endpoint);
-		StoreFrontendMock frontend = new StoreFrontendMock();
+		final StoreFrontendMock frontend = new StoreFrontendMock();
 		frontend.setEndpoints(endpoints);
 		
 		new NonStrictExpectations(frontend) {{
@@ -73,7 +73,7 @@ public class StoreFrontendMockTest {
 		endpoints.add(endpoint);
 		endpoints.add(endpoint);
 		endpoints.add(endpoint);
-		StoreFrontendMock frontend = new StoreFrontendMock();
+		final StoreFrontendMock frontend = new StoreFrontendMock();
 		frontend.setEndpoints(endpoints);
 		
 		 new NonStrictExpectations(frontend) {{
