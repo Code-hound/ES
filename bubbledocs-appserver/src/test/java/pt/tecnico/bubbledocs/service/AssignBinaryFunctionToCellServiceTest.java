@@ -238,19 +238,3 @@ public class AssignBinaryFunctionToCellServiceTest extends BubbleDocsServiceTest
 }
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
