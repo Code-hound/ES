@@ -65,16 +65,19 @@ public class ExportDocumentService extends BubbleDocsService {
 		if (userIsNotOwner(doc, username) && userCannotRead(doc, username)) {
 			throw new InvalidAccessException(username, this.docname, "Read or Write");
 		}
-
-
-
-
+		
+		//save owner username, to identify it's next owner on ImportDocumentService
+		String owner = doc.getOwnerUsername();
+		doc.setOwnerUsername(username);
 
 		XMLOutputter xml = new XMLOutputter();
 		Document jdomDoc = new Document();
 
 		jdomDoc.setRootElement(doc.exportToXML());
 
+		//reset owner username
+		doc.setOwnerUsername(owner);
+		
 		//throws ExportDocumentException
 		try {
 			this.result = xml.outputString(jdomDoc).getBytes("UTF-8");
@@ -82,10 +85,6 @@ public class ExportDocumentService extends BubbleDocsService {
 			e.printStackTrace();
 			throw new ExportDocumentException();
 		}
-
-
-
-
 
 	}
 

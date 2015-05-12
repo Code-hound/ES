@@ -2,12 +2,13 @@ package pt.tecnico.bubbledocs.integration;
 
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
 
-//import pt.tecnico.bubbledocs.service.ImportDocumentService;
 import pt.tecnico.bubbledocs.service.GetUsername4TokenService;
+import pt.tecnico.bubbledocs.service.ImportDocumentService;
+
 import pt.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
-import pt.tecnico.bubbledocs.exception.CannotStoreDocumentException;
+import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 
@@ -27,13 +28,13 @@ public class ImportDocumentIntegrator extends BubbleDocsIntegrator {
 
     // the tokens
 	private String userToken;
-	private String docname;
+	private int    docId;
 
 	private SpreadSheet result;
 
-	public ImportDocumentIntegrator(String userToken, String docname) {
+	public ImportDocumentIntegrator(String userToken, int docId) {
 		this.userToken = userToken;
-		this.docname = docname;
+		this.docId     = docId;
 	}
 	
 	public SpreadSheet getResult() {
@@ -43,8 +44,8 @@ public class ImportDocumentIntegrator extends BubbleDocsIntegrator {
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 
-		GetUsername4TokenService getUsernameService    = new GetUsername4TokenService(this.userToken);
-		StoreRemoteServices      remoteService         = new StoreRemoteServices();
+		GetUsername4TokenService getUsernameService = new GetUsername4TokenService(this.userToken);
+		StoreRemoteServices      remoteService      = new StoreRemoteServices();
 
 		//throws UserNotInSessionException
 		getUsernameService.execute();
@@ -57,17 +58,21 @@ public class ImportDocumentIntegrator extends BubbleDocsIntegrator {
 			
 			//catches RemoteInvocationException
 			//catches LoginBubbleDocsException
-			byte[] doc = remoteService.loadDocument(username, this.docname);
-			
-			//ImportDocumentService    importDocumentService = new ImportDocumentService(this.userToken, doc);
-			
-			//throws InvalidAccessException
-			//throws ExportDocumentException
-			//importDocumentService.execute();
+			byte[] doc = remoteService.loadDocument(username, "" + this.docId);
 
+			//throws DocumentDoesNotExistException
+			if (doc == null) {
+				throw new DocumentDoesNotExistException(username, "" + this.docId);
+			}
 			
-			//SpreadSheet result   = importDocumentService.getResult();
+			ImportDocumentService    importDocumentService = new ImportDocumentService(this.userToken, doc);
 			
+			//throws UserNotInSessionException
+			//throws InvalidAccessException
+			//throws ImportDocumentException
+			importDocumentService.execute();
+
+			SpreadSheet result   = importDocumentService.getResult();
 			
 			this.result = result;
 
