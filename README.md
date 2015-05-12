@@ -238,8 +238,6 @@ Repositório:
 
 -------------------------------------------------------------------------------
 
-## Serviço SD-ID 
-
 ### Instruções de instalação 
 
 [1] Iniciar sistema operativo
