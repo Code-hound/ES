@@ -3,54 +3,58 @@ package pt.tecnico.bubbledocs.service;
 import java.util.ArrayList;
 
 import pt.tecnico.bubbledocs.domain.Cell;
-import pt.tecnico.bubbledocs.domain.Content;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
-import pt.tecnico.bubbledocs.exception.InvalidAccessException;
+
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
+import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 
 public class GetSpreadSheetContentService extends BubbleDocsService {
+
 	private String userToken;
 	private int docId;
-	private String[][] grid;
-	private int rowNumber;
-	private int columnNumber;
 
-	private String docname;
+	private String[][] result;
 
 	public GetSpreadSheetContentService(String userToken, int docId) {
 		this.userToken = userToken;
 		this.docId = docId;
 	}
-	
+
+	public String[][] getResult() {
+		return result;
+	}
+
 	public void dispatch() {
-		String username = resetUserLastAccess(userToken);
-		if (username == null)
+
+		String username = resetUserLastAccess(this.userToken);
+
+		//throws UserNotInSessionException
+		if ( userIsNotValid(username) )
 			throw new UserNotInSessionException(username);
 		
-		SpreadSheet sheet = getSpreadSheet(docId);
-		this.docname = sheet.getSpreadSheetName();
+		//throws DocumentDoesNotExistException
+		SpreadSheet doc = getSpreadSheet(docId);
+		String docname = doc.getSpreadSheetName();
 
-		if (!canBeReadBy(sheet, username) && !isOwnedBy(sheet, username)) {
-			throw new InvalidAccessException(username, this.docname, "READ");
+		//throws userCannotRead
+		if ( userCannotRead(doc, username) ) {
+			throw new InvalidAccessException(username, docname, "READ");
 		}
-		
-		//System.out.println(sheet);
-		ArrayList<Cell> cells = new ArrayList<Cell>(sheet.getCellsSet());
-		grid = new String[sheet.getNumberRows()][sheet.getNumberColumns()];
-		int value;
+
+		ArrayList<Cell> cells = new ArrayList<Cell>(doc.getCellsSet());
+		this.result = new String[doc.getNumberRows()][doc.getNumberColumns()];
 		
 		for (Cell cell : cells) {
+
 			if (cell.getContent() != null) {
-				grid[cell.getCellRow()-1][cell.getCellColumn()-1] = 
-						Integer.toString(cell.getValue());
+				this.result[cell.getCellRow()-1][cell.getCellColumn()-1] = Integer.toString(cell.getValue());
 			}
 			else {
-				grid[cell.getCellRow()-1][cell.getCellColumn()-1] = "";
+				this.result[cell.getCellRow()-1][cell.getCellColumn()-1] = "";
 			}
+
 		}
+
 	}
-	
-	public String[][] getResult() {
-		return grid;
-	}
+
 }

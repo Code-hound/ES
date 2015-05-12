@@ -1,4 +1,4 @@
-package pt.tecnico.bubbledocs.service;
+package pt.tecnico.bubbledocs.integration.component;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,12 +7,17 @@ import org.junit.Test;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
 import pt.tecnico.bubbledocs.domain.User;
 
+import pt.tecnico.bubbledocs.service.AssignLiteralToCellService;
+import pt.tecnico.bubbledocs.service.AssignReferenceToCellService;
+
+import pt.tecnico.bubbledocs.integration.GetSpreadSheetContentIntegrator;
+
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
 import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 
-public class GetSpreadSheetContentServiceTest extends BubbleDocsServiceTest {
+public class GetSpreadSheetContentIntegratorTest extends BubbleDocsIntegratorTest {
 	
 	/*
 	 * Expected SpreadSheet
@@ -118,9 +123,10 @@ public class GetSpreadSheetContentServiceTest extends BubbleDocsServiceTest {
 	@Test
 	public void success() {
 
-		GetSpreadSheetContentService service = new GetSpreadSheetContentService(TOKEN_READER, docId);
-		service.execute();
-		content = service.getResult();
+		GetSpreadSheetContentIntegrator integrator = new GetSpreadSheetContentIntegrator
+				(TOKEN_READER, docId);
+		integrator.execute();
+		content = integrator.getResult();
 		
 		for (int i=0; i<ROW; i++) {
 			for (int j=0; j<COLUMN; j++) {
@@ -133,27 +139,27 @@ public class GetSpreadSheetContentServiceTest extends BubbleDocsServiceTest {
 	@Test (expected = UserNotInSessionException.class)
 	public void invalidUser() {
 
-		GetSpreadSheetContentService service = new GetSpreadSheetContentService
+		GetSpreadSheetContentIntegrator integrator = new GetSpreadSheetContentIntegrator
 				("", docId);
-		service.execute();
+		integrator.execute();
 
 	}
 
 	@Test (expected = DocumentDoesNotExistException.class)
 	public void invalidDocument() {
 
-		GetSpreadSheetContentService service = new GetSpreadSheetContentService
+		GetSpreadSheetContentIntegrator integrator = new GetSpreadSheetContentIntegrator
 				(TOKEN_OWNER, -1);
-		service.execute();
+		integrator.execute();
 
 	}
 
 	@Test (expected = InvalidAccessException.class)
 	public void invalidAccess() {
 
-		GetSpreadSheetContentService service = new GetSpreadSheetContentService
+		GetSpreadSheetContentIntegrator integrator = new GetSpreadSheetContentIntegrator
 				(TOKEN_NO_ACCESS, docId);
-		service.execute();
+		integrator.execute();
 
 	}
 
