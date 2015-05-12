@@ -14,6 +14,8 @@ Projecto de Engenharia de Software - Quarta Entrega
 Serviço Bubble-Docs
 -------------------
 
+- [Regressar ao Topo](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/blob/master/README.md#bubble-docs)
+
 Grupo de ES 29
 
 Francisco Maria Calisto
@@ -251,6 +253,8 @@ Projecto de Sistemas Distribuí­dos - Segunda entrega
 Serviço SD-ID
 -------------
 
+- [Regressar ao Topo](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/blob/master/README.md#bubble-docs)
+
 Grupo de SD 59
 
 Francisco Maria Calisto
@@ -413,7 +417,9 @@ Estrutura do Serviço:
 -------------------------------------------------------------------------------
 
 Serviço SD-STORE
-================
+----------------
+
+- [Regressar ao Topo](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/blob/master/README.md#bubble-docs)
 
 Grupo de SD 63
 --------------
