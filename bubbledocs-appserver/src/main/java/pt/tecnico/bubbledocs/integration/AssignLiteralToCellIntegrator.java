@@ -1,10 +1,7 @@
-
 package pt.tecnico.bubbledocs.integration;
 
-import pt.tecnico.bubbledocs.service.AssignLiteralToCellService;
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
-import pt.tecnico.bubbledocs.exception.ProtectedCellException;
-import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
+import pt.tecnico.bubbledocs.service.AssignLiteralToCellService;
 
 public class AssignLiteralToCellIntegrator extends BubbleDocsIntegrator {
 	
@@ -13,6 +10,8 @@ public class AssignLiteralToCellIntegrator extends BubbleDocsIntegrator {
 	private String literal;
 	private String userToken;
 	//private SpreadSheet sheet;
+
+	private String result;
 	
 	public AssignLiteralToCellIntegrator(String userToken, int docId, String cellId, String literal) {
 		this.docId = docId;
@@ -22,36 +21,17 @@ public class AssignLiteralToCellIntegrator extends BubbleDocsIntegrator {
 	}
 
 	@Override
-	protected void dispatch() throws BubbleDocsException {
-		//AssignLiteralToCell service = new AssignLiteralToCell();
-		/*
-		String username = resetUserLastAccess(userToken);
-
-		//throws UserNotInSessionException
-		if (username == null)
-			throw new UserNotInSessionException(username);
+	protected void dispatch() throws BubbleDocsException{
 		
-		this.sheet = getSpreadSheet(docId);
-		if(sheet.canBeWrittenBy(username)){
-			String[] rowAndColumn = cellId.split(";");
-			int row = Integer.parseInt(rowAndColumn[0]);
-			int column = Integer.parseInt(rowAndColumn[1]);
-			Cell cell = sheet.getCell(row, column);
-			
-			if (cell.getProtect())
-				throw new ProtectedCellException(row, column);
-			else {
-				sheet.addContent(new Literal
-						(Integer.parseInt(literal)),row, column);
-			}
-			
-		}
-		else throw new UserCantWriteException(username, docId);
-		*/
-	}
+		AssignLiteralToCellService service = new AssignLiteralToCellService(this.userToken, this.docId, this.cellId, this.literal);
+		service.execute();
+		
+		this.result = service.getResult();
 
-	public String getResult() {
-		return this.literal;
+	}
+	
+	public final String getResult() {
+		return this.result;
 	}
 	
 }
