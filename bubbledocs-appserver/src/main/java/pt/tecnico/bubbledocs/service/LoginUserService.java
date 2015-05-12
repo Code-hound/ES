@@ -24,14 +24,26 @@ import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 
 public class LoginUserService extends BubbleDocsService {
 	
-	private String username;
-	private String password;
+	private String  username;
+	private String  password;
+	private boolean toSave;
 	
 	private String userToken;
-	
-	public LoginUserService (String username, String password) {
+
+	public LoginUserService (String username, String password ) {
+
 		this.username = username;
 		this.password = password;
+		this.toSave   = false;
+
+	}
+
+	public LoginUserService (String username, String password, boolean toSave ) {
+
+		this.username = username;
+		this.password = password;
+		this.toSave   = toSave;
+
 	}
 
 	public String getUserToken() {
@@ -64,9 +76,17 @@ public class LoginUserService extends BubbleDocsService {
 			throw new InvalidUserException(this.username);
 		}
 
-		//throws UnavailableServiceException
-		if ( passwordIsNull(user) || passwordIsNotValid(user, this.password) ) {
-			throw new UnavailableServiceException();
+		if ( toSave ) {
+
+			user.setPassword(this.password);
+
+		} else {
+
+			//throws UnavailableServiceException
+			if ( passwordIsNull(user) || passwordIsNotValid(user, this.password) ) {
+				throw new UnavailableServiceException();
+			}
+
 		}
 
 		this.userToken = bd.addUserToSession(user);

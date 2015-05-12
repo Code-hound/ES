@@ -35,18 +35,20 @@ public class LoginUserServiceTest extends BubbleDocsServiceTest {
 	// returns the time of the last access for the user with token userToken.
 	// It must get this data from the session object of the application
 	private LocalTime getLastAccessTimeInSession(String userToken) {
+
 		BubbleDocs bd = BubbleDocs.getInstance();
 		return bd.getSessionByToken(userToken).getLastAccess().toLocalTime();
+
 	}
 
 	@Test
 	public void success() {
+
 		LoginUserService service = new LoginUserService(USERNAME, PASSWORD);
 		service.execute();
 		LocalTime currentTime = new LocalTime();
 
 		String token = service.getUserToken();
-		//System.out.println("User token: " + token);
 
 		User user = getUserFromSession(service.getUserToken());
 		assertEquals(USERNAME, user.getUsername());
@@ -55,6 +57,7 @@ public class LoginUserServiceTest extends BubbleDocsServiceTest {
 
 		assertTrue("Access time in session not correctly set", difference >= 0);
 		assertTrue("diference in seconds greater than expected", difference < 2);
+
 	}
 
 	@Test
