@@ -4,9 +4,9 @@ Bubble Docs
 Índice
 ------
 
-- [Bubble-Docs](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/blob/master/README.md#Serviço Bubble-Docs)
-- [SD-ID](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/blob/master/README.md#Serviço SD-ID)
-- [SD-STORE](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/blob/master/README.md#Serviço SD-STORE)
+- [Bubble-Docs](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/blob/master/README.md#serviço-bubble-docs)
+- [SD-ID](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/blob/master/README.md#serviço-sd-id)
+- [SD-STORE](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/blob/master/README.md#serviço-sd-store)
 
 Projecto de Engenharia de Software - Quarta Entrega
 ===================================================
@@ -351,7 +351,7 @@ Instruções de teste:
 
 > mvn -Dtest=MockTests test
 
-Estrutura do projecto:
+Estrutura do Serviço:
 ----------------------
 
     .
@@ -546,7 +546,7 @@ cd ../store-ws-cli && \
 mvn -Dtest=StoreClientRealTest test
 ```
 
-Estrutura do projecto:
+Estrutura do Serviço:
 ----------------------
 
     .
