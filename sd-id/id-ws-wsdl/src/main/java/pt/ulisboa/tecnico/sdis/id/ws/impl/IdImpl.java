@@ -1,6 +1,8 @@
 // classes generated from WSDL
 package pt.ulisboa.tecnico.sdis.id.ws.impl;
 
+import pt.ulisboa.tecnico.sdis.id.ws.crypto.SymCrypto;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;

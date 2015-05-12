@@ -3,16 +3,33 @@ package pt.ulisboa.tecnico.sdis.id.ws.crypto;
 //provides helper methods to print byte[]
 import static javax.xml.bind.DatatypeConverter.printHexBinary;
 
+import java.io.UnsupportedEncodingException;
 import java.security.Key;
+import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.IvParameterSpec;
 
 /**
 * 	 Secret key cryptography using the TripleDES algorithm.
 */
-public class SymCrypto {
 
+public class SymCrypto {
+	private final String seed = "It was the best of times, it was the worst of times";
+	
+	String vector = "ABCD1234";
+	IvParameterSpec iv;
+	
+	private SymKey symKey = new SymKey();
+	private Key symmetricKey;
+	
+	public SymCrypto() throws Exception {
+		this.symmetricKey = symKey.getKey(seed);
+		this.iv = new IvParameterSpec(vector.getBytes("UTF-8"));
+	}
+/*
  public static void main (String[] args) throws Exception {
 
      // check args and get plaintext
@@ -64,6 +81,26 @@ public class SymCrypto {
      String newPlainText = new String(newPlainBytes); 
      System.out.println(newPlainText);
 
+ }
+ */
+ 
+ public byte[] encrypt(String plaintext) throws Exception {
+	 byte[] messageToBytes = plaintext.getBytes();
+	 
+ 	 Cipher encrypt = Cipher.getInstance("TripleDES/CBC/PKCS5Padding");
+ 	 encrypt.init(Cipher.ENCRYPT_MODE, symmetricKey, this.iv);
+ 	 byte[] encryptedBytes = encrypt.doFinal(messageToBytes);
+ 	 
+ 	 return encryptedBytes;
+ }
+ 
+ public String decrypt(byte[] encrypted) throws Exception {
+	 Cipher decrypt = Cipher.getInstance("TripleDES/CBC/PKCS5Padding");
+	 decrypt.init(Cipher.DECRYPT_MODE, symmetricKey, this.iv);
+	 byte[] decryptedBytes = decrypt.doFinal(encrypted);
+	 String message = new String(decryptedBytes);
+	 
+	 return message;
  }
 
 }

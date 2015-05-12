@@ -123,7 +123,7 @@ public class IdMain {
                 System.out.printf("Caught exception when deleting: %s%n", e);
             }
         }
-        
+    }  
         /*
          * 
          * Demonstrate how to create an initial context to the SD-ID Server
@@ -172,7 +172,7 @@ public class IdMain {
 		 */
 	    
 	    /* ----- ATE AQUI TUDO BEM ----- */
-		
+	/*	
 		 System.out.println("Text:");
 	     System.out.println(plainText);
 	     System.out.println("Bytes:");
@@ -215,5 +215,5 @@ public class IdMain {
 	     System.out.println(newPlainText);
 		
     }
-
+	*/
 }
