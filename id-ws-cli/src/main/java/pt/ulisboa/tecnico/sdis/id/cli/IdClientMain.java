@@ -42,7 +42,8 @@ public class IdClientMain {
         	String id = "alice";
         	String email = "alice@tecnico.pt";
         	
-        	byte[] pw = null;
+        	//byte[] pw = null;
+        	String pw = null;
         	
         	client.createUser(id,  email); //SUC
         	client.createUser(id,  email); //FAIL
@@ -56,7 +57,7 @@ public class IdClientMain {
         	 * 
         	 */
         	
-        	client.requestAuthentication(id, pw); //FAIL
+        	//client.requestAuthentication(id, pw); //FAIL
         	
         	client.removeUser(id); //SUC
         	client.renewPassword(id); //FAIL

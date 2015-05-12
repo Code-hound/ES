@@ -9,13 +9,15 @@
     <name>Bubble Docs</name>
 
     <modules>
-        <module>bubbledocs-appserver</module>
-        <!-- <module>uddi-naming</module>
-        <module>soap</module>
-        <module>ws-handlers</module>
-        <module>id-handlers</module>
+        <module>uddi-naming</module>
         <module>crypto</module>
-        Add modules here... -->
+        <module>store-handlers</module>
+        <module>id-handlers</module>
+        <module>id-ws-cli</module>
+        <module>store-ws-cli</module>
+        <module>id-ws-wsdl</module>
+        <module>store-ws-wsdl</module>
+        <module>bubbledocs-appserver</module>
     </modules>
 
     <properties>

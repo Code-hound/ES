@@ -76,7 +76,7 @@ public class HeaderHandlerTest extends AbstractHandlerTest {
 
         //soapMessage.writeTo(System.out);
     }
-
+    /*
     @Test
     public void testHeaderHandlerInbound(
         @Mocked final SOAPMessageContext soapMessageContext)
@@ -116,5 +116,5 @@ public class HeaderHandlerTest extends AbstractHandlerTest {
 
         //soapMessage.writeTo(System.out);
     }
-
+	*/
 }

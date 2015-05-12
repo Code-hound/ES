@@ -19,6 +19,7 @@ public class StoreClientMockTest {
 	/*
 	 * The mocked server fails on the first invocation
 	 */
+	/*
     @Test
     public void mockServerExceptionOnFirstLoadCall(
     		@Mocked final SDStore_Service service,
@@ -46,7 +47,7 @@ public class StoreClientMockTest {
         	assertEquals("Could not connect for some reason", e.getMessage());
         }
     }
-    
+    */
     
     /*
 	 * The mocked server fails on the second invocation
