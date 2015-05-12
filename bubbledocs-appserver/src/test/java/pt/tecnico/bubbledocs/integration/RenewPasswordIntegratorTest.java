@@ -70,4 +70,20 @@ public class RenewPasswordIntegratorTest extends BubbleDocsIntegratorTest {
 		integration.execute();
 
 	}
+	
+	@Test (expected = LoginBubbleDocsException.class)
+	public void InvalidLogin() {
+
+		new MockUp<IDRemoteServices>() {
+			@Mock
+			public void renewPassword(String username)
+					throws LoginBubbleDocsException, RemoteInvocationException {
+				throw new LoginBubbleDocsException(username);
+			}
+		};
+
+		RenewPasswordIntegrator integration = new RenewPasswordIntegrator(userToken);
+		integration.execute();
+
+	}
 }

@@ -69,7 +69,7 @@ public class BubbleApplication {
 */
 	}
 	
-	
+/*
 	static void populateDomain() throws NotSupportedException,
 			                            SystemException,
 			                            SecurityException,
@@ -118,11 +118,12 @@ public class BubbleApplication {
 				sheet1, 3, 4));
 		sheet1.addContent(content4, 2, 2);
 	}
-	
-	static void writeUsers(BubbleDocs bd){
-		//BubbleDocs bd = BubbleDocs.getInstance();
 
-		// List<User> user_info_list = new ArrayList<User>(bd.getUsersSet());
+
+	static void writeUsers(BubbleDocs bd){
+		BubbleDocs bd = BubbleDocs.getInstance();
+
+		List<User> user_info_list = new ArrayList<User>(bd.getUsersSet());
 
 		System.out.println("Users Info:" + bd.getUsersSet().size());
 		for (User u : bd.getUsersSet()) {
@@ -149,12 +150,7 @@ public class BubbleApplication {
 		System.out.println();
 	}
 	
-	/*
 	static void writePfSheet(){
-		// Write pf spreadsheet xml
-
-		// List<SpreadSheet> spreadsheet_list_pf =
-		// bd.getSpreadSheetByName("pf");
 
 		System.out.println("pf Spreadsheet XML:");
 		for (SpreadSheet s : spreadsheet_list_pf) {
@@ -162,11 +158,10 @@ public class BubbleApplication {
 		}
 		System.out.println();
 	}
-	*/
-	/*
+
 	static void removePfSheet(){
-		// BubbleDocs bd = BubbleDocs.getInstance();
-		// XMLOutputter xml = new XMLOutputter();
+		BubbleDocs bd = BubbleDocs.getInstance();
+		XMLOutputter xml = new XMLOutputter();
 
 		List<SpreadSheet> notas_es = bd.getSpreadSheetByName("Notas ES");
 

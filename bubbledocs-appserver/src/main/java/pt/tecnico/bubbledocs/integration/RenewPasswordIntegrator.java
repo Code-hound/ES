@@ -19,22 +19,32 @@ public class RenewPasswordIntegrator extends BubbleDocsIntegrator {
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 
-		GetUsername4TokenService getUsernameService    = new GetUsername4TokenService(this.userToken);
-		RenewPasswordService renewPasswordService = new RenewPasswordService(this.userToken);
+		GetUsername4TokenService getUsernameService = new GetUsername4TokenService(this.userToken);
+		RenewPasswordService renewPasswordService   = new RenewPasswordService(this.userToken);
 
 		//throws UserNotInSessionException
 		getUsernameService.execute();
-		renewPasswordService.execute();
 
 		String username = getUsernameService.getUsername();
 		IDRemoteServices remoteService = new IDRemoteServices();
 
+		//throws LoginBubbleDocsException
 		//throws UnavailableServiceException
 		try {
+
+			//throws LoginBubbleDocsException
+			//throws RemoteInvocationException
 			remoteService.renewPassword(username);
+
 		} catch (RemoteInvocationException e) {
+
 			throw new UnavailableServiceException();
+
 		}
 
+		//doesn't throw UserNotInSessionException
+		renewPasswordService.execute();
+
 	}
+
 }

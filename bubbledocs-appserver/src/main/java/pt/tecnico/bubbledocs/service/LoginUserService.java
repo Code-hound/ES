@@ -7,7 +7,7 @@ import pt.tecnico.bubbledocs.domain.BubbleDocs;
 
 import pt.tecnico.bubbledocs.exception.BubbleDocsException;
 import pt.tecnico.bubbledocs.exception.InvalidUserException;
-import pt.tecnico.bubbledocs.exception.WrongPasswordException;
+import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 
 /*
  * LOG IN USER
@@ -18,6 +18,7 @@ import pt.tecnico.bubbledocs.exception.WrongPasswordException;
  * 
  * @author: Francisco Silveira
  * @author: Aline Caliente
+ * @author: Luis Ribeiro Gomes
  * 
  */
 
@@ -25,14 +26,14 @@ public class LoginUserService extends BubbleDocsService {
 	
 	private String username;
 	private String password;
-
+	
 	private String userToken;
 	
 	public LoginUserService (String username, String password) {
 		this.username = username;
 		this.password = password;
 	}
-	
+
 	public String getUserToken() {
 		return this.userToken;
 	}
@@ -52,14 +53,6 @@ public class LoginUserService extends BubbleDocsService {
 
 	}
 
-	public void revert() {
-
-		BubbleDocs bd = getBubbleDocs();
-
-		bd.removeSessions(bd.getSessionByToken(this.userToken));
-
-	}
-
 	@Override
 	protected void dispatch() throws BubbleDocsException {
 
@@ -71,9 +64,9 @@ public class LoginUserService extends BubbleDocsService {
 			throw new InvalidUserException(this.username);
 		}
 
-		//throws WrongPasswordException
-		if ( passwordIsNotValid(user, this.password) ) {
-			throw new WrongPasswordException(this.username);
+		//throws UnavailableServiceException
+		if ( passwordIsNull(user) || passwordIsNotValid(user, this.password) ) {
+			throw new UnavailableServiceException();
 		}
 
 		this.userToken = bd.addUserToSession(user);

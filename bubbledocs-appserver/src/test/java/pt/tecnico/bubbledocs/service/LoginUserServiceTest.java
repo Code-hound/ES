@@ -11,7 +11,7 @@ import org.joda.time.Seconds;
 import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.exception.InvalidUserException;
-import pt.tecnico.bubbledocs.exception.WrongPasswordException;
+import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 
 /*
  * Login User Service Test
@@ -59,6 +59,7 @@ public class LoginUserServiceTest extends BubbleDocsServiceTest {
 
 	@Test
 	public void successLoginTwice() {
+
 		LoginUserService service = new LoginUserService(USERNAME, PASSWORD);
 
 		service.execute();
@@ -71,17 +72,34 @@ public class LoginUserServiceTest extends BubbleDocsServiceTest {
 		assertNull(user);
 		user = getUserFromSession(token2);
 		assertEquals(USERNAME, user.getUsername());
+
 	}
 
 	@Test (expected = InvalidUserException.class)
 	public void InvalidUser() {
+
 		LoginUserService service = new LoginUserService("error", PASSWORD);
 		service.execute();
+
 	}
 
-	@Test(expected = WrongPasswordException.class)
+	@Test(expected = UnavailableServiceException.class)
+	public void PasswordNotSaved() {
+
+		User user = BubbleDocs.getInstance().getUserByUsername(USERNAME);
+		user.setPassword(null);
+		
+		LoginUserService service = new LoginUserService(USERNAME, PASSWORD);
+		service.execute();
+
+	}
+	
+	@Test(expected = UnavailableServiceException.class)
 	public void WrongPassword() {
+
 		LoginUserService service = new LoginUserService(USERNAME, "error");
 		service.execute();
+
 	}
+	
 }

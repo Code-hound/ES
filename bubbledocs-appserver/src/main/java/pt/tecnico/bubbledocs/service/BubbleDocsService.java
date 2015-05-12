@@ -21,6 +21,10 @@ public abstract class BubbleDocsService {
 		return BubbleDocs.getInstance();
 	}
 
+	protected static boolean passwordIsNull (User user) {
+		return (user.getPassword() == null);
+	}
+	
 	protected static boolean userIsNotValid (String username) {
 		return (username == null);
 	}
