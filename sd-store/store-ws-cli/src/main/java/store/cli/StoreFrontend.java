@@ -8,7 +8,6 @@ import javax.xml.registry.JAXRException;
 import javax.xml.ws.BindingProvider;
 
 import org.joda.time.DateTime;
-import org.joda.time.LocalTime;
 
 import pt.ulisboa.tecnico.sdis.store.ws.CapacityExceeded_Exception;
 import pt.ulisboa.tecnico.sdis.store.ws.DocAlreadyExists_Exception;
@@ -39,12 +38,15 @@ public class StoreFrontend {
 		this.multiplicity = multiplicity;
 		this.ID = clientID;
 		setEndpointAddresses(addresses);
-		createStubs();
+		for (String address : endpointAddresses) {
+			System.out.println(address);
+		}
 	}
 	
 	public void createDoc(DocUserPair docUser)
 			throws DocAlreadyExists_Exception {
 		for (SDStore endpoint : endpoints) {
+			setHeaders(endpoint);
 			endpoint.createDoc(docUser);
 		}
 	}
@@ -52,8 +54,9 @@ public class StoreFrontend {
 	public List<String> listDocs(String username)
 			throws UserDoesNotExist_Exception {
 		//List<List<String>> docs = new ArrayList<List<String>>();
-		List<ListDocsResult> results = new ArrayList<ListDocsResult>();
+		List<ListDocsResult> results = new ArrayList<ListDocsResult>();	
 		for (SDStore endpoint : endpoints) {
+			setHeaders(endpoint);
 			List<String> docs = endpoint.listDocs(username);
 			
 			BindingProvider bindingProvider = (BindingProvider) endpoint;
@@ -63,13 +66,17 @@ public class StoreFrontend {
         	String clientID = (String) requestContext.get(HeaderHandler.getIDProperty());
         	results.add(new ListDocsResult(docs, timestamp, clientID));
 		}
-		return ListDocsResult.quorumDecider(results);
+		if (!results.isEmpty()) {
+			return ListDocsResult.quorumDecider(results);
+		}
+		return null;
 	}
 
 	public void store(DocUserPair docUser, byte[] contents)
 			throws CapacityExceeded_Exception, DocDoesNotExist_Exception,
 			UserDoesNotExist_Exception {
 		for (SDStore endpoint : endpoints) {
+			setHeaders(endpoint);
 			endpoint.store(docUser, contents);
 		}
 	}
@@ -79,6 +86,7 @@ public class StoreFrontend {
 		//List<byte[], String> content = new ArrayList<byte[]>();
 		List<LoadResult> results = new ArrayList<LoadResult>();
 		for (SDStore endpoint : endpoints) {
+			setHeaders(endpoint);
 			byte[] content = endpoint.load(docUser);
 			
 			BindingProvider bindingProvider = (BindingProvider) endpoint;
@@ -86,9 +94,13 @@ public class StoreFrontend {
         	
         	String timestamp = (String) requestContext.get(HeaderHandler.getTimeProperty());
         	String clientID = (String) requestContext.get(HeaderHandler.getIDProperty());
+        	
         	results.add(new LoadResult(content, timestamp, clientID));	
 		}
-		return LoadResult.quorumDecider(results);
+		if (!results.isEmpty()) {
+			return LoadResult.quorumDecider(results);
+		}
+		return null;
 	}
 	
 	private void setEndpointAddresses(String[] addresses) 
@@ -97,7 +109,7 @@ public class StoreFrontend {
     	this.endpointAddresses = addresses;
     }
 	
-	private void createStubs() {
+	public void createStubs() {
         System.out.println("Creating stub ...");
     	storeService = new SDStore_Service();
     	
@@ -109,14 +121,19 @@ public class StoreFrontend {
         	requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
         		this.endpointAddresses[i]);
         	endpoints.add(endpoint);
-        	
-        	requestContext.put(HeaderHandler.getIDProperty(), 
-        			Integer.toString(this.ID));
-        	requestContext.put(HeaderHandler.getTimeProperty(),
-        			new DateTime().toString());
         }
+        System.out.println("ENDPOINTS:");
         for (SDStore endpoint : endpoints) {
         	System.out.println(endpoint);
         }
     }
+	
+	private void setHeaders(SDStore endpoint) {
+		BindingProvider bindingProvider = (BindingProvider) endpoint;
+    	Map<String, Object> requestContext = bindingProvider.getRequestContext();
+		requestContext.put(HeaderHandler.getIDProperty(), 
+    			Integer.toString(this.ID));
+    	requestContext.put(HeaderHandler.getTimeProperty(),
+    			new DateTime().toString());
+	}
 }

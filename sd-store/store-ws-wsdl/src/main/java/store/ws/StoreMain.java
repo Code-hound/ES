@@ -21,14 +21,7 @@ public class StoreMain {
 		}
         
         Endpoint[] endpoints = new Endpoint[numberServers];
-        /*
-        System.out.println("Number of servers: "+numberServers);
-        System.out.println("URLs:");
-        for (String s : urls) {
-        	System.out.printf("%s", s);
-        }
-        */
-        //Endpoint endpoint = null;
+        
         UDDINaming uddiNaming = null;
         try {
         	

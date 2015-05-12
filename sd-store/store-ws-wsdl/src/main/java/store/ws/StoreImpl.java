@@ -56,10 +56,9 @@ public class StoreImpl implements SDStore {
     public void createDoc(DocUserPair docUserPair)
             throws DocAlreadyExists_Exception {
     	MessageContext messageContext = webServiceContext.getMessageContext();
-    	//System.out.println("[STOREIMPL] Message: "+messageContext.toString());
+    	
     	String clientID = (String) messageContext.get(HeaderHandler.getIDProperty());
     	String timestamp = (String) messageContext.get(HeaderHandler.getTimeProperty());
-    	//System.out.println("[STOREIMPL] ClientID:" + clientID+"   Timestamp: "+timestamp);
     	
     	if(docUserPair.getUserId() != null || docUserPair.getUserId() != "" ||
     			docUserPair.getDocumentId() != null || docUserPair.getDocumentId() != "") {
@@ -90,11 +89,8 @@ public class StoreImpl implements SDStore {
     	if(userId == null || userId.equalsIgnoreCase("") || userRepositories.get(userId) == null) {    	
             UserDoesNotExist faultInfo = new UserDoesNotExist();
             faultInfo.setUserId(userId);
-            // fi.setMessage("User does not exist");
             throw new UserDoesNotExist_Exception("User does not exist **", faultInfo);    	
     	}
-    	//= document.getLastChangedTime().toString();
-    	//messageContext.put(HeaderHandler.getIDProperty(), etc);
     	
         Repository userRepository = userRepositories.get(userId);
         List<String> documentIDs = userRepository.listDocs();
@@ -135,8 +131,8 @@ public class StoreImpl implements SDStore {
     	DateTime thisChange = new DateTime(timestamp);
     	int lastClientID = Integer.parseInt(document.getLastClientChanging());
     	int thisClientID = Integer.parseInt(clientID);
-    	if (lastChange.isBefore(new DateTime(timestamp))
-    			|| (lastChange.isEqual(thisChange) && lastClientID<thisClientID)) {
+    	if (lastChange.isBefore(thisChange)
+    			|| (lastChange.isEqual(thisChange) && lastClientID<=thisClientID)) {
     		document.setNewContents(newContents, clientID, timestamp);
     	}
     }

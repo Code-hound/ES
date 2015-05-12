@@ -24,10 +24,12 @@ public class StoreClientMockTest {
     		@Mocked final SDStore_Service service,
     		@Mocked final SDStore port,
     		@Mocked final DocUserPair pair)
+    		//@Mocked final StoreFrontend frontend)
         throws Exception {
     	
-        // The expectations block contains the expected behaviour
+        // The expectations block contains the expected behavior
         new Expectations() {{
+        	
             new SDStore_Service();
             service.getSDStoreImplPort();
             	result = port;
@@ -37,7 +39,7 @@ public class StoreClientMockTest {
         }};
 
         // Unit under test is created and makes a call to the mocked server
-        StoreClient client = new StoreClient("http://localhost:8081", "Store", 1);
+        StoreClientMock client = new StoreClientMock("http://localhost:8081", "Store", 3);
         try {
         	client.load("username", "doc");
         } catch (WebServiceException e) {

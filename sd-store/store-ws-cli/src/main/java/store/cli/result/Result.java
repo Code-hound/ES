@@ -20,19 +20,4 @@ public abstract class Result {
 	public String getClientID() {
 		return this.clientID;
 	}
-	
-	public static Result quorumDecider_Result(List<Result> results) {
-		if (results.size() == 0) {
-			return null;
-		}
-		
-		Result finalResult = results.get(0);
-		for (Result result : results) {
-			if (result.getTimestamp().equals(finalResult.getTimestamp())) {
-				finalResult = result;
-			}
-		}
-		
-		return finalResult;
-	}
 }

@@ -17,9 +17,16 @@ public class LoadResult extends Result {
 		return this.content;
 	}
 	
-	//@Override
 	public static byte[] quorumDecider(List<LoadResult> results) {
-		LoadResult finalResult = (LoadResult) Result.quorumDecider_Result( (List<Result>) (List<?>) results);
+		if (results.size() == 0) {
+			return null;
+		}
+		LoadResult finalResult = results.get(0);
+		for (LoadResult result : results) {
+			if (result.getTimestamp().isAfter(finalResult.getTimestamp())) {
+				finalResult = result;
+			}
+		}
 		return finalResult.getContent();
 	}
 }

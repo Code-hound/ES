@@ -15,7 +15,14 @@ public class ListDocsResult extends Result {
 	}
 	
 	public static List<String> quorumDecider(List<ListDocsResult> results) {
-		ListDocsResult finalResult = (ListDocsResult) Result.quorumDecider_Result( (List<Result>) (List<?>) results);
-		return finalResult.getDocs();
+		List<String> finalResult = results.get(0).getDocs();
+		for (ListDocsResult result : results) {
+			for (String doc : result.getDocs()) {
+				if (!finalResult.contains(doc)) {
+					finalResult.add(doc);
+				}
+			}
+		}
+		return finalResult;
 	}
 }

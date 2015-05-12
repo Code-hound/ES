@@ -45,8 +45,7 @@ public class StoreClient {
 		
 		uddiLookup(uddiURL, wsName, multiplicity);
 		frontend = new StoreFrontend(endpointAddresses, multiplicity, this.clientID);
-		//System.out.println("Size: "+endpointAddresses.length);
-		//for (String s : endpointAddresses) System.out.println(s);
+		frontend.createStubs();
 	}
 	
 	public StoreClient(String uddiURL, String wsName, int multiplicity) 
@@ -59,6 +58,7 @@ public class StoreClient {
 		
 		uddiLookup(uddiURL, wsName, multiplicity);
 		frontend = new StoreFrontend(endpointAddresses, multiplicity, this.clientID);
+		frontend.createStubs();
 		//System.out.println("Size: "+endpointAddresses.length);
 		//for (String s : endpointAddresses) System.out.println(s);
 	}
