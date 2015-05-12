@@ -1,8 +1,43 @@
-# Bubble Docs - Third Release
+Bubble Docs
+===========
 
-This is the main README file for the Bubble Docs project.
+Índice
+------
 
-The third release of the repository contains the following structure:
+- [Bubble-Docs](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/edit/master/README.md#Serviço Bubble-Docs)
+- [SD-ID](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/edit/master/README.md#Serviço SD-ID)
+- [SD-STORE](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/edit/master/README.md#Serviço SD-STORE)
+
+Projecto de Engenharia de Software - Quarta Entrega
+===================================================
+
+Serviço Bubble-Docs
+-------------------
+
+Grupo de ES 29
+
+Francisco Maria Calisto
+    N. 70916
+    francisco.calisto@tecnico.ulisboa.pt
+
+Luís Ribeiro Gomes
+    N. 72904
+    luis.ribeiro.gomes@tecnico.ulisboa.pt
+   
+Aline Caliente
+    N. 73151
+    alinecaliente@hotmail.de
+    
+João Pedro Clemente Zeferino
+    N. 76497
+    jp.zef@hotmail.com
+    
+Francisco de Matos Silveira
+    N. 82390
+    francisco.silveira@tecnico.ulisboa.pt
+
+Estrutura do Serviço
+---------------------
 
     .
     |__ .gitignore
@@ -210,13 +245,11 @@ The third release of the repository contains the following structure:
 
 -------------------------------------------------------------------------------
 
-# Projecto de Sistemas Distribuí­dos #
+Projecto de Sistemas Distribuí­dos - Segunda entrega
+====================================================
 
-## Segunda entrega ##
-
--------------------------------------------------------------------------------
-
-## Serviço SD-ID 
+Serviço SD-ID
+-------------
 
 Grupo de SD 59
 
@@ -236,9 +269,8 @@ João Pedro Clemente Zeferino
 Repositório:
 [tecnico-softeng-distsys-2015/A_29_59_63-project](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project)
 
--------------------------------------------------------------------------------
-
-### Instruções de instalação 
+Instruções de instalação
+------------------------
 
 [1] Iniciar sistema operativo
 
@@ -306,9 +338,8 @@ cd ../id-ws-cli && \
 mvn clean package install
 ```
 
--------------------------------------------------------------------------------
-
-### Instruções de teste: ###
+Instruções de teste:
+--------------------
 
 [1] Executar testes de implementação **servidor**
 > cd ~/Documents/A_29_59_63-project/sd-id/id-ws-wsdl
@@ -320,10 +351,8 @@ mvn clean package install
 
 > mvn -Dtest=MockTests test
 
-
--------------------------------------------------------------------------------
-
-### Estrutura do projecto: ###
+Estrutura do projecto:
+----------------------
 
     .
     |__ .classpath
@@ -383,9 +412,11 @@ mvn clean package install
 
 -------------------------------------------------------------------------------
 
-## Serviço SD-STORE 
+Serviço SD-STORE
+================
 
 Grupo de SD 63
+--------------
 
 Luís Ribeiro Gomes
     N. 72904
@@ -399,9 +430,8 @@ Francisco de Matos Silveira
 Repositório:
 [tecnico-softeng-distsys-2015/A_29_59_63-project](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/)
 
--------------------------------------------------------------------------------
-
-### Instruções de instalação 
+Instruções de instalação
+------------------------
 
 [1] Iniciar sistema operativo
 
@@ -478,9 +508,9 @@ cd ../store-ws-cli && \
 mvn clean package install
 ```
 
--------------------------------------------------------------------------------
+Instruções de teste:
+--------------------
 
-### Instruções de teste: ###
 [1]
 
 ```
@@ -516,9 +546,8 @@ cd ../store-ws-cli && \
 mvn -Dtest=StoreClientRealTest test
 ```
 
--------------------------------------------------------------------------------
-
-### Estrutura do projecto: ###
+Estrutura do projecto:
+----------------------
 
     .
     |__ README.md
@@ -578,9 +607,3 @@ mvn -Dtest=StoreClientRealTest test
                     \__ store
                         \__ uddi
                             \__ UDDINaming.java
-
-
-
--------------------------------------------------------------------------------
-**FIM**
-
