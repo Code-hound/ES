@@ -98,22 +98,6 @@ public class ImportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
 		integration.execute();
 
     }
-	
-    @Test(expected = DocumentDoesNotExistException.class)
-    public void InvalidDocument() {
-
-    	new MockUp<StoreRemoteServices>() {
-    		@Mock
-    		public byte[] loadDocument(String username, String SpreadSheetName)
-    				throws CannotStoreDocumentException, RemoteInvocationException {
-    			return null;
-    		}
-    	};
-
-    	ImportDocumentIntegrator integration = new ImportDocumentIntegrator(userToken, error);
-		integration.execute();
-
-    }
 
     @Test(expected = CannotStoreDocumentException.class)
     public void InvalidStorage() {

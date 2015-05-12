@@ -59,11 +59,6 @@ public class ImportDocumentIntegrator extends BubbleDocsIntegrator {
 			//catches RemoteInvocationException
 			//catches LoginBubbleDocsException
 			byte[] doc = remoteService.loadDocument(username, "" + this.docId);
-
-			//throws DocumentDoesNotExistException
-			if (doc == null) {
-				throw new DocumentDoesNotExistException(username, "" + this.docId);
-			}
 			
 			ImportDocumentService    importDocumentService = new ImportDocumentService(this.userToken, doc);
 			
