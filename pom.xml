@@ -10,13 +10,13 @@
 	<name>Distributed Bubbledocs</name>
 
 	<modules>
-		<module>id-ws-wsdl</module>
-		<module>id-ws-cli</module>
-		<module>store-ws-wsdl</module>
-		<module>store-ws-cli</module>
+		<module>sd-id</module>
+		<module>sd-id-cli</module>
+		<module>sd-store</module>
+		<module>sd-store-cli</module>
+		<module>crypto</module>
 		<module>uddi-naming</module>
-		<module>id-handlers</module>
-		<module>store-handlers</module>
+		<module>ws-handlers</module>
 
 		<module>bubbledocs-appserver</module>
 	</modules>
