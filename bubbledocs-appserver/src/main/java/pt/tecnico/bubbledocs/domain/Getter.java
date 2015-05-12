@@ -5,12 +5,11 @@ import pt.tecnico.bubbledocs.exception.InvalidValueException;;
 
 public class Getter {
 	public static int use(Cell cell) throws InvalidValueException {
+
 		Content c = cell.getContent();
-		
-		//if (c == null)
-			//throw new InvalidValueException(cell);
-			//return (Integer) null;
+
 		return c.getContentValue();
+
 	}
 
 	public static int use(Literal literal) throws InvalidValueException {
@@ -18,6 +17,7 @@ public class Getter {
 	}
 
 	public static int use(Reference reference) throws InvalidValueException {
+
 		Cell cell = reference.getCellReference();
 		
 		Content c = cell.getContent();
@@ -26,9 +26,11 @@ public class Getter {
 			throw new InvalidValueException();
 
 		return c.getContentValue();
+
 	}
 
 	private static int apply(String op, int i, int next) throws InvalidValueException {
+
 		switch (op) {
 		case "+":
 			return i + next;
@@ -43,9 +45,11 @@ public class Getter {
 		default:
 			throw new InvalidValueException();
 		}
+
 	}
 
 	private static int use(BinaryFunction function, String op) throws InvalidValueException {
+
 		Integer i = null;
 
 		for (FunctionArguments content : function.getArgsSet()) {
@@ -60,6 +64,7 @@ public class Getter {
 		}
 
 		return i;
+
 	}
 
 	public static int use(ADD function) throws InvalidValueException {
@@ -92,9 +97,11 @@ public class Getter {
 	}
 
 	public static int use(AVG function) throws InvalidValueException {
+
 		Set<Reference> contents = function.getExpanded();
 
 		return use(contents, "+") / contents.size();
+
 	}
 
 	public static int use(PRD function) throws InvalidValueException {
