@@ -51,6 +51,8 @@
 			<groupId>jaxen</groupId>
 			<artifactId>jaxen</artifactId>
 		</dependency>
+
+<!--
 		<dependency>
 			<groupId>pt.ulisboa.tecnico.essd</groupId>
 			<artifactId>sd-id-cli</artifactId>
@@ -61,6 +63,7 @@
 			<artifactId>sd-store-cli</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+-->
 	</dependencies>
 
 </project>
