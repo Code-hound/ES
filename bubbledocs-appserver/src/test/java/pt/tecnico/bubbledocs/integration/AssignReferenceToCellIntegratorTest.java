@@ -7,11 +7,12 @@ import org.junit.Test;
 import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
-
 import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
 import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
+import pt.tecnico.bubbledocs.integration.component.AssignLiteralToCellIntegrator;
+import pt.tecnico.bubbledocs.integration.component.AssignReferenceToCellIntegrator;
 
 /* 
  * A testar:

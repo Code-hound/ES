@@ -1,7 +1,6 @@
 package pt.tecnico.bubbledocs.integration;
 
 import static org.junit.Assert.assertNotNull;
-
 import mockit.Mock;
 import mockit.MockUp;
 
@@ -10,11 +9,11 @@ import org.junit.Test;
 import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
-
 import pt.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 import pt.tecnico.bubbledocs.exception.CannotStoreDocumentException;
+import pt.tecnico.bubbledocs.integration.component.ExportDocumentIntegrator;
 
 /*
  * Export Document Integrator Test

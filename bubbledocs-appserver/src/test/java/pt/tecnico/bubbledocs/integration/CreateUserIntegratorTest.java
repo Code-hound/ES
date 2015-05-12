@@ -7,17 +7,16 @@ import mockit.MockUp;
 import org.junit.Test;
 
 import pt.tecnico.bubbledocs.domain.User;
-
 import pt.tecnico.bubbledocs.exception.EmptyEmailException;
 import pt.tecnico.bubbledocs.exception.InvalidUsernameException;
 import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.UserAlreadyExistsException;
-
 import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
+import pt.tecnico.bubbledocs.integration.component.CreateUserIntegrator;
 
 public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 	

@@ -1,4 +1,4 @@
-package pt.tecnico.bubbledocs;
+package pt.tecnico.bubbledocs.integration.system;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import pt.ist.fenixframework.TransactionManager;
 import pt.tecnico.bubbledocs.domain.*;
 import pt.tecnico.bubbledocs.service.*;
 
-public class BubbleApplication {
+public class LocalSystemTest {
 	
 	private static final String ROOT_USERNAME = "root";
 	private static final String ROOT_PASSWORD = "rootroot";

@@ -1,4 +1,4 @@
-package pt.tecnico.bubbledocs.integration;
+package pt.tecnico.bubbledocs.integration.component;
 
 import pt.tecnico.bubbledocs.service.CreateUserService;
 import pt.tecnico.bubbledocs.service.RemoveUserService;

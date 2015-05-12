@@ -6,11 +6,11 @@ import mockit.MockUp;
 import org.junit.Test;
 
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
-
 import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
+import pt.tecnico.bubbledocs.integration.component.RenewPasswordIntegrator;
 
 public class RenewPasswordIntegratorTest extends BubbleDocsIntegratorTest {
 
