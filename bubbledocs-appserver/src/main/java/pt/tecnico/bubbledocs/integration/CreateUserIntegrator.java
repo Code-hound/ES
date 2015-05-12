@@ -47,25 +47,35 @@ public class CreateUserIntegrator extends BubbleDocsIntegrator {
 		RemoveUserService removeUserService = new RemoveUserService(this.userToken, this.newUsername);
 		IDRemoteServices  localService      = new IDRemoteServices();
 		
+		//throws UserNotInSessionException
 		//throws UnauthorizedOperationException
 		//throws UserAlreadyExistsException
+		//throws EmptyEmailException
+		//throws InvalidUsernameException
 		createUserService.execute();
 		
 		//throws UnavailableServiceException
+		//throws LoginBubbleDocsException
 		try {
+			
+			//catches RemoteInvocationException
+			//catches LoginBubbleDocsException
 			localService.createUser(this.newUsername, this.email);
+
 		} catch (RemoteInvocationException e) {
-			//throws UserNotInSessionException
-			//throws UnavailableServiceException
-			//throws LoginBubbleDocsException
+
+			//doesn't throw UserNotInSessionException
+			//doesn't throw UnauthorizedOperationException
 			removeUserService.execute();
 			throw new UnavailableServiceException();
+
 		} catch (LoginBubbleDocsException e) {
-			//throws UserNotInSessionException
-			//throws UnavailableServiceException
-			//throws LoginBubbleDocsException
+
+			//doesn't throw UserNotInSessionException
+			//doesn't throw UnauthorizedOperationException
 			removeUserService.execute();
 			throw new LoginBubbleDocsException(this.newUsername);
+
 		}
 
 	}

@@ -7,15 +7,17 @@ import mockit.MockUp;
 import org.junit.Test;
 
 import pt.tecnico.bubbledocs.domain.User;
-import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
-import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
-import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
-import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
-import pt.tecnico.bubbledocs.exception.UserAlreadyExistsException;
+
+import pt.tecnico.bubbledocs.exception.EmptyEmailException;
 import pt.tecnico.bubbledocs.exception.InvalidUsernameException;
+import pt.tecnico.bubbledocs.exception.UnauthorizedOperationException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
+import pt.tecnico.bubbledocs.exception.UserAlreadyExistsException;
+
 import pt.tecnico.bubbledocs.service.remote.IDRemoteServices;
 import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
+import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
+import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
 
 public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 	
@@ -62,6 +64,21 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 
 	}
 
+	@Test(expected = EmptyEmailException.class)
+	public void InvalidEmail() {
+
+		new MockUp<IDRemoteServices>() {
+			@Mock
+			public void createUser(String username, String password)
+					throws LoginBubbleDocsException, RemoteInvocationException {
+			}
+		};
+
+		CreateUserIntegrator integration = new CreateUserIntegrator(root, USERNAME_DOES_NOT_EXIST, "", "José Ferreira");
+		integration.execute();
+
+	}
+
 	@Test(expected = InvalidUsernameException.class)
 	public void InvalidShortUsername() {
 
@@ -72,7 +89,7 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 			}
 		};
 
-		CreateUserIntegrator integration = new CreateUserIntegrator(root, "", "jose", "José Ferreira");
+		CreateUserIntegrator integration = new CreateUserIntegrator(root, "", "email@email.email", "José Ferreira");
 		integration.execute();
 
 	}
@@ -87,7 +104,7 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 			}
 		};
 
-		CreateUserIntegrator integration = new CreateUserIntegrator(root, "lookathowlongthisusernameis", "jose", "José Ferreira");
+		CreateUserIntegrator integration = new CreateUserIntegrator(root, "lookathowlongthisusernameis", "email@email.email", "José Ferreira");
 		integration.execute();
 
 	}
@@ -102,7 +119,7 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 			}
 		};
 
-		CreateUserIntegrator integration = new CreateUserIntegrator(ars, USERNAME_DOES_NOT_EXIST, "jose", "José Ferreira");
+		CreateUserIntegrator integration = new CreateUserIntegrator(ars, USERNAME_DOES_NOT_EXIST, "email@email.email", "José Ferreira");
 		integration.execute();
 
 	}
@@ -119,7 +136,7 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 
 		removeUserFromSession(root);
 
-		CreateUserIntegrator integration = new CreateUserIntegrator(root, USERNAME_DOES_NOT_EXIST, "jose", "José Ferreira");
+		CreateUserIntegrator integration = new CreateUserIntegrator(root, USERNAME_DOES_NOT_EXIST, "email@email.email", "José Ferreira");
 		integration.execute();
 
 	}
