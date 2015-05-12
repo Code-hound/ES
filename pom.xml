@@ -10,9 +10,12 @@
 
     <modules>
         <module>bubbledocs-appserver</module>
-        <module>sd-id</module>
-        <module>sd-store</module>
-        <!-- Add modules here... -->
+        <!-- <module>uddi-naming</module>
+        <module>soap</module>
+        <module>ws-handlers</module>
+        <module>id-handlers</module>
+        <module>crypto</module>
+        Add modules here... -->
     </modules>
 
     <properties>
