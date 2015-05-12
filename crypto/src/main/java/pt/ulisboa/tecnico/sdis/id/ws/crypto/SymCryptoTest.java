@@ -7,7 +7,7 @@ import org.junit.Test;
 public class SymCryptoTest {
 	
 	private String plaintext = "O pocoyo e gay";
-	
+	/*
 	@Test
 	public void encryptThenDecrypt() throws Exception {
 		SymCrypto crypto = new SymCrypto();
@@ -16,4 +16,5 @@ public class SymCryptoTest {
 		
 		assertEquals(plaintext, decrypted);
 	}
+	*/
 }
