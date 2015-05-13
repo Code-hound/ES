@@ -300,7 +300,14 @@ public class BubbleDocs extends BubbleDocs_Base {
 	}
 	
 	public SpreadSheet importFromXML(Element xml) {
-		return new SpreadSheet(xml);
+
+		SpreadSheet doc = new SpreadSheet(xml);
+
+		doc.setId(getNextDocumentId());
+		setNextDocumentId(getNextDocumentId() + 1);
+
+		return doc;
+
 	}
 
 }

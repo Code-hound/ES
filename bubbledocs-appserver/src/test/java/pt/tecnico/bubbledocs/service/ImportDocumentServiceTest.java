@@ -48,6 +48,9 @@ public class ImportDocumentServiceTest extends BubbleDocsServiceTest {
 		service.execute();
         
         this.xml = service.getResult();
+        
+        doc.setOwnerUsername("usrnm666");
+        doc.setId(doc.getId() + 1);
 
     }
 
@@ -57,7 +60,7 @@ public class ImportDocumentServiceTest extends BubbleDocsServiceTest {
     	ImportDocumentService service = new ImportDocumentService(userToken, xml);
     	service.execute();
 
-        assertEquals(doc,service.getResult());
+        assertEquals(service.getResult().toString(),doc.toString());
 
     }
 
