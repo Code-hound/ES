@@ -269,7 +269,6 @@ João Pedro Clemente Zeferino
     N. 76497
     jp.zef@hotmail.com
 
-
 Repositório:
 [tecnico-softeng-distsys-2015/A_29_59_63-project](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project)
 
