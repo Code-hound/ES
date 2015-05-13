@@ -6,13 +6,13 @@ Nesta semana conseguios cumprir os seguintes objectivos estabelicidos:
 
 ### ES
 
-1) Resolução de erros da parte da entrega anterior.
+1) Resolução de **erros** da parte da entrega anterior.
 
-2) Criação do Serviço **Get Spread Sheet Content** e dos seus testes.
+2) Criação do Serviço **GetSpreadSheetContent** e dos seus **testes**.
 
-3) Criação da função assignBinaryReferenceToCell para célula.
+3) Criação da função **assignBinaryReferenceToCell** para célula.
 
-4) Criação dos Testes de Handlers.
+4) Criação dos **Testes de Handlers**.
 
 
 
