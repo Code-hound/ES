@@ -26,10 +26,9 @@ public class Exporter {
 		for (Cell c : type.getCellsSet())
 			if (c.getContent() != null) {
 				content = c.exportToXML();
-				if (content != null)
-					element.addContent(content);
-				else
-					return null;
+				if (content == null)
+					continue;
+				element.addContent(content);
 			}
 
 		return element;
@@ -47,6 +46,9 @@ public class Exporter {
 			return null;
 
 		content = type.getContent().exportToXML();
+		if (content == null)
+			return null;
+		
 		element.addContent(content);
 
 		return element;
@@ -81,6 +83,8 @@ public class Exporter {
 
 		for (FunctionArguments c : type.getArgsSet()) {
 			content = c.exportToXML();
+			if (content == null)
+				return null;
 			element.addContent(content);
 		}
 
@@ -93,6 +97,8 @@ public class Exporter {
 
 		for (Reference  c : type.getArgsSet()) {
 			content = c.exportToXML();
+			if (content == null)
+				return null;
 			element.addContent(content);
 		}
 

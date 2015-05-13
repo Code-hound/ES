@@ -60,7 +60,7 @@ public class ImportDocumentIntegrator extends BubbleDocsIntegrator {
 			//catches LoginBubbleDocsException
 			byte[] doc = remoteService.loadDocument(username, "" + this.docId);
 			
-			ImportDocumentService    importDocumentService = new ImportDocumentService(this.userToken, doc);
+			ImportDocumentService importDocumentService = new ImportDocumentService(this.userToken, doc);
 			
 			//throws UserNotInSessionException
 			//throws InvalidAccessException
