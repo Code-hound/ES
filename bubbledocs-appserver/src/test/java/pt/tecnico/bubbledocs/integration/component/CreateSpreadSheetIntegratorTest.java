@@ -1,10 +1,10 @@
-package pt.tecnico.bubbledocs.service;
+package pt.tecnico.bubbledocs.integration.component;
  
 import static org.junit.Assert.assertEquals;
-import mockit.Mock;
-import mockit.MockUp;
  
 import org.junit.Test;
+
+import pt.tecnico.bubbledocs.integration.CreateSpreadSheetIntegrator;
 
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.UserAlreadyHasThisDocumentException;
@@ -13,7 +13,7 @@ import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
 import pt.tecnico.bubbledocs.domain.User;
  
-public class CreateSpreadSheetServiceTest extends BubbleDocsServiceTest {
+public class CreateSpreadSheetIntegratorTest extends BubbleDocsIntegratorTest {
        
         /*
          *
@@ -46,8 +46,8 @@ public class CreateSpreadSheetServiceTest extends BubbleDocsServiceTest {
         @Test
         public void success() {
 
-                CreateSpreadSheetService service = new CreateSpreadSheetService(TOKEN_OWNER, NAME, ROWS, COLUMNS);
-                service.execute();
+                CreateSpreadSheetIntegrator integration = new CreateSpreadSheetIntegrator(TOKEN_OWNER, NAME, ROWS, COLUMNS);
+                integration.execute();
                
                 SpreadSheet sheet = BubbleDocs.getInstance().getSpreadSheetByOwnerAndName(owner, NAME);
                 assertEquals(USERNAME_OWNER, sheet.getOwnerUsername());
@@ -60,17 +60,17 @@ public class CreateSpreadSheetServiceTest extends BubbleDocsServiceTest {
         @Test(expected = UserNotInSessionException.class)
         public void InvalidUser() {
 
-                CreateSpreadSheetService service = new CreateSpreadSheetService("error", NAME, ROWS, COLUMNS);
-                service.execute();
+                CreateSpreadSheetIntegrator integration = new CreateSpreadSheetIntegrator("error", NAME, ROWS, COLUMNS);
+                integration.execute();
 
         }
         
         @Test(expected = UserAlreadyHasThisDocumentException.class)
         public void DocumentAlreadyExists() {
 
-                CreateSpreadSheetService service = new CreateSpreadSheetService(TOKEN_OWNER, NAME, ROWS, COLUMNS);
-                service.execute();
-                service.execute();
+                CreateSpreadSheetIntegrator integration = new CreateSpreadSheetIntegrator(TOKEN_OWNER, NAME, ROWS, COLUMNS);
+                integration.execute();
+                integration.execute();
 
         }
        

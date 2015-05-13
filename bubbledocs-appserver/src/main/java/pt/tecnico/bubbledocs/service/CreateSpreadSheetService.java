@@ -13,6 +13,7 @@ import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
  * o nome do novo documento, o numero de linhas e o numero de colunas
  * 
  * @author: Francisco Silveira
+ * @author: Luis Ribeiro Gomes
  * 
  */
 
@@ -22,6 +23,7 @@ public class CreateSpreadSheetService extends BubbleDocsService {
 	private int numColumns;
 	private String spreadsheetName;
 	private String userToken;
+
 	private int id;
 
 	public CreateSpreadSheetService(String userToken, String name, int rows, int columns) {
@@ -29,6 +31,10 @@ public class CreateSpreadSheetService extends BubbleDocsService {
 		this.numColumns = columns;
 		this.spreadsheetName = name;
 		this.userToken = userToken;
+	}
+
+	public int getId() {
+		return this.id;
 	}
 
 	@Override
@@ -42,19 +48,11 @@ public class CreateSpreadSheetService extends BubbleDocsService {
 
 		SpreadSheet sheet = getBubbleDocs().createSpreadSheet(getUser(username), spreadsheetName, numRows, numColumns);
 		
+		//throws UserAlreadyHasThisDocumentException
 		if (sheet == null)
 			throw new UserAlreadyHasThisDocumentException(username, spreadsheetName);
 		
 		this.id = sheet.getId();
-		/*
-		}
-		catch (UserNotInSessionException | UserAlreadyHasThisDocumentException ex) {
-			System.out.println(ex.getMessage());
-		}
-		*/
-	}
 
-	public int getId() {
-		return this.id;
 	}
 }

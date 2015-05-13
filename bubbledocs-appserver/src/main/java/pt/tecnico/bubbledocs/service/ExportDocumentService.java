@@ -32,16 +32,11 @@ public class ExportDocumentService extends BubbleDocsService {
 	private String userToken;
 	private int    docId;
 
-	private String docname;
 	private byte[] result;
 
 	public ExportDocumentService(String userToken, int docId) {
 		this.userToken = userToken;
 		this.docId = docId;
-	}
-
-	public String getDocname () {
-		return this.docname;
 	}
 
 	public byte[] getResult() {
@@ -59,11 +54,10 @@ public class ExportDocumentService extends BubbleDocsService {
 		}
 		
 		SpreadSheet doc = getSpreadSheet(docId);
-		this.docname = doc.getSpreadSheetName();
 
 		//throws InvalidAccessException
 		if (userIsNotOwner(doc, username) && userCannotRead(doc, username)) {
-			throw new InvalidAccessException(username, this.docname, "Read or Write");
+			throw new InvalidAccessException(username, "" + this.docId, "Read or Write");
 		}
 		
 		//save owner username, to identify it's next owner on ImportDocumentService
