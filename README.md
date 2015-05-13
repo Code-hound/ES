@@ -321,7 +321,7 @@ git clone -b R_4 https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-proj
 [5] Instalar o módulo de Juddi do projecto
 
 ```
-cd project/sd-id/uddi && \
+cd project/uddi && \
 mvn clean package install
 ```
 
