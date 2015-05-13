@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.sdis.id.ws.it;
+package id.cli;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -8,8 +8,8 @@ import org.junit.BeforeClass;
 
 import pt.ulisboa.tecnico.bubbledocs.testutils.TestServerManager;
 
-import pt.ulisboa.tecnico.sdis.id.ws.cli.IdClient;
-import pt.ulisboa.tecnico.sdis.id.ws.cli.IdClientException;
+import pt.ulisboa.tecnico.sdis.id.cli.IdClient;
+import pt.ulisboa.tecnico.sdis.id.cli.IDClientException;
 
 /**
  * Integration Test suite abstract class

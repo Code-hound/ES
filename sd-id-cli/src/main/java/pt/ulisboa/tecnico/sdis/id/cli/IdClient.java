@@ -29,6 +29,7 @@ import java.security.SecureRandom;
 import pt.ulisboa.tecnico.sdis.id.ws.*;
 import pt.ulisboa.tecnico.sdis.id.ws.crypto.*;
 import pt.ulisboa.tecnico.sdis.id.exception.IdClient_Exception;
+import pt.ulisboa.tecnico.sdis.id.exception.UserDoesNotExist_Exception;
 
 /**
 *
@@ -43,6 +44,7 @@ import pt.ulisboa.tecnico.sdis.id.exception.IdClient_Exception;
 public class IdClient {
 	
 	/** WS service */
+	
 	private SDId_Service idService = null;
 	
 	/** WS port (interface) */
@@ -133,11 +135,11 @@ public class IdClient {
 	    	return password;
 	}
 
-	public void renewPassword(String userId) throws UserDoesNotExist_Exception {
+	public void renewPassword(String userId) throws Exception {
 		idInterface.renewPassword(userId);
 	}
 
-	public void removeUser(String userId) throws UserDoesNotExist_Exception {
+	public void removeUser(String userId) throws Exception {
 		idInterface.removeUser(userId);
 	}
 
