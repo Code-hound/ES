@@ -1,18 +1,30 @@
 package pt.tecnico.bubbledocs.integration.component;
 
 import static org.junit.Assert.assertNotNull;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
 import mockit.Mock;
 import mockit.MockUp;
 
+import org.jdom2.Document;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.XMLOutputter;
 import org.junit.Test;
+import org.omg.CORBA.portable.InputStream;
+
+import pt.tecnico.bubbledocs.domain.SpreadSheet;
 
 import pt.tecnico.bubbledocs.integration.ExportDocumentIntegrator;
 import pt.tecnico.bubbledocs.integration.ImportDocumentIntegrator;
-
+import pt.tecnico.bubbledocs.exception.ExportDocumentException;
+import pt.tecnico.bubbledocs.exception.ImportDocumentException;
 import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
-
+import pt.tecnico.bubbledocs.service.ImportDocumentService;
 import pt.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
 import pt.tecnico.bubbledocs.exception.UnavailableServiceException;
@@ -21,11 +33,10 @@ import pt.tecnico.bubbledocs.exception.CannotStoreDocumentException;
 public class ImportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
 
     // the tokens
-	private String ownerToken;
-	private String userToken;
-	private int    docID;
-	private int    error;
-	private byte[] doc;
+	private String      ownerToken;
+	private String      userToken;
+	private SpreadSheet doc;
+	private int         docID;
 
     @Override
     public void populate4Test() {
@@ -35,17 +46,10 @@ public class ImportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
 	
     	ownerToken = addUserToSession("admin");
     	userToken  = addUserToSession("usrnm666");
-		docID      = createSpreadSheet(getUserFromSession(ownerToken) , "doc", 10, 10).getId();
-		error      = -1;
+		doc        = createSpreadSheet(getUserFromSession(ownerToken) , "doc", 10, 10);
+		docID      = doc.getId();
 		
-		//note: Actually, the fact the username666 being or writer or reader
-		//      or the admin being the owner is not that relevant.
-		addAccess(getUserFromSession(userToken), getSpreadSheet("doc"), "reader");
-		
-		ExportDocumentIntegrator integration = new ExportDocumentIntegrator(userToken, docID);
-        integration.execute();
-        
-        this.doc = integration.getResult();
+		addAccess(getUserFromSession(userToken), doc, "reader");
 
     }
 
@@ -56,7 +60,22 @@ public class ImportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
     		@Mock
     		public byte[] loadDocument(String username, String SpreadSheetName)
     				throws CannotStoreDocumentException, RemoteInvocationException {
-    			return null;// this.doc;
+
+    			pt.tecnico.bubbledocs.domain.SpreadSheet doc = new pt.tecnico.bubbledocs.domain.SpreadSheet("usrnm666", 0, "doc", 10, 10);
+
+    			XMLOutputter xml = new XMLOutputter();
+    			Document jdomDoc = new Document();
+
+    			jdomDoc.setRootElement(doc.exportToXML());
+    			
+    			//throws ExportDocumentException
+    			try {
+    				return xml.outputString(jdomDoc).getBytes("UTF-8");
+    			} catch (UnsupportedEncodingException e) {
+    				e.printStackTrace();
+    				throw new ExportDocumentException();
+    			}
+
     		}
     	};
 
@@ -74,7 +93,22 @@ public class ImportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
     		@Mock
     		public byte[] loadDocument(String username, String SpreadSheetName)
     				throws CannotStoreDocumentException, RemoteInvocationException {
-    			return null;// this.doc;
+
+    			pt.tecnico.bubbledocs.domain.SpreadSheet doc = new pt.tecnico.bubbledocs.domain.SpreadSheet("usrnm666", 0, "doc", 10, 10);
+
+    			XMLOutputter xml = new XMLOutputter();
+    			Document jdomDoc = new Document();
+
+    			jdomDoc.setRootElement(doc.exportToXML());
+    			
+    			//throws ExportDocumentException
+    			try {
+    				return xml.outputString(jdomDoc).getBytes("UTF-8");
+    			} catch (UnsupportedEncodingException e) {
+    				e.printStackTrace();
+    				throw new ExportDocumentException();
+    			}
+
     		}
     	};
 
@@ -90,7 +124,22 @@ public class ImportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
     		@Mock
     		public byte[] loadDocument(String username, String SpreadSheetName)
     				throws CannotStoreDocumentException, RemoteInvocationException {
-    			return null;// this.doc;
+
+    			pt.tecnico.bubbledocs.domain.SpreadSheet doc = new pt.tecnico.bubbledocs.domain.SpreadSheet("usrnm666", 0, "doc", 10, 10);
+
+    			XMLOutputter xml = new XMLOutputter();
+    			Document jdomDoc = new Document();
+
+    			jdomDoc.setRootElement(doc.exportToXML());
+    			
+    			//throws ExportDocumentException
+    			try {
+    				return xml.outputString(jdomDoc).getBytes("UTF-8");
+    			} catch (UnsupportedEncodingException e) {
+    				e.printStackTrace();
+    				throw new ExportDocumentException();
+    			}
+
     		}
     	};
 
@@ -106,7 +155,22 @@ public class ImportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
     		@Mock
     		public byte[] loadDocument(String username, String SpreadSheetName)
     				throws CannotStoreDocumentException, RemoteInvocationException {
-    			throw new CannotStoreDocumentException(SpreadSheetName);
+
+    			pt.tecnico.bubbledocs.domain.SpreadSheet doc = new pt.tecnico.bubbledocs.domain.SpreadSheet("usrnm666", 0, "doc", 10, 10);
+
+    			XMLOutputter xml = new XMLOutputter();
+    			Document jdomDoc = new Document();
+
+    			jdomDoc.setRootElement(doc.exportToXML());
+    			
+    			//throws ExportDocumentException
+    			try {
+    				return xml.outputString(jdomDoc).getBytes("UTF-8");
+    			} catch (UnsupportedEncodingException e) {
+    				e.printStackTrace();
+    				throw new ExportDocumentException();
+    			}
+
     		}
     	};
 
@@ -122,7 +186,22 @@ public class ImportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
     		@Mock
     		public byte[] loadDocument(String username, String SpreadSheetName)
     				throws CannotStoreDocumentException, RemoteInvocationException {
-    			throw new RemoteInvocationException();
+
+    			pt.tecnico.bubbledocs.domain.SpreadSheet doc = new pt.tecnico.bubbledocs.domain.SpreadSheet("usrnm666", 0, "doc", 10, 10);
+
+    			XMLOutputter xml = new XMLOutputter();
+    			Document jdomDoc = new Document();
+
+    			jdomDoc.setRootElement(doc.exportToXML());
+    			
+    			//throws ExportDocumentException
+    			try {
+    				return xml.outputString(jdomDoc).getBytes("UTF-8");
+    			} catch (UnsupportedEncodingException e) {
+    				e.printStackTrace();
+    				throw new ExportDocumentException();
+    			}
+
     		}
     	};
 

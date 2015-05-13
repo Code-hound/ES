@@ -68,38 +68,6 @@ public class ImportDocumentServiceTest extends BubbleDocsServiceTest {
     	service.execute();
 
     }
-
-    @Test(expected = ImportDocumentException.class)
-    public void InvalidImportByJDOMException() {
-
-    	new MockUp<SAXBuilder>() {
-    		@Mock
-    		public Document build(final InputStream in)
-    				throws JDOMException, IOException {
-    			throw new JDOMException();
-    		}
-    	};
-    	
-    	ImportDocumentService service = new ImportDocumentService(ownerToken, xml);
-    	service.execute();
-
-    }
-
-    @Test(expected = ImportDocumentException.class)
-    public void InvalidImportByIOException() {
-
-    	new MockUp<SAXBuilder>() {
-    		@Mock
-    		public Document build(final InputStream in)
-    				throws JDOMException, IOException {
-    			throw new IOException();
-    		}
-    	};
-    	
-    	ImportDocumentService service = new ImportDocumentService(ownerToken, xml);
-    	service.execute();
-
-    }
     
     @Test(expected = InvalidAccessException.class)
     public void InvalidAccess() {

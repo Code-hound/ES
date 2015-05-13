@@ -2,11 +2,22 @@ package pt.tecnico.bubbledocs.service;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import mockit.Mock;
+import mockit.MockUp;
+
+import org.jdom2.Document;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 import org.junit.Test;
+import org.omg.CORBA.portable.InputStream;
 
 import pt.tecnico.bubbledocs.exception.InvalidAccessException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
+import pt.tecnico.bubbledocs.exception.ExportDocumentException;
 
 /*
  * Export Document Service Test
