@@ -1,6 +1,6 @@
 ## Restrospectiva Dois  (27 de Abril - 3 de Maio)
 
-Nesta semana conseguios cumprir os objectivos estabelicidos:
+Nesta semana conseguimos cumprir os objectivos establicidos:
 
 1) Colocar o SD-ID a funcionar;
 
