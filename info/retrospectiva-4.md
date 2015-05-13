@@ -10,13 +10,13 @@ Findo o projecto temos alguns pontos a frisar, independentemente de serem positi
 
 4) Este projecto deu-nos acesso a metodologias muito interessantes para a gestão de equipa, como é o caso do SCRUM.
 
-5) O próprio trabalho era bastante complexo e extenso o que levou a um emadurecimento do nosso ritmo de trabalho.
+5) O próprio trabalho era bastante complexo e extenso o que levou a um amadurecimento do nosso ritmo e qualidade de trabalho.
 
-6) Ficaram alguns pontos por fazer, apesar de o que ficou feito, foi feito em tempo record.
+6) Ficaram alguns pontos por explorar/implementar. No entanto, tentámos aproveitar ao máximo o tempo dedicado ao projecto. Ainda assim, pensamos que poderiamos beneficiar mais com a exploração de outras técnicas de trabalho, de que é exemplo o pair-programming.
 
 7) Cada elemento demorou mais de 10h para cumprir as suas tarefas do projecto, mesmo contando com as horas de compensação do sexto elemento em falta.
 
-8) GitHub e integração Eclipse, se não fossem estas duas ferramentas, tonar-se-ia bastante dificil.
+8) GitHub e a integração com o Eclipse, se não fossem estas duas ferramentas, tornar-se-ia bastante dificil.
 
 Em suma houve alguns dissabores durante a realização e implementação do projecto no entanto o mesmo foi compensatório.
 
