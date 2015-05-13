@@ -6,13 +6,13 @@ Nesta semana conseguios cumprir os seguintes objectivos estabelicidos:
 
 ### ES
 
-1) Resolução de erros da parte da entrega anterior.
+1) Resolução de **erros** da parte da entrega anterior.
 
-2) Criação do Serviço **Get Spread Sheet Content** e dos seus testes.
+2) Criação do Serviço **GetSpreadSheetContent** e dos seus **testes**.
 
-3) Criação da função assignBinaryReferenceToCell para célula.
+3) Criação da função **assignBinaryReferenceToCell** para célula.
 
-4) Criação dos Testes de Handlers.
+4) Criação dos **Testes de Handlers**.
 
 
 
@@ -46,13 +46,13 @@ Nesta semana conseguios cumprir os seguintes objectivos estabelicidos:
 
 ## Conclusões
 
-Cumprimos alguns (quase todos) os objectivos propostos no inicio da semana, no entanto a parte do ```SD-ID``` e o seu desenvolvimento atrasou-se um pouco devido ao facto de o problema ser complexo, exigir um grande nível de meditação e de compreensão sobre o assunto, assim como, fazer um bom esboço a mostrar ao professor nas aulas de Laboratório.
+Cumprimos a maioria dos objectivos propostos no início da semana. No entanto, parte do ```SD-ID``` e o seu desenvolvimento atrasou-se um pouco devido ao facto de o problema ser complexo, exigir um grande nível de meditação e de compreensão sobre o assunto, bem como fazer um bom esboço a mostrar ao professor nas aulas de Laboratório.
 
 O SD-Store também se atrasou um pouco dado a necessidade de dúvidas perante a aula de Laboratório, mas esta, o grupo do SD-Store tem aula às Segundas Feiras, enquanto que o SD-ID tem aula às Quintas Feiras, daí a diferença nos atrasos.
 
-A parte de ES não trouxe quaisquer problemas e ficou implementada consuante o previsto. Excepto o assignBinaryFunctionToCell que atrasou para segunda-feira devido a vários problemas, de entre eles percepções erradas do enunciado e a conceptualização do serviço. 
+A parte de ES não trouxe quaisquer problemas e ficou implementada de acordo com o previsto. Apenas o assignBinaryFunctionToCell atrasou para segunda-feira devido a vários problemas, entre eles percepções erradas do enunciado e a conceptualização do serviço. 
 
-Algo que correu mal foi alguma falta de comunicação directa entre o grupo, no inicio da semana, mas que tem vindo a melhor ao longo do trabalho.
+Algo que correu mal foi alguma falta de comunicação directa entre o grupo, no inicio da semana, mas que tem vindo a melhorar ao longo do trabalho.
 
 ### Wiki
 
