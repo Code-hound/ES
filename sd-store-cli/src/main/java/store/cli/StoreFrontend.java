@@ -3,19 +3,15 @@ package store.cli;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import javax.xml.registry.JAXRException;
 import javax.xml.ws.BindingProvider;
+import javax.xml.ws.Response;
 
 import org.joda.time.DateTime;
 
-import pt.ulisboa.tecnico.sdis.store.ws.CapacityExceeded_Exception;
-import pt.ulisboa.tecnico.sdis.store.ws.DocAlreadyExists_Exception;
-import pt.ulisboa.tecnico.sdis.store.ws.DocDoesNotExist_Exception;
-import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
-import pt.ulisboa.tecnico.sdis.store.ws.SDStore;
-import pt.ulisboa.tecnico.sdis.store.ws.SDStore_Service;
-import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
+import pt.ulisboa.tecnico.sdis.store.ws.*;
 import ws.handler.HeaderHandler;
 import store.cli.result.*;
 
@@ -31,12 +27,18 @@ public class StoreFrontend {
 	private String[] endpointAddresses;
 	/** Replica managers **/
 	private ArrayList<SDStore> endpoints;
+	/** Thresholds **/
+	private int readThreshold;
+	private int writeThreshold;
 	
 	
-	public StoreFrontend(String[] addresses, int multiplicity, int clientID) 
+	public StoreFrontend(String[] addresses, int multiplicity, int clientID,
+			int readThreshold, int writeThreshold) 
 			throws JAXRException, StoreClientException {
 		this.multiplicity = multiplicity;
 		this.ID = clientID;
+		this.readThreshold = readThreshold;
+		this.writeThreshold = writeThreshold;
 		setEndpointAddresses(addresses);
 		for (String address : endpointAddresses) {
 			System.out.println(address);
@@ -51,9 +53,36 @@ public class StoreFrontend {
 		}
 	}
 	
+	/*
+	public void createDoc(DocUserPair docUser)
+			throws DocAlreadyExists_Exception, InterruptedException {
+		List<Response<CreateDocResponse>> responses = 
+				new ArrayList<Response<CreateDocResponse>>();
+		for (SDStore endpoint : endpoints) {
+			setHeaders(endpoint);
+			Response<CreateDocResponse> response = endpoint.createDocAsync(docUser);
+			responses.add(response);
+		}
+		int replied = 0;
+		while (replied < writeThreshold) {
+			for (Response<CreateDocResponse> response : responses) {
+				if (response!=null && response.isDone()) {
+					response = null;
+					replied+=1;
+					System.out.println("Created doc in "+replied+" replicas");
+					if (replied == writeThreshold) { 
+						System.out.println("Created doc in "+replied+" replicas - final");
+						return;
+					}
+				}
+			}
+			Thread.sleep(100);
+		}
+	}
+	*/
+	
 	public List<String> listDocs(String username)
 			throws UserDoesNotExist_Exception {
-		//List<List<String>> docs = new ArrayList<List<String>>();
 		List<ListDocsResult> results = new ArrayList<ListDocsResult>();	
 		for (SDStore endpoint : endpoints) {
 			setHeaders(endpoint);
@@ -65,13 +94,16 @@ public class StoreFrontend {
         	String timestamp = (String) requestContext.get(HeaderHandler.getTimeProperty());
         	String clientID = (String) requestContext.get(HeaderHandler.getIDProperty());
         	results.add(new ListDocsResult(docs, timestamp, clientID));
+        	if (results.size() == this.readThreshold) {
+        		break;
+        	}
 		}
 		if (!results.isEmpty()) {
 			return ListDocsResult.quorumDecider(results);
 		}
 		return null;
 	}
-
+	
 	public void store(DocUserPair docUser, byte[] contents)
 			throws CapacityExceeded_Exception, DocDoesNotExist_Exception,
 			UserDoesNotExist_Exception {
@@ -80,7 +112,63 @@ public class StoreFrontend {
 			endpoint.store(docUser, contents);
 		}
 	}
-
+	
+	/*
+	public void store(DocUserPair docUser, byte[] contents)
+			throws CapacityExceeded_Exception, DocDoesNotExist_Exception,
+			UserDoesNotExist_Exception, InterruptedException {
+		List<Response<StoreResponse>> responses = 
+				new ArrayList<Response<StoreResponse>>();
+		for (SDStore endpoint : endpoints) {
+			setHeaders(endpoint);
+			Response<StoreResponse> response = endpoint.storeAsync(docUser, contents);
+			responses.add(response);
+		}
+		int replied = 0;
+		while (replied < writeThreshold) {
+			for (Response<StoreResponse> response : responses) {
+				if (response!=null && response.isDone()) {
+					response = null;
+					replied+=1;
+					System.out.println("Wrote to "+replied+" replicas");
+					if (replied == writeThreshold) { 
+						System.out.println("Wrote to "+replied+" replicas - final");
+						return;
+					}
+				}
+			}
+			Thread.sleep(100);
+		}
+	}
+	*/
+	/*
+	public byte[] load(DocUserPair docUser)
+			throws DocDoesNotExist_Exception, 
+			UserDoesNotExist_Exception, 
+			InterruptedException, 
+			ExecutionException {
+		List<Response<LoadResponse>> responses = 
+				new ArrayList<Response<LoadResponse>>();
+		List<LoadResult> results = new ArrayList<LoadResult>();
+		for (SDStore endpoint : endpoints) {
+			setHeaders(endpoint);
+			byte[] content = endpoint.load(docUser);
+			
+			BindingProvider bindingProvider = (BindingProvider) endpoint;
+        	Map<String, Object> responseContext = bindingProvider.getResponseContext();
+        	
+        	String timestamp = (String) responseContext.get(HeaderHandler.getTimeProperty());
+        	String clientID = (String) responseContext.get(HeaderHandler.getIDProperty());
+        	
+        	results.add(new LoadResult(content, timestamp, clientID));	
+        	
+		}
+		if (!results.isEmpty()) {
+			return LoadResult.quorumDecider(results);
+		}
+		return null;
+	}
+	*/
 	public byte[] load(DocUserPair docUser)
 			throws DocDoesNotExist_Exception, UserDoesNotExist_Exception {
 		//List<byte[], String> content = new ArrayList<byte[]>();
@@ -95,7 +183,10 @@ public class StoreFrontend {
         	String timestamp = (String) requestContext.get(HeaderHandler.getTimeProperty());
         	String clientID = (String) requestContext.get(HeaderHandler.getIDProperty());
         	
-        	results.add(new LoadResult(content, timestamp, clientID));	
+        	results.add(new LoadResult(content, timestamp, clientID));
+        	if (results.size() == this.readThreshold) {
+        		break;
+        	}
 		}
 		if (!results.isEmpty()) {
 			return LoadResult.quorumDecider(results);

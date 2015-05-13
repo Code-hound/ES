@@ -138,12 +138,12 @@ public class HeaderHandler implements SOAPHandler<SOAPMessageContext> {
 
         return true;
     }
-
+    
     public boolean handleFault(SOAPMessageContext smc) {
         System.out.println("Ignoring fault message...");
         return true;
     }
-
+	
     public void close(MessageContext messageContext) {
     }
     

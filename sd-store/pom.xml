@@ -14,7 +14,7 @@
     <name>Store WebService Server</name>
 
     <properties>
-        <main.exec.classname>StoreMain</main.exec.classname>
+        <main.exec.classname>store.ws.StoreMain</main.exec.classname>
 
         <wsdl.directory>${basedir}/src/main/resources</wsdl.directory>
         <wsdl.filename>SD-STORE.1_1.wsdl</wsdl.filename>
@@ -89,9 +89,12 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <configuration>
                     <arguments>
-                        <argument>${uddi.url}</argument>
-                        <argument>${ws.name}</argument>
-                        <argument>${ws.url}</argument>
+                    	<argument>${uddi.url}</argument>
+			            <argument>${ws.name}</argument>
+			            <argument>3</argument>
+			            <argument>http://localhost:8080/store-ws/endpoint</argument>
+			            <argument>http://localhost:8079/store-ws/endpoint</argument>
+			            <argument>http://localhost:8078/store-ws/endpoint</argument>
                     </arguments>
                     <systemProperties>
                         <systemProperty>

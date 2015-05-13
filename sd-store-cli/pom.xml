@@ -18,7 +18,7 @@
         <wsdl.directory>${basedir}/../sd-store/src/main/resources</wsdl.directory>
         <wsdl.filename>SD-STORE.1_1.wsdl</wsdl.filename>
 
-        <ws.name>${store.name}</ws.name>
+        <ws.name>SD-STORE</ws.name>
     </properties>
 
     <dependencies>

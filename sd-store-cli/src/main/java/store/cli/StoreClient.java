@@ -3,6 +3,7 @@ package store.cli;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import javax.xml.registry.JAXRException;
 import javax.xml.ws.BindingProvider;
@@ -36,36 +37,28 @@ public class StoreClient {
     /** Array of server URLs **/
 	private String[] endpointAddresses;
 	
-	public StoreClient(String uddiURL, String wsName, int multiplicity, int ID) 
+	public StoreClient(String uddiURL, String wsName, int multiplicity,
+			int readThreshold, int writeThreshold) 
 			throws JAXRException, StoreClientException {
 		
 		this.wsName = wsName;
 		this.uddiURL = uddiURL;
-		this.clientID = ID;
 		
 		uddiLookup(uddiURL, wsName, multiplicity);
-		frontend = new StoreFrontend(endpointAddresses, multiplicity, this.clientID);
+		frontend = new StoreFrontend
+				(endpointAddresses, multiplicity, 
+				this.clientID, readThreshold, writeThreshold);
 		frontend.createStubs();
 	}
 	
 	public StoreClient(String uddiURL, String wsName, int multiplicity) 
 			throws JAXRException, StoreClientException {
-		
-		this.wsName = wsName;
-		this.uddiURL = uddiURL;
-		this.clientID = nextClientID;
-		nextClientID = nextClientID+1;
-		
-		uddiLookup(uddiURL, wsName, multiplicity);
-		frontend = new StoreFrontend(endpointAddresses, multiplicity, this.clientID);
-		frontend.createStubs();
-		//System.out.println("Size: "+endpointAddresses.length);
-		//for (String s : endpointAddresses) System.out.println(s);
+		this(uddiURL, wsName, multiplicity, 2, 2);
 	}
 
 	// PROXY METHODS - TO BE USED
 	public void createDoc(String username, String docID)
-			throws DocAlreadyExists_Exception {
+			throws DocAlreadyExists_Exception, InterruptedException {
 		DocUserPair docUser = createPair(username, docID);
 		frontend.createDoc(docUser);
 	}
@@ -77,13 +70,16 @@ public class StoreClient {
 
 	public void store(String username, String docID, byte[] contents)
 			throws CapacityExceeded_Exception, DocDoesNotExist_Exception,
-			UserDoesNotExist_Exception {
+			UserDoesNotExist_Exception, InterruptedException {
 		DocUserPair docUser = createPair(username, docID);
 		frontend.store(docUser, contents);
 	}
 
 	public byte[] load(String username, String docID)
-			throws DocDoesNotExist_Exception, UserDoesNotExist_Exception {
+			throws DocDoesNotExist_Exception, 
+			UserDoesNotExist_Exception, 
+			InterruptedException, 
+			ExecutionException {
 		DocUserPair docUser = createPair(username, docID);
 		return frontend.load(docUser);
 	}
@@ -101,7 +97,10 @@ public class StoreClient {
 	    	
 	    	System.out.printf("Looking for '%s'%n", wsName);
 	    	Collection<String> addresses = uddiNaming.list(wsName);
-	    	
+	    	if (addresses.size() == 0) {
+	    		throw new StoreClientException("Couldn't find any endpoints for the "
+	    				+wsName+" service.");
+	    	}
 	    	if (endpointAddresses.length > addresses.size()) {
 	    		throw new StoreClientException("The multiplicity for the "
 	    				+wsName+" service currently can be no larger than "
@@ -138,5 +137,9 @@ public class StoreClient {
     
     public String[] getEndpointAddresses() {
     	return this.endpointAddresses;
+    }
+    
+    public synchronized void incrementClientIDCounter() {
+        nextClientID += 1;
     }
 }

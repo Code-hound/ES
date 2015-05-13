@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.xml.registry.JAXRException;
 
@@ -30,7 +31,7 @@ import store.cli.StoreClientException;
 public class StoreClientRealTest {
 	
 	private static final String uddiURL = "http://localhost:8081";
-	private static final String wsName = "SD-Store";
+	private static final String wsName = "SD-STORE";
 	private static final int multiplicity = 3;
 	private static StoreClient client;
 	
@@ -77,7 +78,7 @@ public class StoreClientRealTest {
 	
 	@Test
 	public void createAndList() 
-			throws DocAlreadyExists_Exception, UserDoesNotExist_Exception {
+			throws DocAlreadyExists_Exception, UserDoesNotExist_Exception, InterruptedException {
 		client.createDoc(USERNAME, DOC_ID1);
 		
 		List<String> files = client.listDocs(USERNAME);
@@ -91,7 +92,7 @@ public class StoreClientRealTest {
 	public void createStoreAndLoad() 
 			throws DocAlreadyExists_Exception, UserDoesNotExist_Exception, 
 			CapacityExceeded_Exception, DocDoesNotExist_Exception, 
-			UnsupportedEncodingException {
+			UnsupportedEncodingException, InterruptedException, ExecutionException {
 		client.createDoc(USERNAME, DOC_ID2);
 		
 		byte[] contentToBytes = CONTENT.getBytes();
@@ -104,29 +105,35 @@ public class StoreClientRealTest {
 	@Test (expected = StoreClientException.class)
 	public void wrongUDDIUrl() 
 			throws DocAlreadyExists_Exception, UserDoesNotExist_Exception, 
-			StoreClientException, JAXRException {
+			StoreClientException, JAXRException, InterruptedException {
 		client = new StoreClient("www.4chan.org/mlp", wsName, 1);
 		client.createDoc(USERNAME, DOC_ID3);
 	}
 	
-	@Test (expected = StoreClientException.class)
-	public void wrongMultiplicity() 
-			throws StoreClientException, DocAlreadyExists_Exception, JAXRException {
-		client = new StoreClient(uddiURL,wsName, 100);
-		client.createDoc(USERNAME, DOC_ID3);
+	@Test
+	public void wrongMultiplicityWith3Endpoints() 
+			throws StoreClientException, DocAlreadyExists_Exception, JAXRException, InterruptedException {
+		try {
+			client = new StoreClient(uddiURL,wsName, 100);
+			client.createDoc(USERNAME, DOC_ID3);
+		} catch (StoreClientException e) {
+			assertTrue(e.getMessage().startsWith("The multiplicity for the SD-STORE service "+
+						"currently can be no larger than"));
+		}
 	}
 	
 	@Test (expected = DocDoesNotExist_Exception.class)
 	public void storeWithWrongDocID() 
 			throws DocAlreadyExists_Exception, CapacityExceeded_Exception, 
-			DocDoesNotExist_Exception, UserDoesNotExist_Exception {
+			DocDoesNotExist_Exception, UserDoesNotExist_Exception, InterruptedException {
 		byte[] contentToBytes = CONTENT.getBytes();
-		client.store(USERNAME, DOC_ID4, contentToBytes); 
+		client.createDoc(USERNAME, DOC_ID4); 
+		client.store(USERNAME, "Fake ID", contentToBytes); 
 	}
 	
 	@Test (expected = DocAlreadyExists_Exception.class)
 	public void createDuplicateDoc() 
-			throws StoreClientException, DocAlreadyExists_Exception, JAXRException {
+			throws StoreClientException, DocAlreadyExists_Exception, JAXRException, InterruptedException {
 		client.createDoc(USERNAME, DOC_ID5);
 		client.createDoc(USERNAME, DOC_ID5);
 	}
