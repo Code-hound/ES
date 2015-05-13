@@ -99,20 +99,47 @@ public class AssignLiteralToCellIntegratorTest extends BubbleDocsIntegratorTest 
 	
 	@Test 
 	public void success() {
-		//Owner assigns the value 5 to cell A "1;1"
+		//Owner assigns the value 5 to cell "10;10"
 		AssignLiteralToCellIntegrator integration_owner = new AssignLiteralToCellIntegrator
-				(OWNER_TOKEN, DOC.getId(), "1;1", "5");
+				(OWNER_TOKEN, DOC.getId(), "10;10", "5");
 		integration_owner.execute();
+		assertEquals("5",integration_owner.getResult());
+		assertEquals(5,DOC.getCell(10,10).getValue());
 		
-		//Writer assigns the value 7 to cell B "2;2"
+		//Owner assigns the value 9 to cell "10;6"
+		AssignLiteralToCellIntegrator integration_owner3 = new AssignLiteralToCellIntegrator
+				(OWNER_TOKEN, DOC.getId(), "10;6", "9");
+		integration_owner3.execute();
+		assertEquals("9",integration_owner3.getResult());
+		assertEquals(9,DOC.getCell(10,6).getValue());
+		
+		//Owner assigns the value 3 to cell "3;10"
+		AssignLiteralToCellIntegrator integration_owner2 = new AssignLiteralToCellIntegrator
+				(OWNER_TOKEN, DOC.getId(), "3;10", "3");
+		integration_owner2.execute();
+		assertEquals("3",integration_owner2.getResult());
+		assertEquals(3,DOC.getCell(3,10).getValue());
+	
+		//Writer assigns the value 7 to cell "2;2"
 		AssignLiteralToCellIntegrator integration_writer = new AssignLiteralToCellIntegrator
 				(WRITE_TOKEN, DOC.getId(), "2;2", "7");
 		integration_writer.execute();
+		assertEquals("7",integration_writer.getResult());
+		assertEquals(7,DOC.getCell(2,2).getValue());
 		
-		assertEquals(integration_owner.getResult(), "5");
-		assertEquals(DOC.getCell(1,1).getValue(), 5);
-		assertEquals(integration_writer.getResult(), "7");
-		assertEquals(DOC.getCell(2,2).getValue(), 7);
+		//Owner assigns the value -2 to cell "1;7"
+		AssignLiteralToCellIntegrator integration_owner4 = new AssignLiteralToCellIntegrator
+				(OWNER_TOKEN, DOC.getId(), "1;7", "-2");
+		integration_owner4.execute();
+		assertEquals("-2", integration_owner4.getResult());
+		assertEquals(-2, DOC.getCell(1,7).getValue());
+		
+		//Writer assigns the value 23 to cell "2;2"
+		AssignLiteralToCellIntegrator integration_writer1 = new AssignLiteralToCellIntegrator
+				(WRITE_TOKEN, DOC.getId(), "2;2", "23");
+		integration_writer1.execute();
+		assertEquals("23", integration_writer1.getResult());
+		assertEquals(23, DOC.getCell(2,2).getValue());
 	}
 	
 	@Test (expected = InvalidAccessException.class)
@@ -149,4 +176,19 @@ public class AssignLiteralToCellIntegratorTest extends BubbleDocsIntegratorTest 
 				(OWNER_TOKEN, DOC.getId(), "20;40", "5");
 		integration_invalid_cell.execute();
 	}
+	
+	@Test (expected = CellNotInSpreadSheetException.class)
+	public void assignToOutOfRangeCell2() {
+		AssignLiteralToCellIntegrator integration_invalid_cell = new AssignLiteralToCellIntegrator 
+				(OWNER_TOKEN, DOC.getId(), "0;0", "5");
+		integration_invalid_cell.execute();
+	}
+	
+	@Test (expected = CellNotInSpreadSheetException.class)
+	public void assignToOutOfRangeCell3() {
+		AssignLiteralToCellIntegrator integration_invalid_cell = new AssignLiteralToCellIntegrator 
+				(OWNER_TOKEN, DOC.getId(), "11;11", "5");
+		integration_invalid_cell.execute();
+	}
+	
 }

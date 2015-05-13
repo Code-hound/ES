@@ -4,10 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import pt.tecnico.bubbledocs.domain.Reference;
 import pt.tecnico.bubbledocs.domain.User;
 import pt.tecnico.bubbledocs.domain.BubbleDocs;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
 import pt.tecnico.bubbledocs.exception.InvalidAccessException;
+import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
 import pt.tecnico.bubbledocs.exception.DocumentDoesNotExistException;
@@ -96,19 +98,20 @@ public class AssignReferenceToCellIntegratorTest extends BubbleDocsIntegratorTes
 				(OWNER_TOKEN, DOC.getId(), "1;2", "4");
 		integration_owner.execute();
 		integration_aux.execute();
-		
-		//Writer assigns the reference "1;1" to cell B "2;2"
-		AssignReferenceToCellIntegrator integration_writer = new AssignReferenceToCellIntegrator
-				(WRITE_TOKEN, DOC.getId(), "2;2", "1;1");
-		integration_writer.execute();
-		
 		//Checks if the value returned by the integration is the referenced cell ID
 		assertEquals("1;2", integration_owner.getResult());
 		//Checks if the value in 1;1 is the value in 1;2
 		assertEquals(4, DOC.getCell(1,1).getValue());
+				
 		
+		
+		//Writer assigns the reference "1;1" to cell B "10;2"
+		AssignReferenceToCellIntegrator integration_writer = new AssignReferenceToCellIntegrator
+				(WRITE_TOKEN, DOC.getId(), "10;2", "1;1");
+		integration_writer.execute();
+			
 		assertEquals(integration_writer.getResult(), "1;1");
-		assertEquals(DOC.getCell(2,2).getValue(), 4);
+		assertEquals(DOC.getCell(10,2).getValue(), 4);
 	}
 	
 	@Test (expected = InvalidAccessException.class)
@@ -142,7 +145,17 @@ public class AssignReferenceToCellIntegratorTest extends BubbleDocsIntegratorTes
 	@Test (expected = CellNotInSpreadSheetException.class)
 	public void assignToOutOfRangeCell() {
 		AssignReferenceToCellIntegrator integration_invalid_cell = new AssignReferenceToCellIntegrator 
-				(OWNER_TOKEN, DOC.getId(),"1;2" , "20;40");
+				(OWNER_TOKEN, DOC.getId(),"20;40" , "1;2");
+		integration_invalid_cell.execute();
+	}
+	
+	@Test (expected = ProtectedCellException.class)
+	public void assignToProtectedCell() {
+		Reference referenceCellId = new Reference
+				(DOC, 6, 4);
+		referenceCellId.getCellReference().toogleProtection();
+		AssignReferenceToCellIntegrator integration_invalid_cell = new AssignReferenceToCellIntegrator 
+				(OWNER_TOKEN, DOC.getId(),"6;4" , "1;2");
 		integration_invalid_cell.execute();
 	}
 }

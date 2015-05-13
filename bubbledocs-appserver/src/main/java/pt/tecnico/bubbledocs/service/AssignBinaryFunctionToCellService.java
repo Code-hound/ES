@@ -13,6 +13,7 @@ import pt.tecnico.bubbledocs.domain.SUB;
 import pt.tecnico.bubbledocs.domain.SpreadSheet;
 import pt.tecnico.bubbledocs.exception.CellNotInSpreadSheetException;
 import pt.tecnico.bubbledocs.exception.InvalidAccessException;
+import pt.tecnico.bubbledocs.exception.InvalidBinaryFunctionException;
 import pt.tecnico.bubbledocs.exception.InvalidValueException;
 import pt.tecnico.bubbledocs.exception.ProtectedCellException;
 import pt.tecnico.bubbledocs.exception.UserNotInSessionException;
@@ -201,7 +202,7 @@ public class AssignBinaryFunctionToCellService extends BubbleDocsService {
 			this.result = ""+binaryFuncD.getContentValue();
 			return; 
 		default:
-			throw new InvalidValueException();
+			throw new InvalidBinaryFunctionException();
 		}
 	}
 

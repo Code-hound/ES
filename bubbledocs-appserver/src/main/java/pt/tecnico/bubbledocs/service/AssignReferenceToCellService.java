@@ -24,7 +24,6 @@ public class AssignReferenceToCellService extends BubbleDocsService {
 	private int docId;
 	private String cellId;
 	private String reference;
-	
 	private String docname;
 
 	public AssignReferenceToCellService(String userToken, int docId, String cellId,
@@ -42,10 +41,7 @@ public class AssignReferenceToCellService extends BubbleDocsService {
 		
 		if (username == null)
 			throw new UserNotInSessionException(username);
-		/*
-		if(!getSpreadSheet(docId).canBeWrittenBy(username))
-			throw new UserCantWriteException(username, docId);
-		*/
+		
 		SpreadSheet sheet = getSpreadSheet(docId);
 		this.docname = sheet.getSpreadSheetName();
 		
@@ -63,19 +59,22 @@ public class AssignReferenceToCellService extends BubbleDocsService {
 
 		int rowSpreadSheet    = sheet.getNumberRows();
 		int columnSpreadSheet = sheet.getNumberColumns();
-		//System.out.println("Rows:"+rowSpreadSheet+" Columns:"+columnSpreadSheet);
-
-		// testa se a celula existe nas dimensoes da spreadsheet
-		if (!(rowCellReference    >= 0) ||
-			!(rowCellReference    <= rowSpreadSheet) ||
-			!(columnCellReference >= 0) ||
-			!(columnCellReference <= columnSpreadSheet))
-			throw new CellNotInSpreadSheetException(rowCellReference, columnCellReference, docId);
+		
+		// testa se cellId existe nas dimensoes da spreadsheet
+		if (!(rowCell    >= 0) ||
+			!(rowCell    <= rowSpreadSheet) ||
+			!(columnCell >= 0) ||
+			!(columnCell <= columnSpreadSheet))
+			throw new CellNotInSpreadSheetException
+			(rowCellReference, columnCellReference, docId);
 
 		Reference referenceAux = new Reference
 				(sheet, rowCellReference, columnCellReference);
-
-		if (referenceAux.getCellReference().getProtect())
+		
+		Reference referenceCellId = new Reference
+				(sheet, rowCell, columnCell);
+		//para saber se a celula esta protegida antes de fazer assign
+		if (referenceCellId.getCellReference().getProtect())
 			throw new ProtectedCellException(rowCell, columnCell);
 
 		sheet.addContent(referenceAux, rowCell, columnCell);
