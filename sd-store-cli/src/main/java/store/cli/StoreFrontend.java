@@ -11,6 +11,7 @@ import javax.xml.ws.Response;
 
 import org.joda.time.DateTime;
 
+import pt.ulisboa.tecnico.sdis.id.ws.crypto.SymCrypto;
 import pt.ulisboa.tecnico.sdis.store.ws.*;
 import ws.handler.HeaderHandler;
 import store.cli.result.*;
@@ -105,11 +106,12 @@ public class StoreFrontend {
 	}
 	
 	public void store(DocUserPair docUser, byte[] contents)
-			throws CapacityExceeded_Exception, DocDoesNotExist_Exception,
-			UserDoesNotExist_Exception {
+			throws Exception {
 		for (SDStore endpoint : endpoints) {
+			SymCrypto cryptographer = new SymCrypto();
+			String encryptedContent = cryptographer.encryptDocument(new String(contents));
 			setHeaders(endpoint);
-			endpoint.store(docUser, contents);
+			endpoint.store(docUser, encryptedContent.getBytes());
 		}
 	}
 	
@@ -170,12 +172,14 @@ public class StoreFrontend {
 	}
 	*/
 	public byte[] load(DocUserPair docUser)
-			throws DocDoesNotExist_Exception, UserDoesNotExist_Exception {
+			throws Exception {
 		//List<byte[], String> content = new ArrayList<byte[]>();
 		List<LoadResult> results = new ArrayList<LoadResult>();
 		for (SDStore endpoint : endpoints) {
 			setHeaders(endpoint);
-			byte[] content = endpoint.load(docUser);
+			byte[] encryptedContent = endpoint.load(docUser);
+			SymCrypto cryptographer = new SymCrypto();
+			String decryptedContent = cryptographer.decryptDocument(new String(encryptedContent));
 			
 			BindingProvider bindingProvider = (BindingProvider) endpoint;
         	Map<String, Object> responseContext = bindingProvider.getResponseContext();
@@ -183,7 +187,7 @@ public class StoreFrontend {
         	String timestamp = (String) responseContext.get(HeaderHandler.getTimeProperty());
         	String clientID = (String) responseContext.get(HeaderHandler.getIDProperty());
         	
-        	results.add(new LoadResult(content, timestamp, clientID));
+        	results.add(new LoadResult(decryptedContent.getBytes(), timestamp, clientID));
         	if (results.size() == this.readThreshold) {
         		break;
         	}

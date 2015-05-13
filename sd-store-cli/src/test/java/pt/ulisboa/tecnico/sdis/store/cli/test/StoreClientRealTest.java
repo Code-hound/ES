@@ -90,9 +90,7 @@ public class StoreClientRealTest {
 	
 	@Test
 	public void createStoreAndLoad() 
-			throws DocAlreadyExists_Exception, UserDoesNotExist_Exception, 
-			CapacityExceeded_Exception, DocDoesNotExist_Exception, 
-			UnsupportedEncodingException, InterruptedException, ExecutionException {
+			throws Exception {
 		client.createDoc(USERNAME, DOC_ID2);
 		
 		byte[] contentToBytes = CONTENT.getBytes();
@@ -124,8 +122,7 @@ public class StoreClientRealTest {
 	
 	@Test (expected = DocDoesNotExist_Exception.class)
 	public void storeWithWrongDocID() 
-			throws DocAlreadyExists_Exception, CapacityExceeded_Exception, 
-			DocDoesNotExist_Exception, UserDoesNotExist_Exception, InterruptedException {
+			throws Exception {
 		byte[] contentToBytes = CONTENT.getBytes();
 		client.createDoc(USERNAME, DOC_ID4); 
 		client.store(USERNAME, "Fake ID", contentToBytes); 

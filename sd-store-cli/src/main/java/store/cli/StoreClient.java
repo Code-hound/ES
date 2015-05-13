@@ -69,17 +69,13 @@ public class StoreClient {
 	}
 
 	public void store(String username, String docID, byte[] contents)
-			throws CapacityExceeded_Exception, DocDoesNotExist_Exception,
-			UserDoesNotExist_Exception, InterruptedException {
+			throws Exception {
 		DocUserPair docUser = createPair(username, docID);
 		frontend.store(docUser, contents);
 	}
 
 	public byte[] load(String username, String docID)
-			throws DocDoesNotExist_Exception, 
-			UserDoesNotExist_Exception, 
-			InterruptedException, 
-			ExecutionException {
+			throws Exception {
 		DocUserPair docUser = createPair(username, docID);
 		return frontend.load(docUser);
 	}

@@ -30,8 +30,6 @@ import pt.ulisboa.tecnico.sdis.id.ws.*;
 import pt.ulisboa.tecnico.sdis.id.ws.crypto.*;
 import pt.ulisboa.tecnico.sdis.id.exception.IdClient_Exception;
 
-
-
 /**
 *
 *  ID CLIENT
@@ -121,15 +119,10 @@ public class IdClient {
 	public String createUser(String userId, String emailAddress)
 			throws Exception {
 		
-    	/*
-		requestContext.put(HeaderHandler.getIDProperty(), this.clientID);
-    	requestContext.put(HeaderHandler.getServerProperty(), serverURL);
-    	*/
-    	//String password = null;
     	idInterface.createUser(userId, emailAddress);
     	BindingProvider bindingProvider = (BindingProvider) idInterface;
     	Map<String, Object> responseContext = bindingProvider.getResponseContext();
-    	//try {
+    	
 	    	SymCrypto cryptographer = new SymCrypto();
 	    	String passwordEncrypted = (String) responseContext.get(HeaderHandler.getPasswordProperty());
 	    	String password = cryptographer.decrypt(passwordEncrypted);
@@ -137,13 +130,7 @@ public class IdClient {
 	    	if (password == null || password.length() == 0) {
 	    		System.out.println("Received empty password");
 	    	}
-	    	//password = cryptographer.decrypt(passwordEncryptedBytes);
 	    	return password;
-    	//} catch (Exception e) {
-    	//	System.out.println("Failed decrypting password");
-    	//	System.out.println(e.getMessage());
-    	//}
-    	//return null;
 	}
 
 	public void renewPassword(String userId) throws UserDoesNotExist_Exception {
