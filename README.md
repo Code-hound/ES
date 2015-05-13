@@ -4,9 +4,9 @@ Bubble Docs
 Índice
 ------
 
-- [Bubble-Docs](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/blob/master/README.md#serviço-bubble-docs)
-- [SD-ID](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/blob/master/README.md#serviço-sd-id)
-- [SD-STORE](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/blob/master/README.md#serviço-sd-store)
+- [Bubble-Docs](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project#serviço-bubble-docs)
+- [SD-ID](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project#serviço-sd-id)
+- [SD-STORE](https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project#serviço-sd-store)
 
 Projecto de Engenharia de Software - Quarta Entrega
 ===================================================
