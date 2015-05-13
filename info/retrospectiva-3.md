@@ -53,3 +53,7 @@ O SD-Store também se atrasou um pouco dado a necessidade de dúvidas perante a 
 A parte de ES não trouxe quaisquer problemas e ficou implementada consuante o previsto.
 
 Algo que correu mal foi alguma falta de comunicação directa entre o grupo, no inicio da semana, mas que tem vindo a melhor ao longo do trabalho.
+
+### Wiki
+
+https://github.com/tecnico-softeng-distsys-2015/A_29_59_63-project/wiki/Third-Week
