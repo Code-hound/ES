@@ -1,8 +1,6 @@
 package pt.tecnico.bubbledocs.service;
  
 import static org.junit.Assert.assertEquals;
-import mockit.Mock;
-import mockit.MockUp;
  
 import org.junit.Test;
 
