@@ -21,7 +21,7 @@
 
 		<ws.name>${id.name}</ws.name>
 		<ws.host>localhost</ws.host>
-		<ws.port>8080</ws.port>
+		<ws.port>8060</ws.port>
 		<ws.url>http://${ws.host}:${ws.port}/sd-id/endpoint</ws.url>
 	</properties>
 

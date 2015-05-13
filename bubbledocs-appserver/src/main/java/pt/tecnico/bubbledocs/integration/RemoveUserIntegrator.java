@@ -64,7 +64,7 @@ public class RemoveUserIntegrator extends BubbleDocsIntegrator {
 			//catches LoginBubbleDocsException
 			localService.removeUser(this.toDeleteUsername);
 
-		} catch (RemoteInvocationException e) {
+		} catch (Exception e) {
 
 			//doesn't throw UserNotInSessionException
 			//doesn't throw UnauthorizedOperationException
@@ -74,17 +74,7 @@ public class RemoveUserIntegrator extends BubbleDocsIntegrator {
 			createUserService.execute();
 			throw new UnavailableServiceException();
 
-		} catch (LoginBubbleDocsException e) {
-
-			//doesn't throw UnauthorizedOperationException
-			//doesn't throw UserAlreadyExistsException
-			//doesn't throw UserAlreadyExistsException
-			//doesn't throw EmptyEmailException
-			//doesn't throw InvalidUsernameException
-			createUserService.execute();
-			throw new LoginBubbleDocsException(this.toDeleteUsername);
-
-		}
+		} 
 		
 	}
 }

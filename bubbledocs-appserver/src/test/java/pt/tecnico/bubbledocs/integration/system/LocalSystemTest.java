@@ -26,6 +26,7 @@ public class LocalSystemTest {
 
 		try {
 			FenixFramework.getTransactionManager().begin();
+			
 		} catch (WriteOnReadError | NotSupportedException | SystemException e1) {
 			e1.printStackTrace();
 		}

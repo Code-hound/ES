@@ -3,31 +3,21 @@ package pt.tecnico.bubbledocs.service.remote;
 import pt.tecnico.bubbledocs.exception.CannotStoreDocumentException;
 import pt.tecnico.bubbledocs.exception.CannotLoadDocumentException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
+import pt.ulisboa.tecnico.sdis.id.cli.IdClient;
+import store.cli.StoreClient;
 
 public class StoreRemoteServices {
 	
-	/*
-	 * ID REMOTE SERVICES
-	 * 
-	 * Servico remoto que abstrai o servico externo do SD-ID.
-	 * 
-	 * @author: Francisco Maria Calisto
-	 * 
-	 */
+	private StoreClient client;
 	
 	public void storeDocument(String username, String docName, byte[] document)
-		throws CannotStoreDocumentException, RemoteInvocationException {
-			
-			// TODO: the connection and invocation of the remote service
-			
+		throws Exception {
+			client.store(username, docName, document);
 		}
 	
 	public byte[] loadDocument(String username, String docName)
-		throws CannotLoadDocumentException, RemoteInvocationException {
-			
-			// TODO: the connection and invocation of the remote service
-			return null;
-			
+		throws Exception {
+			return client.load(username, docName);
 		}
 	
 }

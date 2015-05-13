@@ -36,7 +36,7 @@ public class RenewPasswordIntegrator extends BubbleDocsIntegrator {
 			//catches LoginBubbleDocsException
 			remoteService.renewPassword(username);
 
-		} catch (RemoteInvocationException e) {
+		} catch (Exception e) {
 
 			throw new UnavailableServiceException();
 

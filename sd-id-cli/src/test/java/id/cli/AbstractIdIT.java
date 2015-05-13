@@ -6,7 +6,7 @@ import java.util.Properties;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
-import pt.ulisboa.tecnico.bubbledocs.testutils.TestServerManager;
+//import pt.ulisboa.tecnico.bubbledocs.testutils.TestServerManager;
 
 import pt.ulisboa.tecnico.sdis.id.cli.IdClient;
 import pt.ulisboa.tecnico.sdis.id.cli.IDClientException;
@@ -40,13 +40,13 @@ public class AbstractIdIT {
         if ("true".equalsIgnoreCase(uddiEnabled)) {
             ID_CLIENT = new IdClient(uddiURL, wsName);
         } else {
-            ID_CLIENT = new IdClient(wsURL);
+            ID_CLIENT = new IdClient(wsURL, wsURL);
         }
         ID_CLIENT.setVerbose(true);
 
         System.out.println("Resetting ID Web Service state...");
         String url = ID_CLIENT.getWsURL() + "/test";
-        TestServerManager.resetServerState(url);
+        //TestServerManager.resetServerState(url);
     }
 
     @AfterClass

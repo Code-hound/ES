@@ -62,7 +62,7 @@ public class ExportDocumentIntegrator extends BubbleDocsIntegrator {
 			//catches LoginBubbleDocsException
 			remoteService.storeDocument(username, "" + this.docId, result);
 
-		} catch (RemoteInvocationException e) {
+		} catch (Exception e) {
 
 			throw new UnavailableServiceException();
 

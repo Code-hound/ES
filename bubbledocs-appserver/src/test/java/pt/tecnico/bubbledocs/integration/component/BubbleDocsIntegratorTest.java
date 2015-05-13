@@ -95,7 +95,7 @@ public class BubbleDocsIntegratorTest {
 	}
 
 	// put a user into session and returns the token associated to it
-	String addUserToSession(String username) {
+	protected static String addUserToSession(String username) {
 		BubbleDocs bd = BubbleDocs.getInstance();
 		User user = bd.getUserByUsername(username);
 		String userToken = bd.addUserToSession(user);
@@ -103,7 +103,7 @@ public class BubbleDocsIntegratorTest {
 	}
 
 	// remove a user from session given its token
-	void removeUserFromSession(String token) {
+	protected void removeUserFromSession(String token) {
 		BubbleDocs bd = BubbleDocs.getInstance();
 		User user = bd.getUserLoggedInByToken(token);
 		bd.removeUserFromSession(user);

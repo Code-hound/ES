@@ -97,6 +97,14 @@ public class IdClient {
     	
         createStub();
     }
+    
+    public IdClient(String wsName) 
+    		throws NoSuchAlgorithmException, 
+    		IdClient_Exception, 
+    		JAXRException, 
+    		IDClientException {
+    	this("http://localhost:8081", wsName);
+    }
 	
     public void createStub() {
     	if (verbose)
@@ -143,19 +151,18 @@ public class IdClient {
 		idInterface.removeUser(userId);
 	}
 
-	public byte[] requestAuthentication(String userId, String password, String serverURL)
+	public byte[] requestAuthentication(String userId, String password)
 			throws Exception {
 		SymCrypto crypto = new SymCrypto();
 		byte[] passwordEncrypted = crypto.encrypt(password).getBytes();
-		byte[] serverURLBytes = crypto.encrypt(serverURL).getBytes();
+		//byte[] serverURLBytes = crypto.encrypt(serverURL).getBytes();
 		byte[] random = "lalala".getBytes();
 		//byte[] reserved = new byte[] {passwordEncrypted, serverURLBytes};
-		byte[] reserved = new byte[passwordEncrypted.length + serverURLBytes.length];
 		
 		BindingProvider bindingProvider = (BindingProvider) idInterface;
     	Map<String, Object> requestContext = bindingProvider.getRequestContext();
 		requestContext.put(HeaderHandler.getIDProperty(), this.clientID);
-    	requestContext.put(HeaderHandler.getServerProperty(), serverURL);
+    	//requestContext.put(HeaderHandler.getServerProperty(), serverURL);
 		
 		byte[] response = idInterface.requestAuthentication(userId, passwordEncrypted);
 		
@@ -228,4 +235,7 @@ public class IdClient {
     	}
 		return idInterface.requestAuthentication(userId, reserved);
 	}*/
+	public String getWsURL() {
+		return this.wsURL;
+	}
 }

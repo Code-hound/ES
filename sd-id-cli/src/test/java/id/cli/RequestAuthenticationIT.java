@@ -24,7 +24,7 @@ public class RequestAuthenticationIT extends AbstractIdIT {
     // existe e sua senha atual e
     // a fornecida) e retorna um valor booleano a indicar se houve ou nao
     // sucesso.
-
+	/*
     @Test
     public void testRequestAuthN() throws Exception {
         // assumes user alice exists
@@ -111,5 +111,5 @@ public class RequestAuthenticationIT extends AbstractIdIT {
 
         ID_CLIENT.requestAuthentication(userId, reserved);
     }
-
+	*/
 }

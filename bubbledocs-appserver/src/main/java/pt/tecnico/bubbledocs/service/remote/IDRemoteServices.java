@@ -6,44 +6,32 @@ import pt.tecnico.bubbledocs.exception.InvalidEmailException;
 import pt.tecnico.bubbledocs.exception.InvalidUserException;
 import pt.tecnico.bubbledocs.exception.LoginBubbleDocsException;
 import pt.tecnico.bubbledocs.exception.RemoteInvocationException;
+import pt.ulisboa.tecnico.sdis.id.cli.IdClient;
+import pt.ulisboa.tecnico.sdis.id.ws.UserDoesNotExist_Exception;
 
 public class IDRemoteServices {
 	
-	/*
-	 * ID REMOTE SERVICES
-	 * 
-	 * Servico remoto que abstrai o servico externo do SD-ID.
-	 * 
-	 * @author: Francisco Maria Calisto
-	 * 
-	 */
+	private IdClient client;
 	
-	public void createUser(String username, String email)
-		throws InvalidUserException, DuplicateUsernameException, DuplicateEmailException, InvalidEmailException, RemoteInvocationException {
-			
-			// TODO: the connection and invocation of the remote service
-			
+	public String createUser(String username, String email)
+		throws Exception {
+			String password = client.createUser(username, email);
+			return password;
 		}
 	
 	public void loginUser(String username, String password)
-		throws LoginBubbleDocsException, RemoteInvocationException {
-			
-			// TODO: the connection and invocation of the remote service
-			
+		throws Exception {
+			client.requestAuthentication(username, password);
 		}
 	
 	public void removeUser(String username)
-		throws LoginBubbleDocsException, RemoteInvocationException {
-			
-			// TODO: the connection and invocation of the remote service
-			
+		throws Exception {
+			client.removeUser(username);
 		}
 	
 	public void renewPassword(String username)
-		throws LoginBubbleDocsException, RemoteInvocationException {
-			
-			// TODO: the connection and invocation of the remote service
-			
+		throws Exception {
+			client.renewPassword(username);
 		}
 	
 }

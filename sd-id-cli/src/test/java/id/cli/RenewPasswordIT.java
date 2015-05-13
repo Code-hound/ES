@@ -18,7 +18,7 @@ public class RenewPasswordIT extends AbstractIdIT {
 
     // public void renewPassword(RenewPassword parameters)
     // throws UserDoesNotExist {
-
+	/*
     @Test
     public void test() throws Exception {
         // assumes user bruno exists
@@ -41,7 +41,7 @@ public class RenewPasswordIT extends AbstractIdIT {
             System.out.println("Caught: " + e);
         }
     }
-
+	*/
     @Test(expected = UserDoesNotExist_Exception.class)
     public void testUserDoesNotExist() throws Exception {
         ID_CLIENT.renewPassword("userthatdoesnotexist");

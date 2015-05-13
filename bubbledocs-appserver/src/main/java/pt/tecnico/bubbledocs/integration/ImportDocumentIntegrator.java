@@ -71,7 +71,7 @@ public class ImportDocumentIntegrator extends BubbleDocsIntegrator {
 			
 			this.result = result;
 
-		} catch (RemoteInvocationException e) {
+		} catch (Exception e) {
 
 			throw new UnavailableServiceException();
 

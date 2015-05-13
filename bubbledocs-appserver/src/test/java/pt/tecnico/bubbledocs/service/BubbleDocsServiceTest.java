@@ -93,7 +93,7 @@ public class BubbleDocsServiceTest {
 	}
 
 	// put a user into session and returns the token associated to it
-	String addUserToSession(String username) {
+	public String addUserToSession(String username) {
 		BubbleDocs bd = BubbleDocs.getInstance();
 		User user = bd.getUserByUsername(username);
 		String userToken = bd.addUserToSession(user);
