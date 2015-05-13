@@ -10,7 +10,7 @@ Nesta semana conseguios cumprir os seguintes objectivos estabelicidos:
 
 2) Criação do Serviço **Get Spread Sheet Content** e dos seus testes.
 
-3) Criação da função assign para célula.
+3) Criação da função assignBinaryReferenceToCell para célula.
 
 4) Criação dos Testes de Handlers.
 
@@ -50,7 +50,7 @@ Cumprimos alguns (quase todos) os objectivos propostos no inicio da semana, no e
 
 O SD-Store também se atrasou um pouco dado a necessidade de dúvidas perante a aula de Laboratório, mas esta, o grupo do SD-Store tem aula às Segundas Feiras, enquanto que o SD-ID tem aula às Quintas Feiras, daí a diferença nos atrasos.
 
-A parte de ES não trouxe quaisquer problemas e ficou implementada consuante o previsto.
+A parte de ES não trouxe quaisquer problemas e ficou implementada consuante o previsto. Excepto o assignBinaryFunctionToCell que atrasou para segunda-feira devido a vários problemas, de entre eles conceptualização e percepções erradas do enunciado. 
 
 Algo que correu mal foi alguma falta de comunicação directa entre o grupo, no inicio da semana, mas que tem vindo a melhor ao longo do trabalho.
 
