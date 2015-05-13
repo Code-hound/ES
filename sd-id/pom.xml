@@ -14,7 +14,7 @@
 	<name>ID WebService Server</name>
 	
 	<properties>
-		<main.exec.classname>IdMain</main.exec.classname>
+		<main.exec.classname>pt.ulisboa.tecnico.sdis.id.ws.impl.IdMain</main.exec.classname>
 
 		<wsdl.directory>${basedir}/src/main/resources</wsdl.directory>
 		<wsdl.filename>SD-ID.1_1.wsdl</wsdl.filename>

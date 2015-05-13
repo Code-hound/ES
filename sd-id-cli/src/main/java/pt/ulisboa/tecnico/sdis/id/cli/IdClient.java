@@ -1,7 +1,11 @@
 package pt.ulisboa.tecnico.sdis.id.cli;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
+
+import ws.handler.HeaderHandler;
+import ws.uddi.UDDINaming;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -10,7 +14,10 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import javax.xml.registry.JAXRException;
 import javax.xml.ws.*;
+
+import org.joda.time.DateTime;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
@@ -58,8 +65,15 @@ public class IdClient {
     /** UTF-8 Variable */
     private final String utf8 = "UTF-8";
     
+    /** UDDI connector **/
+    private UDDINaming uddiNaming;
+    
+    /** Array of server URLs **/
+	private String[] endpointAddresses;
+    
     /** Client ID **/
-    private String clientID = "1";
+    private int clientID;
+    private int nextClientID = 1;
     
     public boolean isVerbose() {
         return verbose;
@@ -67,14 +81,19 @@ public class IdClient {
     public void setVerbose(boolean verbose) {
         this.verbose = verbose;
     }
-    
+    /*
     public IdClient() throws IdClient_Exception {
     	createStub();
     }
-    
-    public IdClient(String wsURL, String name) throws IdClient_Exception, NoSuchAlgorithmException {
-    	this.wsURL = wsURL;
-    	this.name = name;
+    */
+    public IdClient(String uddiURl, String wsName) 
+    		throws IdClient_Exception, 
+    		NoSuchAlgorithmException, 
+    		JAXRException, 
+    		IDClientException {
+    	this.clientID = nextClientID;
+    	uddiLookup(uddiURl, wsName);
+    	incrementID();
     	
         createStub();
     }
@@ -84,7 +103,7 @@ public class IdClient {
             System.out.println("Creating stub ...");
         idService = new SDId_Service();
         idInterface = idService.getSDIdImplPort();
-
+        
         if (wsURL != null) {
             if (verbose)
                 System.out.println("Setting endpoint address ...");
@@ -99,10 +118,32 @@ public class IdClient {
         this.clientKey = SymKey.getKey(random);
     }
 	*/
-	public void createUser(String userId, String emailAddress)
-			throws EmailAlreadyExists_Exception, InvalidEmail_Exception,
-			InvalidUser_Exception, UserAlreadyExists_Exception {
-		idInterface.createUser(userId, emailAddress);
+	public String createUser(String userId, String emailAddress)
+			throws Exception {
+		
+    	/*
+		requestContext.put(HeaderHandler.getIDProperty(), this.clientID);
+    	requestContext.put(HeaderHandler.getServerProperty(), serverURL);
+    	*/
+    	//String password = null;
+    	idInterface.createUser(userId, emailAddress);
+    	BindingProvider bindingProvider = (BindingProvider) idInterface;
+    	Map<String, Object> responseContext = bindingProvider.getResponseContext();
+    	//try {
+	    	SymCrypto cryptographer = new SymCrypto();
+	    	String passwordEncrypted = (String) responseContext.get(HeaderHandler.getPasswordProperty());
+	    	String password = cryptographer.decrypt(passwordEncrypted);
+	    	//byte[] passwordEncryptedBytes = passwordEncrypted.getBytes();
+	    	if (password == null || password.length() == 0) {
+	    		System.out.println("Received empty password");
+	    	}
+	    	//password = cryptographer.decrypt(passwordEncryptedBytes);
+	    	return password;
+    	//} catch (Exception e) {
+    	//	System.out.println("Failed decrypting password");
+    	//	System.out.println(e.getMessage());
+    	//}
+    	//return null;
 	}
 
 	public void renewPassword(String userId) throws UserDoesNotExist_Exception {
@@ -116,16 +157,39 @@ public class IdClient {
 	public byte[] requestAuthentication(String userId, String password, String serverURL)
 			throws Exception {
 		SymCrypto crypto = new SymCrypto();
-		byte[] passwordEncrypted = crypto.encrypt(password);
-		byte[] serverURLBytes = crypto.encrypt(serverURL);
+		byte[] passwordEncrypted = crypto.encrypt(password).getBytes();
+		byte[] serverURLBytes = crypto.encrypt(serverURL).getBytes();
 		byte[] random = "lalala".getBytes();
 		//byte[] reserved = new byte[] {passwordEncrypted, serverURLBytes};
 		byte[] reserved = new byte[passwordEncrypted.length + serverURLBytes.length];
+		
+		BindingProvider bindingProvider = (BindingProvider) idInterface;
+    	Map<String, Object> requestContext = bindingProvider.getRequestContext();
+		requestContext.put(HeaderHandler.getIDProperty(), this.clientID);
+    	requestContext.put(HeaderHandler.getServerProperty(), serverURL);
 		
 		byte[] response = idInterface.requestAuthentication(userId, passwordEncrypted);
 		
 		return response;
 	}
+	
+	private void uddiLookup
+	(String uddiURL, String wsName)
+	throws JAXRException, IDClientException {
+		try {
+			System.out.printf("Contacting UDDI at %s%n", uddiURL);
+			uddiNaming = new UDDINaming(uddiURL);
+			
+			System.out.printf("Looking for '%s'%n", wsName);
+			wsURL = uddiNaming.lookup(wsName);
+		} catch (JAXRException | IllegalArgumentException ex) {
+			throw new IDClientException("Failed UDDI lookup at "+uddiURL);
+		}
+	}
+	
+	public synchronized void incrementID() {
+        nextClientID++;
+    }
 		/*
 		String password = "It's a secret!  Make sure it's long enough (24 bytes)";
     	byte[] keyBytes = Arrays.copyOf(password.getBytes(utf8), 24);
@@ -161,7 +225,7 @@ public class IdClient {
 	    	System.out.println(decryptedString);
 	    	
 	    	if (messageString.equals(decryptedString)) {
-	    		System.out.println("The message is equal after encryoted and before decrypted message");
+	    		System.out.println("The message is equal after encrypted and before decrypted message");
 	    	}
     	} catch ( UnsupportedEncodingException |
     			  NoSuchAlgorithmException |

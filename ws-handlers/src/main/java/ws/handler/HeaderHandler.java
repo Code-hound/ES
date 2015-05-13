@@ -29,13 +29,17 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
  */
 public class HeaderHandler implements SOAPHandler<SOAPMessageContext> {
 
-	private static final String ID_PROPERTY = "ID";
-    private static final String TIME_PROPERTY = "Time";
-    private static final String HEADER_NAME = "Store-header";
+	private static final String NAMESPACE = "pt.tecnico.ulisboa.essd";
+	private static final String HEADER_NAME = "Store-header";
     private static final String ID_NAME = "clientID";
     private static final String TIME_NAME = "messageTime";
-    private static final String NAMESPACE = "pt.tecnico.ulisboa.essd";
-    //private static String NAMESPACE_SERVER = "http://ws.store.wsdl";
+    private static final String SERVER_NAME = "serverURL";
+	private static final String PASSWORD_NAME = "password";
+	
+	private static final String ID_PROPERTY = "ID";
+    private static final String TIME_PROPERTY = "Time";
+    private static final String SERVER_PROPERTY = "server";
+	private static final String PASSWORD_PROPERTY = "password";
     
     //
     // Handler interface methods
@@ -55,8 +59,10 @@ public class HeaderHandler implements SOAPHandler<SOAPMessageContext> {
                 System.out.println("Writing header in outbound SOAP message...");
 
                 // get SOAP envelope
-                String valueToInsert = (String) smc.get(ID_PROPERTY);
+                String clientID = (String) smc.get(ID_PROPERTY);
                 String messageTime = (String) smc.get(TIME_PROPERTY);
+                String serverURL = (String) smc.get(SERVER_PROPERTY);
+                String password = (String) smc.get(PASSWORD_PROPERTY);
                 
                 SOAPMessage msg = smc.getMessage();
                 SOAPPart sp = msg.getSOAPPart();
@@ -72,14 +78,31 @@ public class HeaderHandler implements SOAPHandler<SOAPMessageContext> {
                 SOAPHeaderElement headerElement = sh.addHeaderElement(header);
                 
                 // add ID element with value
-                Name ID = se.createName(ID_NAME, "d", NAMESPACE);
-                SOAPElement IDElement = headerElement.addChildElement(ID);
-                IDElement.addTextNode(valueToInsert);
+                if (clientID != null) {
+	                Name ID = se.createName(ID_NAME, "d", NAMESPACE);
+	                SOAPElement IDElement = headerElement.addChildElement(ID);
+	                IDElement.addTextNode(clientID);
+                }
                 
                 // add time element with timestamp
-                Name time = se.createName(TIME_NAME, "d", NAMESPACE);
-                SOAPElement timeElement = headerElement.addChildElement(time);
-                timeElement.addTextNode(messageTime);
+                if (messageTime != null) {
+	                Name timeName = se.createName(TIME_NAME, "d", NAMESPACE);
+	                SOAPElement timeElement = headerElement.addChildElement(timeName);
+	                timeElement.addTextNode(messageTime);
+                }
+                
+                if (serverURL != null) {
+	                Name serverName = se.createName(SERVER_NAME, "d", NAMESPACE);
+	                SOAPElement serverElement = headerElement.addChildElement(serverName);
+	                serverElement.addTextNode(serverURL);
+                }
+                
+                if (password != null) {
+                	System.out.println("Found password! "+password.toString());
+	                Name passwordName = se.createName(PASSWORD_NAME, "d", NAMESPACE);
+	                SOAPElement passwordElement = headerElement.addChildElement(passwordName);
+	                passwordElement.addTextNode(password);
+                }
                 
             } else {
             	System.out.println("Reading header in inbound SOAP message...");
@@ -110,25 +133,29 @@ public class HeaderHandler implements SOAPHandler<SOAPMessageContext> {
                 
                 Name ID = se.createName(ID_NAME, "d", NAMESPACE);
                 Iterator<SOAPElement> IDIterator = header.getChildElements(ID);
-                if (!IDIterator.hasNext()) {
-                	System.out.println("NO element of type "+ID_NAME);
-                	return true;
+                if (IDIterator.hasNext()) {
+                	String IDValue = IDIterator.next().getValue();
+                	smc.put(ID_PROPERTY, IDValue);
+                	smc.setScope(ID_PROPERTY, Scope.APPLICATION);
                 }
-                String IDValue = IDIterator.next().getValue();
-                smc.put(ID_PROPERTY, IDValue);
-                smc.setScope(ID_PROPERTY, Scope.APPLICATION);
                 
                 Name timestamp = se.createName(TIME_NAME, "d", NAMESPACE);
                 Iterator<SOAPElement> timeIterator = header.getChildElements(timestamp);
-                if (!timeIterator.hasNext()) {
-                	System.out.println("NO element of type "+TIME_NAME);
-                	return true;
+                if (timeIterator.hasNext()) {
+	                String timeValue = timeIterator.next().getValue();
+	                //System.out.println("[HANDLER] Timestamp: "+timeValue+"   Client ID: " + IDValue);
+	                smc.put(TIME_PROPERTY, timeValue);
+	                smc.setScope(TIME_PROPERTY, Scope.APPLICATION);
                 }
-                String timeValue = timeIterator.next().getValue();
-                //System.out.println("[HANDLER] Timestamp: "+timeValue+"   Client ID: " + IDValue);
-                smc.put(TIME_PROPERTY, timeValue);
-                smc.setScope(TIME_PROPERTY, Scope.APPLICATION);
-                //System.out.println("Put everything on properties");
+                
+                Name passwordName = se.createName(PASSWORD_NAME, "d", NAMESPACE);
+                Iterator<SOAPElement> passwordIterator = header.getChildElements(passwordName);
+                if (passwordIterator.hasNext()) {
+	                String password = passwordIterator.next().getValue();
+	                //System.out.println("[HANDLER] Timestamp: "+timeValue+"   Client ID: " + IDValue);
+	                smc.put(PASSWORD_PROPERTY, password);
+	                smc.setScope(PASSWORD_PROPERTY, Scope.APPLICATION);
+                }
             }
         } catch (Exception e) {
             System.out.print("Caught exception in handleMessage: ");
@@ -154,4 +181,12 @@ public class HeaderHandler implements SOAPHandler<SOAPMessageContext> {
     public static String getTimeProperty() {
     	return TIME_PROPERTY;
     }
+    
+    public static String getServerProperty() {
+    	return SERVER_PROPERTY;
+    }
+
+	public static String getPasswordProperty() {
+		return PASSWORD_PROPERTY;
+	}
 }

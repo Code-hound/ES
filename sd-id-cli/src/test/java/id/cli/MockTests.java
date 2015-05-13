@@ -31,6 +31,9 @@ import pt.ulisboa.tecnico.sdis.id.ws.*;
 @RunWith(JMockit.class)
 public class MockTests {
 	
+	private static final String uddiURL = "http://localhost:8081";
+	private static final String wsName = "SD-ID";
+	
     // static members
     // one-time initialization and clean-up
 
@@ -81,7 +84,7 @@ public class MockTests {
 
 
         // Unit under test is exercised.
-        IdClient client = new IdClient();
+        IdClient client = new IdClient(uddiURL, wsName);
         // call to mocked server
         client.renewPassword("alice");
     }
@@ -112,7 +115,7 @@ public class MockTests {
 
 
         // Unit under test is exercised.
-        IdClient client = new IdClient();
+        IdClient client = new IdClient(uddiURL, wsName);
 
         // first call to mocked server
         try {
@@ -155,7 +158,7 @@ public class MockTests {
 
 
         // Unit under test is exercised.
-        IdClient client = new IdClient();
+        IdClient client = new IdClient(uddiURL, wsName);
 
         // first call to mocked server
         try {

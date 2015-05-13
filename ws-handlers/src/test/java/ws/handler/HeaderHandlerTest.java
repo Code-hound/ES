@@ -19,6 +19,8 @@ import ws.handler.HeaderHandler;
 import static org.junit.Assert.*;
 import mockit.*;
 
+import ws.handler.*;
+
 
 /**
  *  Handler test suite

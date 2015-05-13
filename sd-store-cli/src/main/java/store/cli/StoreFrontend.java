@@ -178,10 +178,10 @@ public class StoreFrontend {
 			byte[] content = endpoint.load(docUser);
 			
 			BindingProvider bindingProvider = (BindingProvider) endpoint;
-        	Map<String, Object> requestContext = bindingProvider.getResponseContext();
+        	Map<String, Object> responseContext = bindingProvider.getResponseContext();
         	
-        	String timestamp = (String) requestContext.get(HeaderHandler.getTimeProperty());
-        	String clientID = (String) requestContext.get(HeaderHandler.getIDProperty());
+        	String timestamp = (String) responseContext.get(HeaderHandler.getTimeProperty());
+        	String clientID = (String) responseContext.get(HeaderHandler.getIDProperty());
         	
         	results.add(new LoadResult(content, timestamp, clientID));
         	if (results.size() == this.readThreshold) {

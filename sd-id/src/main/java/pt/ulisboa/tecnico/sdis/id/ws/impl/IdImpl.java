@@ -26,6 +26,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.annotation.Resource;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -34,6 +35,9 @@ import javax.jws.*;
 import javax.naming.*;
 import javax.naming.directory.*;
 import javax.xml.ws.Endpoint;
+import javax.annotation.Resource;
+import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.handler.MessageContext;
 
 import java.lang.reflect.Array;
 
@@ -41,7 +45,7 @@ import javax.security.auth.login.*;
 import javax.security.auth.Subject;
 
 import pt.ulisboa.tecnico.sdis.id.ws.*;
-
+import ws.handler.HeaderHandler;
 import ws.uddi.UDDINaming;
 
 /*
@@ -60,6 +64,9 @@ import ws.uddi.UDDINaming;
     portName="SDIdImplPort",
     targetNamespace="urn:pt:ulisboa:tecnico:sdis:id:ws",
     serviceName="SDId"
+)
+@HandlerChain(
+		file="/handler-chain.xml"
 )
 
 public class IdImpl implements SDId {
@@ -91,9 +98,10 @@ public class IdImpl implements SDId {
      * @since 1.1
      *
      */
+    @Resource
+    private WebServiceContext webServiceContext;
     
     public static void main(String[] args) throws Exception {
-
     	// check args
         if (args.length < 2) {
             System.err.println("args: (r/w) (key-file)");
@@ -279,50 +287,52 @@ public class IdImpl implements SDId {
 			       InvalidEmail_Exception,
 			       InvalidUser_Exception,
 			       UserAlreadyExists_Exception {
-		
-		// Gera senha alfanumerica e armazena em String.
-		// Apresenta a senha na consola de serviço.
-
-		if (userId == null || userId.length() == 0)
+    	MessageContext messageContext = webServiceContext.getMessageContext();
+    	if (userId == null || userId.length() == 0)
 			throw new InvalidUser_Exception("Invalid username.", new InvalidUser());
-		String str = userId + "";
-		String userLetter1 = "" + str.charAt(0);
-
-		int userIndex = listData.size() +1;
-		
-	    String userPassword = 
-	    		userLetter1.toUpperCase() + userLetter1 + userLetter1 + userIndex;
-	    
+    	
 	    String[] auxEmail = emailAddress.split("@");
-		String auxEmail1 = auxEmail[0];
-		String auxEmail2 = auxEmail[1];
-		
-		
-		
-		if(auxEmail1.equals("") || auxEmail2.equals(""))
-			throw new InvalidEmail_Exception("Invalid email", new InvalidEmail());
+	    if(auxEmail.length!=2 || auxEmail[0]==null || auxEmail[1]==null)
+	    	throw new InvalidEmail_Exception("Invalid email", new InvalidEmail());
+			String auxEmail1 = auxEmail[0];
+			String auxEmail2 = auxEmail[1];
+		//if(auxEmail1.equals("") || auxEmail2.equals(""))
 		
 	    //verifica se o user id ou emailAdress ja existem
         for(int i = 0; i < listData.size(); i++) {
-    		
     		if(userId.equals(listData.get(i)[0])) {
     			throw new UserAlreadyExists_Exception
     			("Invalid user ID", new UserAlreadyExists());
     		}
-    		
     		if(emailAddress.equals(listData.get(i)[1])) {
     			throw new EmailAlreadyExists_Exception
     			("Invalid email", new EmailAlreadyExists());
     		}
     	}
-        
     	String[] listUser = new String[3];
-    	
     	listUser[0]=userId;
     	listUser[1]=emailAddress;
-    	listUser[2]=userPassword;
-    	
     	listData.add(listUser);
+    	//byte[] passwordEncoded = null;
+    	String passwordEncoded = null;
+    	String password = "";
+    	String password64 = "";
+    	try{
+    		SymCrypto cryptographer = new SymCrypto();
+    		PasswordGenerator passGen = new PasswordGenerator();
+    		for (int i=0; i<listData.size(); i++) {
+    			if(userId.equals(listData.get(i)[0])) {
+    				listData.get(i)[2] = passGen.getNewPassword();
+    				password = listData.get(i)[2];
+    				passwordEncoded = cryptographer.encrypt(listData.get(i)[2]);
+    				break;
+    			}
+    		}
+    		messageContext.put(HeaderHandler.getPasswordProperty(), 
+    				passwordEncoded);
+    	} catch (Exception e) {
+			System.out.println("Failed");
+		}
     }
 
 	
@@ -335,16 +345,16 @@ public class IdImpl implements SDId {
 	
 	public void renewPassword(String userId)
 			throws UserDoesNotExist_Exception {
-		// TODO Auto-generated method stub
-		// Apresenta nova senha na consola de serviço.
 		
 		String oldPass;
+		PasswordGenerator passGen = new PasswordGenerator();
 		for (int i=0; i<listData.size(); i++) {
 			if(userId.equals(listData.get(i)[0])) {
-				oldPass = listData.get(i)[2];
-				listData.get(i)[2] = oldPass + oldPass.substring(3,4);
-				System.out.println(listData.get(i)[2]);
-				return ;
+				listData.get(i)[2] = passGen.getNewPassword();
+				//oldPass = listData.get(i)[2];
+				//listData.get(i)[2] = oldPass + oldPass.substring(3,4);
+				//System.out.println(listData.get(i)[2]);
+				return;
 			}
 		}
 		throw new UserDoesNotExist_Exception

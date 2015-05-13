@@ -11,6 +11,7 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
+import java.util.Base64;
 
 /**
 * 	 Secret key cryptography using the TripleDES algorithm.
@@ -84,20 +85,28 @@ public class SymCrypto {
  }
  */
  
- public byte[] encrypt(String plaintext) throws Exception {
-	 byte[] messageToBytes = plaintext.getBytes();
+ public String encrypt(String plaintext) throws Exception {
+	 byte[] messageToBytes = plaintext.getBytes("UTF8");
 	 
  	 Cipher encrypt = Cipher.getInstance("TripleDES/CBC/PKCS5Padding");
  	 encrypt.init(Cipher.ENCRYPT_MODE, symmetricKey, this.iv);
  	 byte[] encryptedBytes = encrypt.doFinal(messageToBytes);
  	 
- 	 return encryptedBytes;
+ 	 Base64.Encoder encoder =  Base64.getEncoder();
+ 	 String encryptedString = new String(encoder.encode(encryptedBytes));
+ 	 return encryptedString;
+ 	 //byte[] encryptedBytesFinal 
+ 	 
+ 	 //return encryptedBytesFinal;
  }
  
- public String decrypt(byte[] encrypted) throws Exception {
+ public String decrypt(String encrypted) throws Exception {
+	 Base64.Decoder decoder =  Base64.getDecoder();
+	 byte[] encryptedDecoded = decoder.decode(encrypted);
+	 
 	 Cipher decrypt = Cipher.getInstance("TripleDES/CBC/PKCS5Padding");
 	 decrypt.init(Cipher.DECRYPT_MODE, symmetricKey, this.iv);
-	 byte[] decryptedBytes = decrypt.doFinal(encrypted);
+	 byte[] decryptedBytes = decrypt.doFinal(encryptedDecoded);
 	 String message = new String(decryptedBytes);
 	 
 	 return message;

@@ -27,7 +27,6 @@ public class SymKey {
     
     public Key getKey(String seed) throws Exception {
     	if (seed.getBytes().length < 24) {
-    		System.out.println("You're a faggot");
     		return null;
     	}
     	

@@ -81,7 +81,7 @@ public class IdMain {
                 testImpl.stop();
             }
         }
-        
+        /*
 		try {
         	
             endpoint = Endpoint.create(new IdImpl(args));
@@ -124,6 +124,7 @@ public class IdMain {
                 System.out.printf("Caught exception when deleting: %s%n", e);
             }
         }
+        */
     }  
         /*
          * 
