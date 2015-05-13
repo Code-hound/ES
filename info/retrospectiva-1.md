@@ -1,6 +1,6 @@
-## Primeira Restrospectiva (20 de Abril - 26 de Abril)
+## Restrospectiva Um (20 de Abril - 26 de Abril)
 
-Nesta semana não foi estabelecido nenhum objectivo relativo ao projecto de ES e SD por falta de tempo.
+Para esta semana, não foi estabelecido nenhum objectivo relativo ao projecto de ES e SD por falta de tempo.
 
 No entanto, para a segunda semana, foram deliniadas as seguintes tarefas:
 
