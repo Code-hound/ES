@@ -61,6 +61,9 @@ public class StoreFrontendMockTest {
 			frontend.getID();
 				returns("1", "1", "1");
 		 }};
+		 
+		 byte[] loadedContent = frontend.load(pair);
+		 assertEquals(new String(goodContent), new String(loadedContent));
 	}
 	
 	@Test

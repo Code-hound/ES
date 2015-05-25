@@ -15,6 +15,7 @@ public class IDRemoteServices {
 	
 	public String createUser(String username, String email)
 		throws Exception {
+			client = new IdClient("http://localhost:8081", "SD-ID");
 			String password = client.createUser(username, email);
 			return password;
 		}
