@@ -18,7 +18,7 @@ import pt.ulisboa.tecnico.sdis.store.ws.DocDoesNotExist_Exception;
 import pt.ulisboa.tecnico.sdis.store.ws.CapacityExceeded_Exception;
 import store.ws.StoreImpl;
 
-public class StoreAndLoadTests {
+public class StoreAndLoadTest {
 	
 	private static final String USERNAME = "francisco";
 	private static final String BAD_USERNAME = "pocoyo";

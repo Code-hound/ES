@@ -108,8 +108,12 @@ public class StoreFrontend {
 	public void store(DocUserPair docUser, byte[] contents)
 			throws Exception {
 		for (SDStore endpoint : endpoints) {
+			System.out.println("User wants to store plaintext: ");
+			System.out.println(new String(contents));
 			SymCrypto cryptographer = new SymCrypto();
 			String encryptedContent = cryptographer.encryptDocument(new String(contents));
+			System.out.println("Sending encrypted: ");
+			System.out.println(encryptedContent);
 			setHeaders(endpoint);
 			endpoint.store(docUser, encryptedContent.getBytes());
 		}
@@ -178,9 +182,12 @@ public class StoreFrontend {
 		for (SDStore endpoint : endpoints) {
 			setHeaders(endpoint);
 			byte[] encryptedContent = endpoint.load(docUser);
+			System.out.println("Server returned encrypted:");
+			System.out.println(new String(encryptedContent));
 			SymCrypto cryptographer = new SymCrypto();
 			String decryptedContent = cryptographer.decryptDocument(new String(encryptedContent));
-			
+			System.out.println("Returning plaintext:");
+			System.out.println(decryptedContent);
 			BindingProvider bindingProvider = (BindingProvider) endpoint;
         	Map<String, Object> responseContext = bindingProvider.getResponseContext();
         	

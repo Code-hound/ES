@@ -31,7 +31,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<version.java>1.7</version.java>
+		<version.java>1.8</version.java>
 		<version.maven.build-helper-plugin>1.7</version.maven.build-helper-plugin>
 		<version.compiler.maven.plugin>3.3</version.compiler.maven.plugin>
 		<version.exec.maven.plugin>1.3.2</version.exec.maven.plugin>
