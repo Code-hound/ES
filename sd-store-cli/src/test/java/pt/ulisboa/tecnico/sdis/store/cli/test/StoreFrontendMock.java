@@ -39,11 +39,14 @@ public class StoreFrontendMock extends MockUp<StoreFrontend> {
 			byte[] content = endpoint.load(docUser);
 	    	String timestamp = getTime();
 	    	String clientID = getID();
-	    	//System.out.println("Result: "+new String(content)+" | timestamp:"+new DateTime(timestamp)+" | clientID:"+clientID);
+	    	System.out.println("Received load result: "+new String(content)+" | timestamp:"+new DateTime(timestamp)+" | clientID:"+clientID);
 	    	results.add(new LoadResult(content, timestamp, clientID));	
 		}
-		if (!results.isEmpty())
-			return LoadResult.quorumDecider(results);
+		if (!results.isEmpty()) {
+			byte[] finalResult = LoadResult.quorumDecider(results);
+			System.out.println("Final load result: "+(new String(finalResult)));
+			return finalResult;
+		}
 		return null;
 	}
 	

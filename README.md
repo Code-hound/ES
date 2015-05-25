@@ -534,7 +534,7 @@ mvn -Dtest=ImplementationTests test
 
 ```
 cd ../store-ws-cli && \
-mvn -Dtest=StoreClientMockTest test
+mvn -Dtest=StoreFrontendMockTest test
 ```
 
 [2] Executar testes de comunicação **cliente**
